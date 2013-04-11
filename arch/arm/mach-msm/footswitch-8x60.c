@@ -212,7 +212,7 @@ static int footswitch_enable(struct regulator_dev *rdev)
 	}
 
 	/* Prevent core memory from collapsing when its clock is gated. */
-	clk_set_flags(fs->core_clk, CLKFLAG_RETAIN);
+	clk_set_flags(fs->core_clk, CLKFLAG_RETAIN_MEM);
 
 	/* Return clocks to their state before this function. */
 	restore_clocks(fs);
@@ -244,7 +244,7 @@ static int footswitch_disable(struct regulator_dev *rdev)
 		return rc;
 
 	/* Allow core memory to collapse when its clock is gated. */
-	clk_set_flags(fs->core_clk, CLKFLAG_NORETAIN);
+	clk_set_flags(fs->core_clk, CLKFLAG_NORETAIN_MEM);
 
 	/* Halt all bus ports in the power domain. */
 	if (fs->bus_port0) {
@@ -299,7 +299,7 @@ static int footswitch_disable(struct regulator_dev *rdev)
 err_port2_halt:
 	msm_bus_axi_portunhalt(fs->bus_port0);
 err:
-	clk_set_flags(fs->core_clk, CLKFLAG_RETAIN);
+	clk_set_flags(fs->core_clk, CLKFLAG_RETAIN_MEM);
 	restore_clocks(fs);
 	return rc;
 }
@@ -367,7 +367,7 @@ static int gfx2d_footswitch_enable(struct regulator_dev *rdev)
 	clk_prepare_enable(fs->core_clk);
 
 	/* Prevent core memory from collapsing when its clock is gated. */
-	clk_set_flags(fs->core_clk, CLKFLAG_RETAIN);
+	clk_set_flags(fs->core_clk, CLKFLAG_RETAIN_MEM);
 
 	/* Return clocks to their state before this function. */
 	restore_clocks(fs);
@@ -397,7 +397,7 @@ static int gfx2d_footswitch_disable(struct regulator_dev *rdev)
 		return rc;
 
 	/* Allow core memory to collapse when its clock is gated. */
-	clk_set_flags(fs->core_clk, CLKFLAG_NORETAIN);
+	clk_set_flags(fs->core_clk, CLKFLAG_NORETAIN_MEM);
 
 	/* Halt all bus ports in the power domain. */
 	if (fs->bus_port0) {
@@ -443,7 +443,7 @@ static int gfx2d_footswitch_disable(struct regulator_dev *rdev)
 	return 0;
 
 err:
-	clk_set_flags(fs->core_clk, CLKFLAG_RETAIN);
+	clk_set_flags(fs->core_clk, CLKFLAG_RETAIN_MEM);
 	restore_clocks(fs);
 	return rc;
 }
