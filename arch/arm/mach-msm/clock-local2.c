@@ -223,7 +223,7 @@ static long rcg_clk_round_rate(struct clk *c, unsigned long rate)
 }
 
 /* Return the nth supported frequency for a given clock. */
-static int rcg_clk_list_rate(struct clk *c, unsigned n)
+static long rcg_clk_list_rate(struct clk *c, unsigned n)
 {
 	struct rcg_clk *rcg = to_rcg_clk(c);
 
@@ -466,7 +466,7 @@ static struct clk *branch_clk_get_parent(struct clk *c)
 	return to_branch_clk(c)->parent;
 }
 
-static int branch_clk_list_rate(struct clk *c, unsigned n)
+static long branch_clk_list_rate(struct clk *c, unsigned n)
 {
 	struct branch_clk *branch = to_branch_clk(c);
 
@@ -633,3 +633,4 @@ struct clk_ops clk_ops_vote = {
 	.reset = local_vote_clk_reset,
 	.handoff = local_vote_clk_handoff,
 };
+

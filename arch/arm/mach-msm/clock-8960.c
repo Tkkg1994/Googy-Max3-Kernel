@@ -3072,7 +3072,7 @@ static struct clk *pix_rdi_clk_get_parent(struct clk *c)
 	return pix_rdi_mux_map[to_pix_rdi_clk(c)->cur_rate];
 }
 
-static int pix_rdi_clk_list_rate(struct clk *c, unsigned n)
+static long pix_rdi_clk_list_rate(struct clk *c, unsigned n)
 {
 	if (pix_rdi_mux_map[n])
 		return n;
