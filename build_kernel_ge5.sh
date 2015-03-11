@@ -1,20 +1,20 @@
 #!/bin/sh
 export KERNELDIR=`readlink -f .`
-export RAMFS_SOURCE="/home/googy/Anas/Ramdisks/ramfs_ge5"
+export RAMFS_SOURCE="/root/Ramdisks/GT-I9505-TW"
 export PARENT_DIR=`readlink -f ..`
 export USE_SEC_FIPS_MODE=true
 # export CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-export CROSS_COMPILE=/home/googy/Anas/linaro_a15_4.9.3-2015.02/bin/arm-cortex_a15-linux-gnueabihf-
+export CROSS_COMPILE=/Kernel_Folder/Toolchain_4.9.3-2015.02_a15/bin/arm-cortex_a15-linux-gnueabihf-
 
 # if [ "${1}" != "" ];then
 #  export KERNELDIR=`readlink -f ${1}`
 # fi
 
-RAMFS_TMP="/home/googy/Anas/tmp_ge5/ramfs_ge5"
+RAMFS_TMP="/root/Ramdisks/GT-I9505/tmp_tw/ramfs"
 
-VER="\"-GoogyMax3_GE5-v$1\""
-cp -f /home/googy/Anas/Googy-Max3-Kernel/Kernel/arch/arm/configs/0googymax3_GE5_defconfig /home/googy/Anas/Googy-Max3-Kernel/0googymax3_GE5_defconfig
-sed "s#^CONFIG_LOCALVERSION=.*#CONFIG_LOCALVERSION=$VER#" /home/googy/Anas/Googy-Max3-Kernel/0googymax3_GE5_defconfig > /home/googy/Anas/Googy-Max3-Kernel/Kernel/arch/arm/configs/0googymax3_GE5_defconfig
+VER="\"-Hulk-Kernel_GE5-V1$1\""
+cp -f /root/Hulk-Kernel/arch/arm/configs/0hulk_GE5_defconfig /root/Hulk-Kernel/0hulk_GE5_defconfig
+sed "s#^CONFIG_LOCALVERSION=.*#CONFIG_LOCALVERSION=$VER#" /root/Hulk-Kernel/0hulk_GE5_defconfig > /root/Hulk-Kernel/arch/arm/configs/0hulk_GE5_defconfig
 
 if [ "${2}" = "x" ];then
  make mrproper || exit 1
@@ -27,7 +27,7 @@ find -name '*.ko' -exec rm -rf {} \;
 # fi
 
 # 
-make 0googymax3_GE5_defconfig VARIANT_DEFCONFIG=jf_eur_defconfig SELINUX_DEFCONFIG=selinux_defconfig SELINUX_LOG_DEFCONFIG=selinux_log_defconfig || exit 1
+make 0hulk_GE5_defconfig VARIANT_DEFCONFIG=jf_eur_defconfig SELINUX_DEFCONFIG=selinux_defconfig SELINUX_LOG_DEFCONFIG=selinux_log_defconfig DEBUG_DEFCONFIG=jfuserdebug_defconfig || exit 1
 
 . $KERNELDIR/.config
 
@@ -53,10 +53,10 @@ find $RAMFS_TMP -name EMPTY_DIRECTORY -exec rm -rf {} \;
 #remove mercurial repository
 rm -rf $RAMFS_TMP/.hg
 #copy modules into ramfs
-mkdir -p /home/googy/Anas/Googy-Max3-Kernel/GT-I9505_GoogyMax3_GE5.CWM/system/lib/modules
-rm -rf /home/googy/Anas/Googy-Max3-Kernel/GT-I9505_GoogyMax3_GE5.CWM/system/lib/modules/*
-find -name '*.ko' -exec cp -av {} /home/googy/Anas/Googy-Max3-Kernel/GT-I9505_GoogyMax3_GE5.CWM/system/lib/modules/ \;
-${CROSS_COMPILE}strip --strip-unneeded /home/googy/Anas/Googy-Max3-Kernel/GT-I9505_GoogyMax3_GE5.CWM/system/lib/modules/*
+mkdir -p /home/linux/Downloads/ROM_Folder/ArchiKitchen-master/PROJECT_HULK/system/lib/modules
+rm -rf /home/linux/Downloads/ROM_Folder/ArchiKitchen-master/PROJECT_HULK/system/lib/modules/*
+find -name '*.ko' -exec cp -av {} /home/linux/Downloads/ROM_Folder/ArchiKitchen-master/PROJECT_HULK/system/lib/modules/ \;
+${CROSS_COMPILE}strip --strip-unneeded /home/linux/Downloads/ROM_Folder/ArchiKitchen-master/PROJECT_HULK/system/lib/modules/*
 
 cd $RAMFS_TMP
 find | fakeroot cpio -H newc -o > $RAMFS_TMP.cpio 2>/dev/null
@@ -66,12 +66,10 @@ cd -
 
 ./mkbootimg64 --kernel $KERNELDIR/arch/arm/boot/zImage --ramdisk $RAMFS_TMP.cpio.gz --cmdline "console=null androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x3F ehci-hcd.park=3" -o $KERNELDIR/boot.img --base "0x80200000" --ramdiskaddr "0x82200000"
 
-cd /home/googy/Anas/Googy-Max3-Kernel
-mv -f -v /home/googy/Anas/Googy-Max3-Kernel/Kernel/boot.img /home/googy/Anas/Googy-Max3-Kernel/GT-I9505_GoogyMax3_GE5.CWM/boot.img
-cd /home/googy/Anas/Googy-Max3-Kernel/GT-I9505_GoogyMax3_GE5.CWM
-zip -r ../GoogyMax3_GE5-Kernel_${1}_CWM.zip .
-
-adb push /home/googy/Anas/Googy-Max3-Kernel/GoogyMax3_GE5-Kernel_${1}_CWM.zip /storage/sdcard0/GoogyMax3_GE5-Kernel_${1}_CWM.zip || adb push /home/googy/Anas/Googy-Max3-Kernel/GoogyMax3_GE5-Kernel_${1}_CWM.zip /storage/sdcard1/GoogyMax3_GE5-Kernel_${1}_CWM.zip
+cd /home/linux/Downloads/ROM_Folder/ArchiKitchen-master/PROJECT_HULK
+mv -f -v /root/Hulk-Kernel/boot.img /home/linux/Downloads/ROM_Folder/ArchiKitchen-master/PROJECT_HULK/boot.img
+cd /home/linux/Downloads/ROM_Folder/ArchiKitchen-master/PROJECT_HULK
+zip -r ../Hulk-Kernel_TW-${1}_CWM.zip .
 
 # adb push /home/googy/Anas/Googy-Max3-Kernel/GoogyMax3_GE5-Kernel_${1}_CWM.zip /storage/sdcard0/update-gmax3.zip
 # 
