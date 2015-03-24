@@ -518,6 +518,7 @@ int jbd2_log_start_commit(journal_t *journal, tid_t tid)
 }
 
 /*
+<<<<<<< HEAD
  * Force and wait any uncommitted transactions.  We can only force the running
  * transaction if we don't have an active handle, otherwise, we will deadlock.
  * Returns: <0 in case of error,
@@ -529,6 +530,22 @@ static int __jbd2_journal_force_commit(journal_t *journal)
 	transaction_t *transaction = NULL;
 	tid_t tid;
 	int need_to_start = 0, ret = 0;
+=======
+ * Force and wait upon a commit if the calling process is not within
+ * transaction.  This is used for forcing out undo-protected data which contains
+ * bitmaps, when the fs is running out of space.
+ *
+ * We can only force the running transaction if we don't have an active handle;
+ * otherwise, we will deadlock.
+ *
+ * Returns true if a transaction was started.
+ */
+int jbd2_journal_force_commit_nested(journal_t *journal)
+{
+	transaction_t *transaction = NULL;
+	tid_t tid;
+	int need_to_start = 0;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	read_lock(&journal->j_state_lock);
 	if (journal->j_running_transaction && !current->journal_info) {
@@ -539,14 +556,22 @@ static int __jbd2_journal_force_commit(journal_t *journal)
 		transaction = journal->j_committing_transaction;
 
 	if (!transaction) {
+<<<<<<< HEAD
 		/* Nothing to commit */
 		read_unlock(&journal->j_state_lock);
 		return 0;
 	}
+=======
+		read_unlock(&journal->j_state_lock);
+		return 0;	/* Nothing to retry */
+	}
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	tid = transaction->t_tid;
 	read_unlock(&journal->j_state_lock);
 	if (need_to_start)
 		jbd2_log_start_commit(journal, tid);
+<<<<<<< HEAD
 	ret = jbd2_log_wait_commit(journal, tid);
 	if (!ret)
 		ret = 1;
@@ -586,6 +611,10 @@ int jbd2_journal_force_commit(journal_t *journal)
 	if (ret > 0)
 		ret = 0;
 	return ret;
+=======
+	jbd2_log_wait_commit(journal, tid);
+	return 1;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 /*

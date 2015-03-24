@@ -15,7 +15,10 @@ typedef u64 __nocast cputime64_t;
 
 #define cputime64_to_jiffies64(__ct)	(__force u64)(__ct)
 #define jiffies64_to_cputime64(__jif)	(__force cputime64_t)(__jif)
+<<<<<<< HEAD
 #define cputime64_sub(__a, __b)    ((__a) - (__b))
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #define nsecs_to_cputime64(__ct)	\
 	jiffies64_to_cputime64(nsecs_to_jiffies64(__ct))

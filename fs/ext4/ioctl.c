@@ -400,11 +400,19 @@ resizefs_out:
 		return err;
 	}
 
+<<<<<<< HEAD
+=======
+	case FIDTRIM:
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	case FITRIM:
 	{
 		struct request_queue *q = bdev_get_queue(sb->s_bdev);
 		struct fstrim_range range;
 		int ret = 0;
+<<<<<<< HEAD
+=======
+		int flags  = cmd == FIDTRIM ? BLKDEV_DISCARD_SECURE : 0;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 		if (!capable(CAP_SYS_ADMIN))
 			return -EPERM;
@@ -419,13 +427,22 @@ resizefs_out:
 			return -EOPNOTSUPP;
 		}
 
+<<<<<<< HEAD
+=======
+		if ((flags & BLKDEV_DISCARD_SECURE) && !blk_queue_secdiscard(q))
+			return -EOPNOTSUPP;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		if (copy_from_user(&range, (struct fstrim_range __user *)arg,
 		    sizeof(range)))
 			return -EFAULT;
 
 		range.minlen = max((unsigned int)range.minlen,
 				   q->limits.discard_granularity);
+<<<<<<< HEAD
 		ret = ext4_trim_fs(sb, &range);
+=======
+		ret = ext4_trim_fs(sb, &range, flags);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		if (ret < 0)
 			return ret;
 

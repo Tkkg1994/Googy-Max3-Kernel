@@ -296,6 +296,14 @@ EXPORT_SYMBOL(sysctl_tcp_wmem);
 
 atomic_long_t tcp_memory_allocated;	/* Current allocated memory. */
 EXPORT_SYMBOL(tcp_memory_allocated);
+<<<<<<< HEAD
+=======
+int sysctl_tcp_delack_seg __read_mostly = TCP_DELACK_SEG;
+EXPORT_SYMBOL(sysctl_tcp_delack_seg);
+
+int sysctl_tcp_use_userconfig __read_mostly;
+EXPORT_SYMBOL(sysctl_tcp_use_userconfig);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  * Current number of TCP sockets.
@@ -1215,8 +1223,16 @@ void tcp_cleanup_rbuf(struct sock *sk, int copied)
 		   /* Delayed ACKs frequently hit locked sockets during bulk
 		    * receive. */
 		if (icsk->icsk_ack.blocked ||
+<<<<<<< HEAD
 		    /* Once-per-two-segments ACK was not sent by tcp_input.c */
 		    tp->rcv_nxt - tp->rcv_wup > icsk->icsk_ack.rcv_mss ||
+=======
+		    /* Once-per-sysctl_tcp_delack_segments
+			* ACK was not sent by tcp_input.c
+			*/
+		    tp->rcv_nxt - tp->rcv_wup > (icsk->icsk_ack.rcv_mss) *
+						 sysctl_tcp_delack_seg ||
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		    /*
 		     * If this read emptied read buffer, we send ACK, if
 		     * connection is not bidirectional, user drained

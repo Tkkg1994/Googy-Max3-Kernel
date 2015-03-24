@@ -22,7 +22,11 @@
 
 #include <linux/mfd/pm8xxx/core.h>
 #include <linux/input/pmic8xxx-pwrkey.h>
+<<<<<<< HEAD
 #if defined(CONFIG_SEC_DEBUG)
+=======
+#ifdef CONFIG_SEC_DEBUG
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <mach/sec_debug.h>
 #endif
 #include <linux/string.h>
@@ -59,7 +63,11 @@ static irqreturn_t pwrkey_press_irq(int irq, void *_pwrkey)
 	pwrkey->powerkey_state = 1;
 	input_report_key(pwrkey->pwr, KEY_POWER, 1);
 	input_sync(pwrkey->pwr);
+<<<<<<< HEAD
 #if defined(CONFIG_SEC_DEBUG)
+=======
+#ifdef CONFIG_SEC_DEBUG
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	sec_debug_check_crash_key(KEY_POWER, 1);
 #endif
 	return IRQ_HANDLED;
@@ -80,7 +88,11 @@ static irqreturn_t pwrkey_release_irq(int irq, void *_pwrkey)
 	pwrkey->powerkey_state = 0;
 	input_report_key(pwrkey->pwr, KEY_POWER, 0);
 	input_sync(pwrkey->pwr);
+<<<<<<< HEAD
 #if defined(CONFIG_SEC_DEBUG)
+=======
+#ifdef CONFIG_SEC_DEBUG
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	sec_debug_check_crash_key(KEY_POWER, 0);
 #endif
 	return IRQ_HANDLED;

@@ -91,7 +91,11 @@ static inline int buf_get_pages(void *addr, int sz, int nr_pages, int access,
 	int n = -1, err = 0;
 
 	VERIFY(err, 0 != access_ok(access ? VERIFY_WRITE : VERIFY_READ,
+<<<<<<< HEAD
 			      (void __user *)start, len));
+=======
+					(void __user *)start, len));
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (err)
 		goto bail;
 	VERIFY(err, 0 != (vma = find_vma(current->mm, start)));
@@ -162,8 +166,13 @@ static void free_mem(struct fastrpc_buf *buf)
 {
 	struct fastrpc_apps *me = &gfa;
 
+<<<<<<< HEAD
 	if (buf->handle) {
 		if (buf->virt) {
+=======
+	if (!IS_ERR_OR_NULL(buf->handle)) {
+		if (!IS_ERR_OR_NULL(buf->virt)) {
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			ion_unmap_kernel(me->iclient, buf->handle);
 			buf->virt = 0;
 		}
@@ -183,8 +192,13 @@ static int alloc_mem(struct fastrpc_buf *buf)
 	VERIFY(err, 0 == IS_ERR_OR_NULL(buf->handle));
 	if (err)
 		goto bail;
+<<<<<<< HEAD
 	buf->virt = 0;
 	VERIFY(err, 0 != (buf->virt = ion_map_kernel(clnt, buf->handle)));
+=======
+	buf->virt = ion_map_kernel(clnt, buf->handle);
+	VERIFY(err, 0 == IS_ERR_OR_NULL(buf->virt));
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (err)
 		goto bail;
 	VERIFY(err, 0 != (sg = ion_sg_table(clnt, buf->handle)));
@@ -296,6 +310,12 @@ static int get_page_list(uint32_t kernel, uint32_t sc, remote_arg_t *pra,
 		list[i].num = 0;
 		list[i].pgidx = 0;
 		len = pra[i].buf.len;
+<<<<<<< HEAD
+=======
+		VERIFY(err, len >= 0);
+		if (err)
+			goto bail;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		if (!len)
 			continue;
 		buf = pra[i].buf.pv;
@@ -622,20 +642,33 @@ static int alloc_dev(struct fastrpc_device **dev)
 static int get_dev(struct fastrpc_apps *me, struct fastrpc_device **rdev)
 {
 	struct hlist_head *head;
+<<<<<<< HEAD
 	struct fastrpc_device *dev = 0;
 	struct hlist_node *n;
+=======
+	struct fastrpc_device *dev = 0, *devfree = 0;
+	struct hlist_node *pos, *n;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	uint32_t h = hash_32(current->tgid, RPC_HASH_BITS);
 	int err = 0;
 
 	spin_lock(&me->hlock);
 	head = &me->htbl[h];
+<<<<<<< HEAD
 	hlist_for_each_entry(dev, n, head, hn) {
 		if (dev->tgid == current->tgid) {
 			hlist_del(&dev->hn);
+=======
+	hlist_for_each_entry_safe(dev, pos, n, head, hn) {
+		if (dev->tgid == current->tgid) {
+			hlist_del(&dev->hn);
+			devfree = dev;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			break;
 		}
 	}
 	spin_unlock(&me->hlock);
+<<<<<<< HEAD
 	VERIFY(err, dev != 0);
 	if (err)
 		goto bail;
@@ -643,6 +676,15 @@ static int get_dev(struct fastrpc_apps *me, struct fastrpc_device **rdev)
  bail:
 	if (err) {
 		free_dev(dev);
+=======
+	VERIFY(err, devfree != 0);
+	if (err)
+		goto bail;
+	*rdev = devfree;
+ bail:
+	if (err) {
+		free_dev(devfree);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		err = alloc_dev(rdev);
 	}
 	return err;
@@ -767,6 +809,7 @@ static void cleanup_current_dev(void)
 	struct fastrpc_apps *me = &gfa;
 	uint32_t h = hash_32(current->tgid, RPC_HASH_BITS);
 	struct hlist_head *head;
+<<<<<<< HEAD
 	struct hlist_node *pos;
 	struct fastrpc_device *dev;
 
@@ -777,12 +820,30 @@ static void cleanup_current_dev(void)
 	hlist_for_each_entry(dev, pos, head, hn) {
 		if (dev->tgid == current->tgid) {
 			hlist_del(&dev->hn);
+=======
+	struct hlist_node *pos, *n;
+	struct fastrpc_device *dev, *devfree;
+
+ rnext:
+	devfree = dev = 0;
+	spin_lock(&me->hlock);
+	head = &me->htbl[h];
+	hlist_for_each_entry_safe(dev, pos, n, head, hn) {
+		if (dev->tgid == current->tgid) {
+			hlist_del(&dev->hn);
+			devfree = dev;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			break;
 		}
 	}
 	spin_unlock(&me->hlock);
+<<<<<<< HEAD
 	if (dev) {
 		free_dev(dev);
+=======
+	if (devfree) {
+		free_dev(devfree);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		goto rnext;
 	}
 	return;

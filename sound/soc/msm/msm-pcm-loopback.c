@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2013, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License version 2 and
@@ -200,19 +204,37 @@ static int msm_pcm_open(struct snd_pcm_substream *substream)
 
 static void stop_pcm(struct msm_pcm_loopback *pcm)
 {
+<<<<<<< HEAD
 	struct snd_soc_pcm_runtime *soc_pcm_rx =
 		pcm->playback_substream->private_data;
 	struct snd_soc_pcm_runtime *soc_pcm_tx =
 		pcm->capture_substream->private_data;
+=======
+	struct snd_soc_pcm_runtime *soc_pcm_rx;
+	struct snd_soc_pcm_runtime *soc_pcm_tx;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	if (pcm->audio_client == NULL)
 		return;
 	q6asm_cmd(pcm->audio_client, CMD_CLOSE);
 
+<<<<<<< HEAD
 	msm_pcm_routing_dereg_phy_stream(soc_pcm_rx->dai_link->be_id,
 			SNDRV_PCM_STREAM_PLAYBACK);
 	msm_pcm_routing_dereg_phy_stream(soc_pcm_tx->dai_link->be_id,
 			SNDRV_PCM_STREAM_CAPTURE);
+=======
+	if (pcm->playback_substream != NULL) {
+		soc_pcm_rx = pcm->playback_substream->private_data;
+		msm_pcm_routing_dereg_phy_stream(soc_pcm_rx->dai_link->be_id,
+				SNDRV_PCM_STREAM_PLAYBACK);
+	}
+	if (pcm->capture_substream != NULL) {
+		soc_pcm_tx = pcm->capture_substream->private_data;
+		msm_pcm_routing_dereg_phy_stream(soc_pcm_tx->dai_link->be_id,
+				SNDRV_PCM_STREAM_CAPTURE);
+	}
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	q6asm_audio_client_free(pcm->audio_client);
 	pcm->audio_client = NULL;
 }

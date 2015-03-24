@@ -1995,6 +1995,10 @@ static ssize_t n_tty_write(struct tty_struct *tty, struct file *file,
 			if (tty->ops->flush_chars)
 				tty->ops->flush_chars(tty);
 		} else {
+<<<<<<< HEAD
+=======
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			while (nr > 0) {
 				mutex_lock(&tty->output_lock);
 				c = tty->ops->write(tty, b, nr);

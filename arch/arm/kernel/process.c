@@ -86,6 +86,15 @@ void enable_hlt(void)
 
 EXPORT_SYMBOL(enable_hlt);
 
+<<<<<<< HEAD
+=======
+int get_hlt(void)
+{
+	return hlt_counter;
+}
+EXPORT_SYMBOL(get_hlt);
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static int __init nohlt_setup(char *__unused)
 {
 	hlt_counter = 1;
@@ -297,6 +306,7 @@ int __init reboot_setup(char *str)
 
 __setup("reboot=", reboot_setup);
 
+<<<<<<< HEAD
 /*
  * Called by kexec, immediately prior to machine_kexec().
  *
@@ -309,6 +319,11 @@ __setup("reboot=", reboot_setup);
 
 void machine_shutdown(void)
 {
+=======
+void machine_shutdown(void)
+{
+	preempt_disable();
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #ifdef CONFIG_SMP
 	/*
 	 * Disable preemption so we're guaranteed to
@@ -319,6 +334,7 @@ void machine_shutdown(void)
 	 */
 	preempt_disable();
 
+<<<<<<< HEAD
 #endif
 	disable_nonboot_cpus();
 }
@@ -333,10 +349,20 @@ void machine_halt(void)
 {
 	preempt_disable();
 	smp_send_stop();
+=======
+	smp_send_stop();
+#endif
+}
+
+void machine_halt(void)
+{
+	machine_shutdown();
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	local_irq_disable();
 	while (1);
 }
 
+<<<<<<< HEAD
 /*
  * Power-off simply requires that the secondary CPUs stop performing any
  * activity (executing tasks, handling interrupts). smp_send_stop()
@@ -347,10 +373,16 @@ void machine_halt(void)
 void machine_power_off(void)
 {
 	smp_send_stop();
+=======
+void machine_power_off(void)
+{
+	machine_shutdown();
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (pm_power_off)
 		pm_power_off();
 }
 
+<<<<<<< HEAD
 /*
  * Restart requires that the secondary CPUs stop performing any activity
  * while the primary CPU resets the system. Systems with a single CPU can
@@ -366,6 +398,11 @@ void machine_power_off(void)
 void machine_restart(char *cmd)
 {
 	smp_send_stop();
+=======
+void machine_restart(char *cmd)
+{
+	machine_shutdown();
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	/* Flush the console to make sure all the relevant messages make it
 	 * out to the console drivers */
@@ -713,10 +750,18 @@ unsigned long arch_randomize_brk(struct mm_struct *mm)
 }
 
 #ifdef CONFIG_MMU
+<<<<<<< HEAD
 /*
  * The vectors page is always readable from user space for the
  * atomic helpers and the signal restart code. Insert it into the
  * gate_vma so that it is visible through ptrace and /proc/<pid>/mem.
+=======
+#ifdef CONFIG_KUSER_HELPERS
+/*
+ * The vectors page is always readable from user space for the
+ * atomic helpers. Insert it into the gate_vma so that it is visible
+ * through ptrace and /proc/<pid>/mem.
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  */
 static struct vm_area_struct gate_vma;
 
@@ -745,14 +790,64 @@ int in_gate_area_no_mm(unsigned long addr)
 {
 	return in_gate_area(NULL, addr);
 }
+<<<<<<< HEAD
 
 const char *arch_vma_name(struct vm_area_struct *vma)
 {
 	if (vma == &gate_vma)
 		return "[vectors]";
+=======
+#define is_gate_vma(vma)	((vma) == &gate_vma)
+#else
+#define is_gate_vma(vma)	0
+#endif
+
+const char *arch_vma_name(struct vm_area_struct *vma)
+{
+	if (is_gate_vma(vma))
+		return "[vectors]";
+	else if (vma->vm_mm && vma->vm_start == vma->vm_mm->context.sigpage)
+		return "[sigpage]";
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	else if (vma == get_user_timers_vma(NULL))
 		return "[timers]";
 	else
 		return NULL;
 }
+<<<<<<< HEAD
+=======
+
+static struct page *signal_page;
+extern struct page *get_signal_page(void);
+
+int arch_setup_additional_pages(struct linux_binprm *bprm, int uses_interp)
+{
+	struct mm_struct *mm = current->mm;
+	unsigned long addr;
+	int ret;
+
+	if (!signal_page)
+		signal_page = get_signal_page();
+	if (!signal_page)
+		return -ENOMEM;
+
+	down_write(&mm->mmap_sem);
+	addr = get_unmapped_area(NULL, 0, PAGE_SIZE, 0, 0);
+	if (IS_ERR_VALUE(addr)) {
+		ret = addr;
+		goto up_fail;
+	}
+
+	ret = install_special_mapping(mm, addr, PAGE_SIZE,
+		VM_READ | VM_EXEC | VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC,
+		&signal_page);
+
+	if (ret == 0)
+		mm->context.sigpage = addr;
+
+ up_fail:
+	up_write(&mm->mmap_sem);
+	return ret;
+}
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif

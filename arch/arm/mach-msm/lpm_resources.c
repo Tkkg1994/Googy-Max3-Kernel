@@ -23,11 +23,19 @@
 #include <linux/tick.h>
 #include <mach/mpm.h>
 #include <mach/rpm-smd.h>
+<<<<<<< HEAD
+=======
+#include <mach/trace_msm_low_power.h>
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include "spm.h"
 #include "lpm_resources.h"
 #include "rpm-notifier.h"
 #include "idle.h"
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 /*Debug Definitions*/
 enum {
 	MSM_LPMRS_DEBUG_RPM = BIT(0),

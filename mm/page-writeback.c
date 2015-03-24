@@ -68,7 +68,11 @@ static long ratelimit_pages = 32;
 /*
  * Start background writeback (via writeback threads) at this percentage
  */
+<<<<<<< HEAD
 int dirty_background_ratio = 1;
+=======
+int dirty_background_ratio = 10;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  * dirty_background_bytes starts at 0 (disabled) so that it is a function of
@@ -85,7 +89,11 @@ int vm_highmem_is_dirtyable;
 /*
  * The generator of dirty data starts writeback at this percentage
  */
+<<<<<<< HEAD
 int vm_dirty_ratio = 2;
+=======
+int vm_dirty_ratio = 20;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  * vm_dirty_bytes starts at 0 (disabled) so that it is a function of
@@ -96,14 +104,22 @@ unsigned long vm_dirty_bytes;
 /*
  * The interval between `kupdate'-style writebacks
  */
+<<<<<<< HEAD
 unsigned int dirty_writeback_interval = 3 * 100; /* centiseconds */
+=======
+unsigned int dirty_writeback_interval = 5 * 100; /* centiseconds */
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 EXPORT_SYMBOL_GPL(dirty_writeback_interval);
 
 /*
  * The longest time for which data is allowed to remain dirty
  */
+<<<<<<< HEAD
 unsigned int dirty_expire_interval = 50; /* centiseconds */
+=======
+unsigned int dirty_expire_interval = 30 * 100; /* centiseconds */
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  * Flag that makes the machine dump writes/reads and block dirtyings.
@@ -1066,7 +1082,11 @@ static void bdi_update_bandwidth(struct backing_dev_info *bdi,
 }
 
 /*
+<<<<<<< HEAD
  * After a task dirtied this many pages, balance_dirty_pages_ratelimited()
+=======
+ * After a task dirtied this many pages, balance_dirty_pages_ratelimited_nr()
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  * will look to see if it needs to start dirty throttling.
  *
  * If dirty_poll_interval is too low, big NUMA machines will call the expensive
@@ -1433,8 +1453,14 @@ static DEFINE_PER_CPU(int, bdp_ratelimits);
 DEFINE_PER_CPU(int, dirty_throttle_leaks) = 0;
 
 /**
+<<<<<<< HEAD
  * balance_dirty_pages_ratelimited - balance dirty memory state
  * @mapping: address_space which was dirtied
+=======
+ * balance_dirty_pages_ratelimited_nr - balance dirty memory state
+ * @mapping: address_space which was dirtied
+ * @nr_pages_dirtied: number of pages which the caller has just dirtied
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  *
  * Processes which are dirtying memory should call in here once for each page
  * which was newly dirtied.  The function will periodically check the system's
@@ -1445,7 +1471,12 @@ DEFINE_PER_CPU(int, dirty_throttle_leaks) = 0;
  * limit we decrease the ratelimiting by a lot, to prevent individual processes
  * from overshooting the limit by (ratelimit_pages) each.
  */
+<<<<<<< HEAD
 void balance_dirty_pages_ratelimited(struct address_space *mapping)
+=======
+void balance_dirty_pages_ratelimited_nr(struct address_space *mapping,
+					unsigned long nr_pages_dirtied)
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 {
 	struct backing_dev_info *bdi = mapping->backing_dev_info;
 	int ratelimit;
@@ -1479,7 +1510,10 @@ void balance_dirty_pages_ratelimited(struct address_space *mapping)
 	 */
 	p = &__get_cpu_var(dirty_throttle_leaks);
 	if (*p > 0 && current->nr_dirtied < ratelimit) {
+<<<<<<< HEAD
 		unsigned long nr_pages_dirtied;
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		nr_pages_dirtied = min(*p, ratelimit - current->nr_dirtied);
 		*p -= nr_pages_dirtied;
 		current->nr_dirtied += nr_pages_dirtied;
@@ -1489,7 +1523,11 @@ void balance_dirty_pages_ratelimited(struct address_space *mapping)
 	if (unlikely(current->nr_dirtied >= ratelimit))
 		balance_dirty_pages(mapping, current->nr_dirtied);
 }
+<<<<<<< HEAD
 EXPORT_SYMBOL(balance_dirty_pages_ratelimited);
+=======
+EXPORT_SYMBOL(balance_dirty_pages_ratelimited_nr);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 void throttle_vm_writeout(gfp_t gfp_mask)
 {
@@ -1598,6 +1636,7 @@ void writeback_set_ratelimit(void)
 }
 
 static int __cpuinit
+<<<<<<< HEAD
 ratelimit_handler(struct notifier_block *self, unsigned long action,
 		  void *hcpu)
 {
@@ -1610,6 +1649,12 @@ ratelimit_handler(struct notifier_block *self, unsigned long action,
 	default:
 		return NOTIFY_DONE;
 	}
+=======
+ratelimit_handler(struct notifier_block *self, unsigned long u, void *v)
+{
+	writeback_set_ratelimit();
+	return NOTIFY_DONE;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 static struct notifier_block __cpuinitdata ratelimit_nb = {

@@ -659,6 +659,7 @@ config MSM_ADSPRPC
           applications DSP processor. Say M if you want to enable this
           module.
 
+<<<<<<< HEAD
 config MMC_GENERIC_CSDIO
 	tristate "Generic sdio driver"
 	default n
@@ -666,6 +667,8 @@ config MMC_GENERIC_CSDIO
 	  SDIO function driver that extends SDIO card as character device
 	  in user space.
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 config CSDIO_VENDOR_ID
 	hex "Card VendorId"
 	depends on MMC_GENERIC_CSDIO

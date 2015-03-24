@@ -42,6 +42,17 @@ static int msm_csid_cid_lut(
 		return -EINVAL;
 	}
 	for (i = 0; i < csid_lut_params->num_cid && i < 16; i++) {
+<<<<<<< HEAD
+=======
+		if (csid_lut_params->vc_cfg[i].cid >=
+			csid_lut_params->num_cid ||
+			csid_lut_params->vc_cfg[i].cid < 0) {
+			pr_err("%s: cid outside range %d\n",
+				__func__, csid_lut_params->vc_cfg[i].cid);
+			return -EINVAL;
+		}
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		CDBG("%s lut params num_cid = %d, cid = %d, dt = %x, df = %d\n",
 			__func__,
 			csid_lut_params->num_cid,

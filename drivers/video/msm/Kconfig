@@ -270,7 +270,10 @@ config FB_MSM_MIPI_DSI_RENESAS_TFT
 config FB_MSM_MIPI_DSI_SAMSUNG_OCTA
 	bool
 	select FB_MSM_MIPI_DSI
+<<<<<<< HEAD
 	select GAMMA_CONTROL
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	default n
 
 config FB_MSM_MIPI_DSI_SAMSUNG_OLED

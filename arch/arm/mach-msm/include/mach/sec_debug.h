@@ -29,7 +29,11 @@
 
 extern void *restart_reason;
 
+<<<<<<< HEAD
 #if defined(CONFIG_SEC_DEBUG)
+=======
+#ifdef CONFIG_SEC_DEBUG
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 extern int sec_debug_init(void);
 extern int sec_debug_dump_stack(void);
 extern void sec_debug_hw_reset(void);

@@ -49,7 +49,11 @@ snd-soc-twl6040-objs := twl6040.o
 snd-soc-uda134x-objs := uda134x.o
 snd-soc-uda1380-objs := uda1380.o
 snd-soc-wcd9304-objs := wcd9304.o wcd9304-tables.o
+<<<<<<< HEAD
 snd-soc-wcd9310-objs := wcd9310.o wcd9310-tables.o
+=======
+snd-soc-wcd9310-objs := wcd9310.o wcd9310-tables.o wcdcal-hwdep.o
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 snd-soc-es325-objs := es325.o
 snd-soc-cs8427-objs := cs8427.o
 snd-soc-wcd9320-objs := wcd9320.o wcd9320-tables.o
@@ -215,7 +219,10 @@ obj-$(CONFIG_SND_SOC_MSM_STUB)  += snd-soc-msm-stub.o
 obj-$(CONFIG_SND_SOC_MAX9877)	+= snd-soc-max9877.o
 obj-$(CONFIG_SND_SOC_TPA6130A2)	+= snd-soc-tpa6130a2.o
 obj-$(CONFIG_SND_SOC_TPA2028D)	+= tpa2028d.o
+<<<<<<< HEAD
 
 # Hack
 obj-$(CONFIG_SOUND_CONTROL_HAX_GPL) += sound_control_gpl.o
 obj-$(CONFIG_SOUND_CONTROL_HAX_3_GPL) += sound_control_3_gpl.o
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea

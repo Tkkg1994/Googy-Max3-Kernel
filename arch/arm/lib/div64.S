@@ -13,7 +13,10 @@
  */
 
 #include <linux/linkage.h>
+<<<<<<< HEAD
 #include <asm/assembler.h>
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <asm/unwind.h>
 
 #ifdef __ARMEB__
@@ -98,7 +101,11 @@ UNWIND(.fnstart)
 	mov	yl, #0
 	cmpeq	xl, r4
 	movlo	xh, xl
+<<<<<<< HEAD
 	retlo	lr
+=======
+	movlo	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	@ The division loop for lower bit positions.
 	@ Here we shift remainer bits leftwards rather than moving the
@@ -112,14 +119,22 @@ UNWIND(.fnstart)
 	subcs	xh, xh, r4
 	movs	ip, ip, lsr #1
 	bne	4b
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	@ The top part of remainder became zero.  If carry is set
 	@ (the 33th bit) this is a false positive so resume the loop.
 	@ Otherwise, if lower part is also null then we are done.
 6:	bcs	5b
 	cmp	xl, #0
+<<<<<<< HEAD
 	reteq	lr
+=======
+	moveq	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	@ We still have remainer bits in the low part.  Bring them up.
 
@@ -145,7 +160,11 @@ UNWIND(.fnstart)
 	movs	ip, ip, lsr #1
 	mov	xh, #1
 	bne	4b
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 8:	@ Division by a power of 2: determine what that divisor order is
 	@ then simply shift values around
@@ -185,13 +204,21 @@ UNWIND(.fnstart)
  THUMB(	orr	yl, yl, xh		)
 	mov	xh, xl, lsl ip
 	mov	xh, xh, lsr ip
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	@ eq -> division by 1: obvious enough...
 9:	moveq	yl, xl
 	moveq	yh, xh
 	moveq	xh, #0
+<<<<<<< HEAD
 	reteq	lr
+=======
+	moveq	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 UNWIND(.fnend)
 
 UNWIND(.fnstart)

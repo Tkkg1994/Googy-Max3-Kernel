@@ -12,7 +12,10 @@
 
 #include <asm/smp_plat.h>
 #include <asm/tlbflush.h>
+<<<<<<< HEAD
 #include <asm/mmu_context.h>
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /**********************************************************************/
 
@@ -65,6 +68,7 @@ static inline void ipi_flush_tlb_kernel_range(void *arg)
 	local_flush_tlb_kernel_range(ta->ta_start, ta->ta_end);
 }
 
+<<<<<<< HEAD
 static inline void ipi_flush_bp_all(void *ignored)
 {
 	local_flush_bp_all();
@@ -116,13 +120,18 @@ static void broadcast_tlb_mm_a15_erratum(struct mm_struct *mm)
 	put_cpu();
 }
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 void flush_tlb_all(void)
 {
 	if (tlb_ops_need_broadcast())
 		on_each_cpu(ipi_flush_tlb_all, NULL, 1);
 	else
 		local_flush_tlb_all();
+<<<<<<< HEAD
 	broadcast_tlb_a15_erratum();
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 void flush_tlb_mm(struct mm_struct *mm)
@@ -131,7 +140,10 @@ void flush_tlb_mm(struct mm_struct *mm)
 		on_each_cpu_mask(mm_cpumask(mm), ipi_flush_tlb_mm, mm, 1);
 	else
 		local_flush_tlb_mm(mm);
+<<<<<<< HEAD
 	broadcast_tlb_mm_a15_erratum(mm);
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 void flush_tlb_page(struct vm_area_struct *vma, unsigned long uaddr)
@@ -144,7 +156,10 @@ void flush_tlb_page(struct vm_area_struct *vma, unsigned long uaddr)
 					&ta, 1);
 	} else
 		local_flush_tlb_page(vma, uaddr);
+<<<<<<< HEAD
 	broadcast_tlb_mm_a15_erratum(vma->vm_mm);
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 void flush_tlb_kernel_page(unsigned long kaddr)
@@ -155,7 +170,10 @@ void flush_tlb_kernel_page(unsigned long kaddr)
 		on_each_cpu(ipi_flush_tlb_kernel_page, &ta, 1);
 	} else
 		local_flush_tlb_kernel_page(kaddr);
+<<<<<<< HEAD
 	broadcast_tlb_a15_erratum();
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 void flush_tlb_range(struct vm_area_struct *vma,
@@ -170,7 +188,10 @@ void flush_tlb_range(struct vm_area_struct *vma,
 					&ta, 1);
 	} else
 		local_flush_tlb_range(vma, start, end);
+<<<<<<< HEAD
 	broadcast_tlb_mm_a15_erratum(vma->vm_mm);
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 void flush_tlb_kernel_range(unsigned long start, unsigned long end)
@@ -182,6 +203,7 @@ void flush_tlb_kernel_range(unsigned long start, unsigned long end)
 		on_each_cpu(ipi_flush_tlb_kernel_range, &ta, 1);
 	} else
 		local_flush_tlb_kernel_range(start, end);
+<<<<<<< HEAD
 	broadcast_tlb_a15_erratum();
 }
 
@@ -192,3 +214,7 @@ void flush_bp_all(void)
 	else
 		local_flush_bp_all();
 }
+=======
+}
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea

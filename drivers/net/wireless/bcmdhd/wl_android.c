@@ -361,7 +361,10 @@ extern int set_roamscan_channel_list(struct net_device *dev, unsigned char n,
 extern int bcm_bt_lock(int cookie);
 extern void bcm_bt_unlock(int cookie);
 static int lock_cookie_wifi = 'W' | 'i'<<8 | 'F'<<16 | 'i'<<24;	/* cookie is "WiFi" */
+<<<<<<< HEAD
 static bool is4335_revb0 = true;
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif /* ENABLE_4335BT_WAR */
 
 extern bool ap_fw_loaded;
@@ -3031,6 +3034,7 @@ exit:
 	return ret;
 }
 
+<<<<<<< HEAD
 #ifdef ENABLE_4335BT_WAR
 void check_bcm4335_rev(void)
 {
@@ -3059,11 +3063,16 @@ void check_bcm4335_rev(void)
 }
 #endif
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 int wl_android_init(void)
 {
 	int ret = 0;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #ifdef ENABLE_INSMOD_NO_FW_LOAD
 	dhd_download_fw_on_driverload = FALSE;
 #endif /* ENABLE_INSMOD_NO_FW_LOAD */
@@ -3074,10 +3083,13 @@ int wl_android_init(void)
 	}
 #endif 
 
+<<<<<<< HEAD
 #ifdef ENABLE_4335BT_WAR
 	check_bcm4335_rev();
 #endif
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #ifdef WL_GENL
 	wl_genl_init();
 #endif
@@ -3430,7 +3442,10 @@ int wifi_get_irq_number(unsigned long *irq_flags_ptr)
 #endif
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 int wifi_set_power(int on, unsigned long msec)
 {
 	int ret = 0;
@@ -3450,12 +3465,16 @@ int wifi_set_power(int on, unsigned long msec)
 			bcm_bt_unlock(lock_cookie_wifi);
 		}
 #endif /* ENABLE_4335BT_WAR */
+<<<<<<< HEAD
 
 #ifdef ENABLE_4335BT_WAR
 		ret = wifi_control_data->set_power(on,is4335_revb0);
 #else 
 		ret = wifi_control_data->set_power(on);
 #endif
+=======
+		ret = wifi_control_data->set_power(on);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 
 	if (wifi_regulator && !on)

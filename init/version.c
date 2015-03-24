@@ -37,6 +37,7 @@ struct uts_namespace init_uts_ns = {
 };
 EXPORT_SYMBOL_GPL(init_uts_ns);
 
+<<<<<<< HEAD
 /*  Google REQUIREMENT **
  *  GPE Device Build Requirements doc calls out that the kernel version string 
  *  should have '(android@gpe)' included in it. Here is the text.
@@ -57,6 +58,8 @@ EXPORT_SYMBOL_GPL(init_uts_ns);
 #endif /* LINUX_COMPILE_HOST */
 #endif /* CONFIG_GED_BUILD */
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 /* FIXED STRINGS! Don't touch! */
 const char linux_banner[] =
 	"Linux version " UTS_RELEASE " (" LINUX_COMPILE_BY "@"

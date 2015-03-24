@@ -49,7 +49,11 @@ static struct msm_mmc_reg_data mmc_vdd_reg_data[MAX_SDCC_CONTROLLER] = {
 		.lpm_uA = 9000,
 		.hpm_uA = 200000, /* 200mA */
 	},
+<<<<<<< HEAD
 #ifdef CONFIG_MMC_MSM_SDC2_SUPPORT	
+=======
+#ifdef CONFIG_MMC_MSM_SDC2_SUPPORT
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	/* SDCC2 : External card slot connected after system_rev 08 */
 	[SDCC2] = {
 			.name = "sdc_vdd",
@@ -562,6 +566,10 @@ void __init apq8064_init_mmc(void)
 					ARRAY_SIZE(sdc1_sup_clk_rates_all);
 		}
 		apq8064_add_sdcc(1, apq8064_sdc1_pdata);
+<<<<<<< HEAD
+=======
+		apq8064_add_uio();
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 #if defined(CONFIG_MACH_JFVE_EUR)
 	apq8064_sdc2_pdata = NULL;

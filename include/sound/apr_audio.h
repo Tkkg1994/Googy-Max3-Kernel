@@ -715,7 +715,11 @@ struct asm_pp_get_params_command {
 	u32    *payload;
 	struct  asm_pp_param_data_hdr params;
 	u32 dummy1;
+<<<<<<< HEAD
 	u32 dummy2;	
+=======
+	u32 dummy2;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 } __attribute__ ((packed));
 
 #define EQUALIZER_MODULE_ID		0x00010c27

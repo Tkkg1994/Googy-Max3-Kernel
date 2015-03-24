@@ -31,7 +31,11 @@
  */
 ENTRY(cpu_arm940_proc_init)
 ENTRY(cpu_arm940_switch_mm)
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  * cpu_arm940_proc_fin()
@@ -41,7 +45,11 @@ ENTRY(cpu_arm940_proc_fin)
 	bic	r0, r0, #0x00001000		@ i-cache
 	bic	r0, r0, #0x00000004		@ d-cache
 	mcr	p15, 0, r0, c1, c0, 0		@ disable caches
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  * cpu_arm940_reset(loc)
@@ -58,7 +66,11 @@ ENTRY(cpu_arm940_reset)
 	bic	ip, ip, #0x00000005		@ .............c.p
 	bic	ip, ip, #0x00001000		@ i-cache
 	mcr	p15, 0, ip, c1, c0, 0		@ ctrl register
+<<<<<<< HEAD
 	ret	r0
+=======
+	mov	pc, r0
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(cpu_arm940_reset)
 	.popsection
 
@@ -68,7 +80,11 @@ ENDPROC(cpu_arm940_reset)
 	.align	5
 ENTRY(cpu_arm940_do_idle)
 	mcr	p15, 0, r0, c7, c0, 4		@ Wait for interrupt
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	flush_icache_all()
@@ -78,7 +94,11 @@ ENTRY(cpu_arm940_do_idle)
 ENTRY(arm940_flush_icache_all)
 	mov	r0, #0
 	mcr	p15, 0, r0, c7, c5, 0		@ invalidate I cache
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(arm940_flush_icache_all)
 
 /*
@@ -122,7 +142,11 @@ ENTRY(arm940_flush_user_cache_range)
 	tst	r2, #VM_EXEC
 	mcrne	p15, 0, ip, c7, c5, 0		@ invalidate I cache
 	mcrne	p15, 0, ip, c7, c10, 4		@ drain WB
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	coherent_kern_range(start, end)
@@ -160,7 +184,11 @@ ENTRY(arm940_coherent_user_range)
  *	- size	- region size
  */
 ENTRY(arm940_flush_kern_dcache_area)
+<<<<<<< HEAD
 	mov	r0, #0
+=======
+	mov	ip, #0
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	mov	r1, #(CACHE_DSEGMENTS - 1) << 4	@ 4 segments
 1:	orr	r3, r1, #(CACHE_DENTRIES - 1) << 26 @ 64 entries
 2:	mcr	p15, 0, r3, c7, c14, 2		@ clean/flush D index
@@ -168,9 +196,15 @@ ENTRY(arm940_flush_kern_dcache_area)
 	bcs	2b				@ entries 63 to 0
 	subs	r1, r1, #1 << 4
 	bcs	1b				@ segments 7 to 0
+<<<<<<< HEAD
 	mcr	p15, 0, r0, c7, c5, 0		@ invalidate I cache
 	mcr	p15, 0, r0, c7, c10, 4		@ drain WB
 	ret	lr
+=======
+	mcr	p15, 0, ip, c7, c5, 0		@ invalidate I cache
+	mcr	p15, 0, ip, c7, c10, 4		@ drain WB
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	dma_inv_range(start, end)
@@ -191,7 +225,11 @@ arm940_dma_inv_range:
 	subs	r1, r1, #1 << 4
 	bcs	1b				@ segments 7 to 0
 	mcr	p15, 0, ip, c7, c10, 4		@ drain WB
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	dma_clean_range(start, end)
@@ -215,7 +253,11 @@ ENTRY(cpu_arm940_dcache_clean_area)
 	bcs	1b				@ segments 7 to 0
 #endif
 	mcr	p15, 0, ip, c7, c10, 4		@ drain WB
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	dma_flush_range(start, end)
@@ -241,7 +283,11 @@ ENTRY(arm940_dma_flush_range)
 	subs	r1, r1, #1 << 4
 	bcs	1b				@ segments 7 to 0
 	mcr	p15, 0, ip, c7, c10, 4		@ drain WB
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	dma_map_area(start, size, dir)
@@ -264,7 +310,11 @@ ENDPROC(arm940_dma_map_area)
  *	- dir	- DMA direction
  */
 ENTRY(arm940_dma_unmap_area)
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(arm940_dma_unmap_area)
 
 	.globl	arm940_flush_kern_cache_louis
@@ -339,7 +389,11 @@ __arm940_setup:
 	orr	r0, r0, #0x00001000		@ I-cache
 	orr	r0, r0, #0x00000005		@ MPU/D-cache
 
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	.size	__arm940_setup, . - __arm940_setup
 

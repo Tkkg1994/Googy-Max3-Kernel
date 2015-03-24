@@ -36,7 +36,11 @@ ENTRY(__put_user_1)
 	check_uaccess r0, 1, r1, ip, __put_user_bad
 1: TUSER(strb)	r2, [r0]
 	mov	r0, #0
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(__put_user_1)
 
 ENTRY(__put_user_2)
@@ -60,14 +64,22 @@ ENTRY(__put_user_2)
 #endif
 #endif	/* CONFIG_THUMB2_KERNEL */
 	mov	r0, #0
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(__put_user_2)
 
 ENTRY(__put_user_4)
 	check_uaccess r0, 4, r1, ip, __put_user_bad
 4: TUSER(str)	r2, [r0]
 	mov	r0, #0
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(__put_user_4)
 
 ENTRY(__put_user_8)
@@ -80,12 +92,20 @@ ENTRY(__put_user_8)
 6: TUSER(str)	r3, [r0]
 #endif
 	mov	r0, #0
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(__put_user_8)
 
 __put_user_bad:
 	mov	r0, #-EFAULT
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(__put_user_bad)
 
 .pushsection __ex_table, "a"

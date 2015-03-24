@@ -96,6 +96,7 @@ Description:
 		is read-only.  If the device is not enabled to wake up the
 		system from sleep states, this attribute is not present.
 
+<<<<<<< HEAD
 What:		/sys/devices/.../power/wakeup_hit_count
 Date:		September 2010
 Contact:	Rafael J. Wysocki <rjw@sisk.pl>
@@ -106,6 +107,28 @@ Description:
 		This attribute is read-only.  If the device is not enabled to
 		wake up the system from sleep states, this attribute is not
 		present.
+=======
+What:		/sys/devices/.../power/wakeup_abort_count
+Date:		February 2012
+Contact:	Rafael J. Wysocki <rjw@sisk.pl>
+Description:
+		The /sys/devices/.../wakeup_abort_count attribute contains the
+		number of times the processing of a wakeup event associated with
+		the device might have aborted system transition into a sleep
+		state in progress.  This attribute is read-only.  If the device
+		is not enabled to wake up the system from sleep states, this
+		attribute is not present.
+
+What:		/sys/devices/.../power/wakeup_expire_count
+Date:		February 2012
+Contact:	Rafael J. Wysocki <rjw@sisk.pl>
+Description:
+		The /sys/devices/.../wakeup_expire_count attribute contains the
+		number of times a wakeup event associated with the device has
+		been reported with a timeout that expired.  This attribute is
+		read-only.  If the device is not enabled to wake up the system
+		from sleep states, this attribute is not present.
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 What:		/sys/devices/.../power/wakeup_active
 Date:		September 2010

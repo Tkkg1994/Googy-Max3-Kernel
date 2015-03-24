@@ -293,8 +293,13 @@ struct msm_camera_sensor_platform_info {
 	void(*sensor_power_off)(void);
 #if defined(CONFIG_MACH_JACTIVE_ATT) || defined(CONFIG_MACH_JACTIVE_EUR)
 	void(*sensor_power_on_sub)(void);
+<<<<<<< HEAD
 	void(*sensor_power_off_sub)(void);	
 #endif	
+=======
+	void(*sensor_power_off_sub)(void);
+#endif
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	void(*sensor_af_power_off)(void);
 	void(*sensor_vddio_power_off)(void);
 	void(*sensor_pmic_gpio_ctrl)(int, int);
@@ -689,6 +694,10 @@ void mpq8092_init_gpiomux(void);
 struct mmc_platform_data;
 int msm_add_sdcc(unsigned int controller,
 		struct mmc_platform_data *plat);
+<<<<<<< HEAD
+=======
+int msm_add_uio(void);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 void msm_pm_register_irqs(void);
 struct msm_usb_host_platform_data;

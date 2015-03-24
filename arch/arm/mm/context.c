@@ -1,7 +1,10 @@
 /*
  *  linux/arch/arm/mm/context.c
  *
+<<<<<<< HEAD
  *  Copyright (C) 2002-2003 Deep Blue Solutions Ltd, all rights reserved.
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  *  Copyright (C) 2012 ARM Limited
  *
  *  Author: Will Deacon <will.deacon@arm.com>
@@ -36,6 +39,7 @@
  * The ASID is used to tag entries in the CPU caches and TLBs.
  * The context ID is used by debuggers and trace logic, and
  * should be unique within all running processes.
+<<<<<<< HEAD
  *
  * In big endian operation, the two 32 bit words are swapped if accesed by
  * non 64-bit operations.
@@ -111,6 +115,55 @@ static void cpu_set_reserved_ttbr0(void)
 static int contextidr_notifier(struct notifier_block *unused, unsigned long cmd,
 			       void *t)
 {
+=======
+ */
+#define ASID_FIRST_VERSION	(1ULL << ASID_BITS)
+
+static DEFINE_RAW_SPINLOCK(cpu_asid_lock);
+static u64 cpu_last_asid = ASID_FIRST_VERSION;
+
+static DEFINE_PER_CPU(u64, active_asids);
+static DEFINE_PER_CPU(u64, reserved_asids);
+static cpumask_t tlb_flush_pending;
+
+#ifdef CONFIG_SMP
+DEFINE_PER_CPU(struct mm_struct *, current_mm);
+#endif
+
+#ifdef CONFIG_ARM_LPAE
+#define cpu_set_asid(asid) {						\
+	unsigned long ttbl, ttbh;					\
+	asm volatile(							\
+	"	mrrc	p15, 0, %0, %1, c2		@ read TTBR0\n"	\
+	"	mov	%1, %2, lsl #(48 - 32)		@ set ASID\n"	\
+	"	mcrr	p15, 0, %0, %1, c2		@ set TTBR0\n"	\
+	: "=&r" (ttbl), "=&r" (ttbh)					\
+	: "r" (asid & ~ASID_MASK));					\
+}
+#else
+#define cpu_set_asid(asid) \
+	asm("	mcr	p15, 0, %0, c13, c0, 1\n" : : "r" (asid))
+#endif
+
+static void write_contextidr(u32 contextidr)
+{
+	uncached_logk(LOGK_CTXID, (void *)contextidr);
+	asm("mcr	p15, 0, %0, c13, c0, 1" : : "r" (contextidr));
+	isb();
+}
+
+static u32 read_contextidr(void)
+{
+	u32 contextidr;
+	asm("mrc	p15, 0, %0, c13, c0, 1" : "=r" (contextidr));
+	return contextidr;
+}
+
+static int contextidr_notifier(struct notifier_block *unused, unsigned long cmd,
+			       void *t)
+{
+	unsigned long flags;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	u32 contextidr;
 	pid_t pid;
 	struct thread_info *thread = t;
@@ -118,6 +171,7 @@ static int contextidr_notifier(struct notifier_block *unused, unsigned long cmd,
 	if (cmd != THREAD_NOTIFY_SWITCH)
 		return NOTIFY_DONE;
 
+<<<<<<< HEAD
 	pid = task_pid_nr(thread->task) << ASID_BITS;
 	asm volatile(
 	"	mrc	p15, 0, %0, c13, c0, 1\n"
@@ -128,6 +182,15 @@ static int contextidr_notifier(struct notifier_block *unused, unsigned long cmd,
 	: "I" (~ASID_MASK));
 	uncached_logk(LOGK_CTXID, (void *)contextidr);
 	isb();
+=======
+	pid = task_pid_nr(thread->task);
+	local_irq_save(flags);
+	contextidr = read_contextidr();
+	contextidr &= ~ASID_MASK;
+	contextidr |= pid << ASID_BITS;
+	write_contextidr(contextidr);
+	local_irq_restore(flags);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	return NOTIFY_OK;
 }
@@ -141,11 +204,15 @@ static int __init contextidr_notifier_init(void)
 	return thread_register_notifier(&contextidr_notifier_block);
 }
 arch_initcall(contextidr_notifier_init);
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 static void flush_context(unsigned int cpu)
 {
 	int i;
+<<<<<<< HEAD
 	u64 asid;
 
 	/* Update the list of reserved ASIDs and the ASID bitmap. */
@@ -168,6 +235,13 @@ static void flush_context(unsigned int cpu)
 		}
 		per_cpu(reserved_asids, i) = asid;
 	}
+=======
+
+	/* Update the list of reserved ASIDs. */
+	per_cpu(active_asids, cpu) = 0;
+	for_each_possible_cpu(i)
+		per_cpu(reserved_asids, i) = per_cpu(active_asids, i);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	/* Queue a TLB invalidate and flush the I-cache if necessary. */
 	if (!tlb_ops_need_broadcast())
@@ -179,30 +253,51 @@ static void flush_context(unsigned int cpu)
 		__flush_icache_all();
 }
 
+<<<<<<< HEAD
 static int is_reserved_asid(u64 asid)
 {
 	int cpu;
 	for_each_possible_cpu(cpu)
 		if (per_cpu(reserved_asids, cpu) == asid)
+=======
+static int is_reserved_asid(u64 asid, u64 mask)
+{
+	int cpu;
+	for_each_possible_cpu(cpu)
+		if ((per_cpu(reserved_asids, cpu) & mask) == (asid & mask))
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			return 1;
 	return 0;
 }
 
+<<<<<<< HEAD
 static u64 new_context(struct mm_struct *mm, unsigned int cpu)
 {
 	u64 asid = atomic64_read(&mm->context.id);
 	u64 generation = atomic64_read(&asid_generation);
 
 	if (asid != 0 && is_reserved_asid(asid)) {
+=======
+static void new_context(struct mm_struct *mm, unsigned int cpu)
+{
+	u64 asid = mm->context.id;
+
+	if (asid != 0 && is_reserved_asid(asid, ULLONG_MAX)) {
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		/*
 		 * Our current ASID was active during a rollover, we can
 		 * continue to use it and this was just a false alarm.
 		 */
+<<<<<<< HEAD
 		asid = generation | (asid & ~ASID_MASK);
+=======
+		asid = (cpu_last_asid & ASID_MASK) | (asid & ~ASID_MASK);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	} else {
 		/*
 		 * Allocate a free ASID. If we can't find one, take a
 		 * note of the currently active ASIDs and mark the TLBs
+<<<<<<< HEAD
 		 * as requiring flushes. We always count from ASID #1,
 		 * as we reserve ASID #0 to switch via TTBR0 and indicate
 		 * rollover events.
@@ -220,17 +315,34 @@ static u64 new_context(struct mm_struct *mm, unsigned int cpu)
 	}
 
 	return asid;
+=======
+		 * as requiring flushes.
+		 */
+		do {
+			asid = ++cpu_last_asid;
+			if ((asid & ~ASID_MASK) == 0)
+				flush_context(cpu);
+		} while (is_reserved_asid(asid, ~ASID_MASK));
+		cpumask_clear(mm_cpumask(mm));
+	}
+
+	mm->context.id = asid;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 void check_and_switch_context(struct mm_struct *mm, struct task_struct *tsk)
 {
 	unsigned long flags;
 	unsigned int cpu = smp_processor_id();
+<<<<<<< HEAD
 	u64 asid;
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	if (unlikely(mm->context.kvm_seq != init_mm.context.kvm_seq))
 		__check_kvm_seq(mm);
 
+<<<<<<< HEAD
 	/*
 	 * Required during context switch to avoid speculative page table
 	 * walking with the wrong TTBR.
@@ -261,5 +373,22 @@ void check_and_switch_context(struct mm_struct *mm, struct task_struct *tsk)
 	raw_spin_unlock_irqrestore(&cpu_asid_lock, flags);
 
 switch_mm_fastpath:
+=======
+	cpu_set_asid(0);
+	isb();
+
+	raw_spin_lock_irqsave(&cpu_asid_lock, flags);
+	/* Check that our ASID belongs to the current generation. */
+	if ((mm->context.id ^ cpu_last_asid) >> ASID_BITS)
+		new_context(mm, cpu);
+
+	*this_cpu_ptr(&active_asids) = mm->context.id;
+	cpumask_set_cpu(cpu, mm_cpumask(mm));
+
+	if (cpumask_test_and_clear_cpu(cpu, &tlb_flush_pending))
+		local_flush_tlb_all();
+	raw_spin_unlock_irqrestore(&cpu_asid_lock, flags);
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	cpu_switch_mm(mm->pgd, mm);
 }

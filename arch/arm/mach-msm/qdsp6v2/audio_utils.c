@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2010-2012, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2010-2012, 2014 The Linux Foundation. All rights reserved.
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -23,6 +27,14 @@
 #include <asm/ioctls.h>
 #include "audio_utils.h"
 
+<<<<<<< HEAD
+=======
+#define MIN_FRAME_SIZE  1536
+#define NUM_FRAMES     5
+#define META_SIZE      (sizeof(struct meta_out_dsp))
+#define FRAME_SIZE     (1 + ((MIN_FRAME_SIZE + META_SIZE) * NUM_FRAMES))
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static int audio_in_pause(struct q6audio_in  *audio)
 {
 	int rc;
@@ -254,7 +266,20 @@ long audio_in_ioctl(struct file *file,
 		   but with in maximum frames number */
 		if ((cfg.buffer_size < (audio->min_frame_size+ \
 			sizeof(struct meta_out_dsp))) ||
+<<<<<<< HEAD
 			(cfg.buffer_count < FRAME_NUM)) {
+=======
+			(cfg.buffer_count > FRAME_NUM)) {
+			rc = -EINVAL;
+			break;
+		}
+		if ((cfg.buffer_size > FRAME_SIZE) ||
+			(cfg.buffer_count != FRAME_NUM)) {
+			rc = -EINVAL;
+			break;
+		}
+		if (cfg.buffer_size > FRAME_SIZE) {
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			rc = -EINVAL;
 			break;
 		}
@@ -389,7 +414,11 @@ ssize_t audio_in_read(struct file *file,
 	uint32_t mfield_size = (audio->buf_cfg.meta_info_enable == 0) ? 0 :
 		(sizeof(unsigned char) +
 		(sizeof(struct meta_out_dsp)*(audio->buf_cfg.frames_per_buf)));
+<<<<<<< HEAD
 
+=======
+	memset(&meta, 0, sizeof(meta));
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	pr_debug("%s:session id %d: read - %d\n", __func__, audio->ac->session,
 			count);
 	if (!audio->enabled)

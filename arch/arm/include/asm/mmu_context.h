@@ -24,6 +24,7 @@ void __check_kvm_seq(struct mm_struct *mm);
 
 #ifdef CONFIG_CPU_HAS_ASID
 
+<<<<<<< HEAD
 void check_and_switch_context(struct mm_struct *mm, struct task_struct *tsk);
 #define init_new_context(tsk,mm)	({ atomic64_set(&mm->context.id, 0); 0; })
 
@@ -41,16 +42,32 @@ static inline void a15_erratum_get_cpumask(int this_cpu, struct mm_struct *mm,
 
 static inline void check_and_switch_context(struct mm_struct *mm,
 					    struct task_struct *tsk)
+=======
+#ifdef CONFIG_SMP
+DECLARE_PER_CPU(struct mm_struct *, current_mm);
+#endif
+
+void check_and_switch_context(struct mm_struct *mm, struct task_struct *tsk);
+#define init_new_context(tsk,mm)	({ mm->context.id = 0; })
+
+#else
+
+static inline void check_context(struct mm_struct *mm)
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 {
 #ifdef CONFIG_MMU
 	if (unlikely(mm->context.kvm_seq != init_mm.context.kvm_seq))
 		__check_kvm_seq(mm);
+<<<<<<< HEAD
 	cpu_switch_mm(mm->pgd, mm);
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif
 }
 
 #define init_new_context(tsk,mm)	0
 
+<<<<<<< HEAD
 #define finish_arch_post_lock_switch()	do { } while (0)
 
 #endif	/* CONFIG_CPU_HAS_ASID */
@@ -58,6 +75,12 @@ static inline void check_and_switch_context(struct mm_struct *mm,
 #define destroy_context(mm)		do { } while(0)
 #define activate_mm(prev,next)		switch_mm(prev, next, NULL)
 
+=======
+#endif
+
+#define destroy_context(mm)		do { } while(0)
+#define activate_mm(prev,next)		switch_mm(prev, next, NULL)
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 /*
  * This is called when "tsk" is about to enter lazy TLB mode.
  *
@@ -92,6 +115,13 @@ switch_mm(struct mm_struct *prev, struct mm_struct *next,
 		__flush_icache_all();
 #endif
 	if (!cpumask_test_and_set_cpu(cpu, mm_cpumask(next)) || prev != next) {
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_SMP
+		struct mm_struct **crt_mm = &per_cpu(current_mm, cpu);
+		*crt_mm = next;
+#endif
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		check_and_switch_context(next, tsk);
 		if (cache_is_vivt())
 			cpumask_clear_cpu(cpu, mm_cpumask(prev));

@@ -8,7 +8,10 @@
 #define CPUID_CACHETYPE	1
 #define CPUID_TCM	2
 #define CPUID_TLBTYPE	3
+<<<<<<< HEAD
 #define CPUID_MPUIR	4
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #define CPUID_MPIDR	5
 
 #define CPUID_EXT_PFR0	"c1, 0"
@@ -26,6 +29,7 @@
 #define CPUID_EXT_ISAR4	"c2, 4"
 #define CPUID_EXT_ISAR5	"c2, 5"
 
+<<<<<<< HEAD
 #define MPIDR_SMP_BITMASK (0x3 << 30)
 #define MPIDR_SMP_VALUE (0x2 << 30)
 
@@ -39,6 +43,8 @@
 #define MPIDR_AFFINITY_LEVEL(mpidr, level) \
 	((mpidr >> (MPIDR_LEVEL_BITS * level)) & MPIDR_LEVEL_MASK)
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 extern unsigned int processor_id;
 
 #ifdef CONFIG_CPU_CP15

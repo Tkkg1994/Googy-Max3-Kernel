@@ -764,10 +764,21 @@ const char * const vmstat_text[] = {
 
 	"pgrotated",
 
+<<<<<<< HEAD
 #ifdef CONFIG_COMPACTION
 	"compact_blocks_moved",
 	"compact_pages_moved",
 	"compact_pagemigrate_failed",
+=======
+#ifdef CONFIG_MIGRATION
+	"pgmigrate_success",
+	"pgmigrate_fail",
+#endif
+#ifdef CONFIG_COMPACTION
+	"compact_migrate_scanned",
+	"compact_free_scanned",
+	"compact_isolated",
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	"compact_stall",
 	"compact_fail",
 	"compact_success",

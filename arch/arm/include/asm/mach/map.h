@@ -9,8 +9,13 @@
  *
  *  Page table mapping constructs and function prototypes
  */
+<<<<<<< HEAD
 #ifndef __ASM_ARM_MACH_MAP_H
 #define __ASM_ARM_MACH_MAP_H
+=======
+#ifndef __ASM_MACH_MAP_H
+#define __ASM_MACH_MAP_H
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #include <asm/io.h>
 

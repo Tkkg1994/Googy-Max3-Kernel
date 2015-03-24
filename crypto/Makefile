@@ -98,3 +98,7 @@ obj-$(CONFIG_CRYPTO_USER_API_SKCIPHER) += algif_skcipher.o
 #
 obj-$(CONFIG_XOR_BLOCKS) += xor.o
 obj-$(CONFIG_ASYNC_CORE) += async_tx/
+<<<<<<< HEAD
+=======
+obj-$(CONFIG_CRYPTO_ABLK_HELPER) += ablk_helper.o
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea

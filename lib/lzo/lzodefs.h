@@ -63,7 +63,10 @@
 #define D_SIZE		(1u << D_BITS)
 #define D_MASK		(D_SIZE - 1)
 #define D_HIGH		((D_MASK >> 1) + 1)
+<<<<<<< HEAD
 
 #define DX2(p, s1, s2)	(((((size_t)((p)[2]) << (s2)) ^ (p)[1]) \
 							<< (s1)) ^ (p)[0])
 #define DX3(p, s1, s2, s3)	((DX2((p)+1, s2, s3) << (s1)) ^ (p)[0])
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea

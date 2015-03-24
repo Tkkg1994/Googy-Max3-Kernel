@@ -1,6 +1,10 @@
 config EXFAT_FS
 	tristate
+<<<<<<< HEAD
 	default y
+=======
+	default n
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	select NLS
 	select NLS_UTF8
 	help

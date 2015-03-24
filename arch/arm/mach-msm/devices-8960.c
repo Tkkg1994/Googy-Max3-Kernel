@@ -125,11 +125,26 @@ static struct resource msm8960_resources_pccntr[] = {
 	},
 };
 
+<<<<<<< HEAD
 struct platform_device msm8960_pc_cntr = {
 	.name		= "pc-cntr",
 	.id		= -1,
 	.num_resources	= ARRAY_SIZE(msm8960_resources_pccntr),
 	.resource	= msm8960_resources_pccntr,
+=======
+static struct msm_pm_init_data_type msm_pm_data = {
+	.retention_calls_tz = true,
+};
+
+struct platform_device msm8960_pm_8x60 = {
+	.name		= "pm-8x60",
+	.id		= -1,
+	.num_resources	= ARRAY_SIZE(msm8960_resources_pccntr),
+	.resource	= msm8960_resources_pccntr,
+	.dev = {
+		.platform_data = &msm_pm_data,
+	},
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 };
 
 static struct msm_pm_sleep_status_data msm_pm_slp_sts_data = {
@@ -1770,6 +1785,32 @@ struct platform_device msm8960_device_dmov = {
 		.platform_data = &msm_dmov_pdata,
 	},
 };
+<<<<<<< HEAD
+=======
+#define MSM_UIO_RMTFS_BASE	0x8FB00000
+#define MSM_UIO_RMTFS_END	(MSM_UIO_RMTFS_BASE + 0x300000)
+
+static struct resource msm_device_uio_rmtfs_rsc[] = {
+	{
+		.name	= "rmtfs",
+		.flags	= IORESOURCE_MEM,
+		.start	= MSM_UIO_RMTFS_BASE,
+		.end	= MSM_UIO_RMTFS_END - 1,
+	},
+};
+
+struct platform_device msm_device_uio_rmtfs = {
+	.name		= "msm_sharedmem",
+	.id		= -1,
+	.num_resources	= ARRAY_SIZE(msm_device_uio_rmtfs_rsc),
+	.resource	= msm_device_uio_rmtfs_rsc,
+};
+
+int __init msm_add_uio()
+{
+	return platform_device_register(&msm_device_uio_rmtfs);
+}
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 static struct platform_device *msm_sdcc_devices[] __initdata = {
 	&msm_device_sdc1,

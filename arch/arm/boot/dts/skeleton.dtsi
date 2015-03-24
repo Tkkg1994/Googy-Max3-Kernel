@@ -9,5 +9,14 @@
 	#size-cells = <1>;
 	chosen { };
 	aliases { };
+<<<<<<< HEAD
 	memory { device_type = "memory"; reg = <0 0>; };
+=======
+	memory {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		device_type = "memory";
+		reg = <0 0>;
+	};
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 };

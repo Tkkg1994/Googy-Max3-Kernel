@@ -440,7 +440,10 @@ static int hci_sock_getname(struct socket *sock, struct sockaddr *addr, int *add
 	*addr_len = sizeof(*haddr);
 	haddr->hci_family = AF_BLUETOOTH;
 	haddr->hci_dev    = hdev->id;
+<<<<<<< HEAD
 	haddr->hci_channel= 0;
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	release_sock(sk);
 	return 0;
@@ -500,6 +503,11 @@ static int hci_sock_recvmsg(struct kiocb *iocb, struct socket *sock,
 	if (!skb)
 		return err;
 
+<<<<<<< HEAD
+=======
+	msg->msg_namelen = 0;
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	copied = skb->len;
 	if (len < copied) {
 		msg->msg_flags |= MSG_TRUNC;
@@ -731,7 +739,10 @@ static int hci_sock_getsockopt(struct socket *sock, int level, int optname, char
 		{
 			struct hci_filter *f = &hci_pi(sk)->filter;
 
+<<<<<<< HEAD
 			memset(&uf, 0, sizeof(uf));
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			uf.type_mask = f->type_mask;
 			uf.opcode    = f->opcode;
 			uf.event_mask[0] = *((u32 *) f->event_mask + 0);

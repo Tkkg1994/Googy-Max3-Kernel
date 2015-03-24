@@ -332,6 +332,7 @@ void scm_detach_fds_compat(struct msghdr *kmsg, struct scm_cookie *scm)
 	__scm_destroy(scm);
 }
 
+<<<<<<< HEAD
 /*
  * A struct sock_filter is architecture independent.
  */
@@ -340,6 +341,8 @@ struct compat_sock_fprog {
 	compat_uptr_t	filter;		/* struct sock_filter * */
 };
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static int do_set_attach_filter(struct socket *sock, int level, int optname,
 				char __user *optval, unsigned int optlen)
 {

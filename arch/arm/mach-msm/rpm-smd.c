@@ -35,8 +35,14 @@
 #include <mach/socinfo.h>
 #include <mach/msm_smd.h>
 #include <mach/rpm-smd.h>
+<<<<<<< HEAD
 #include "rpm-notifier.h"
 
+=======
+#define CREATE_TRACE_POINTS
+#include <mach/trace_rpm_smd.h>
+#include "rpm-notifier.h"
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 /* Debug Definitions */
 
 enum {

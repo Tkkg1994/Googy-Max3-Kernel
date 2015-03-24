@@ -28,7 +28,10 @@ EXPORT_SYMBOL(__cpuc_flush_user_all);
 EXPORT_SYMBOL(__cpuc_flush_user_range);
 EXPORT_SYMBOL(__cpuc_coherent_kern_range);
 EXPORT_SYMBOL(__cpuc_flush_dcache_area);
+<<<<<<< HEAD
 EXPORT_SYMBOL(__cpuc_flush_kern_louis);
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #else
 EXPORT_SYMBOL(cpu_cache);
 #endif

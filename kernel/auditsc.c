@@ -67,6 +67,10 @@
 #include <linux/syscalls.h>
 #include <linux/capability.h>
 #include <linux/fs_struct.h>
+<<<<<<< HEAD
+=======
+#include <linux/compat.h>
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #include "audit.h"
 
@@ -1616,8 +1620,12 @@ static void audit_log_exit(struct audit_context *context, struct task_struct *ts
 	context->personality = tsk->personality;
 
 	if (context->major != 294) /* __NR_setsockopt */
+<<<<<<< HEAD
 	{
 
+=======
+    {	
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	ab = audit_log_start(context, GFP_KERNEL, AUDIT_SYSCALL);
 	if (!ab)
 		return;		/* audit_panic has been called */
@@ -1660,9 +1668,13 @@ static void audit_log_exit(struct audit_context *context, struct task_struct *ts
 	audit_log_task_info(ab, tsk);
 	audit_log_key(ab, context->filterkey);
 	audit_log_end(ab);
+<<<<<<< HEAD
 
 	}
 	
+=======
+    }
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	for (aux = context->aux; aux; aux = aux->next) {
 
 		ab = audit_log_start(context, GFP_KERNEL, aux->type);
@@ -2724,13 +2736,25 @@ void audit_core_dumps(long signr)
 	audit_log_end(ab);
 }
 
+<<<<<<< HEAD
 void __audit_seccomp(unsigned long syscall)
+=======
+void __audit_seccomp(unsigned long syscall, long signr, int code)
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 {
 	struct audit_buffer *ab;
 
 	ab = audit_log_start(NULL, GFP_KERNEL, AUDIT_ANOM_ABEND);
+<<<<<<< HEAD
 	audit_log_abend(ab, "seccomp", SIGKILL);
 	audit_log_format(ab, " syscall=%ld", syscall);
+=======
+	audit_log_abend(ab, "seccomp", signr);
+	audit_log_format(ab, " syscall=%ld", syscall);
+	audit_log_format(ab, " compat=%d", is_compat_task());
+	audit_log_format(ab, " ip=0x%lx", KSTK_EIP(current));
+	audit_log_format(ab, " code=0x%x", code);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	audit_log_end(ab);
 }
 

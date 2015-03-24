@@ -12,6 +12,10 @@
 #include <linux/debug_locks.h>
 #include <linux/delay.h>
 #include <linux/export.h>
+<<<<<<< HEAD
+=======
+#include <linux/bug.h>
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 void __raw_spin_lock_init(raw_spinlock_t *lock, const char *name,
 			  struct lock_class_key *key)
@@ -64,6 +68,10 @@ static void spin_dump(raw_spinlock_t *lock, const char *msg)
 		owner ? owner->comm : "<none>",
 		owner ? task_pid_nr(owner) : -1,
 		lock->owner_cpu);
+<<<<<<< HEAD
+=======
+	BUG_ON(PANIC_CORRUPTION);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	dump_stack();
 }
 
@@ -106,19 +114,28 @@ static inline void debug_spin_unlock(raw_spinlock_t *lock)
 static void __spin_lock_debug(raw_spinlock_t *lock)
 {
 	u64 i;
+<<<<<<< HEAD
 	u64 loops = (loops_per_jiffy * HZ) >> 4;
+=======
+	u64 loops = (loops_per_jiffy * HZ);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	for (i = 0; i < loops; i++) {
 		if (arch_spin_trylock(&lock->raw_lock))
 			return;
 		__delay(1);
 	}
+<<<<<<< HEAD
 	/* lockup suspected */
+=======
+	/* lockup suspected: */
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	spin_dump(lock, "lockup");
 #ifdef CONFIG_SMP
 	trigger_all_cpu_backtrace();
 #endif
 
+<<<<<<< HEAD
        /*
         * The trylock above was causing a livelock.  Give the lower level arch
         * specific lock code a chance to acquire the lock. We have already
@@ -128,6 +145,17 @@ static void __spin_lock_debug(raw_spinlock_t *lock)
         * progress.
         */
        arch_spin_lock(&lock->raw_lock);
+=======
+	/*
+	 * The trylock above was causing a livelock.  Give the lower level arch
+	 * specific lock code a chance to acquire the lock. We have already
+	 * printed a warning/backtrace at this point. The non-debug arch
+	 * specific code might actually succeed in acquiring the lock.  If it is
+	 * not successful, the end-result is the same - there is no forward
+	 * progress.
+	 */
+	arch_spin_lock(&lock->raw_lock);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 void do_raw_spin_lock(raw_spinlock_t *lock)

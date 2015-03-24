@@ -3210,8 +3210,13 @@ void btrfs_btree_balance_dirty(struct btrfs_root *root, unsigned long nr)
 	num_dirty = root->fs_info->dirty_metadata_bytes;
 
 	if (num_dirty > thresh) {
+<<<<<<< HEAD
 		balance_dirty_pages_ratelimited(
 				   root->fs_info->btree_inode->i_mapping);
+=======
+		balance_dirty_pages_ratelimited_nr(
+				   root->fs_info->btree_inode->i_mapping, 1);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 	return;
 }
@@ -3231,8 +3236,13 @@ void __btrfs_btree_balance_dirty(struct btrfs_root *root, unsigned long nr)
 	num_dirty = root->fs_info->dirty_metadata_bytes;
 
 	if (num_dirty > thresh) {
+<<<<<<< HEAD
 		balance_dirty_pages_ratelimited(
 				   root->fs_info->btree_inode->i_mapping);
+=======
+		balance_dirty_pages_ratelimited_nr(
+				   root->fs_info->btree_inode->i_mapping, 1);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 	return;
 }

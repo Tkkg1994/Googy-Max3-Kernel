@@ -506,7 +506,11 @@ inline static void MUTEX_UNLOCK_SOFTAP_SET(dhd_pub_t * dhdp)
 #define DHD_OS_WAKE_LOCK_CTRL_TIMEOUT_ENABLE(pub, val) \
 	dhd_os_wake_lock_ctrl_timeout_enable(pub, val)
 #endif /* DHD_DEBUG_WAKE_LOCK */
+<<<<<<< HEAD
 #define DHD_PACKET_TIMEOUT_MS	500
+=======
+#define DHD_PACKET_TIMEOUT_MS	1000
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #define DHD_EVENT_TIMEOUT_MS	1500
 
 
@@ -1077,6 +1081,10 @@ concate_revision(struct dhd_bus *bus, char *fwpath, int fw_path_len, char *nvpat
 extern int wifi_get_fw_nv_path(char *fw, char *nv);
 #endif
 #endif /* SUPPORT_MULTIPLE_REVISION */
+<<<<<<< HEAD
+=======
+void dhd_bus_update_fw_nv_path(struct dhd_bus *bus, char *pfw_path, char *pnv_path);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 void dhd_set_bus_state(void *bus, uint32 state);
 
 /* Remove proper pkts(either one no-frag pkt or whole fragmented pkts) */

@@ -644,10 +644,13 @@ static int __init ssr_init_soc_restart_orders(void)
 		mutex_init(&restart_orders[i]->shutdown_lock);
 	}
 
+<<<<<<< HEAD
 	if (restart_orders == NULL || n_restart_orders < 1) {
 		WARN_ON(1);
 	}
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return 0;
 }
 

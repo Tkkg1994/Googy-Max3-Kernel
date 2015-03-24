@@ -36,6 +36,15 @@
 # include <asm/mutex.h>
 #endif
 
+<<<<<<< HEAD
+=======
+/*
+ * A negative mutex count indicates that waiters are sleeping waiting for the
+ * mutex.
+ */
+#define	MUTEX_SHOW_NO_WAITER(mutex)	(atomic_read(&(mutex)->count) >= 0)
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 void
 __mutex_init(struct mutex *lock, const char *name, struct lock_class_key *key)
 {
@@ -43,6 +52,12 @@ __mutex_init(struct mutex *lock, const char *name, struct lock_class_key *key)
 	spin_lock_init(&lock->wait_lock);
 	INIT_LIST_HEAD(&lock->wait_list);
 	mutex_clear_owner(lock);
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_MUTEX_SPIN_ON_OWNER
+	lock->spin_mlock = NULL;
+#endif
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	debug_mutex_init(lock, name, key);
 }
@@ -94,6 +109,68 @@ void __sched mutex_lock(struct mutex *lock)
 EXPORT_SYMBOL(mutex_lock);
 #endif
 
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_MUTEX_SPIN_ON_OWNER
+/*
+ * In order to avoid a stampede of mutex spinners from acquiring the mutex
+ * more or less simultaneously, the spinners need to acquire a MCS lock
+ * first before spinning on the owner field.
+ *
+ * We don't inline mspin_lock() so that perf can correctly account for the
+ * time spent in this lock function.
+ */
+typedef struct mspin_node {
+	struct mspin_node *next;
+	int		   locked;	/* 1 if lock acquired */
+} mspin_node_t;
+
+typedef mspin_node_t	*mspin_lock_t;
+
+#define	MLOCK(mutex)	((mspin_lock_t *)&((mutex)->spin_mlock))
+
+static noinline void mspin_lock(mspin_lock_t *lock,  mspin_node_t *node)
+{
+	mspin_node_t *prev;
+
+	/* Init node */
+	node->locked = 0;
+	node->next   = NULL;
+
+	prev = xchg(lock, node);
+	if (likely(prev == NULL)) {
+		/* Lock acquired */
+		node->locked = 1;
+		return;
+	}
+	ACCESS_ONCE(prev->next) = node;
+	smp_wmb();
+	/* Wait until the lock holder passes the lock down */
+	while (!ACCESS_ONCE(node->locked))
+		arch_mutex_cpu_relax();
+}
+
+static void mspin_unlock(mspin_lock_t *lock,  mspin_node_t *node)
+{
+	mspin_node_t *next = ACCESS_ONCE(node->next);
+
+	if (likely(!next)) {
+		/*
+		 * Release the lock by setting it to NULL
+		 */
+		if (cmpxchg(lock, node, NULL) == node)
+			return;
+		/* Wait until the next pointer is set */
+		while (!(next = ACCESS_ONCE(node->next)))
+			arch_mutex_cpu_relax();
+	}
+	barrier();
+	ACCESS_ONCE(next->locked) = 1;
+	smp_wmb();
+}
+#endif
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static __used noinline void __sched __mutex_unlock_slowpath(atomic_t *lock_count);
 
 /**
@@ -157,15 +234,31 @@ __mutex_lock_common(struct mutex *lock, long state, unsigned int subclass,
 	 *
 	 * We can't do this for DEBUG_MUTEXES because that relies on wait_lock
 	 * to serialize everything.
+<<<<<<< HEAD
 	 */
 
 	for (;;) {
 		struct task_struct *owner;
+=======
+	 *
+	 * The mutex spinners are queued up using MCS lock so that only one
+	 * spinner can compete for the mutex. However, if mutex spinning isn't
+	 * going to happen, there is no point in going through the lock/unlock
+	 * overhead.
+	 */
+	if (!mutex_can_spin_on_owner(lock))
+		goto slowpath;
+
+	for (;;) {
+		struct task_struct *owner;
+		mspin_node_t	    node;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 		/*
 		 * If there's an owner, wait for it to either
 		 * release the lock or go to sleep.
 		 */
+<<<<<<< HEAD
 		owner = ACCESS_ONCE(lock->owner);
 		if (owner && !mutex_spin_on_owner(lock, owner))
 			break;
@@ -176,6 +269,24 @@ __mutex_lock_common(struct mutex *lock, long state, unsigned int subclass,
 			preempt_enable();
 			return 0;
 		}
+=======
+		mspin_lock(MLOCK(lock), &node);
+		owner = ACCESS_ONCE(lock->owner);
+		if (owner && !mutex_spin_on_owner(lock, owner)) {
+			mspin_unlock(MLOCK(lock), &node);
+			break;
+		}
+
+		if ((atomic_read(&lock->count) == 1) &&
+		    (atomic_cmpxchg(&lock->count, 1, 0) == 1)) {
+			lock_acquired(&lock->dep_map, ip);
+			mutex_set_owner(lock);
+			mspin_unlock(MLOCK(lock), &node);
+			preempt_enable();
+			return 0;
+		}
+		mspin_unlock(MLOCK(lock), &node);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 		/*
 		 * When there's no owner, we might have preempted between the
@@ -194,6 +305,10 @@ __mutex_lock_common(struct mutex *lock, long state, unsigned int subclass,
 		 */
 		arch_mutex_cpu_relax();
 	}
+<<<<<<< HEAD
+=======
+slowpath:
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif
 	spin_lock_mutex(&lock->wait_lock, flags);
 
@@ -204,7 +319,11 @@ __mutex_lock_common(struct mutex *lock, long state, unsigned int subclass,
 	list_add_tail(&waiter.list, &lock->wait_list);
 	waiter.task = task;
 
+<<<<<<< HEAD
 	if (atomic_xchg(&lock->count, -1) == 1)
+=======
+	if (MUTEX_SHOW_NO_WAITER(lock) && (atomic_xchg(&lock->count, -1) == 1))
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		goto done;
 
 	lock_contended(&lock->dep_map, ip);
@@ -219,7 +338,12 @@ __mutex_lock_common(struct mutex *lock, long state, unsigned int subclass,
 		 * that when we release the lock, we properly wake up the
 		 * other waiters:
 		 */
+<<<<<<< HEAD
 		if (atomic_xchg(&lock->count, -1) == 1)
+=======
+		if (MUTEX_SHOW_NO_WAITER(lock) &&
+		   (atomic_xchg(&lock->count, -1) == 1))
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			break;
 
 		/*

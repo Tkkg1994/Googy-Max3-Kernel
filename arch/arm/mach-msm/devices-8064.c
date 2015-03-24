@@ -49,6 +49,10 @@
 #include <mach/mpm.h>
 #include <mach/iommu_domains.h>
 #include <mach/msm_cache_dump.h>
+<<<<<<< HEAD
+=======
+#include "pm.h"
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /* Address of GSBI blocks */
 #define MSM_GSBI1_PHYS		0x12440000
@@ -131,11 +135,32 @@ static struct resource msm8064_resources_pccntr[] = {
 	},
 };
 
+<<<<<<< HEAD
 struct platform_device msm8064_pc_cntr = {
 	.name		= "pc-cntr",
 	.id		= -1,
 	.num_resources	= ARRAY_SIZE(msm8064_resources_pccntr),
 	.resource	= msm8064_resources_pccntr,
+=======
+static uint32_t msm_pm_cp15_regs[] = {0x4501, 0x5501, 0x6501, 0x7501, 0x0500};
+
+static struct msm_pm_init_data_type msm_pm_data = {
+	.retention_calls_tz = true,
+	.cp15_data.save_cp15 = true,
+	.cp15_data.qsb_pc_vdd = 0x98,
+	.cp15_data.reg_data = &msm_pm_cp15_regs[0],
+	.cp15_data.reg_saved_state_size = ARRAY_SIZE(msm_pm_cp15_regs),
+};
+
+struct platform_device msm8064_pm_8x60 = {
+	.name		= "pm-8x60",
+	.id		= -1,
+	.num_resources	= ARRAY_SIZE(msm8064_resources_pccntr),
+	.resource	= msm8064_resources_pccntr,
+	.dev = {
+		.platform_data = &msm_pm_data,
+	},
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 };
 
 static struct msm_pm_sleep_status_data msm_pm_slp_sts_data = {
@@ -570,7 +595,11 @@ static struct resource resources_qup_spi_gsbi4[] = {
 		.start = 7,
 		.end   = 8,
 		.flags = IORESOURCE_DMA,
+<<<<<<< HEAD
 	},	
+=======
+	},
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 };
 struct platform_device apq8064_device_qup_spi_gsbi4 = {
 	.name	= "spi_qsd",
@@ -2060,6 +2089,33 @@ int __init apq8064_add_sdcc(unsigned int controller,
 	return platform_device_register(pdev);
 }
 
+<<<<<<< HEAD
+=======
+#define MSM_UIO_RMTFS_BASE	0x8FF00000
+#define MSM_UIO_RMTFS_END	(MSM_UIO_RMTFS_BASE + 0x40000)
+
+static struct resource msm_device_uio_rmtfs_rsc[] = {
+	{
+		.name	= "rmtfs",
+		.flags	= IORESOURCE_MEM,
+		.start	= MSM_UIO_RMTFS_BASE,
+		.end	= MSM_UIO_RMTFS_END - 1,
+	},
+};
+
+struct platform_device apq8064_device_uio_rmtfs = {
+	.name		= "msm_sharedmem",
+	.id		= -1,
+	.num_resources	= ARRAY_SIZE(msm_device_uio_rmtfs_rsc),
+	.resource	= msm_device_uio_rmtfs_rsc,
+};
+
+int __init apq8064_add_uio()
+{
+	return platform_device_register(&apq8064_device_uio_rmtfs);
+}
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static struct resource resources_sps[] = {
 	{
 		.name	= "pipe_mem",
@@ -2345,11 +2401,19 @@ struct platform_device msm_gss = {
 
 static struct fs_driver_data gfx3d_fs_data = {
 	.clks = (struct fs_clk_data[]){
+<<<<<<< HEAD
 		{ .name = "core_clk", .reset_rate = 27000000 },
+=======
+		{ .name = "core_clk", .reset_rate = 1800000 },
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		{ .name = "iface_clk" },
 		{ .name = "bus_clk" },
 		{ 0 }
 	},
+<<<<<<< HEAD
+=======
+	.reset_delay_us = 10,
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	.bus_port0 = MSM_BUS_MASTER_GRAPHICS_3D,
 	.bus_port1 = MSM_BUS_MASTER_GRAPHICS_3D_PORT1,
 };
@@ -2438,7 +2502,11 @@ struct platform_device *apq8064_footswitch[] __initdata = {
 	FS_8X60(FS_IJPEG,  "vdd",	"msm_gemini.0",	&ijpeg_fs_data),
 	FS_8X60(FS_VFE,    "vdd",	"msm_vfe.0",	&vfe_fs_data),
 	FS_8X60(FS_VPE,    "vdd",	"msm_vpe.0",	&vpe_fs_data),
+<<<<<<< HEAD
 	FS_8X60(FS_GFX3D,  "vdd",	"kgsl-3d0.0",	&gfx3d_fs_data),
+=======
+	FS_8X60(FS_GFX3D_8064, "vdd",	"kgsl-3d0.0",	&gfx3d_fs_data),
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	FS_8X60(FS_VED,    "vdd",	"msm_vidc.0",	&ved_fs_data),
 	FS_8X60(FS_VCAP,   "vdd",	"msm_vcap.0",	&vcap_fs_data),
 };

@@ -13,12 +13,16 @@
 #include <linux/linkage.h>
 #include <linux/init.h>
 #include <asm/assembler.h>
+<<<<<<< HEAD
 #include <asm/errno.h>
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <asm/unwind.h>
 
 #include "proc-macros.S"
 
 /*
+<<<<<<< HEAD
  * The secondary kernel init calls v7_flush_dcache_all before it enables
  * the L1; however, the L1 comes out of reset in an undefined state, so
  * the clean + invalidate performed by v7_flush_dcache_all causes a bunch
@@ -65,6 +69,8 @@ ENTRY(v7_invalidate_l1)
 ENDPROC(v7_invalidate_l1)
 
 /*
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  *	v7_flush_icache_all()
  *
  *	Flush the whole I-cache.
@@ -76,7 +82,11 @@ ENTRY(v7_flush_icache_all)
 	mov	r0, #0
 	ALT_SMP(mcr	p15, 0, r0, c7, c1, 0)		@ invalidate I-cache inner shareable
 	ALT_UP(mcr	p15, 0, r0, c7, c5, 0)		@ I+BTB cache invalidate
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(v7_flush_icache_all)
 
  /*
@@ -90,6 +100,7 @@ ENDPROC(v7_flush_icache_all)
 ENTRY(v7_flush_dcache_louis)
 	dmb					@ ensure ordering with previous memory accesses
 	mrc	p15, 1, r0, c0, c0, 1		@ read clidr, r0 = clidr
+<<<<<<< HEAD
 	ALT_SMP(ands	r3, r0, #(7 << 21))	@ extract LoUIS from clidr
 	ALT_UP(ands	r3, r0, #(7 << 27))	@ extract LoUU from clidr
 	ALT_SMP(mrceq	p15, 0, r2, c0, c0, 0)	@ read main ID register
@@ -101,6 +112,11 @@ ENTRY(v7_flush_dcache_louis)
 	ALT_SMP(mov	r3, r3, lsr #20)	@ r3 = LoUIS * 2
 	ALT_UP(mov	r3, r3, lsr #26)	@ r3 = LoUU * 2
 	reteq	lr				@ return if level == 0
+=======
+	ands	r3, r0, #0xe00000		@ extract LoUIS from clidr
+	mov	r3, r3, lsr #20			@ r3 = LoUIS * 2
+	moveq	pc, lr				@ return if level == 0
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	mov	r10, #0				@ r10 (starting level) = 0
 	b	flush_levels			@ start flushing cache levels
 ENDPROC(v7_flush_dcache_louis)
@@ -144,6 +160,7 @@ flush_levels:
 	ldr	r7, =0x7fff
 	ands	r7, r7, r1, lsr #13		@ extract max number of the index size
 loop1:
+<<<<<<< HEAD
 	mov	r9, r7				@ create working copy of max index
 loop2:
  ARM(	orr	r11, r10, r4, lsl r5	)	@ factor way and cache number into r11
@@ -156,6 +173,20 @@ loop2:
 	subs	r9, r9, #1			@ decrement the index
 	bge	loop2
 	subs	r4, r4, #1			@ decrement the way
+=======
+	mov	r9, r4				@ create working copy of max way size
+loop2:
+ ARM(	orr	r11, r10, r9, lsl r5	)	@ factor way and cache number into r11
+ THUMB(	lsl	r6, r9, r5		)
+ THUMB(	orr	r11, r10, r6		)	@ factor way and cache number into r11
+ ARM(	orr	r11, r11, r7, lsl r2	)	@ factor index number into r11
+ THUMB(	lsl	r6, r7, r2		)
+ THUMB(	orr	r11, r11, r6		)	@ factor index number into r11
+	mcr	p15, 0, r11, c7, c14, 2		@ clean & invalidate by set/way
+	subs	r9, r9, #1			@ decrement the way
+	bge	loop2
+	subs	r7, r7, #1			@ decrement the index
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	bge	loop1
 skip:
 	add	r10, r10, #2			@ increment cache number
@@ -164,9 +195,15 @@ skip:
 finished:
 	mov	r10, #0				@ swith back to cache level 0
 	mcr	p15, 2, r10, c0, c0, 0		@ select current cache level in cssr
+<<<<<<< HEAD
 	dsb	st
 	isb
 	ret	lr
+=======
+	dsb
+	isb
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(v7_flush_dcache_all)
 
 /*
@@ -189,7 +226,11 @@ ENTRY(v7_flush_kern_cache_all)
 	ALT_UP(mcr	p15, 0, r0, c7, c5, 0)	@ I+BTB cache invalidate
  ARM(	ldmfd	sp!, {r4-r5, r7, r9-r11, lr}	)
  THUMB(	ldmfd	sp!, {r4-r7, r9-r11, lr}	)
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(v7_flush_kern_cache_all)
 
  /*
@@ -207,7 +248,11 @@ ENTRY(v7_flush_kern_cache_louis)
 	ALT_UP(mcr	p15, 0, r0, c7, c5, 0)	@ I+BTB cache invalidate
  ARM(	ldmfd	sp!, {r4-r5, r7, r9-r11, lr}	)
  THUMB(	ldmfd	sp!, {r4-r7, r9-r11, lr}	)
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(v7_flush_kern_cache_louis)
 
 /*
@@ -233,7 +278,11 @@ ENTRY(v7_flush_user_cache_all)
  *	- we have a VIPT cache.
  */
 ENTRY(v7_flush_user_cache_range)
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(v7_flush_user_cache_all)
 ENDPROC(v7_flush_user_cache_range)
 
@@ -280,7 +329,11 @@ ENTRY(v7_coherent_user_range)
 	add	r12, r12, r2
 	cmp	r12, r1
 	blo	1b
+<<<<<<< HEAD
 	dsb	ishst
+=======
+	dsb
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	icache_line_size r2, r3
 	sub	r3, r2, #1
 	bic	r12, r0, r3
@@ -289,6 +342,7 @@ ENTRY(v7_coherent_user_range)
 	add	r12, r12, r2
 	cmp	r12, r1
 	blo	2b
+<<<<<<< HEAD
 	mov	r0, #0
 	ALT_SMP(mcr	p15, 0, r0, c7, c1, 6)	@ invalidate BTB Inner Shareable
 	ALT_UP(mcr	p15, 0, r0, c7, c5, 6)	@ invalidate BTB
@@ -299,13 +353,33 @@ ENTRY(v7_coherent_user_range)
 /*
  * Fault handling for the cache operation above. If the virtual address in r0
  * isn't mapped, fail with -EFAULT.
+=======
+3:
+	mov	r0, #0
+	ALT_SMP(mcr	p15, 0, r0, c7, c1, 6)	@ invalidate BTB Inner Shareable
+	ALT_UP(mcr	p15, 0, r0, c7, c5, 6)	@ invalidate BTB
+	dsb
+	isb
+	mov	pc, lr
+
+/*
+ * Fault handling for the cache operation above. If the virtual address in r0
+ * isn't mapped, just try the next page.
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  */
 9001:
 #ifdef CONFIG_ARM_ERRATA_775420
 	dsb
 #endif
+<<<<<<< HEAD
 	mov	r0, #-EFAULT
 	ret	lr
+=======
+	mov	r12, r12, lsr #12
+	mov	r12, r12, lsl #12
+	add	r12, r12, #4096
+	b	3b
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  UNWIND(.fnend		)
 ENDPROC(v7_coherent_kern_range)
 ENDPROC(v7_coherent_user_range)
@@ -333,8 +407,13 @@ ENTRY(v7_flush_kern_dcache_area)
 	add	r0, r0, r2
 	cmp	r0, r1
 	blo	1b
+<<<<<<< HEAD
 	dsb	st
 	ret	lr
+=======
+	dsb
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(v7_flush_kern_dcache_area)
 
 /*
@@ -366,8 +445,13 @@ v7_dma_inv_range:
 	add	r0, r0, r2
 	cmp	r0, r1
 	blo	1b
+<<<<<<< HEAD
 	dsb	st
 	ret	lr
+=======
+	dsb
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(v7_dma_inv_range)
 
 /*
@@ -388,8 +472,13 @@ v7_dma_clean_range:
 	add	r0, r0, r2
 	cmp	r0, r1
 	blo	1b
+<<<<<<< HEAD
 	dsb	st
 	ret	lr
+=======
+	dsb
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(v7_dma_clean_range)
 
 /*
@@ -410,8 +499,13 @@ ENTRY(v7_dma_flush_range)
 	add	r0, r0, r2
 	cmp	r0, r1
 	blo	1b
+<<<<<<< HEAD
 	dsb	st
 	ret	lr
+=======
+	dsb
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(v7_dma_flush_range)
 
 /*
@@ -437,7 +531,11 @@ ENTRY(v7_dma_unmap_area)
 	add	r1, r1, r0
 	teq	r2, #DMA_TO_DEVICE
 	bne	v7_dma_inv_range
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(v7_dma_unmap_area)
 
 	__INITDATA

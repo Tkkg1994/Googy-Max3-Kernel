@@ -577,8 +577,12 @@ struct crypto_template *crypto_lookup_template(const char *name)
 		return ERR_PTR(-EACCES);
 	}
 #endif
+<<<<<<< HEAD
 	return try_then_request_module(__crypto_lookup_template(name), "%s",
 				       name);
+=======
+	return try_then_request_module(__crypto_lookup_template(name), name);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 EXPORT_SYMBOL_GPL(crypto_lookup_template);
 

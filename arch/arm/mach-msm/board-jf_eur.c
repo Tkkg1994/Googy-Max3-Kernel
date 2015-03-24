@@ -214,10 +214,13 @@ static void sensor_power_on_vdd(int, int);
 #define PCIE_PWR_EN_PMIC_GPIO 13
 #define PCIE_RST_N_PMIC_MPP 1
 
+<<<<<<< HEAD
 #ifdef CONFIG_CPU_FREQ_GOV_INTELLIDEMAND  
 int id_set_two_phase_freq(int cpufreq); 
 #endif 
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static int sec_tsp_synaptics_mode;
 static int lcd_tsp_panel_version;
 
@@ -995,8 +998,28 @@ static void __init reserve_ion_memory(void)
 }
 
 #ifdef CONFIG_ANDROID_RAM_CONSOLE
+<<<<<<< HEAD
 static struct ram_console_platform_data ram_console_pdata = {
 	.bootinfo = NULL,
+=======
+static char bootreason[128] = {0,};
+int __init device_boot_reason(char *s)
+{
+	int n;
+
+	if (*s == '=')
+		s++;
+	n = snprintf(bootreason, sizeof(bootreason),
+		 "Boot info:\n"
+		 "Last boot reason: %s\n", s);
+	bootreason[n] = '\0';
+	return 1;
+}
+__setup("bootreason", device_boot_reason);
+
+static struct ram_console_platform_data ram_console_pdata = {
+	.bootinfo = bootreason,
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 };
 
 static struct platform_device ram_console_device = {
@@ -3250,16 +3273,21 @@ static struct platform_device msm_tsens_device = {
 static struct msm_thermal_data msm_thermal_pdata = {
 	.sensor_id = 7,
 	.poll_ms = 250,
+<<<<<<< HEAD
 #ifdef CONFIG_CPU_OVERCLOCK
 	.limit_temp_degC = 80,
 #else
 	.limit_temp_degC = 60,
 #endif
+=======
+	.limit_temp_degC = 70,
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	.temp_hysteresis_degC = 10,
 	.freq_step = 2,
 	.core_limit_temp_degC = 80,
 	.core_temp_hysteresis_degC = 10,
 	.core_control_mask = 0xe,
+<<<<<<< HEAD
 #ifdef CONFIG_MAKO_THERMAL
 	.allowed_max_high = 84,
 	.allowed_max_low = 80,
@@ -3271,6 +3299,8 @@ static struct msm_thermal_data msm_thermal_pdata = {
 	.allowed_low_low = 73,
 	.allowed_low_freq = 1350000,
 #endif
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 };
 
 #define MSM_SHARED_RAM_PHYS 0x80000000
@@ -4170,7 +4200,10 @@ static struct platform_device *cdp_devices[] __initdata = {
 #ifdef CONFIG_MSM_ROTATOR
 	&msm_rotator_device,
 #endif
+<<<<<<< HEAD
 	&msm8064_pc_cntr,
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	&msm8064_cpu_slp_status,
 	&sec_device_jack,
 #ifdef CONFIG_SENSORS_SSP_C12SD
@@ -5060,6 +5093,10 @@ static void __init register_i2c_devices(void)
 		apq8064_camera_board_info.board_info,
 		apq8064_camera_board_info.num_i2c_board_info,
 	};
+<<<<<<< HEAD
+=======
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	struct i2c_registry apq8064_front_camera_i2c_devices = {
 		I2C_SURF | I2C_FFA | I2C_LIQUID | I2C_RUMI,
 		APQ_8064_GSBI7_QUP_I2C_BUS_ID,
@@ -5292,6 +5329,10 @@ static void __init apq8064ab_update_retention_spm(void)
 static void __init apq8064_common_init(void)
 {
 	u32 platform_version = socinfo_get_platform_version();
+<<<<<<< HEAD
+=======
+	struct msm_rpmrs_level rpmrs_level;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #ifdef CONFIG_KEYBOARD_CYPRESS_TOUCH_236
 	int ret;
@@ -5305,11 +5346,20 @@ static void __init apq8064_common_init(void)
 	if (cpu_is_apq8064ab())
 		apq8064ab_update_krait_spm();
 	if (cpu_is_krait_v3()) {
+<<<<<<< HEAD
 		msm_pm_set_tz_retention_flag(0);
 		apq8064ab_update_retention_spm();
 	} else {
 		msm_pm_set_tz_retention_flag(1);
 	}
+=======
+		struct msm_pm_init_data_type *pdata =
+				msm8064_pm_8x60.dev.platform_data;
+		pdata->retention_calls_tz = false;
+		apq8064ab_update_retention_spm();
+	}
+	platform_device_register(&msm8064_pm_8x60);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	msm_spm_init(msm_spm_data, ARRAY_SIZE(msm_spm_data));
 	msm_spm_l2_init(msm_spm_l2_data);
 	msm_tsens_early_init(&apq_tsens_pdata);
@@ -5376,8 +5426,18 @@ static void __init apq8064_common_init(void)
 			platform_device_register(&touchkey_i2c_gpio_device_2);
 #endif
 
+<<<<<<< HEAD
 	msm_hsic_pdata.swfi_latency =
 		msm_rpmrs_levels[0].latency_us;
+=======
+	rpmrs_level =
+		msm_rpmrs_levels[MSM_PM_SLEEP_MODE_WAIT_FOR_INTERRUPT];
+	msm_hsic_pdata.swfi_latency = rpmrs_level.latency_us;
+	rpmrs_level =
+		msm_rpmrs_levels[MSM_PM_SLEEP_MODE_POWER_COLLAPSE_STANDALONE];
+	msm_hsic_pdata.standalone_latency = rpmrs_level.latency_us;
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (machine_is_apq8064_mtp() || machine_is_JF()) {
 		msm_hsic_pdata.log2_irq_thresh = 5,
 		apq8064_device_hsic_host.dev.platform_data = &msm_hsic_pdata;
@@ -5568,9 +5628,12 @@ static void __init samsung_jf_init(void)
 	sensor_power_on_vdd(SNS_PWR_ON, SNS_PWR_ON);
 	initialize_ssp_gpio();
 #endif
+<<<<<<< HEAD
 #ifdef CONFIG_CPU_FREQ_GOV_INTELLIDEMAND
 	id_set_two_phase_freq(1566000);
 #endif
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #ifdef CONFIG_MACH_JF
 	platform_device_register(&gpio_kp_pdev);
 #else

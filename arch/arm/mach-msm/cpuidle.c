@@ -71,6 +71,7 @@ static int msm_cpuidle_enter(
 	struct cpuidle_device *dev, struct cpuidle_driver *drv, int index)
 {
 	int ret = 0;
+<<<<<<< HEAD
 	int i = 0;
 	enum msm_pm_sleep_mode pm_mode;
 	struct cpuidle_state_usage *st_usage = NULL;
@@ -81,18 +82,38 @@ static int msm_cpuidle_enter(
 		st_usage = &dev->states_usage[i];
 		if ((enum msm_pm_sleep_mode) cpuidle_get_statedata(st_usage)
 		    == pm_mode) {
+=======
+	int i;
+	enum msm_pm_sleep_mode pm_mode;
+
+	pm_mode = msm_pm_idle_enter(dev, drv, index);
+
+	for (i = 0; i < dev->state_count; i++) {
+		struct cpuidle_state_usage *st_usage = &dev->states_usage[i];
+		enum msm_pm_sleep_mode last_mode =
+			(enum msm_pm_sleep_mode)cpuidle_get_statedata(st_usage);
+
+		if (last_mode == pm_mode) {
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			ret = i;
 			break;
 		}
 	}
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	local_irq_enable();
 
 	return ret;
 }
 
+<<<<<<< HEAD
 static void __init msm_cpuidle_set_states(void)
+=======
+static void __devinit msm_cpuidle_set_states(void)
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 {
 	int i = 0;
 	int state_count = 0;
@@ -112,8 +133,13 @@ static void __init msm_cpuidle_set_states(void)
 			continue;
 
 		state = &msm_cpuidle_driver.states[state_count];
+<<<<<<< HEAD
 		snprintf(state->name, CPUIDLE_NAME_LEN, cstate->name);
 		snprintf(state->desc, CPUIDLE_DESC_LEN, cstate->desc);
+=======
+		snprintf(state->name, CPUIDLE_NAME_LEN, "%s", cstate->name);
+		snprintf(state->desc, CPUIDLE_DESC_LEN, "%s", cstate->desc);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		state->flags = 0;
 		state->exit_latency = 0;
 		state->power_usage = 0;
@@ -127,7 +153,11 @@ static void __init msm_cpuidle_set_states(void)
 	msm_cpuidle_driver.safe_state_index = 0;
 }
 
+<<<<<<< HEAD
 static void __init msm_cpuidle_set_cpu_statedata(struct cpuidle_device *dev)
+=======
+static void __devinit msm_cpuidle_set_cpu_statedata(struct cpuidle_device *dev)
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 {
 	int i = 0;
 	int state_count = 0;
@@ -148,7 +178,11 @@ static void __init msm_cpuidle_set_cpu_statedata(struct cpuidle_device *dev)
 	dev->state_count = state_count; /* Per cpu state count */
 }
 
+<<<<<<< HEAD
 int __init msm_cpuidle_init(void)
+=======
+int __devinit msm_cpuidle_init(void)
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 {
 	unsigned int cpu = 0;
 	int ret = 0;

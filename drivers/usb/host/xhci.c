@@ -393,6 +393,13 @@ static inline void xhci_cleanup_msix(struct xhci_hcd *xhci)
 {
 }
 
+<<<<<<< HEAD
+=======
+static inline void xhci_msix_sync_irqs(struct xhci_hcd *xhci)
+{
+}
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif /* CONFIG_PCI */
 
 static void compliance_mode_recovery(unsigned long arg)
@@ -800,7 +807,11 @@ static void xhci_msix_sync_irqs(struct xhci_hcd *xhci)
 	}
 }
 #else
+<<<<<<< HEAD
 static inline void xhci_msix_sync_irqs(struct xhci_hcd *xhci)
+=======
+static void xhci_msix_sync_irqs(struct xhci_hcd *xhci)
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 {
 }
 #endif /* CONFIG_PCI */

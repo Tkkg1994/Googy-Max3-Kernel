@@ -362,7 +362,10 @@ static int __cpuinit msm_mpd_do_hotplug(void *data)
 	int cpu;
 
 	while (1) {
+<<<<<<< HEAD
 		msm_dcvs_update_algo_params();
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		wait_event(msm_mpd.wait_hpq, *event || kthread_should_stop());
 		if (kthread_should_stop())
 			break;
@@ -395,6 +398,10 @@ restart:
 				}
 		msm_mpd.hpupdate = HPUPDATE_WAITING;
 		msm_dcvs_apply_gpu_floor(0);
+<<<<<<< HEAD
+=======
+		msm_dcvs_update_algo_params();
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 
 	return 0;

@@ -171,7 +171,11 @@ ENTRY(printascii)
 		ldrneb	r1, [r0], #1
 		teqne	r1, #0
 		bne	1b
+<<<<<<< HEAD
 		ret	lr
+=======
+		mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(printascii)
 
 ENTRY(printch)
@@ -188,7 +192,11 @@ ENTRY(printascii)
 		mov	r0, #0x04		@ SYS_WRITE0
 	ARM(	svc	#0x123456	)
 	THUMB(	svc	#0xab		)
+<<<<<<< HEAD
 		ret	lr
+=======
+		mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(printascii)
 
 ENTRY(printch)
@@ -197,7 +205,11 @@ ENTRY(printch)
 		mov	r0, #0x03		@ SYS_WRITEC
 	ARM(	svc	#0x123456	)
 	THUMB(	svc	#0xab		)
+<<<<<<< HEAD
 		ret	lr
+=======
+		mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(printch)
 
 #endif

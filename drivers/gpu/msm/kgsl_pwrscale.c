@@ -51,7 +51,10 @@ static struct kgsl_pwrscale_policy *kgsl_pwrscale_policies[] = {
 #ifdef CONFIG_MSM_DCVS
 	&kgsl_pwrscale_policy_msm,
 #endif
+<<<<<<< HEAD
 	&kgsl_pwrscale_policy_conservative,
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	NULL
 };
 
@@ -270,9 +273,12 @@ int kgsl_pwrscale_policy_add_files(struct kgsl_device *device,
 {
 	int ret;
 
+<<<<<<< HEAD
 	kobject_del(&pwrscale->kobj);
 	kobject_put(&pwrscale->kobj);
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	ret = kobject_add(&pwrscale->kobj, &device->pwrscale_kobj,
 		"%s", pwrscale->policy->name);
 
@@ -281,6 +287,14 @@ int kgsl_pwrscale_policy_add_files(struct kgsl_device *device,
 
 	ret = sysfs_create_group(&pwrscale->kobj, attr_group);
 
+<<<<<<< HEAD
+=======
+	if (ret) {
+		kobject_del(&pwrscale->kobj);
+		kobject_put(&pwrscale->kobj);
+	}
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return ret;
 }
 
@@ -289,6 +303,11 @@ void kgsl_pwrscale_policy_remove_files(struct kgsl_device *device,
 				       struct attribute_group *attr_group)
 {
 	sysfs_remove_group(&pwrscale->kobj, attr_group);
+<<<<<<< HEAD
+=======
+	kobject_del(&pwrscale->kobj);
+	kobject_put(&pwrscale->kobj);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 static void _kgsl_pwrscale_detach_policy(struct kgsl_device *device)

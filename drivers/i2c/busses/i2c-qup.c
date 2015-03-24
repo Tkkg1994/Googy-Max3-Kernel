@@ -231,7 +231,11 @@ qup_i2c_interrupt(int irq, void *devid)
 	uint32_t op_flgs = readl_relaxed(dev->base + QUP_OPERATIONAL);
 	int err = 0;
 
+<<<<<<< HEAD
 #ifdef SECURE_INPUT    
+=======
+#ifdef SECURE_INPUT
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (is_secure_world && dev->adapter.nr == 3) {
 		return 0;
 	}
@@ -365,7 +369,11 @@ qup_config_core_on_en(struct qup_i2c_dev *dev)
 static void
 qup_i2c_pwr_mgmt(struct qup_i2c_dev *dev, unsigned int state)
 {
+<<<<<<< HEAD
 #ifdef SECURE_INPUT    
+=======
+#ifdef SECURE_INPUT
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (is_secure_world && dev->adapter.nr == 3) {
 		return;
 	}
@@ -802,7 +810,11 @@ qup_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[], int num)
 	long timeout;
 	int err;
 
+<<<<<<< HEAD
 #ifdef SECURE_INPUT    
+=======
+#ifdef SECURE_INPUT
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (is_secure_world && dev->adapter.nr == 3) {
 		return 0;
 	}

@@ -2036,6 +2036,38 @@ int sps_get_unused_desc_num(struct sps_pipe *h, u32 *desc_num)
 EXPORT_SYMBOL(sps_get_unused_desc_num);
 
 /**
+<<<<<<< HEAD
+=======
+ * Vote for or relinquish BAM DMA clock
+ *
+ */
+int sps_ctrl_bam_dma_clk(bool clk_on)
+{
+	int ret;
+
+	SPS_DBG("sps:%s.", __func__);
+
+	if (!sps->is_ready)
+		return -EPROBE_DEFER;
+
+	if (clk_on == true) {
+		SPS_DBG("sps:vote for bam dma clk.\n");
+		ret = clk_prepare_enable(sps->bamdma_clk);
+		if (ret) {
+			SPS_ERR("sps:fail to enable bamdma_clk:ret=%d\n", ret);
+			return ret;
+		}
+	} else {
+		SPS_DBG("sps:relinquish bam dma clk.\n");
+		clk_disable_unprepare(sps->bamdma_clk);
+	}
+
+	return 0;
+}
+EXPORT_SYMBOL(sps_ctrl_bam_dma_clk);
+
+/**
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  * Register a BAM device
  *
  */
@@ -2293,8 +2325,12 @@ int sps_timer_ctrl(struct sps_pipe *h,
 		SPS_ERR("sps:%s:timer_ctrl pointer is NULL.\n", __func__);
 		return SPS_ERROR;
 	} else if (timer_result == NULL) {
+<<<<<<< HEAD
 		SPS_ERR("sps:%s:result pointer is NULL.\n", __func__);
 		return SPS_ERROR;
+=======
+		SPS_DBG("sps:%s:no result to return.\n", __func__);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 
 	bam = sps_bam_lock(pipe);
@@ -2581,11 +2617,19 @@ static int __devinit msm_sps_probe(struct platform_device *pdev)
 		SPS_ERR("sps:sps_device_init err.");
 #ifdef CONFIG_SPS_SUPPORT_BAMDMA
 		clk_disable_unprepare(sps->dfab_clk);
+<<<<<<< HEAD
+=======
+		clk_disable_unprepare(sps->bamdma_clk);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif
 		goto sps_device_init_err;
 	}
 #ifdef CONFIG_SPS_SUPPORT_BAMDMA
 	clk_disable_unprepare(sps->dfab_clk);
+<<<<<<< HEAD
+=======
+	clk_disable_unprepare(sps->bamdma_clk);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif
 	sps->is_ready = true;
 

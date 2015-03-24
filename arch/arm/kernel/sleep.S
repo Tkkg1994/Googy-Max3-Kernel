@@ -7,6 +7,7 @@
 	.text
 
 /*
+<<<<<<< HEAD
  * Implementation of MPIDR hash algorithm through shifting
  * and OR'ing.
  *
@@ -50,12 +51,17 @@
 	.endm
 
 /*
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  * Save CPU state for a suspend.  This saves the CPU general purpose
  * registers, and allocates space on the kernel stack to save the CPU
  * specific registers and some other data for resume.
  *  r0 = suspend function arg0
  *  r1 = suspend function
+<<<<<<< HEAD
  *  r2 = MPIDR value the resuming CPU will use
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  */
 ENTRY(__cpu_suspend)
 	stmfd	sp!, {r4 - r11, lr}
@@ -68,6 +74,7 @@ ENTRY(__cpu_suspend)
 	mov	r5, sp			@ current virtual SP
 	add	r4, r4, #12		@ Space for pgd, virt sp, phys resume fn
 	sub	sp, sp, r4		@ allocate CPU state on stack
+<<<<<<< HEAD
 	ldr	r3, =sleep_save_sp
 	stmfd	sp!, {r0, r1}		@ save suspend func arg and pointer
 	ldr	r3, [r3, #SLEEP_SAVE_SP_VIRT]
@@ -80,6 +87,19 @@ ENTRY(__cpu_suspend)
 1:	mov	r2, r5			@ virtual SP
 	mov	r1, r4			@ size of save block
 	add	r0, sp, #8		@ pointer to save block
+=======
+	stmfd	sp!, {r0, r1}		@ save suspend func arg and pointer
+	add	r0, sp, #8		@ save pointer to save block
+	mov	r1, r4			@ size of save block
+	mov	r2, r5			@ virtual SP
+	ldr	r3, =sleep_save_sp
+#ifdef CONFIG_SMP
+	ALT_SMP(mrc p15, 0, lr, c0, c0, 5)
+	ALT_UP(mov lr, #0)
+	and	lr, lr, #15
+	add	r3, r3, lr, lsl #2
+#endif
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	bl	__cpu_suspend_save
 	adr	lr, BSYM(cpu_suspend_abort)
 	ldmfd	sp!, {r0, pc}		@ call suspend fn
@@ -107,7 +127,11 @@ ENTRY(cpu_resume_mmu)
 	instr_sync
 	mov	r0, r0
 	mov	r0, r0
+<<<<<<< HEAD
 	ret	r3			@ jump to virtual address
+=======
+	mov	pc, r3			@ jump to virtual address
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(cpu_resume_mmu)
 	.popsection
 cpu_resume_after_mmu:
@@ -126,6 +150,7 @@ ENDPROC(cpu_resume_after_mmu)
 	.data
 	.align
 ENTRY(cpu_resume)
+<<<<<<< HEAD
 	mov	r1, #0
 	ALT_SMP(mrc p15, 0, r0, c0, c0, 5)
 	ALT_UP_B(1f)
@@ -143,6 +168,17 @@ ENTRY(cpu_resume)
 	ldr	r0, [r0, #SLEEP_SAVE_SP_PHYS]
 	ldr	r0, [r0, r1, lsl #2]
 
+=======
+#ifdef CONFIG_SMP
+	adr	r0, sleep_save_sp
+	ALT_SMP(mrc p15, 0, r1, c0, c0, 5)
+	ALT_UP(mov r1, #0)
+	and	r1, r1, #15
+	ldr	r0, [r0, r1, lsl #2]	@ stack phys addr
+#else
+	ldr	r0, sleep_save_sp	@ stack phys addr
+#endif
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	setmode	PSR_I_BIT | PSR_F_BIT | SVC_MODE, r1  @ set SVC, irqs off
 	@ load phys pgd, stack, resume fn
   ARM(	ldmia	r0!, {r1, sp, pc}	)
@@ -151,6 +187,7 @@ THUMB(	mov	sp, r2			)
 THUMB(	bx	r3			)
 ENDPROC(cpu_resume)
 
+<<<<<<< HEAD
 	.align 2
 mpidr_hash_ptr:
 	.long	mpidr_hash - .			@ mpidr_hash struct offset
@@ -160,3 +197,9 @@ ENTRY(sleep_save_sp)
 _sleep_save_sp:
 	.space	SLEEP_SAVE_SP_SZ		@ struct sleep_save_sp
  
+=======
+sleep_save_sp:
+	.rept	CONFIG_NR_CPUS
+	.long	0				@ preserve stack phys ptr here
+	.endr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea

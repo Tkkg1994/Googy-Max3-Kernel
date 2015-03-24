@@ -281,7 +281,11 @@ void arch_pick_mmap_layout(struct mm_struct *mm)
  */
 int valid_phys_addr_range(unsigned long addr, size_t size)
 {
+<<<<<<< HEAD
 	if (addr < PLAT_PHYS_OFFSET)
+=======
+	if (addr < PHYS_OFFSET)
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		return 0;
 	if (addr + size > __pa(high_memory - 1) + 1)
 		return 0;

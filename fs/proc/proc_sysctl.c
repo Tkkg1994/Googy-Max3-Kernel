@@ -10,6 +10,10 @@
 #include <linux/namei.h>
 #include <linux/mm.h>
 #include <linux/module.h>
+<<<<<<< HEAD
+=======
+#include <linux/kmemleak.h>
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include "internal.h"
 
 static const struct dentry_operations proc_sys_dentry_operations;

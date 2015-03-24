@@ -64,12 +64,20 @@ static void q6adm_add_hdr_async(struct apr_hdr *hdr,
 	hdr->dest_domain = APR_DOMAIN_ADSP;
 	index = afe_get_port_index(port_id);
 	hdr->src_port = port_id;
+<<<<<<< HEAD
 	hdr->dest_port =atomic_read(&this_adm.copp_id[index]);	
+=======
+	hdr->dest_port =atomic_read(&this_adm.copp_id[index]);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	hdr->token = port_id;
 	hdr->pkt_size  = pkt_size;
 	return;
 }
+<<<<<<< HEAD
 #endif 
+=======
+#endif
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 int srs_trumedia_open(int port_id, int srs_tech_id, void *srs_params)
 {
@@ -448,7 +456,11 @@ static int send_adm_cal_block(int port_id, struct acdb_cal_block *aud_cal)
 			__func__, port_id, aud_cal->cal_paddr);
 		result = -EINVAL;
 		goto done;
+<<<<<<< HEAD
 	} 
+=======
+	}
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	/* Wait for the callback */
 	result = wait_event_timeout(this_adm.wait,
 		atomic_read(&this_adm.copp_stat[index]),

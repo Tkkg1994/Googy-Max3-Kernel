@@ -361,7 +361,11 @@ struct dst_entry *inet_csk_route_req(struct sock *sk,
 	struct ip_options_rcu *opt = inet_rsk(req)->opt;
 	struct net *net = sock_net(sk);
 
+<<<<<<< HEAD
 	flowi4_init_output(fl4, sk->sk_bound_dev_if, sk->sk_mark,
+=======
+	flowi4_init_output(fl4, sk->sk_bound_dev_if, ireq->ir_mark,
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			   RT_CONN_FLAGS(sk), RT_SCOPE_UNIVERSE,
 			   sk->sk_protocol, inet_sk_flowi_flags(sk),
 			   (opt && opt->opt.srr) ? opt->opt.faddr : ireq->rmt_addr,
@@ -395,7 +399,11 @@ struct dst_entry *inet_csk_route_child_sock(struct sock *sk,
 	struct rtable *rt;
 
 	fl4 = &newinet->cork.fl.u.ip4;
+<<<<<<< HEAD
 	flowi4_init_output(fl4, sk->sk_bound_dev_if, sk->sk_mark,
+=======
+	flowi4_init_output(fl4, sk->sk_bound_dev_if, ireq->ir_mark,
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			   RT_CONN_FLAGS(sk), RT_SCOPE_UNIVERSE,
 			   sk->sk_protocol, inet_sk_flowi_flags(sk),
 			   (opt && opt->opt.srr) ? opt->opt.faddr : ireq->rmt_addr,
@@ -618,6 +626,11 @@ struct sock *inet_csk_clone_lock(const struct sock *sk,
 		inet_sk(newsk)->inet_sport = inet_rsk(req)->loc_port;
 		newsk->sk_write_space = sk_stream_write_space;
 
+<<<<<<< HEAD
+=======
+		newsk->sk_mark = inet_rsk(req)->ir_mark;
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		newicsk->icsk_retransmits = 0;
 		newicsk->icsk_backoff	  = 0;
 		newicsk->icsk_probes_out  = 0;

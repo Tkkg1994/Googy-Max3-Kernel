@@ -12,7 +12,11 @@
 
 ENTRY(__raw_readsl)
 		teq	r2, #0		@ do we have to check for the zero len?
+<<<<<<< HEAD
 		reteq	lr
+=======
+		moveq	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		ands	ip, r1, #3
 		bne	3f
 
@@ -33,7 +37,11 @@ ENTRY(__raw_readsl)
 		stmcsia	r1!, {r3, ip}
 		ldrne	r3, [r0, #0]
 		strne	r3, [r1, #0]
+<<<<<<< HEAD
 		ret	lr
+=======
+		mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 3:		ldr	r3, [r0]
 		cmp	ip, #2
@@ -75,5 +83,9 @@ ENTRY(__raw_readsl)
 		strb	r3, [r1, #1]
 8:		mov	r3, ip, get_byte_0
 		strb	r3, [r1, #0]
+<<<<<<< HEAD
 		ret	lr
+=======
+		mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(__raw_readsl)

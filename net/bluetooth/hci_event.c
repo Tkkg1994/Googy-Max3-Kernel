@@ -2336,7 +2336,11 @@ static inline void hci_cmd_complete_evt(struct hci_dev *hdev, struct sk_buff *sk
 	if (ev->opcode != HCI_OP_NOP)
 		del_timer(&hdev->cmd_timer);
 
+<<<<<<< HEAD
 	if (ev->ncmd && !test_bit(HCI_RESET, &hdev->flags)) {
+=======
+	if (ev->ncmd) {
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		atomic_set(&hdev->cmd_cnt, 1);
 		if (!skb_queue_empty(&hdev->cmd_q))
 			tasklet_schedule(&hdev->cmd_task);

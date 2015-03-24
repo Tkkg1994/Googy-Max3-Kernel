@@ -69,9 +69,13 @@ struct cfg80211_registered_device {
 
 	struct mutex sched_scan_mtx;
 
+<<<<<<< HEAD
 #ifdef CONFIG_NL80211_TESTMODE
 	struct genl_info *testmode_info;
 #endif
+=======
+	struct genl_info *cur_cmd_info;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	struct work_struct conn_work;
 	struct work_struct event_work;

@@ -1002,6 +1002,10 @@ static int ubifs_rename(struct inode *old_dir, struct dentry *old_dentry,
 			.dirtied_ino_d = ALIGN(old_inode_ui->data_len, 8) };
 	struct timespec time;
 	unsigned int saved_nlink = 0;
+<<<<<<< HEAD
+=======
+	unsigned int uninitialized_var(saved_nlink);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	/*
 	 * Budget request settings: deletion direntry, new direntry, removing

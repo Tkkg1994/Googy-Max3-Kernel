@@ -13,6 +13,10 @@
  *
  */
 #include "ssp.h"
+<<<<<<< HEAD
+=======
+#include "../../arch/arm/mach-msm/board-8064.h"
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*************************************************************************/
 /* SSP Kernel -> HAL input evnet function                                */
@@ -173,6 +177,7 @@ void report_gesture_data(struct ssp_data *data, struct sensor_value *gesdata)
 	data->buf[GESTURE_SENSOR].data[7] = gesdata->data[7]; /* c_delta */
 	data->buf[GESTURE_SENSOR].data[8] = gesdata->data[8]; /* d_delta */
 
+<<<<<<< HEAD
 #ifdef CONFIG_MACH_JF_EUR
 	input_report_abs(data->gesture_input_dev,
 		ABS_RUDDER, data->buf[GESTURE_SENSOR].data[0]);
@@ -195,6 +200,9 @@ void report_gesture_data(struct ssp_data *data, struct sensor_value *gesdata)
 	input_sync(data->gesture_input_dev);
 #else
 	if (data->ap_rev >= 4) {
+=======
+	if (system_rev <= 10) {
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		input_report_abs(data->gesture_input_dev,
 			ABS_RUDDER, data->buf[GESTURE_SENSOR].data[0]);
 		input_report_abs(data->gesture_input_dev,
@@ -214,9 +222,35 @@ void report_gesture_data(struct ssp_data *data, struct sensor_value *gesdata)
 		input_report_abs(data->gesture_input_dev,
 			ABS_RX, data->buf[GESTURE_SENSOR].data[8]);
 		input_sync(data->gesture_input_dev);
+<<<<<<< HEAD
 	}
 #endif
 
+=======
+	} else {
+		if (data->ap_rev >= 4) {
+			input_report_abs(data->gesture_input_dev,
+				ABS_RUDDER, data->buf[GESTURE_SENSOR].data[0]);
+			input_report_abs(data->gesture_input_dev,
+				ABS_WHEEL, data->buf[GESTURE_SENSOR].data[1]);
+			input_report_abs(data->gesture_input_dev,
+				ABS_GAS, data->buf[GESTURE_SENSOR].data[2]);
+			input_report_abs(data->gesture_input_dev,
+				ABS_BRAKE, data->buf[GESTURE_SENSOR].data[3]);
+			input_report_abs(data->gesture_input_dev,
+				ABS_THROTTLE, data->buf[GESTURE_SENSOR].data[4]);
+			input_report_abs(data->gesture_input_dev,
+				ABS_X, data->buf[GESTURE_SENSOR].data[5]);
+			input_report_abs(data->gesture_input_dev,
+				ABS_Y, data->buf[GESTURE_SENSOR].data[6]);
+			input_report_abs(data->gesture_input_dev,
+				ABS_Z, data->buf[GESTURE_SENSOR].data[7]);
+			input_report_abs(data->gesture_input_dev,
+				ABS_RX, data->buf[GESTURE_SENSOR].data[8]);
+			input_sync(data->gesture_input_dev);
+		}
+	}
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 void report_pressure_data(struct ssp_data *data, struct sensor_value *predata)

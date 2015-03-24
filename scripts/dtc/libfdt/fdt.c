@@ -71,6 +71,23 @@ int fdt_check_header(const void *fdt)
 		return -FDT_ERR_BADMAGIC;
 	}
 
+<<<<<<< HEAD
+=======
+	if (fdt_off_dt_struct(fdt) > (UINT_MAX - fdt_size_dt_struct(fdt)))
+		return FDT_ERR_BADOFFSET;
+
+	if (fdt_off_dt_strings(fdt) > (UINT_MAX -  fdt_size_dt_strings(fdt)))
+		return FDT_ERR_BADOFFSET;
+
+	if ((fdt_off_dt_struct(fdt) + fdt_size_dt_struct(fdt))
+	    > fdt_totalsize(fdt))
+		return FDT_ERR_BADOFFSET;
+
+	if ((fdt_off_dt_strings(fdt) + fdt_size_dt_strings(fdt))
+	    > fdt_totalsize(fdt))
+		return FDT_ERR_BADOFFSET;
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return 0;
 }
 

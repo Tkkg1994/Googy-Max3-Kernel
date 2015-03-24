@@ -32,7 +32,11 @@
  * cpu_fa526_proc_init()
  */
 ENTRY(cpu_fa526_proc_init)
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  * cpu_fa526_proc_fin()
@@ -44,7 +48,11 @@ ENTRY(cpu_fa526_proc_fin)
 	mcr	p15, 0, r0, c1, c0, 0		@ disable caches
 	nop
 	nop
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  * cpu_fa526_reset(loc)
@@ -72,7 +80,11 @@ ENTRY(cpu_fa526_reset)
 	mcr	p15, 0, ip, c1, c0, 0		@ ctrl register
 	nop
 	nop
+<<<<<<< HEAD
 	ret	r0
+=======
+	mov	pc, r0
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(cpu_fa526_reset)
 	.popsection
 
@@ -82,7 +94,12 @@ ENDPROC(cpu_fa526_reset)
 	.align	4
 ENTRY(cpu_fa526_do_idle)
 	mcr	p15, 0, r0, c7, c0, 4		@ Wait for interrupt
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 ENTRY(cpu_fa526_dcache_clean_area)
 1:	mcr	p15, 0, r0, c7, c10, 1		@ clean D entry
@@ -90,7 +107,11 @@ ENTRY(cpu_fa526_dcache_clean_area)
 	subs	r1, r1, #CACHE_DLINESIZE
 	bhi	1b
 	mcr	p15, 0, r0, c7, c10, 4		@ drain WB
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /* =============================== PageTable ============================== */
 
@@ -117,7 +138,11 @@ ENTRY(cpu_fa526_switch_mm)
 	mcr	p15, 0, r0, c2, c0, 0		@ load page table pointer
 	mcr	p15, 0, ip, c8, c7, 0		@ invalidate UTLB
 #endif
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  * cpu_fa526_set_pte_ext(ptep, pte, ext)
@@ -133,7 +158,11 @@ ENTRY(cpu_fa526_set_pte_ext)
 	mov	r0, #0
 	mcr	p15, 0, r0, c7, c10, 4		@ drain WB
 #endif
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	__CPUINIT
 
@@ -164,7 +193,11 @@ __fa526_setup:
 	bic	r0, r0, r5
 	ldr	r5, fa526_cr1_set
 	orr	r0, r0, r5
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	.size	__fa526_setup, . - __fa526_setup
 
 	/*

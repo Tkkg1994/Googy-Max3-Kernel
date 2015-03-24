@@ -10,7 +10,11 @@ DHDCFLAGS = -Wall -Wstrict-prototypes -Dlinux -DLINUX -DBCMDRIVER             \
         -DMMC_SDIO_ABORT -DBCMSDIO -DBCMLXSDMMC -DBCMPLATFORM_BUS -DWLP2P     \
         -DWIFI_ACT_FRAME -DARP_OFFLOAD_SUPPORT          \
         -DKEEP_ALIVE -DCSCAN -DPKT_FILTER_SUPPORT                             \
+<<<<<<< HEAD
         -DEMBEDDED_PLATFORM -DPNO_SUPPORT
+=======
+        -DEMBEDDED_PLATFORM -DPNO_SUPPORT -DMFP
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #################
 # Common feature
@@ -46,7 +50,11 @@ DHDCFLAGS += -DCUSTOM_TDLS_RSSI_THRESHOLD_LOW=-85
 # Roaming
 DHDCFLAGS += -DROAM_AP_ENV_DETECTION
 DHDCFLAGS += -DROAM_ENABLE -DROAM_CHANNEL_CACHE -DROAM_API
+<<<<<<< HEAD
 # DHDCFLAGS += -DENABLE_FW_ROAM_SUSPEND
+=======
+DHDCFLAGS += -DENABLE_FW_ROAM_SUSPEND
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 # CCX
 ifeq ($(CONFIG_BRCM_CCX),y)
@@ -62,7 +70,10 @@ DHDCFLAGS += -DDISABLE_11H_SOFTAP
 DHDCFLAGS += -DSUPPORT_PM2_ONLY
 DHDCFLAGS += -DSUPPORT_DEEP_SLEEP
 DHDCFLAGS += -DSUPPORT_AMPDU_MPDU_CMD
+<<<<<<< HEAD
 DHDCFLAGS += -DBLOCK_IPV6_PACKET -DPASS_IPV4_SUSPEND
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 # For special PNO Event keep wake lock for 10sec
 DHDCFLAGS += -DCUSTOM_PNO_EVENT_LOCK_xTIME=10
@@ -135,7 +146,15 @@ DHDCFLAGS :=$(filter-out -DMULTIPLE_SUPPLICANT,$(DHDCFLAGS))
 # m: module type driver
 # y: built-in type driver
 ##########################
+<<<<<<< HEAD
 DRIVER_TYPE ?= m
+=======
+ifeq ($(CONFIG_MODULES),y)
+DRIVER_TYPE ?= m
+else
+DRIVER_TYPE ?= y
+endif
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #########################
 # Chip dependent feature
@@ -147,6 +166,11 @@ ifneq ($(CONFIG_BCM4339),)
   DHDCFLAGS += -DENABLE_BCN_LI_BCN_WAKEUP
   DHDCFLAGS += -DSDIO_CRC_ERROR_FIX
 
+<<<<<<< HEAD
+=======
+  #for PMF
+  DHDCFLAGS += -DMFP
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
   # tput enhancement
   DHDCFLAGS += -DCUSTOM_GLOM_SETTING=8 -DCUSTOM_RXCHAIN=1
   DHDCFLAGS += -DUSE_DYNAMIC_F2_BLKSIZE -DDYNAMIC_F2_BLKSIZE_FOR_NONLEGACY=128

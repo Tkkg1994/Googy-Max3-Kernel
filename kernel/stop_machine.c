@@ -18,7 +18,11 @@
 #include <linux/stop_machine.h>
 #include <linux/interrupt.h>
 #include <linux/kallsyms.h>
+<<<<<<< HEAD
 
+=======
+#include <linux/smpboot.h>
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <linux/atomic.h>
 
 /*
@@ -37,10 +41,17 @@ struct cpu_stopper {
 	spinlock_t		lock;
 	bool			enabled;	/* is this stopper enabled? */
 	struct list_head	works;		/* list of pending works */
+<<<<<<< HEAD
 	struct task_struct	*thread;	/* stopper thread */
 };
 
 static DEFINE_PER_CPU(struct cpu_stopper, cpu_stopper);
+=======
+};
+
+static DEFINE_PER_CPU(struct cpu_stopper, cpu_stopper);
+static DEFINE_PER_CPU(struct task_struct *, cpu_stopper_task);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static bool stop_machine_initialized = false;
 
 static void cpu_stop_init_done(struct cpu_stop_done *done, unsigned int nr_todo)
@@ -62,16 +73,28 @@ static void cpu_stop_signal_done(struct cpu_stop_done *done, bool executed)
 }
 
 /* queue @work to @stopper.  if offline, @work is completed immediately */
+<<<<<<< HEAD
 static void cpu_stop_queue_work(struct cpu_stopper *stopper,
 				struct cpu_stop_work *work)
 {
+=======
+static void cpu_stop_queue_work(unsigned int cpu, struct cpu_stop_work *work)
+{
+	struct cpu_stopper *stopper = &per_cpu(cpu_stopper, cpu);
+	struct task_struct *p = per_cpu(cpu_stopper_task, cpu);
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	unsigned long flags;
 
 	spin_lock_irqsave(&stopper->lock, flags);
 
 	if (stopper->enabled) {
 		list_add_tail(&work->list, &stopper->works);
+<<<<<<< HEAD
 		wake_up_process(stopper->thread);
+=======
+		wake_up_process(p);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	} else
 		cpu_stop_signal_done(work->done, false);
 
@@ -108,7 +131,11 @@ int stop_one_cpu(unsigned int cpu, cpu_stop_fn_t fn, void *arg)
 	struct cpu_stop_work work = { .fn = fn, .arg = arg, .done = &done };
 
 	cpu_stop_init_done(&done, 1);
+<<<<<<< HEAD
 	cpu_stop_queue_work(&per_cpu(cpu_stopper, cpu), &work);
+=======
+	cpu_stop_queue_work(cpu, &work);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	wait_for_completion(&done.completion);
 	return done.executed ? done.ret : -ENOENT;
 }
@@ -130,7 +157,11 @@ void stop_one_cpu_nowait(unsigned int cpu, cpu_stop_fn_t fn, void *arg,
 			struct cpu_stop_work *work_buf)
 {
 	*work_buf = (struct cpu_stop_work){ .fn = fn, .arg = arg, };
+<<<<<<< HEAD
 	cpu_stop_queue_work(&per_cpu(cpu_stopper, cpu), work_buf);
+=======
+	cpu_stop_queue_work(cpu, work_buf);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 DEFINE_MUTEX(stop_cpus_mutex);
@@ -159,8 +190,12 @@ static void queue_stop_cpus_work(const struct cpumask *cpumask,
 	 */
 	preempt_disable();
 	for_each_cpu(cpu, cpumask)
+<<<<<<< HEAD
 		cpu_stop_queue_work(&per_cpu(cpu_stopper, cpu),
 				    &per_cpu(stop_cpus_work, cpu));
+=======
+		cpu_stop_queue_work(cpu, &per_cpu(stop_cpus_work, cpu));
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	preempt_enable();
 }
 
@@ -244,13 +279,32 @@ int try_stop_cpus(const struct cpumask *cpumask, cpu_stop_fn_t fn, void *arg)
 	return ret;
 }
 
+<<<<<<< HEAD
 static int cpu_stopper_thread(void *data)
 {
 	struct cpu_stopper *stopper = data;
+=======
+static int cpu_stop_should_run(unsigned int cpu)
+{
+	struct cpu_stopper *stopper = &per_cpu(cpu_stopper, cpu);
+	unsigned long flags;
+	int run;
+
+	spin_lock_irqsave(&stopper->lock, flags);
+	run = !list_empty(&stopper->works);
+	spin_unlock_irqrestore(&stopper->lock, flags);
+	return run;
+}
+
+static void cpu_stopper_thread(unsigned int cpu)
+{
+	struct cpu_stopper *stopper = &per_cpu(cpu_stopper, cpu);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	struct cpu_stop_work *work;
 	int ret;
 
 repeat:
+<<<<<<< HEAD
 	set_current_state(TASK_INTERRUPTIBLE);	/* mb paired w/ kthread_stop */
 
 	if (kthread_should_stop()) {
@@ -258,6 +312,8 @@ repeat:
 		return 0;
 	}
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	work = NULL;
 	spin_lock_irq(&stopper->lock);
 	if (!list_empty(&stopper->works)) {
@@ -273,8 +329,11 @@ repeat:
 		struct cpu_stop_done *done = work->done;
 		char ksym_buf[KSYM_NAME_LEN] __maybe_unused;
 
+<<<<<<< HEAD
 		__set_current_state(TASK_RUNNING);
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		/* cpu stop callbacks are not allowed to sleep */
 		preempt_disable();
 
@@ -290,14 +349,20 @@ repeat:
 					  ksym_buf), arg);
 
 		cpu_stop_signal_done(done, true);
+<<<<<<< HEAD
 	} else
 		schedule();
 
 	goto repeat;
+=======
+		goto repeat;
+	}
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 extern void sched_set_stop_task(int cpu, struct task_struct *stop);
 
+<<<<<<< HEAD
 /* manage stopper for a cpu, mostly lifted from sched migration thread mgmt */
 static int __cpuinit cpu_stop_cpu_callback(struct notifier_block *nfb,
 					   unsigned long action, void *hcpu)
@@ -365,13 +430,57 @@ static int __cpuinit cpu_stop_cpu_callback(struct notifier_block *nfb,
 static struct notifier_block __cpuinitdata cpu_stop_cpu_notifier = {
 	.notifier_call	= cpu_stop_cpu_callback,
 	.priority	= 10,
+=======
+static void cpu_stop_create(unsigned int cpu)
+{
+	sched_set_stop_task(cpu, per_cpu(cpu_stopper_task, cpu));
+}
+
+static void cpu_stop_park(unsigned int cpu)
+{
+	struct cpu_stopper *stopper = &per_cpu(cpu_stopper, cpu);
+	struct cpu_stop_work *work;
+	unsigned long flags;
+
+	/* drain remaining works */
+	spin_lock_irqsave(&stopper->lock, flags);
+	list_for_each_entry(work, &stopper->works, list)
+		cpu_stop_signal_done(work->done, false);
+	stopper->enabled = false;
+	spin_unlock_irqrestore(&stopper->lock, flags);
+}
+
+static void cpu_stop_unpark(unsigned int cpu)
+{
+	struct cpu_stopper *stopper = &per_cpu(cpu_stopper, cpu);
+
+	spin_lock_irq(&stopper->lock);
+	stopper->enabled = true;
+	spin_unlock_irq(&stopper->lock);
+}
+
+static struct smp_hotplug_thread cpu_stop_threads = {
+	.store			= &cpu_stopper_task,
+	.thread_should_run	= cpu_stop_should_run,
+	.thread_fn		= cpu_stopper_thread,
+	.thread_comm		= "migration/%u",
+	.create			= cpu_stop_create,
+	.setup			= cpu_stop_unpark,
+	.park			= cpu_stop_park,
+	.pre_unpark		= cpu_stop_unpark,
+	.selfparking		= true,
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 };
 
 static int __init cpu_stop_init(void)
 {
+<<<<<<< HEAD
 	void *bcpu = (void *)(long)smp_processor_id();
 	unsigned int cpu;
 	int err;
+=======
+	unsigned int cpu;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	for_each_possible_cpu(cpu) {
 		struct cpu_stopper *stopper = &per_cpu(cpu_stopper, cpu);
@@ -380,6 +489,7 @@ static int __init cpu_stop_init(void)
 		INIT_LIST_HEAD(&stopper->works);
 	}
 
+<<<<<<< HEAD
 	/* start one for the boot cpu */
 	err = cpu_stop_cpu_callback(&cpu_stop_cpu_notifier, CPU_UP_PREPARE,
 				    bcpu);
@@ -389,6 +499,10 @@ static int __init cpu_stop_init(void)
 
 	stop_machine_initialized = true;
 
+=======
+	BUG_ON(smpboot_register_percpu_thread(&cpu_stop_threads));
+	stop_machine_initialized = true;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return 0;
 }
 early_initcall(cpu_stop_init);

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2011-2012, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2011-2013, The Linux Foundation. All rights reserved.
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -50,6 +54,11 @@
 					HH_IRQ_FIFO_SIZE) == \
 					(pdev)->irq_fifo_head)
 
+<<<<<<< HEAD
+=======
+#define UINT32_MAX  (0xFFFFFFFFU)
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static struct hh_dev_node_info {
 	spinlock_t hh_lock;
 	char irq_fifo[HH_IRQ_FIFO_SIZE];
@@ -220,8 +229,14 @@ static long hh_ioctl(struct file *file,
 				return -EFAULT;
 			if (!HH_OFFSET_VALID(param.offset))
 				return -EINVAL;
+<<<<<<< HEAD
 			if (param.num == 0)
 				break;
+=======
+			if ((param.num == 0) ||
+			(param.num >= (UINT32_MAX / sizeof(unsigned int))))
+				return -EINVAL;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			req_sz = sizeof(unsigned int) * param.num;
 
 			if (pdfi->array_num < param.num) {
@@ -270,8 +285,15 @@ static long hh_ioctl(struct file *file,
 
 			if (copy_from_user(&param, argp, sizeof param))
 				return -EFAULT;
+<<<<<<< HEAD
 			if (param.num == 0)
 				break;
+=======
+			if ((param.num == 0) ||
+			(param.num >= (UINT32_MAX  /
+			sizeof(struct dfe_command_entry))))
+				return -EINVAL;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			req_sz = sizeof(struct dfe_command_entry) * param.num;
 
 			if (pdfi->cmd_num < param.num) {

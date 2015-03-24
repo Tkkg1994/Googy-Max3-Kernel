@@ -19,7 +19,10 @@ config ARM
 	select HAVE_DYNAMIC_FTRACE if (!XIP_KERNEL)
 	select HAVE_FUNCTION_GRAPH_TRACER if (!THUMB2_KERNEL)
 	select ARCH_BINFMT_ELF_RANDOMIZE_PIE
+<<<<<<< HEAD
 	select HAVE_EFFICIENT_UNALIGNED_ACCESS
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	select HAVE_GENERIC_DMA_COHERENT
 	select HAVE_KERNEL_GZIP
 	select HAVE_KERNEL_LZO
@@ -32,10 +35,19 @@ config ARM
 	select HAVE_HW_BREAKPOINT if (PERF_EVENTS && (CPU_V6 || CPU_V6K || CPU_V7))
 	select HAVE_C_RECORDMCOUNT
 	select HAVE_GENERIC_HARDIRQS
+<<<<<<< HEAD
+=======
+	select HAVE_SPARSE_IRQ
+	select HAVE_ARCH_SECCOMP_FILTER
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	select GENERIC_IRQ_SHOW
 	select CPU_PM if (SUSPEND || CPU_IDLE)
 	select GENERIC_PCI_IOMAP
 	select HAVE_BPF_JIT if NET
+<<<<<<< HEAD
+=======
+	select GENERIC_SMP_IDLE_THREAD
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	help
 	  The ARM series is a line of low-power-consumption RISC chip designs
 	  licensed by ARM Ltd and targeted at embedded applications and
@@ -218,7 +230,12 @@ config VECTORS_BASE
 	default DRAM_BASE if REMAP_VECTORS_TO_RAM
 	default 0x00000000
 	help
+<<<<<<< HEAD
 	  The base address of exception vectors.
+=======
+	  The base address of exception vectors.  This must be two pages
+	  in size.
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 config ARM_PATCH_PHYS_VIRT
 	bool "Patch physical to virtual translations at runtime" if EMBEDDED
@@ -1436,7 +1453,11 @@ config ARM_ERRATA_754327
 
 config ARM_ERRATA_364296
 	bool "ARM errata: Possible cache data corruption with hit-under-miss enabled"
+<<<<<<< HEAD
 	depends on CPU_V6 && !SMP
+=======
+	depends on CPU_V6
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	help
 	  This options enables the workaround for the 364296 ARM1136
 	  r0p2 erratum (possible cache data corruption with
@@ -1505,6 +1526,7 @@ config ARM_ERRATA_775420
 	 to deadlock. This workaround puts DSB before executing ISB if
 	 an abort may occur on cache maintenance.
 
+<<<<<<< HEAD
 config ARM_ERRATA_798181
 	bool "ARM errata: TLBI/DSB failure on Cortex-A15"
 	depends on CPU_V7 && SMP
@@ -1519,6 +1541,11 @@ endmenu
 
 source "arch/arm/common/Kconfig"
 source "arch/arm/hotplug/Kconfig"
+=======
+endmenu
+
+source "arch/arm/common/Kconfig"
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 menu "Bus support"
 
@@ -1580,6 +1607,7 @@ source "drivers/pci/Kconfig"
 
 source "drivers/pcmcia/Kconfig"
 
+<<<<<<< HEAD
 config ARM_ERRATA_764369
 	bool "ARM errata: Data cache line maintenance operation by MVA may not succeed"
 	depends on CPU_V7 && SMP
@@ -1606,6 +1634,8 @@ config PL310_ERRATA_769419
 	  on systems with an outer cache, the store buffer is drained
 	  explicitly.
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 endmenu
 
 menu "Kernel Features"
@@ -1913,9 +1943,42 @@ config ARCH_MEMORY_REMOVE
 config ENABLE_DMM
 	def_bool n
 
+<<<<<<< HEAD
 config DONT_MAP_HOLE_AFTER_MEMBANK0
 	def_bool n
 	depends on SPARSEMEM
+=======
+choice
+	prompt "Virtual Memory Reclaim"
+	default NO_VM_RECLAIM
+	help
+	  Select the method of reclaiming virtual memory
+
+config DONT_MAP_HOLE_AFTER_MEMBANK0
+	bool "Map around the largest hole"
+	help
+	  Do not map the memory belonging to the largest hole
+	  into the virtual space. This results in more lowmem.
+	  If multiple holes are present, only the largest hole
+	  in the first 256MB of memory is not mapped.
+
+config ENABLE_VMALLOC_SAVING
+	bool "Reclaim memory for each subsystem"
+	help
+	  Enable this config to reclaim the virtual space belonging
+	  to any subsystem which is expected to have a lifetime of
+	  the entire system. This feature allows lowmem to be non-
+	  contiguous.
+
+config NO_VM_RECLAIM
+	bool "Do not reclaim memory"
+	help
+	  Do not reclaim any memory. This might result in less lowmem
+	  and wasting virtual memory space which could otherwise be
+	  reclaimed by using any of the other two config options.
+
+endchoice
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 config HOLES_IN_ZONE
 	def_bool n
@@ -2020,6 +2083,7 @@ config UACCESS_WITH_MEMCPY
 	  However, if the CPU data cache is using a write-allocate mode,
 	  this option is unlikely to provide any performance gain.
 
+<<<<<<< HEAD
 config ARM_PLD_64BYTE
  bool "Use 64-bit preload size for kernel memory copy"
  depends on CPU_V7
@@ -2033,6 +2097,8 @@ config USE_LDRDSTRD_OVER_LDMSTM
  Cortex-A15 perform better when use LDRD/STRD to access memory.
  Selecting this to optimize memory copy routines.
 	  
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 config SECCOMP
 	bool
 	prompt "Enable seccomp to safely compute untrusted bytecode"
@@ -2503,7 +2569,11 @@ config NEON
 config KERNEL_MODE_NEON
 	bool "Support for NEON in kernel mode"
 	default n
+<<<<<<< HEAD
 	depends on NEON && AEABI
+=======
+	depends on NEON
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	help
 	  Say Y to include support for NEON in kernel mode.
 

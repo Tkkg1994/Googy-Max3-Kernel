@@ -19,7 +19,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
+<<<<<<< HEAD
 #include <asm/assembler.h>
+=======
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <asm/opcodes.h>
 
 /* This is the kernel's entry point into the floating point emulator.
@@ -92,7 +96,11 @@ emulate:
 	mov	r0, r6			@ prepare for EmulateAll()
 	bl	EmulateAll		@ emulate the instruction
 	cmp	r0, #0			@ was emulation successful
+<<<<<<< HEAD
 	reteq	r4			@ no, return failure
+=======
+	moveq	pc, r4			@ no, return failure
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 next:
 .Lx1:	ldrt	r6, [r5], #4		@ get the next instruction and
@@ -102,7 +110,11 @@ next:
 	teq	r2, #0x0C000000
 	teqne	r2, #0x0D000000
 	teqne	r2, #0x0E000000
+<<<<<<< HEAD
 	retne	r9			@ return ok if not a fp insn
+=======
+	movne	pc, r9			@ return ok if not a fp insn
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	str	r5, [sp, #S_PC]		@ update PC copy in regs
 
@@ -115,7 +127,11 @@ next:
 	@ plain LDR instruction.  Weird, but it seems harmless.
 	.pushsection .fixup,"ax"
 	.align	2
+<<<<<<< HEAD
 .Lfix:	ret	r9			@ let the user eat segfaults
+=======
+.Lfix:	mov	pc, r9			@ let the user eat segfaults
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	.popsection
 
 	.pushsection __ex_table,"a"

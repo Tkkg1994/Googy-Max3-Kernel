@@ -1238,6 +1238,32 @@ static int armv7_a7_map_event(struct perf_event *event)
 				&armv7_a7_perf_cache_map, 0xFF);
 }
 
+<<<<<<< HEAD
+=======
+static DEFINE_PER_CPU(u32, armv7_pm_pmuserenr);
+
+static void armv7pmu_save_pm_registers(void *hcpu)
+{
+	u32 val;
+	u32 cpu = (int)hcpu;
+
+	/* Read PMUSERENR */
+	asm volatile("mrc p15, 0, %0, c9, c14, 0" : "=r" (val));
+	per_cpu(armv7_pm_pmuserenr, cpu) = val;
+}
+
+static void armv7pmu_restore_pm_registers(void *hcpu)
+{
+	u32 val;
+	u32 cpu = (int)hcpu;
+
+	val = per_cpu(armv7_pm_pmuserenr, cpu);
+	if (val != 0)
+		/* Restore PMUSERENR */
+		asm volatile("mcr p15, 0, %0, c9, c14, 0" : : "r" (val));
+}
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static struct arm_pmu armv7pmu = {
 	.handle_irq		= armv7pmu_handle_irq,
 	.enable			= armv7pmu_enable_event,
@@ -1249,6 +1275,11 @@ static struct arm_pmu armv7pmu = {
 	.stop			= armv7pmu_stop,
 	.reset			= armv7pmu_reset,
 	.max_period		= (1LLU << 32) - 1,
+<<<<<<< HEAD
+=======
+	.save_pm_registers	= armv7pmu_save_pm_registers,
+	.restore_pm_registers	= armv7pmu_restore_pm_registers,
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 };
 
 static u32 __init armv7_read_num_pmnc_events(void)

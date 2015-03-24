@@ -29,8 +29,15 @@
 #include <linux/of_platform.h>
 #include <linux/of_gpio.h>
 #include <linux/spinlock.h>
+<<<<<<< HEAD
 #if defined(CONFIG_SEC_DEBUG)
 #include <mach/sec_debug.h>
+=======
+#ifdef CONFIG_SEC_DEBUG
+#include <mach/sec_debug.h>
+#else
+#include <linux/sec_class.h>
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif
 #ifdef CONFIG_MACH_JF
 #include <linux/i2c/synaptics_rmi.h>
@@ -423,7 +430,11 @@ static void gpio_keys_gpio_report_event(struct gpio_button_data *bdata)
 	unsigned int type = button->type ?: EV_KEY;
 	int state = (gpio_get_value_cansleep(button->gpio) ? 1 : 0) ^ button->active_low;
 
+<<<<<<< HEAD
 #if defined(CONFIG_SEC_DEBUG)
+=======
+#ifdef CONFIG_SEC_DEBUG
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	sec_debug_check_crash_key(button->code, state);
 #endif
 

@@ -85,12 +85,22 @@ static sctp_dbg_objcnt_entry_t sctp_dbg_objcnt[] = {
  */
 static int sctp_objcnt_seq_show(struct seq_file *seq, void *v)
 {
+<<<<<<< HEAD
 	int i, len;
 
 	i = (int)*(loff_t *)v;
 	seq_printf(seq, "%s: %d%n", sctp_dbg_objcnt[i].label,
 				atomic_read(sctp_dbg_objcnt[i].counter), &len);
 	seq_printf(seq, "%*s\n", 127 - len, "");
+=======
+	int i;
+
+	i = (int)*(loff_t *)v;
+	seq_setwidth(seq, 127);
+	seq_printf(seq, "%s: %d", sctp_dbg_objcnt[i].label,
+				atomic_read(sctp_dbg_objcnt[i].counter));
+	seq_pad(seq, '\n');
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return 0;
 }
 

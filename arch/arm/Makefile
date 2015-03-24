@@ -57,7 +57,11 @@ comma = ,
 # Note that GCC does not numerically define an architecture version
 # macro, but instead defines a whole series of macros which makes
 # testing for a specific architecture or later rather impossible.
+<<<<<<< HEAD
 arch-$(CONFIG_CPU_32v7)    :=-D__LINUX_ARM_ARCH__=7 $(call cc-option,-mcpu=cortex-a15 -Wa$(comma)-march=armv7-a)
+=======
+arch-$(CONFIG_CPU_32v7)		:=-D__LINUX_ARM_ARCH__=7 $(call cc-option,-march=armv7-a,-march=armv5t -Wa$(comma)-march=armv7-a)
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 arch-$(CONFIG_CPU_32v6)		:=-D__LINUX_ARM_ARCH__=6 $(call cc-option,-march=armv6,-march=armv5t -Wa$(comma)-march=armv6)
 # Only override the compiler option if ARMv6. The ARMv6K extensions are
 # always available in ARMv7
@@ -264,13 +268,20 @@ core-$(CONFIG_VMWARE_MVP)      += arch/arm/mvp/
 # If we have a machine-specific directory, then include it in the build.
 core-y				+= arch/arm/kernel/ arch/arm/mm/ arch/arm/common/
 core-y				+= arch/arm/net/
+<<<<<<< HEAD
+=======
+core-y				+= arch/arm/crypto/
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 core-y				+= $(machdirs) $(platdirs)
 
 drivers-$(CONFIG_OPROFILE)      += arch/arm/oprofile/
 core-y				+= arch/arm/perfmon/
 
+<<<<<<< HEAD
 core-$(CONFIG_INTELLI_PLUG)	+= arch/arm/hotplug/
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 libs-y				:= arch/arm/lib/ $(libs-y)
 
 # Default target when executing plain make

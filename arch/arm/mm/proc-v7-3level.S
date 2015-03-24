@@ -19,7 +19,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+<<<<<<< HEAD
 #include <asm/assembler.h>
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #define TTB_IRGN_NC	(0 << 8)
 #define TTB_IRGN_WBWA	(1 << 8)
@@ -48,13 +51,21 @@
  */
 ENTRY(cpu_v7_switch_mm)
 #ifdef CONFIG_MMU
+<<<<<<< HEAD
 	mmid	r1, r1				@ get mm->context.id
+=======
+	ldr	r1, [r1, #MM_CONTEXT_ID]	@ get mm->context.id
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	and	r3, r1, #0xff
 	mov	r3, r3, lsl #(48 - 32)		@ ASID
 	mcrr	p15, 0, r0, r3, c2		@ set TTB 0
 	isb
 #endif
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(cpu_v7_switch_mm)
 
 /*
@@ -68,6 +79,7 @@ ENTRY(cpu_v7_set_pte_ext)
 #ifdef CONFIG_MMU
 	tst	r2, #L_PTE_PRESENT
 	beq	1f
+<<<<<<< HEAD
 
 	eor	ip, rh, #1 << (55 - 32)	@ toggle L_PTE_DIRTY in temp reg to
 					@ test for !L_PTE_DIRTY || L_PTE_RDONLY
@@ -80,6 +92,14 @@ ENTRY(cpu_v7_set_pte_ext)
 	ALT_UP (mcr	p15, 0, r0, c7, c10, 1)		@ flush_pte
 #endif
 	ret	lr
+=======
+	tst	r3, #1 << (55 - 32)		@ L_PTE_DIRTY
+	orreq	r2, #L_PTE_RDONLY
+1:	strd	r2, r3, [r0]
+	mcr	p15, 0, r0, c7, c10, 1		@ flush_pte
+#endif
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(cpu_v7_set_pte_ext)
 
 	/*

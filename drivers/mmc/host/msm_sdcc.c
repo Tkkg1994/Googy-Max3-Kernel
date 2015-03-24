@@ -2651,7 +2651,11 @@ static int msmsdcc_setup_vreg(struct msmsdcc_host *host, bool enable,
 				gpio_set_value(60, 0); /* TFLASH_LS_EN */
 			mdelay(1);
 		}
+<<<<<<< HEAD
 	}	
+=======
+	}
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif
 #endif
 
@@ -5199,9 +5203,15 @@ static void msmsdcc_dump_sdcc_state(struct msmsdcc_host *host)
 	if (atomic_read(&host->clks_on)) {
 		msmsdcc_print_regs("SDCC-CORE", host->base,
 				host->core_memres->start, 28);
+<<<<<<< HEAD
 		msmsdcc_print_regs("SDCC-DML", host->dml_base, 
 				host->dml_memres->start, 20);
 		msmsdcc_print_regs("SDCC-BAM", host->bam_base, 
+=======
+		msmsdcc_print_regs("SDCC-DML", host->dml_base,
+				host->dml_memres->start, 20);
+		msmsdcc_print_regs("SDCC-BAM", host->bam_base,
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 				host->bam_memres->start, 20);
 		pr_err("%s: MCI_TEST_INPUT = 0x%.8x\n",
 			mmc_hostname(host->mmc),
@@ -6220,11 +6230,19 @@ msmsdcc_probe(struct platform_device *pdev)
 
 #if defined(CONFIG_MACH_JF_ATT) || defined(CONFIG_MACH_JF_TMO) || defined(CONFIG_MACH_JF_EUR) || \
 	defined(CONFIG_MACH_JACTIVE_ATT) || defined(CONFIG_MACH_JACTIVE_EUR)
+<<<<<<< HEAD
 	if (t_flash_detect_dev == NULL && 
 		(((host->pdev_id == 4) && (system_rev < BOARD_REV08)) ||
 		((host->pdev_id == 2) && (system_rev >= BOARD_REV08)))) {
 #else /* VZW/SPT/USCC */
 	if (t_flash_detect_dev == NULL && 
+=======
+	if (t_flash_detect_dev == NULL &&
+		(((host->pdev_id == 4) && (system_rev < BOARD_REV08)) ||
+		((host->pdev_id == 2) && (system_rev >= BOARD_REV08)))) {
+#else /* VZW/SPT/USCC */
+	if (t_flash_detect_dev == NULL &&
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		(((host->pdev_id == 4) && (system_rev < BOARD_REV09)) ||
 		((host->pdev_id == 2) && (system_rev >= BOARD_REV09)))) {
 #endif
@@ -6837,7 +6855,11 @@ static int msmsdcc_runtime_idle(struct device *dev)
 		return 0;
 
 	/* Idle timeout is not configurable for now */
+<<<<<<< HEAD
 	/* Disable Runtime PM becasue of potential issues 
+=======
+	/* Disable Runtime PM becasue of potential issues
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	 *pm_schedule_suspend(dev, host->idle_tout);
 	 */
 

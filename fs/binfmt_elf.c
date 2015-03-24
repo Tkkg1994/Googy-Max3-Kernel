@@ -132,6 +132,7 @@ static int padzero(unsigned long elf_bss)
 #define ELF_BASE_PLATFORM NULL
 #endif
 
+<<<<<<< HEAD
 /*
  * Use get_random_int() to implement AT_RANDOM while avoiding depletion
  * of the entropy pool.
@@ -151,6 +152,8 @@ static void get_atrandom_bytes(unsigned char *buf, size_t nbytes)
 	}
 }
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static int
 create_elf_tables(struct linux_binprm *bprm, struct elfhdr *exec,
 		unsigned long load_addr, unsigned long interp_load_addr)
@@ -212,7 +215,11 @@ create_elf_tables(struct linux_binprm *bprm, struct elfhdr *exec,
 	/*
 	 * Generate 16 random bytes for userspace PRNG seeding.
 	 */
+<<<<<<< HEAD
 	get_atrandom_bytes(k_rand_bytes, sizeof(k_rand_bytes));
+=======
+	get_random_bytes(k_rand_bytes, sizeof(k_rand_bytes));
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	u_rand_bytes = (elf_addr_t __user *)
 		       STACK_ALLOC(p, sizeof(k_rand_bytes));
 	if (__copy_to_user(u_rand_bytes, k_rand_bytes, sizeof(k_rand_bytes)))

@@ -200,10 +200,14 @@ int walk_page_range(unsigned long addr, unsigned long end,
 			 */
 			if ((vma->vm_start <= addr) &&
 			    (vma->vm_flags & VM_PFNMAP)) {
+<<<<<<< HEAD
 				if (walk->pte_hole)
 					err = walk->pte_hole(addr, next, walk);
 				if (err)
 					break;
+=======
+				next = vma->vm_end;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 				pgd = pgd_offset(walk->mm, next);
 				continue;
 			}

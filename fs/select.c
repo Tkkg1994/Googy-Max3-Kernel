@@ -26,6 +26,10 @@
 #include <linux/fs.h>
 #include <linux/rcupdate.h>
 #include <linux/hrtimer.h>
+<<<<<<< HEAD
+=======
+#include <linux/freezer.h>
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #include <asm/uaccess.h>
 
@@ -236,7 +240,12 @@ int poll_schedule_timeout(struct poll_wqueues *pwq, int state,
 
 	set_current_state(state);
 	if (!pwq->triggered)
+<<<<<<< HEAD
 		rc = schedule_hrtimeout_range(expires, slack, HRTIMER_MODE_ABS);
+=======
+		rc = freezable_schedule_hrtimeout_range(expires, slack,
+							HRTIMER_MODE_ABS);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	__set_current_state(TASK_RUNNING);
 
 	/*

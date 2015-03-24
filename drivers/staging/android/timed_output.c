@@ -100,8 +100,13 @@ EXPORT_SYMBOL_GPL(timed_output_dev_register);
 void timed_output_dev_unregister(struct timed_output_dev *tdev)
 {
 	device_remove_file(tdev->dev, &dev_attr_enable);
+<<<<<<< HEAD
 	device_destroy(timed_output_class, MKDEV(0, tdev->index));
 	dev_set_drvdata(tdev->dev, NULL);
+=======
+	dev_set_drvdata(tdev->dev, NULL);
+	device_destroy(timed_output_class, MKDEV(0, tdev->index));
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 EXPORT_SYMBOL_GPL(timed_output_dev_unregister);
 

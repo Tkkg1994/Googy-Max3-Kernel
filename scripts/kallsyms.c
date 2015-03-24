@@ -55,6 +55,10 @@ static struct sym_entry *table;
 static unsigned int table_size, table_cnt;
 static int all_symbols = 0;
 static char symbol_prefix_char = '\0';
+<<<<<<< HEAD
+=======
+static unsigned long long kernel_start_addr = 0;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 int token_profit[0x10000];
 
@@ -65,7 +69,14 @@ unsigned char best_table_len[256];
 
 static void usage(void)
 {
+<<<<<<< HEAD
 	fprintf(stderr, "Usage: kallsyms [--all-symbols] [--symbol-prefix=<prefix char>] < in.map > out.S\n");
+=======
+	fprintf(stderr, "Usage: kallsyms [--all-symbols] "
+			"[--symbol-prefix=<prefix char>] "
+			"[--page-offset=<CONFIG_PAGE_OFFSET>] "
+			"< in.map > out.S\n");
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	exit(1);
 }
 
@@ -194,6 +205,12 @@ static int symbol_valid(struct sym_entry *s)
 	int i;
 	int offset = 1;
 
+<<<<<<< HEAD
+=======
+	if (s->addr < kernel_start_addr)
+		return 0;
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	/* skip prefix char */
 	if (symbol_prefix_char && *(s->sym + 1) == symbol_prefix_char)
 		offset++;
@@ -646,6 +663,12 @@ int main(int argc, char **argv)
 				if ((*p == '"' && *(p+2) == '"') || (*p == '\'' && *(p+2) == '\''))
 					p++;
 				symbol_prefix_char = *p;
+<<<<<<< HEAD
+=======
+			} else if (strncmp(argv[i], "--page-offset=", 14) == 0) {
+				const char *p = &argv[i][14];
+				kernel_start_addr = strtoull(p, NULL, 16);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			} else
 				usage();
 		}

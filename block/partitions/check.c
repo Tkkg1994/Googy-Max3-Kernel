@@ -14,7 +14,10 @@
  */
 
 #include <linux/slab.h>
+<<<<<<< HEAD
 #include <linux/vmalloc.h>
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <linux/ctype.h>
 #include <linux/genhd.h>
 
@@ -107,6 +110,7 @@ static int (*check_part[])(struct parsed_partitions *) = {
 	NULL
 };
 
+<<<<<<< HEAD
 static struct parsed_partitions *allocate_partitions(struct gendisk *hd)
 {
 	struct parsed_partitions *state;
@@ -134,18 +138,28 @@ void free_partitions(struct parsed_partitions *state)
 	kfree(state);
 }
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 struct parsed_partitions *
 check_partition(struct gendisk *hd, struct block_device *bdev)
 {
 	struct parsed_partitions *state;
 	int i, res, err;
 
+<<<<<<< HEAD
 	state = allocate_partitions(hd);
+=======
+	state = kzalloc(sizeof(struct parsed_partitions), GFP_KERNEL);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (!state)
 		return NULL;
 	state->pp_buf = (char *)__get_free_page(GFP_KERNEL);
 	if (!state->pp_buf) {
+<<<<<<< HEAD
 		free_partitions(state);
+=======
+		kfree(state);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		return NULL;
 	}
 	state->pp_buf[0] = '\0';
@@ -156,9 +170,16 @@ check_partition(struct gendisk *hd, struct block_device *bdev)
 	if (isdigit(state->name[strlen(state->name)-1]))
 		sprintf(state->name, "p");
 
+<<<<<<< HEAD
 	i = res = err = 0;
 	while (!res && check_part[i]) {
 		memset(state->parts, 0, state->limit * sizeof(state->parts[0]));
+=======
+	state->limit = disk_max_parts(hd);
+	i = res = err = 0;
+	while (!res && check_part[i]) {
+		memset(&state->parts, 0, sizeof(state->parts));
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		res = check_part[i++](state);
 		if (res < 0) {
 			/* We have hit an I/O error which we don't report now.
@@ -188,6 +209,10 @@ check_partition(struct gendisk *hd, struct block_device *bdev)
 	printk(KERN_INFO "%s", state->pp_buf);
 
 	free_page((unsigned long)state->pp_buf);
+<<<<<<< HEAD
 	free_partitions(state);
+=======
+	kfree(state);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return ERR_PTR(res);
 }

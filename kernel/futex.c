@@ -60,6 +60,10 @@
 #include <linux/pid.h>
 #include <linux/nsproxy.h>
 #include <linux/ptrace.h>
+<<<<<<< HEAD
+=======
+#include <linux/freezer.h>
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <linux/hugetlb.h>
 
 #include <asm/futex.h>
@@ -597,6 +601,7 @@ void exit_pi_state_list(struct task_struct *curr)
 }
 
 /*
+<<<<<<< HEAD
 * We need to check the following states:
 *
 *      Waiter | pi_state | pi->owner | uTID      | uODIED | ?
@@ -647,6 +652,8 @@ void exit_pi_state_list(struct task_struct *curr)
 */
 
 /*
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  * We need to check the following states:
  *
  *      Waiter | pi_state | pi->owner | uTID      | uODIED | ?
@@ -697,7 +704,12 @@ void exit_pi_state_list(struct task_struct *curr)
  */
 static int
 lookup_pi_state(u32 uval, struct futex_hash_bucket *hb,
+<<<<<<< HEAD
 		union futex_key *key, struct futex_pi_state **ps)
+=======
+		union futex_key *key, struct futex_pi_state **ps,
+		struct task_struct *task)
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 {
 	struct futex_pi_state *pi_state = NULL;
 	struct futex_q *this, *next;
@@ -774,6 +786,7 @@ lookup_pi_state(u32 uval, struct futex_hash_bucket *hb,
 			 * futex value. If pi state exists then the
 			 * owner TID must be the same as the user
 			 * space TID. [9/10]
+<<<<<<< HEAD
  			 */
 			if (pid != task_pid_vnr(pi_state->owner))
 				return -EINVAL;
@@ -782,6 +795,25 @@ lookup_pi_state(u32 uval, struct futex_hash_bucket *hb,
 			atomic_inc(&pi_state->refcount);
 			*ps = pi_state;
 
+=======
+			 */
+			if (pid != task_pid_vnr(pi_state->owner))
+				return -EINVAL;
+
+			/*
+  			 * Protect against a corrupted uval. If uval
+  			 * is 0x80000000 then pid is 0 and the waiter
+  			 * bit is set. So the deadlock check in the
+  			 * calling code has failed and we did not fall
+  			 * into the check above due to !pid.
+  			 */
+  			if (task && pi_state->owner == task)
+  				return -EDEADLK;
+
+		out_state:
+			atomic_inc(&pi_state->refcount);
+			*ps = pi_state;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			return 0;
 		}
 	}
@@ -944,7 +976,11 @@ retry:
 	 * We dont have the lock. Look up the PI state (or create it if
 	 * we are the first waiter):
 	 */
+<<<<<<< HEAD
 	ret = lookup_pi_state(uval, hb, key, ps);
+=======
+	ret = lookup_pi_state(uval, hb, key, ps, task);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	if (unlikely(ret)) {
 		switch (ret) {
@@ -1349,8 +1385,13 @@ void requeue_pi_wake_futex(struct futex_q *q, union futex_key *key,
  * then direct futex_lock_pi_atomic() to force setting the FUTEX_WAITERS bit.
  * hb1 and hb2 must be held by the caller.
  *
+<<<<<<< HEAD
  * Returns:
  *  0 - failed to acquire the lock atomicly
+=======
+ * Return:
+ *  0 - failed to acquire the lock atomically;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  * >0 - acquired the lock, return value is vpid of the top_waiter
  * <0 - error
  */
@@ -1428,7 +1469,10 @@ static int futex_requeue(u32 __user *uaddr1, unsigned int flags,
 	struct futex_hash_bucket *hb1, *hb2;
 	struct plist_head *head1;
 	struct futex_q *this, *next;
+<<<<<<< HEAD
 	u32 curval2;
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	if (requeue_pi) {
 		/*
@@ -1439,6 +1483,7 @@ static int futex_requeue(u32 __user *uaddr1, unsigned int flags,
 			return -EINVAL;
 
 		/*
+<<<<<<< HEAD
 		 * Requeue PI only works on two distinct uaddrs. This
 		 * check is only valid for private futexec. See below.
 		 */
@@ -1446,6 +1491,8 @@ static int futex_requeue(u32 __user *uaddr1, unsigned int flags,
 			return -EINVAL;
 
 		/*
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		 * requeue_pi requires a pi_state, try to allocate it now
 		 * without any locks in case it fails.
 		 */
@@ -1483,6 +1530,7 @@ retry:
 		goto out_put_keys;
 	}
 
+<<<<<<< HEAD
 	/*
 	 * The check above which compares uaddrs is not sufficient for
 	 * shared futexes. We need to compare the keys:
@@ -1501,6 +1549,8 @@ retry:
 		goto out_put_keys;
 	}
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	hb1 = hash_futex(&key1);
 	hb2 = hash_futex(&key2);
 
@@ -1564,7 +1614,11 @@ retry_private:
 			 * rereading and handing potential crap to
 			 * lookup_pi_state.
 			 */
+<<<<<<< HEAD
 			ret = lookup_pi_state(ret, hb2, &key2, &pi_state);
+=======
+			ret = lookup_pi_state(ret, hb2, &key2, &pi_state, NULL);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		}
 
 		switch (ret) {
@@ -2010,7 +2064,11 @@ static void futex_wait_queue_me(struct futex_hash_bucket *hb, struct futex_q *q,
 		 * is no timeout, or if it has yet to expire.
 		 */
 		if (!timeout || timeout->task)
+<<<<<<< HEAD
 			schedule();
+=======
+			freezable_schedule();
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 	__set_current_state(TASK_RUNNING);
 }

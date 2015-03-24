@@ -157,6 +157,7 @@ struct lockdep_map {
 #endif
 };
 
+<<<<<<< HEAD
 static inline void lockdep_copy_map(struct lockdep_map *to,
 				    struct lockdep_map *from)
 {
@@ -175,6 +176,8 @@ static inline void lockdep_copy_map(struct lockdep_map *to,
 		to->class_cache[i] = NULL;
 }
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 /*
  * Every lock has a list of other locks that were taken after it.
  * We only grow the list, never remove from it:

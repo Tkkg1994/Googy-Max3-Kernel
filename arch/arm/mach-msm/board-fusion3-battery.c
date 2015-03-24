@@ -28,10 +28,13 @@
 #include "devices-msm8x60.h"
 #include "board-8064.h"
 
+<<<<<<< HEAD
 #ifdef CONFIG_FORCE_FAST_CHARGE
 #include <linux/fastchg.h>
 #endif
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #if defined(CONFIG_BATTERY_SAMSUNG)
 #include <linux/battery/sec_battery.h>
 #include <linux/battery/sec_fuelgauge.h>
@@ -324,6 +327,7 @@ static int sec_bat_get_cable_from_extended_cable_type(
 		break;
 	}
 
+<<<<<<< HEAD
 #ifdef CONFIG_FORCE_FAST_CHARGE
 	/* We are in basic Fast Charge mode, so we substitute AC to USB
 	   levels */
@@ -371,6 +375,8 @@ static int sec_bat_get_cable_from_extended_cable_type(
 	}
 #endif
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (charge_current_max == 0) {
 		charge_current_max =
 			charging_current_table[cable_type].input_current_limit;
@@ -786,6 +792,24 @@ sec_battery_platform_data_t sec_battery_pdata = {
 	.temp_high_recovery_lpm = 430,
 	.temp_low_threshold_lpm = -30,
 	.temp_low_recovery_lpm = 0,
+<<<<<<< HEAD
+=======
+#elif defined(CONFIG_MACH_JACTIVE_EUR)
+	.temp_high_threshold_event = 600,
+	.temp_high_recovery_event = 400,
+	.temp_low_threshold_event = -50,
+	.temp_low_recovery_event = 0,
+
+	.temp_high_threshold_normal = 600,
+	.temp_high_recovery_normal = 400,
+	.temp_low_threshold_normal = -50,
+	.temp_low_recovery_normal = 0,
+
+	.temp_high_threshold_lpm = 600,
+	.temp_high_recovery_lpm = 400,
+	.temp_low_threshold_lpm = -50,
+	.temp_low_recovery_lpm = 0,
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #elif defined(CONFIG_MACH_JF_CRI)
 	.temp_high_threshold_event = 600,
 	.temp_high_recovery_event = 450,

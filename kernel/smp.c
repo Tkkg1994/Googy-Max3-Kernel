@@ -13,6 +13,11 @@
 #include <linux/smp.h>
 #include <linux/cpu.h>
 
+<<<<<<< HEAD
+=======
+#include "smpboot.h"
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #ifdef CONFIG_USE_GENERIC_SMP_HELPERS
 static struct {
 	struct list_head	queue;
@@ -315,6 +320,7 @@ int smp_call_function_single(int cpu, smp_call_func_t func, void *info,
 	 */
 	this_cpu = get_cpu();
 
+<<<<<<< HEAD
 	/*
 	 * Can deadlock when called with interrupts disabled.
 	 * We allow cpu's that are not yet online though, as no one else can
@@ -324,11 +330,25 @@ int smp_call_function_single(int cpu, smp_call_func_t func, void *info,
 	WARN_ON_ONCE(cpu_online(this_cpu) && irqs_disabled()
 		     && !oops_in_progress);
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (cpu == this_cpu) {
 		local_irq_save(flags);
 		func(info);
 		local_irq_restore(flags);
 	} else {
+<<<<<<< HEAD
+=======
+		/*
+		 * Can deadlock when called with interrupts disabled.
+		 * We allow cpu's that are not yet online though, as no one else
+		 * can send smp call function interrupt to this cpu and as such
+		 * deadlocks can't happen.
+		 */
+		WARN_ON_ONCE(cpu_online(this_cpu) && irqs_disabled()
+			     && !oops_in_progress);
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		if ((unsigned)cpu < nr_cpu_ids && cpu_online(cpu)) {
 			struct call_single_data *data = &d;
 
@@ -413,6 +433,7 @@ void __smp_call_function_single(int cpu, struct call_single_data *data,
 	unsigned long flags;
 
 	this_cpu = get_cpu();
+<<<<<<< HEAD
 	/*
 	 * Can deadlock when called with interrupts disabled.
 	 * We allow cpu's that are not yet online though, as no one else can
@@ -421,12 +442,26 @@ void __smp_call_function_single(int cpu, struct call_single_data *data,
 	 */
 	WARN_ON_ONCE(cpu_online(smp_processor_id()) && wait && irqs_disabled()
 		     && !oops_in_progress);
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	if (cpu == this_cpu) {
 		local_irq_save(flags);
 		data->func(data->info);
 		local_irq_restore(flags);
 	} else {
+<<<<<<< HEAD
+=======
+		/*
+		 * Can deadlock when called with interrupts disabled.
+		 * We allow cpu's that are not yet online though, as no one else
+		 * can send smp call function interrupt to this cpu and as such
+		 * deadlocks can't happen.
+		 */
+		WARN_ON_ONCE(cpu_online(smp_processor_id()) && wait
+			     && irqs_disabled() && !oops_in_progress);
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		csd_lock(data);
 		generic_exec_single(cpu, data, wait);
 	}
@@ -680,6 +715,11 @@ void __init smp_init(void)
 {
 	unsigned int cpu;
 
+<<<<<<< HEAD
+=======
+	idle_threads_init();
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	/* FIXME: This should be done in userspace --RR */
 	for_each_present_cpu(cpu) {
 		if (num_online_cpus() >= setup_max_cpus)

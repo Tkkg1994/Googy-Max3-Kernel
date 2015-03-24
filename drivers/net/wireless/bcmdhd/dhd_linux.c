@@ -55,6 +55,10 @@
 #include <bcmutils.h>
 #include <bcmendian.h>
 #include <bcmdevs.h>
+<<<<<<< HEAD
+=======
+#include <bcmsdbus.h>
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #include <proto/ethernet.h>
 #include <proto/bcmip.h>
@@ -632,6 +636,10 @@ static char dhd_version[] = "Dongle Host Driver, version " EPI_VERSION_STR
 "\nCompiled in " SRCBASE " on " __DATE__ " at " __TIME__
 #endif
 ;
+<<<<<<< HEAD
+=======
+int dhd_dev_reset(struct net_device *dev, uint8 flag);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static void dhd_net_if_lock_local(dhd_info_t *dhd);
 static void dhd_net_if_unlock_local(dhd_info_t *dhd);
 static void dhd_suspend_lock(dhd_pub_t *dhdp);
@@ -905,6 +913,11 @@ static int dhd_set_suspend(int value, dhd_pub_t *dhd)
 	uint32 allmulti;
 	uint i;
 #endif /* PASS_ALL_MCAST_PKTS && CUSTOMER_HW4 */
+<<<<<<< HEAD
+=======
+	uint nd_ra_filter = 0;
+	int ret = 0;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	if (!dhd)
 		return -ENODEV;
@@ -925,6 +938,17 @@ static int dhd_set_suspend(int value, dhd_pub_t *dhd)
 				dhd_wl_ioctl_cmd(dhd, WLC_SET_PM, (char *)&power_mode,
 				                 sizeof(power_mode), TRUE, 0);
 #endif /* SUPPORT_PM2_ONLY */
+<<<<<<< HEAD
+=======
+				if (FW_SUPPORTED(dhd, ndoe)) {
+					/* enable IPv6 RA filter in  firmware during suspend */
+					nd_ra_filter = 1;
+					bcm_mkiovar("nd_ra_filter_enable", (char *)&nd_ra_filter, 4,
+							iovbuf, sizeof(iovbuf));
+					if ((ret = dhd_wl_ioctl_cmd(dhd, WLC_SET_VAR, iovbuf, sizeof(iovbuf), TRUE, 0)) < 0)
+						DHD_ERROR(("failed to set nd_ra_filter (%d)\n", ret));
+				}
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 				/* Enable packet filter, only allow unicast packet to send up */
 				dhd_enable_packet_filter(1, dhd);
@@ -957,6 +981,17 @@ static int dhd_set_suspend(int value, dhd_pub_t *dhd)
 					iovbuf, sizeof(iovbuf));
 				dhd_wl_ioctl_cmd(dhd, WLC_SET_VAR, iovbuf, sizeof(iovbuf), TRUE, 0);
 #endif /* ENABLE_FW_ROAM_SUSPEND */
+<<<<<<< HEAD
+=======
+				if (FW_SUPPORTED(dhd, ndoe)) {
+					/* disable IPv6 RA filter in  firmware during suspend */
+					nd_ra_filter = 0;
+					bcm_mkiovar("nd_ra_filter_enable", (char *)&nd_ra_filter, 4,
+							iovbuf, sizeof(iovbuf));
+					if ((ret = dhd_wl_ioctl_cmd(dhd, WLC_SET_VAR, iovbuf, sizeof(iovbuf), TRUE, 0)) < 0)
+						DHD_ERROR(("failed to set nd_ra_filter (%d)\n", ret));
+				}
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #if defined(CUSTOMER_HW4) && defined(ENABLE_BCN_LI_BCN_WAKEUP)
 				bcn_li_bcn = 0;
 				bcm_mkiovar("bcn_li_bcn", (char *)&bcn_li_bcn,
@@ -3373,6 +3408,7 @@ dhd_open(struct net_device *net)
 	}
 #endif /* CUSTOMER_HW4 */
 
+<<<<<<< HEAD
 #if defined(SUPPORT_MULTIPLE_REVISION)
 	/* dhd_open() can be call several times when loading failed */
 	if (strlen(firmware_path) != 0) {
@@ -3385,6 +3421,8 @@ dhd_open(struct net_device *net)
 	}
 #endif /* SUPPORT_MULTIPLE_REVISION */
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #ifdef CUSTOMER_HW4
 #ifdef FIX_CPU_MIN_CLOCK
 	if (strstr(fw_path, "_apsta")) {
@@ -3431,6 +3469,11 @@ dhd_open(struct net_device *net)
 #if defined(WL_CFG80211)
 		DHD_ERROR(("\n%s\n", dhd_version));
 		if (!dhd_download_fw_on_driverload) {
+<<<<<<< HEAD
+=======
+			/* update firmware and nvram path to SDIO bus */
+			dhd_bus_update_fw_nv_path(dhd->pub.bus, fw_path, nv_path);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			ret = wl_android_wifi_on(net);
 			if (ret != 0) {
 				DHD_ERROR(("%s : wl_android_wifi_on failed (%d)\n",
@@ -3692,6 +3735,7 @@ dhd_attach(osl_t *osh, struct dhd_bus *bus, uint bus_hdrlen)
 		bzero(nv_path, MOD_PARAM_PATHLEN);
 		strncpy(nv_path, nvram_path, sizeof(nv_path) -1);
 	}
+<<<<<<< HEAD
 #if defined(SUPPORT_MULTIPLE_REVISION)
 	if (strlen(fw_path) != 0 &&
 		concate_revision(bus, fw_path, MOD_PARAM_PATHLEN,
@@ -3700,6 +3744,8 @@ dhd_attach(osl_t *osh, struct dhd_bus *bus, uint bus_hdrlen)
 		goto fail;
 	}
 #endif /* SUPPORT_MULTIPLE_REVISION */
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	/* Allocate etherdev, including space for private structure */
 	if (!(net = alloc_etherdev(sizeof(dhd)))) {
@@ -5241,6 +5287,13 @@ dhd_net_attach(dhd_pub_t *dhdp, int ifidx)
 
 #if 1 && (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 27))
 	if (ifidx == 0) {
+<<<<<<< HEAD
+=======
+		if (!dhd_download_fw_on_driverload) {
+			dhd_dev_reset(net, TRUE);
+			sdioh_stop(NULL);
+		}
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		dhd_registration_check = TRUE;
 		up(&dhd_registration_sem);
 	}
@@ -6329,7 +6382,11 @@ dhd_dev_init_ioctl(struct net_device *dev)
 
 	dhd_process_cid_mac(&dhd->pub, TRUE);
 
+<<<<<<< HEAD
 	if ((ret = dhd_preinit_ioctls(&dhd->pub)) < 0)
+=======
+	if ((ret = dhd_prot_init(&dhd->pub)) < 0)
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		goto done;
 
 	dhd_process_cid_mac(&dhd->pub, FALSE);
@@ -6632,10 +6689,17 @@ int dhd_os_wake_lock_timeout(dhd_pub_t *pub)
 #ifdef CONFIG_HAS_WAKELOCK
 		if (dhd->wakelock_rx_timeout_enable)
 			wake_lock_timeout(&dhd->wl_rxwake,
+<<<<<<< HEAD
 				msecs_to_jiffies(dhd->wakelock_rx_timeout_enable)/2);
 		if (dhd->wakelock_ctrl_timeout_enable)
 			wake_lock_timeout(&dhd->wl_ctrlwake,
 				msecs_to_jiffies(dhd->wakelock_ctrl_timeout_enable)/2);
+=======
+				msecs_to_jiffies(dhd->wakelock_rx_timeout_enable));
+		if (dhd->wakelock_ctrl_timeout_enable)
+			wake_lock_timeout(&dhd->wl_ctrlwake,
+				msecs_to_jiffies(dhd->wakelock_ctrl_timeout_enable));
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif
 		dhd->wakelock_rx_timeout_enable = 0;
 		dhd->wakelock_ctrl_timeout_enable = 0;

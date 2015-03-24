@@ -144,7 +144,11 @@ static int sec_restrict_fork(void)
 	/* get current->parent's mm struct to access it's mm
 	 * and to keep it alive */
 	parent_mm = get_task_mm(parent_tsk);
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	/* 1.1 Skip for kernel tasks */
 	if (current->mm == NULL || parent_mm == NULL)
 		goto out;

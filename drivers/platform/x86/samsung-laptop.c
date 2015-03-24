@@ -1527,6 +1527,7 @@ static struct dmi_system_id __initdata samsung_dmi_table[] = {
 		},
 	 .driver_data = &samsung_broken_acpi_video,
 	},
+<<<<<<< HEAD
 	{
 	 .callback = samsung_dmi_matched,
 	 .ident = "NC210",
@@ -1537,6 +1538,8 @@ static struct dmi_system_id __initdata samsung_dmi_table[] = {
 		},
 	 .driver_data = &samsung_broken_acpi_video,
 	},
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	{ },
 };
 MODULE_DEVICE_TABLE(dmi, samsung_dmi_table);

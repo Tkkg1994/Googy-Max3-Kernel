@@ -534,6 +534,7 @@ int __ref online_pages(unsigned long pfn, unsigned long nr_pages)
 	zone->present_pages += onlined_pages;
 	zone->zone_pgdat->node_present_pages += onlined_pages;
 	drain_all_pages();
+<<<<<<< HEAD
 	if (onlined_pages) {
 		node_set_state(zone_to_nid(zone), N_HIGH_MEMORY);
 		if (need_zonelists_rebuild)
@@ -541,6 +542,12 @@ int __ref online_pages(unsigned long pfn, unsigned long nr_pages)
 		else
 			zone_pcp_update(zone);
 	}
+=======
+	if (need_zonelists_rebuild)
+		build_all_zonelists(zone);
+	else
+		zone_pcp_update(zone);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	mutex_unlock(&zonelists_mutex);
 

@@ -858,6 +858,10 @@ int sysfs_rename(struct sysfs_dirent *sd,
 	struct sysfs_dirent *new_parent_sd, const void *new_ns,
 	const char *new_name)
 {
+<<<<<<< HEAD
+=======
+	const char *dup_name = NULL;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	int error;
 
 	mutex_lock(&sysfs_mutex);
@@ -874,11 +878,19 @@ int sysfs_rename(struct sysfs_dirent *sd,
 	/* rename sysfs_dirent */
 	if (strcmp(sd->s_name, new_name) != 0) {
 		error = -ENOMEM;
+<<<<<<< HEAD
 		new_name = kstrdup(new_name, GFP_KERNEL);
 		if (!new_name)
 			goto out;
 
 		kfree(sd->s_name);
+=======
+		new_name = dup_name = kstrdup(new_name, GFP_KERNEL);
+		if (!new_name)
+			goto out;
+
+		dup_name = sd->s_name;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		sd->s_name = new_name;
 	}
 
@@ -894,6 +906,10 @@ int sysfs_rename(struct sysfs_dirent *sd,
 	error = 0;
  out:
 	mutex_unlock(&sysfs_mutex);
+<<<<<<< HEAD
+=======
+	kfree(dup_name);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return error;
 }
 

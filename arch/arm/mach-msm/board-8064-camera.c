@@ -81,7 +81,15 @@ static struct gpiomux_setting cam_settings[] = {
 
 	{
 		.func = GPIOMUX_FUNC_1, /*active 1*/
+<<<<<<< HEAD
 		.drv = GPIOMUX_DRV_2MA,
+=======
+#if defined(CONFIG_MACH_JACTIVE_EUR)
+		.drv = GPIOMUX_DRV_4MA,
+#else
+		.drv = GPIOMUX_DRV_2MA,
+#endif
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		.pull = GPIOMUX_PULL_NONE,
 		.dir = GPIOMUX_OUT_LOW,
 	},
@@ -89,7 +97,15 @@ static struct gpiomux_setting cam_settings[] = {
 	{
 		.func = GPIOMUX_FUNC_GPIO, /*active 2*/
 		.drv = GPIOMUX_DRV_2MA,
+<<<<<<< HEAD
 		.pull = GPIOMUX_PULL_NONE,
+=======
+#if defined(CONFIG_MACH_JACTIVE_ATT) || defined(CONFIG_MACH_JACTIVE_EUR)
+		.pull = GPIOMUX_PULL_DOWN,
+#else
+		.pull = GPIOMUX_PULL_NONE,
+#endif
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	},
 
 	{
@@ -145,7 +161,15 @@ static struct gpiomux_setting cam_settings[] = {
 	},
 	{
 		.func = GPIOMUX_FUNC_4, /*active 12*/
+<<<<<<< HEAD
 		.drv = GPIOMUX_DRV_2MA,
+=======
+#if defined(CONFIG_MACH_JACTIVE_EUR)
+		.drv = GPIOMUX_DRV_4MA,
+#else
+		.drv = GPIOMUX_DRV_2MA,
+#endif
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		.pull = GPIOMUX_PULL_NONE,
 		.dir = GPIOMUX_OUT_LOW,
 	},
@@ -363,8 +387,11 @@ static int get_system_rev(void)
 static void cam_ldo_power_on(void)
 {
 	int ret = 0;
+<<<<<<< HEAD
 	int cam_type = 0;
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	printk(KERN_DEBUG "[JC] %s: In\n", __func__);
 
 	printk(KERN_DEBUG "[JC] %s: system_rev=%d\n", __func__, system_rev);
@@ -409,6 +436,7 @@ static void cam_ldo_power_on(void)
 			__func__);
 	}
 
+<<<<<<< HEAD
 	cam_type = gpio_get_value(GPIO_CAM_SENSOR_DET);
 
 	printk(KERN_DEBUG "[JC] %s: SENSOR TYPE = %d\n", __func__, cam_type);
@@ -425,6 +453,11 @@ static void cam_ldo_power_on(void)
 		regulator_set_voltage(l28, 1200000, 1200000);
 	}
 
+=======
+	/* CAM_DVDD1.1V_1.2V*/
+	l28 = regulator_get(NULL, "8921_l28");
+	regulator_set_voltage(l28, 1100000, 1100000);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	ret = regulator_enable(l28);
 	if (ret)
 		printk(KERN_DEBUG "error enabling regulator 8921_l28\n");
@@ -1537,6 +1570,7 @@ struct pm_gpio cam_init_in_cfg = {
 	.output_value = 0,
 };
 
+<<<<<<< HEAD
 struct pm_gpio cam_rear_det = {
 		.direction		= PM_GPIO_DIR_IN,
 		.pull			= PM_GPIO_PULL_NO,
@@ -1548,6 +1582,8 @@ struct pm_gpio cam_rear_det = {
 		.output_value		= 0,
 };
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 void __init apq8064_init_cam(void)
 {
 	printk(KERN_DEBUG "[JC] %s: In\n", __func__);
@@ -1567,7 +1603,10 @@ void __init apq8064_init_cam(void)
 #endif
 
 	pm8xxx_gpio_config(GPIO_CAM_A_EN2, &cam_init_out_cfg);
+<<<<<<< HEAD
 	pm8xxx_gpio_config(GPIO_CAM_SENSOR_DET, &cam_rear_det);
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	/* temp: need to set low because bootloader make high signal. */
 	pmic_gpio_ctrl(GPIO_CAM_VT_EN, 0);

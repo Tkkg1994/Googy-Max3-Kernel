@@ -351,6 +351,11 @@ static int voice_create_mvm_cvs_session(struct voice_data *v)
 	/* send cmd to create mvm session and wait for response */
 
 	if (!mvm_handle) {
+<<<<<<< HEAD
+=======
+		memset(mvm_session_cmd.mvm_session.name, 0,
+			sizeof(mvm_session_cmd.mvm_session.name));
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		if (is_voice_session(v->session_id) ||
 				is_volte_session(v->session_id)) {
 			mvm_session_cmd.hdr.hdr_field = APR_HDR_FIELD(
@@ -371,11 +376,19 @@ static int voice_create_mvm_cvs_session(struct voice_data *v)
 			if (is_volte_session(v->session_id)) {
 				strlcpy(mvm_session_cmd.mvm_session.name,
 				"default volte voice",
+<<<<<<< HEAD
 				sizeof(mvm_session_cmd.mvm_session.name));
 			} else {
 			strlcpy(mvm_session_cmd.mvm_session.name,
 				"default modem voice",
 				sizeof(mvm_session_cmd.mvm_session.name));
+=======
+				strlen("default volte voice")+1);
+			} else {
+			strlcpy(mvm_session_cmd.mvm_session.name,
+				"default modem voice",
+				strlen("default modem voice")+1);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			}
 
 			v->mvm_state = CMD_STATUS_FAIL;
@@ -410,7 +423,11 @@ static int voice_create_mvm_cvs_session(struct voice_data *v)
 				VSS_IMVM_CMD_CREATE_FULL_CONTROL_SESSION;
 			strlcpy(mvm_session_cmd.mvm_session.name,
 				"default voip",
+<<<<<<< HEAD
 				sizeof(mvm_session_cmd.mvm_session.name));
+=======
+				strlen("default voip")+1);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 			v->mvm_state = CMD_STATUS_FAIL;
 
@@ -433,6 +450,11 @@ static int voice_create_mvm_cvs_session(struct voice_data *v)
 	}
 	/* send cmd to create cvs session */
 	if (!cvs_handle) {
+<<<<<<< HEAD
+=======
+		memset(cvs_session_cmd.cvs_session.name, 0,
+			sizeof(cvs_session_cmd.cvs_session.name));
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		if (is_voice_session(v->session_id) ||
 			is_volte_session(v->session_id)) {
 			pr_debug("%s: creating CVS passive session\n",
@@ -454,11 +476,19 @@ static int voice_create_mvm_cvs_session(struct voice_data *v)
 			if (is_volte_session(v->session_id)) {
 				strlcpy(mvm_session_cmd.mvm_session.name,
 				"default volte voice",
+<<<<<<< HEAD
 				sizeof(mvm_session_cmd.mvm_session.name));
 			} else {
 			strlcpy(cvs_session_cmd.cvs_session.name,
 				"default modem voice",
 				sizeof(cvs_session_cmd.cvs_session.name));
+=======
+				strlen("default volte voice")+1);
+			} else {
+			strlcpy(cvs_session_cmd.cvs_session.name,
+				"default modem voice",
+				strlen("default modem voice")+1);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			}
 			v->cvs_state = CMD_STATUS_FAIL;
 
@@ -505,7 +535,11 @@ static int voice_create_mvm_cvs_session(struct voice_data *v)
 					       common.mvs_info.network_type;
 			strlcpy(cvs_full_ctl_cmd.cvs_session.name,
 				"default q6 voice",
+<<<<<<< HEAD
 				sizeof(cvs_full_ctl_cmd.cvs_session.name));
+=======
+				strlen("default q6 voice")+1);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 			v->cvs_state = CMD_STATUS_FAIL;
 

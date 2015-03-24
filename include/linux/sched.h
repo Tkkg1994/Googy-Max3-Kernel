@@ -122,7 +122,11 @@ extern void get_avenrun(unsigned long *loads, unsigned long offset, int shift);
 
 #define FSHIFT		11		/* nr of bits of precision */
 #define FIXED_1		(1<<FSHIFT)	/* 1.0 as fixed-point */
+<<<<<<< HEAD
 #define LOAD_FREQ	(4*HZ+61)	/* 4.61 sec intervals */
+=======
+#define LOAD_FREQ	(5*HZ+1)	/* 5 sec intervals */
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #define EXP_1		1884		/* 1/exp(5sec/1min) as fixed-point */
 #define EXP_5		2014		/* 1/exp(5sec/5min) */
 #define EXP_15		2037		/* 1/exp(5sec/15min) */
@@ -196,9 +200,16 @@ print_cfs_rq(struct seq_file *m, int cpu, struct cfs_rq *cfs_rq)
 #define TASK_DEAD		64
 #define TASK_WAKEKILL		128
 #define TASK_WAKING		256
+<<<<<<< HEAD
 #define TASK_STATE_MAX		512
 
 #define TASK_STATE_TO_CHAR_STR "RSDTtZXxKW"
+=======
+#define TASK_PARKED		512
+#define TASK_STATE_MAX		1024
+
+#define TASK_STATE_TO_CHAR_STR "RSDTtZXxKWP"
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 extern char ___assert_task_state[1 - 2*!!(
 		sizeof(TASK_STATE_TO_CHAR_STR)-1 != ilog2(TASK_STATE_MAX)+1)];
@@ -366,7 +377,14 @@ extern signed long schedule_timeout_killable(signed long timeout);
 extern signed long schedule_timeout_uninterruptible(signed long timeout);
 asmlinkage void schedule(void);
 extern void schedule_preempt_disabled(void);
+<<<<<<< HEAD
 extern int mutex_spin_on_owner(struct mutex *lock, struct task_struct *owner);
+=======
+#ifdef CONFIG_MUTEX_SPIN_ON_OWNER
+extern int mutex_spin_on_owner(struct mutex *lock, struct task_struct *owner);
+extern int mutex_can_spin_on_owner(struct mutex *lock);
+#endif
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 struct nsproxy;
 struct user_namespace;
@@ -865,14 +883,69 @@ enum cpu_idle_type {
 #define SD_WAKE_AFFINE		0x0020	/* Wake task to waking CPU */
 #define SD_PREFER_LOCAL		0x0040  /* Prefer to keep tasks local to this domain */
 #define SD_SHARE_CPUPOWER	0x0080	/* Domain members share cpu power */
+<<<<<<< HEAD
+=======
+#define SD_POWERSAVINGS_BALANCE	0x0100	/* Balance for power savings */
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #define SD_SHARE_PKG_RESOURCES	0x0200	/* Domain members share cpu pkg resources */
 #define SD_SERIALIZE		0x0400	/* Only a single load balancing instance */
 #define SD_ASYM_PACKING		0x0800  /* Place busy groups earlier in the domain */
 #define SD_PREFER_SIBLING	0x1000	/* Prefer to place tasks in a sibling domain */
 #define SD_OVERLAP		0x2000	/* sched_domains of this level overlap */
 
+<<<<<<< HEAD
 extern int __weak arch_sd_sibiling_asym_packing(void);
 
+=======
+enum powersavings_balance_level {
+	POWERSAVINGS_BALANCE_NONE = 0,  /* No power saving load balance */
+	POWERSAVINGS_BALANCE_BASIC,	/* Fill one thread/core/package
+					 * first for long running threads
+					 */
+	POWERSAVINGS_BALANCE_WAKEUP,	/* Also bias task wakeups to semi-idle
+					 * cpu package for power savings
+					 */
+	MAX_POWERSAVINGS_BALANCE_LEVELS
+};
+
+extern int sched_mc_power_savings, sched_smt_power_savings;
+
+static inline int sd_balance_for_mc_power(void)
+{
+	if (sched_smt_power_savings)
+		return SD_POWERSAVINGS_BALANCE;
+
+	if (!sched_mc_power_savings)
+		return SD_PREFER_SIBLING;
+
+	return 0;
+}
+
+static inline int sd_balance_for_package_power(void)
+{
+	if (sched_mc_power_savings | sched_smt_power_savings)
+		return SD_POWERSAVINGS_BALANCE;
+
+	return SD_PREFER_SIBLING;
+}
+
+extern int __weak arch_sd_sibiling_asym_packing(void);
+
+/*
+ * Optimise SD flags for power savings:
+ * SD_BALANCE_NEWIDLE helps aggressive task consolidation and power savings.
+ * Keep default SD flags if sched_{smt,mc}_power_saving=0
+ */
+
+static inline int sd_power_saving_flags(void)
+{
+	if (sched_mc_power_savings | sched_smt_power_savings)
+		return SD_BALANCE_NEWIDLE;
+
+	return 0;
+}
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 struct sched_group_power {
 	atomic_t ref;
 	/*
@@ -1311,7 +1384,10 @@ struct task_struct {
 				 * execve */
 	unsigned in_iowait:1;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	/* Revert to default priority/policy when forking */
 	unsigned sched_reset_on_fork:1;
 	unsigned sched_contributes_to_load:1;
@@ -1422,7 +1498,11 @@ struct task_struct {
 	uid_t loginuid;
 	unsigned int sessionid;
 #endif
+<<<<<<< HEAD
 	seccomp_t seccomp;
+=======
+	struct seccomp seccomp;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /* Thread group tracking */
    	u32 parent_exec_id;
@@ -1831,6 +1911,21 @@ extern int task_free_unregister(struct notifier_block *n);
 #define tsk_used_math(p) ((p)->flags & PF_USED_MATH)
 #define used_math() tsk_used_math(current)
 
+<<<<<<< HEAD
+=======
+#define PFA_NO_NEW_PRIVS 0x00000001	/* May not gain new privileges. */
+
+static inline bool task_no_new_privs(struct task_struct *p)
+{
+	return test_bit(PFA_NO_NEW_PRIVS, &p->atomic_flags);
+}
+
+static inline void task_set_no_new_privs(struct task_struct *p)
+{
+	set_bit(PFA_NO_NEW_PRIVS, &p->atomic_flags);
+}
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 /* Per-process atomic flags. */
 #define PFA_SPREAD_PAGE  1      /* Spread page cache over cpuset */
 #define PFA_SPREAD_SLAB  2      /* Spread some slab caches over cpuset */
@@ -2733,6 +2828,11 @@ static inline void set_task_cpu(struct task_struct *p, unsigned int cpu)
 
 #endif /* CONFIG_SMP */
 
+<<<<<<< HEAD
+=======
+extern struct atomic_notifier_head migration_notifier_head;
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 extern long sched_setaffinity(pid_t pid, const struct cpumask *new_mask);
 extern long sched_getaffinity(pid_t pid, struct cpumask *mask);
 

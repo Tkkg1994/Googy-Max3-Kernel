@@ -113,7 +113,11 @@ ENTRY(stext)
 	sub	r4, r3, r4			@ (PHYS_OFFSET - PAGE_OFFSET)
 	add	r8, r8, r4			@ PHYS_OFFSET
 #else
+<<<<<<< HEAD
 	ldr	r8, =PLAT_PHYS_OFFSET		@ always constant in this case
+=======
+	ldr	r8, =PHYS_OFFSET		@ always constant in this case
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif
 
 	/*
@@ -142,7 +146,11 @@ ENTRY(stext)
 	mov	r8, r4				@ set TTBR1 to swapper_pg_dir
  ARM(	add	pc, r10, #PROCINFO_INITFUNC	)
  THUMB(	add	r12, r10, #PROCINFO_INITFUNC	)
+<<<<<<< HEAD
  THUMB(	ret	r12				)
+=======
+ THUMB(	mov	pc, r12				)
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 1:	b	__enable_mmu
 ENDPROC(stext)
 	.ltorg
@@ -323,7 +331,11 @@ __create_page_tables:
 #ifdef CONFIG_ARM_LPAE
 	sub	r4, r4, #0x1000		@ point to the PGD table
 #endif
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(__create_page_tables)
 	.ltorg
 	.align
@@ -364,7 +376,11 @@ ENTRY(secondary_startup)
  ARM(	add	pc, r10, #PROCINFO_INITFUNC	) @ initialise processor
 						  @ (return control reg)
  THUMB(	add	r12, r10, #PROCINFO_INITFUNC	)
+<<<<<<< HEAD
  THUMB(	ret	r12				)
+=======
+ THUMB(	mov	pc, r12				)
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(secondary_startup)
 
 	/*
@@ -418,6 +434,7 @@ __enable_mmu:
 	mov	r5, #0
 	mcrr	p15, 0, r4, r5, c2		@ load TTBR0
 #else
+<<<<<<< HEAD
 #ifdef CONFIG_EMULATE_DOMAIN_MANAGER_V7
 	mov	r5, #(domain_val(DOMAIN_USER, DOMAIN_CLIENT) | \
 		      domain_val(DOMAIN_KERNEL, DOMAIN_CLIENT) | \
@@ -429,6 +446,12 @@ __enable_mmu:
 		      domain_val(DOMAIN_TABLE, DOMAIN_CLIENT) | \
 		      domain_val(DOMAIN_IO, DOMAIN_CLIENT))
 #endif
+=======
+	mov	r5, #(domain_val(DOMAIN_USER, DOMAIN_MANAGER) | \
+		      domain_val(DOMAIN_KERNEL, DOMAIN_MANAGER) | \
+		      domain_val(DOMAIN_TABLE, DOMAIN_MANAGER) | \
+		      domain_val(DOMAIN_IO, DOMAIN_CLIENT))
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	mcr	p15, 0, r5, c3, c0, 0		@ load domain access register
 	mcr	p15, 0, r4, c2, c0, 0		@ load page table pointer
 #endif
@@ -470,7 +493,11 @@ ENTRY(__turn_mmu_on)
 	mcreq	p15, 7, r3, c15, c0, 2
 #endif
 	mov	r3, r13
+<<<<<<< HEAD
 	ret	r3
+=======
+	mov	pc, r3
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 __turn_mmu_on_end:
 ENDPROC(__turn_mmu_on)
 	.popsection
@@ -489,12 +516,20 @@ __fixup_smp:
 	orr	r4, r4, #0x0000b000
 	orr	r4, r4, #0x00000020	@ val 0x4100b020
 	teq	r3, r4			@ ARM 11MPCore?
+<<<<<<< HEAD
 	reteq	lr			@ yes, assume SMP
+=======
+	moveq	pc, lr			@ yes, assume SMP
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	mrc	p15, 0, r0, c0, c0, 5	@ read MPIDR
 	and	r0, r0, #0xc0000000	@ multiprocessing extensions and
 	teq	r0, #0x80000000		@ not part of a uniprocessor system?
+<<<<<<< HEAD
 	retne	lr
+=======
+	moveq	pc, lr			@ yes, assume SMP
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 __fixup_smp_on_up:
 	adr	r0, 1f
@@ -521,7 +556,11 @@ smp_on_up:
 	.text
 __do_fixup_smp_on_up:
 	cmp	r4, r5
+<<<<<<< HEAD
 	reths	lr
+=======
+	movhs	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	ldmia	r4!, {r0, r6}
  ARM(	str	r6, [r0, r3]	)
  THUMB(	add	r0, r0, r3	)
@@ -605,7 +644,11 @@ __fixup_a_pv_table:
 2:	cmp	r4, r5
 	ldrcc	r7, [r4], #4	@ use branch for delay slot
 	bcc	1b
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif
 ENDPROC(__fixup_a_pv_table)
 

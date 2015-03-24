@@ -1091,6 +1091,7 @@ static int __devexit rpm_vreg_device_remove(struct platform_device *pdev)
 {
 	struct device *dev = &pdev->dev;
 	struct rpm_regulator *reg;
+<<<<<<< HEAD
 
 	reg = platform_get_drvdata(pdev);
 	if (reg) {
@@ -1099,6 +1100,18 @@ static int __devexit rpm_vreg_device_remove(struct platform_device *pdev)
 		list_del(&reg->list);
 		kfree(reg);
 		rpm_vreg_unlock(reg->rpm_vreg);
+=======
+	struct rpm_vreg *rpm_vreg;
+
+	reg = platform_get_drvdata(pdev);
+	if (reg) {
+		rpm_vreg = reg->rpm_vreg;
+		rpm_vreg_lock(rpm_vreg);
+		regulator_unregister(reg->rdev);
+		list_del(&reg->list);
+		kfree(reg);
+		rpm_vreg_unlock(rpm_vreg);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	} else {
 		dev_err(dev, "%s: drvdata missing\n", __func__);
 		return -EINVAL;

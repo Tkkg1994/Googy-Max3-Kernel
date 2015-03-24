@@ -156,6 +156,12 @@ long msm_cpp_subdev_ioctl(struct v4l2_subdev *sd,
 	struct msm_camera_v4l2_ioctl_t *ioctl_ptr = arg;
 	int rc = 0;
 
+<<<<<<< HEAD
+=======
+	if(ioctl_ptr->ioctl_ptr == NULL || ioctl_ptr->len == 0)
+	return -EINVAL;
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	CPP_DBG("%s: %d\n", __func__, __LINE__);
 	mutex_lock(&cpp_dev->mutex);
 	CPP_DBG("%s cmd: %d\n", __func__, cmd);
@@ -217,6 +223,11 @@ long msm_cpp_subdev_ioctl(struct v4l2_subdev *sd,
 				process_frame,
 				sizeof(struct msm_cpp_frame_info_t))) {
 					mutex_unlock(&cpp_dev->mutex);
+<<<<<<< HEAD
+=======
+					kfree(process_frame);
+					kfree(event_qcmd);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 					return -EINVAL;
 		}
 		kfree(process_frame);

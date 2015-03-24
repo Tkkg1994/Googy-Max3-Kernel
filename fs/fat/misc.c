@@ -271,7 +271,11 @@ int fat_sync_bhs(struct buffer_head **bhs, int nr_bhs)
 	int i, err = 0;
 
 	for (i = 0; i < nr_bhs; i++)
+<<<<<<< HEAD
 		write_dirty_buffer(bhs[i], WRITE);
+=======
+		write_dirty_buffer(bhs[i], WRITE_SYNC);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	for (i = 0; i < nr_bhs; i++) {
 		wait_on_buffer(bhs[i]);

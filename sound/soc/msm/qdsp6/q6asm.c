@@ -57,6 +57,10 @@
 #define OUT_BUFFER_SIZE 56
 #define IN_BUFFER_SIZE 24
 #endif
+<<<<<<< HEAD
+=======
+#define FRAME_NUM   (8)
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static DEFINE_MUTEX(session_lock);
 extern int32_t ep_data;
 /* session id: 0 reserved */
@@ -257,10 +261,15 @@ int q6asm_audio_client_buf_free(unsigned int dir,
 					 __func__,
 				PTR_ERR((void *)port->buf[cnt].mem_buffer));
 				else {
+<<<<<<< HEAD
 					if (iounmap(
 						port->buf[cnt].mem_buffer) < 0)
 						pr_err("%s: unmap buffer failed\n",
 								 __func__);
+=======
+					iounmap(
+						port->buf[cnt].mem_buffer);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 				}
 				free_contiguous_memory_by_paddr(
 					port->buf[cnt].phys);
@@ -325,9 +334,14 @@ int q6asm_audio_client_buf_free_contiguous(unsigned int dir,
 				 __func__,
 				PTR_ERR((void *)port->buf[0].mem_buffer));
 		else {
+<<<<<<< HEAD
 			if (iounmap(
 				port->buf[0].mem_buffer) < 0)
 				pr_err("%s: unmap buffer failed\n", __func__);
+=======
+			iounmap(
+				port->buf[0].mem_buffer);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		}
 		free_contiguous_memory_by_paddr(port->buf[0].phys);
 #endif
@@ -510,6 +524,12 @@ int q6asm_audio_client_buf_alloc(unsigned int dir,
 			pr_debug("%s: buffer already allocated\n", __func__);
 			return 0;
 		}
+<<<<<<< HEAD
+=======
+
+		if (bufcnt > FRAME_NUM)
+			goto fail;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		mutex_lock(&ac->cmd_lock);
 		buf = kzalloc(((sizeof(struct audio_buffer))*bufcnt),
 				GFP_KERNEL);
@@ -575,7 +595,10 @@ int q6asm_audio_client_buf_alloc(unsigned int dir,
 					}
 					memset((void *)buf[cnt].data, 0, bufsz);
 #else
+<<<<<<< HEAD
 					unsigned int flags = 0;
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 					buf[cnt].phys =
 					allocate_contiguous_ebi_nomap(bufsz,
 						SZ_4K);
@@ -642,8 +665,11 @@ int q6asm_audio_client_buf_alloc_contiguous(unsigned int dir,
 	struct audio_buffer *buf;
 #ifdef CONFIG_MSM_MULTIMEDIA_USE_ION
 	int len;
+<<<<<<< HEAD
 #else
 	int flags = 0;
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif
 	if (!(ac) || ((dir != IN) && (dir != OUT)))
 		return -EINVAL;
@@ -992,7 +1018,11 @@ static int32_t q6asm_callback(struct apr_client_data *data, void *priv)
 		break;
 	}
 	case ASM_STREAM_CMDRSP_GET_PP_PARAMS:
+<<<<<<< HEAD
 		
+=======
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		if(payload!=NULL &&  payload[2] == 0x10001fd2){
 		       score = payload[5];
 		}
@@ -1000,9 +1030,15 @@ static int32_t q6asm_callback(struct apr_client_data *data, void *priv)
 			rtac_make_asm_callback(ac->session, payload,
 				data->payload_size);
 		}
+<<<<<<< HEAD
 		 
 		break;
 		
+=======
+
+		break;
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	case ASM_DATA_EVENT_READ_DONE:{
 
 		struct audio_port_data *port = &ac->port[OUT];
@@ -3355,7 +3391,11 @@ fail_cmd:
 int q6asm_set_sa(struct audio_client *ac,int *param)
 {
 	void *packet = NULL;
+<<<<<<< HEAD
 	void *payload = NULL;	
+=======
+	void *payload = NULL;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	int sz = 0;
 	int rc  = 0;
 	int i = 0;
@@ -3365,7 +3405,11 @@ int q6asm_set_sa(struct audio_client *ac,int *param)
 	if(ac == NULL){
 		printk("audio client is null\n");
 		return -1;
+<<<<<<< HEAD
 	}	
+=======
+	}
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	sz = sizeof(struct asm_pp_params_command) +
 		+ sizeof(struct sa_params);
 
@@ -3374,9 +3418,15 @@ int q6asm_set_sa(struct audio_client *ac,int *param)
 	//	pr_err("%s[%d]: Mem alloc failed\n", __func__, ac->session);
 		rc = -EINVAL;
 		return rc;
+<<<<<<< HEAD
 	}	
 	cmd = (struct asm_pp_params_command *)packet;
 	
+=======
+	}
+	cmd = (struct asm_pp_params_command *)packet;
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	q6asm_add_hdr_async(ac,&cmd->hdr, sz, true);
 	cmd->hdr.opcode = ASM_STREAM_CMD_SET_PP_PARAMS;
 	cmd->payload = NULL;
@@ -3424,7 +3474,11 @@ fail_cmd:
 int q6asm_set_vsp(struct audio_client *ac,int *param)
 {
 	void *packet = NULL;
+<<<<<<< HEAD
 	void *payload = NULL;	
+=======
+	void *payload = NULL;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	int sz = 0;
 	int rc  = 0;
 	int ret = 0;
@@ -3442,9 +3496,15 @@ int q6asm_set_vsp(struct audio_client *ac,int *param)
 	//	pr_err("%s[%d]: Mem alloc failed\n", __func__, ac->session);
 		rc = -EINVAL;
 		return rc;
+<<<<<<< HEAD
 	}	
 	cmd = (struct asm_pp_params_command *)packet;
 	
+=======
+	}
+	cmd = (struct asm_pp_params_command *)packet;
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	q6asm_add_hdr_async(ac,&cmd->hdr, sz, true);
 	cmd->hdr.opcode = ASM_STREAM_CMD_SET_PP_PARAMS;
 	cmd->payload = NULL;
@@ -3481,7 +3541,11 @@ fail_cmd:
 int q6asm_set_dha(struct audio_client *ac,int *param)
 {
 	void *packet = NULL;
+<<<<<<< HEAD
 	void *payload = NULL;	
+=======
+	void *payload = NULL;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	int sz = 0;
 	int rc  = 0;
 	int ret = 0;
@@ -3500,9 +3564,15 @@ int q6asm_set_dha(struct audio_client *ac,int *param)
 	//	pr_err("%s[%d]: Mem alloc failed\n", __func__, ac->session);
 		rc = -EINVAL;
 		return rc;
+<<<<<<< HEAD
 	}	
 	cmd = (struct asm_pp_params_command *)packet;
 	
+=======
+	}
+	cmd = (struct asm_pp_params_command *)packet;
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	q6asm_add_hdr_async(ac,&cmd->hdr, sz, true);
 	cmd->hdr.opcode = ASM_STREAM_CMD_SET_PP_PARAMS;
 	cmd->payload = NULL;
@@ -3539,7 +3609,11 @@ fail_cmd:
 int q6asm_set_lrsm(struct audio_client *ac,int *param)
 {
 	void *packet = NULL;
+<<<<<<< HEAD
 	void *payload = NULL;	
+=======
+	void *payload = NULL;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	int sz = 0;
 	int rc  = 0;
 	int ret = 0;
@@ -3557,9 +3631,15 @@ int q6asm_set_lrsm(struct audio_client *ac,int *param)
 	//	pr_err("%s[%d]: Mem alloc failed\n", __func__, ac->session);
 		rc = -EINVAL;
 		return rc;
+<<<<<<< HEAD
 	}	
 	cmd = (struct asm_pp_params_command *)packet;
 	
+=======
+	}
+	cmd = (struct asm_pp_params_command *)packet;
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	q6asm_add_hdr_async(ac,&cmd->hdr, sz, true);
 	cmd->hdr.opcode = ASM_STREAM_CMD_SET_PP_PARAMS;
 	cmd->payload = NULL;
@@ -3595,7 +3675,11 @@ fail_cmd:
 int q6asm_set_sa_ep(struct audio_client *ac,int *param)
 {
 	void *packet = NULL;
+<<<<<<< HEAD
 	void *payload = NULL;	
+=======
+	void *payload = NULL;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	int sz = 0;
 	int rc  = 0;
 	int ret = 0;
@@ -3613,9 +3697,15 @@ int q6asm_set_sa_ep(struct audio_client *ac,int *param)
 	//	pr_err("%s[%d]: Mem alloc failed\n", __func__, ac->session);
 		rc = -EINVAL;
 		return rc;
+<<<<<<< HEAD
 	}	
 	cmd = (struct asm_pp_params_command *)packet;
 	
+=======
+	}
+	cmd = (struct asm_pp_params_command *)packet;
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	q6asm_add_hdr_async(ac,&cmd->hdr, sz, true);
 	cmd->hdr.opcode = ASM_STREAM_CMD_SET_PP_PARAMS;
 	cmd->payload = NULL;
@@ -3666,9 +3756,15 @@ int q6asm_get_sa_ep(struct audio_client *ac)
 		pr_err("%s[%d]: Mem alloc failed\n", __func__, ac->session);
 		rc = -EINVAL;
 		return rc;
+<<<<<<< HEAD
 	}	
 	cmd = (struct asm_pp_get_params_command *)packet;
 	
+=======
+	}
+	cmd = (struct asm_pp_get_params_command *)packet;
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	q6asm_add_hdr_async(ac,&cmd->hdr, sz, true);
 	cmd->hdr.opcode = ASM_STREAM_CMD_GET_PP_PARAMS;
 	cmd->payload = NULL;

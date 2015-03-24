@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2011-2013, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2011-2014, The Linux Foundation. All rights reserved.
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -388,8 +392,11 @@ static __be16 rmnet_ip_type_trans(struct sk_buff *skb,
 {
 	__be16	protocol = 0;
 
+<<<<<<< HEAD
 	skb->dev = dev;
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	switch (skb->data[0] & 0xf0) {
 	case 0x40:
 		protocol = htons(ETH_P_IP);
@@ -425,7 +432,10 @@ static void rmnet_usb_rx_complete(struct urb *rx_urb)
 			/*map urb to actual network iface based on mux id*/
 			unet_id = unet_offset + mux_id;
 			skb->dev = unet_list[unet_id]->net;
+<<<<<<< HEAD
 			entry->dev = unet_list[unet_id];
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		}
 	}
 

@@ -11,3 +11,7 @@ header-y += compress_offload.h
 header-y += tlv.h
 header-y += compress_params.h
 header-y += compress_offload.h
+<<<<<<< HEAD
+=======
+header-y += msmcal-hwdep.h
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea

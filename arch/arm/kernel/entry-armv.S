@@ -240,7 +240,11 @@ svc_preempt:
 1:	bl	preempt_schedule_irq		@ irq en/disable is done inside
 	ldr	r0, [tsk, #TI_FLAGS]		@ get new tasks TI_FLAGS
 	tst	r0, #_TIF_NEED_RESCHED
+<<<<<<< HEAD
 	reteq	r8				@ go again
+=======
+	moveq	pc, r8				@ go again
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	b	1b
 #endif
 
@@ -453,11 +457,14 @@ __und_usr:
 	@
 	adr	r9, BSYM(ret_from_exception)
 
+<<<<<<< HEAD
 	@ IRQs must be enabled before attempting to read the instruction from
 	@ user space since that could cause a page/translation fault if the
 	@ page table was modified by another CPU.
 	enable_irq
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	tst	r3, #PSR_T_BIT			@ Thumb mode?
 	bne	__und_usr_thumb
 	sub	r4, r2, #4			@ ARM instr at LR - 4
@@ -527,7 +534,11 @@ ENDPROC(__und_usr)
  * The out of line fixup for the ldrt instructions above.
  */
 	.pushsection .fixup, "ax"
+<<<<<<< HEAD
 4:	ret	r9
+=======
+4:	mov	pc, r9
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	.popsection
 	.pushsection __ex_table,"a"
 	.long	1b, 4b
@@ -560,17 +571,25 @@ ENDPROC(__und_usr)
  *  r9  = normal "successful" return address
  *  r10 = this threads thread_info structure
  *  lr  = unrecognised instruction return address
+<<<<<<< HEAD
  * IRQs enabled, FIQs enabled.
+=======
+ * IRQs disabled, FIQs enabled.
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  */
 	@
 	@ Fall-through from Thumb-2 __und_usr
 	@
 #ifdef CONFIG_NEON
+<<<<<<< HEAD
 	get_thread_info r10			@ get current thread
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	adr	r6, .LCneon_thumb_opcodes
 	b	2f
 #endif
 call_fpe:
+<<<<<<< HEAD
 	get_thread_info r10			@ get current thread
 #ifdef CONFIG_NEON
 	adr	r6, .LCneon_arm_opcodes
@@ -581,6 +600,19 @@ call_fpe:
 	and	r8, r0, r5
 	cmp	r8, r7				@ NEON instruction?
 	bne	2b
+=======
+#ifdef CONFIG_NEON
+	adr	r6, .LCneon_arm_opcodes
+2:
+	ldr	r7, [r6], #4			@ mask value
+	cmp	r7, #0				@ end mask?
+	beq	1f
+	and	r8, r0, r7
+	ldr	r7, [r6], #4			@ opcode bits matching in mask
+	cmp	r8, r7				@ NEON instruction?
+	bne	2b
+	get_thread_info r10
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	mov	r7, #1
 	strb	r7, [r10, #TI_USED_CP + 10]	@ mark CP#10 as used
 	strb	r7, [r10, #TI_USED_CP + 11]	@ mark CP#11 as used
@@ -593,7 +625,12 @@ call_fpe:
 	and	r8, r0, #0x0f000000		@ mask out op-code bits
 	teqne	r8, #0x0f000000			@ SWI (ARM6/7 bug)?
 #endif
+<<<<<<< HEAD
 	reteq	lr
+=======
+	moveq	pc, lr
+	get_thread_info r10			@ get current thread
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	and	r8, r0, #0x00000f00		@ mask out CP number
  THUMB(	lsr	r8, r8, #8		)
 	mov	r7, #1
@@ -612,15 +649,23 @@ call_fpe:
  THUMB(	add	pc, r8			)
 	nop
 
+<<<<<<< HEAD
 	ret.w	lr				@ CP#0
 	W(b)	do_fpe				@ CP#1 (FPE)
 	W(b)	do_fpe				@ CP#2 (FPE)
 	ret.w	lr				@ CP#3
+=======
+	movw_pc	lr				@ CP#0
+	W(b)	do_fpe				@ CP#1 (FPE)
+	W(b)	do_fpe				@ CP#2 (FPE)
+	movw_pc	lr				@ CP#3
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #ifdef CONFIG_CRUNCH
 	b	crunch_task_enable		@ CP#4 (MaverickCrunch)
 	b	crunch_task_enable		@ CP#5 (MaverickCrunch)
 	b	crunch_task_enable		@ CP#6 (MaverickCrunch)
 #else
+<<<<<<< HEAD
 	ret.w	lr				@ CP#4
 	ret.w	lr				@ CP#5
 	ret.w	lr				@ CP#6
@@ -628,10 +673,20 @@ call_fpe:
 	ret.w	lr				@ CP#7
 	ret.w	lr				@ CP#8
 	ret.w	lr				@ CP#9
+=======
+	movw_pc	lr				@ CP#4
+	movw_pc	lr				@ CP#5
+	movw_pc	lr				@ CP#6
+#endif
+	movw_pc	lr				@ CP#7
+	movw_pc	lr				@ CP#8
+	movw_pc	lr				@ CP#9
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #ifdef CONFIG_VFP
 	W(b)	do_vfp				@ CP#10 (VFP)
 	W(b)	do_vfp				@ CP#11 (VFP)
 #else
+<<<<<<< HEAD
 	ret.w	lr				@ CP#10 (VFP)
 	ret.w	lr				@ CP#11 (VFP)
 #endif
@@ -639,6 +694,15 @@ call_fpe:
 	ret.w	lr				@ CP#13
 	ret.w	lr				@ CP#14 (Debug)
 	ret.w	lr				@ CP#15 (Control)
+=======
+	movw_pc	lr				@ CP#10 (VFP)
+	movw_pc	lr				@ CP#11 (VFP)
+#endif
+	movw_pc	lr				@ CP#12
+	movw_pc	lr				@ CP#13
+	movw_pc	lr				@ CP#14 (Debug)
+	movw_pc	lr				@ CP#15 (Control)
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #ifdef NEED_CPU_ARCHITECTURE
 	.align	2
@@ -671,6 +735,10 @@ call_fpe:
 #endif
 
 do_fpe:
+<<<<<<< HEAD
+=======
+	enable_irq
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	ldr	r4, .LCfp
 	add	r10, r10, #TI_FPSTATE		@ r10 = workspace
 	ldr	pc, [r4]			@ Call FP module USR entry point
@@ -690,7 +758,11 @@ ENTRY(fp_enter)
 	.popsection
 
 ENTRY(no_fp)
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(no_fp)
 
 __und_usr_fault_32:
@@ -698,7 +770,12 @@ __und_usr_fault_32:
 	b	1f
 __und_usr_fault_16:
 	mov	r1, #2
+<<<<<<< HEAD
 1:	mov	r0, sp
+=======
+1:	enable_irq
+	mov	r0, sp
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	adr	lr, BSYM(ret_from_exception)
 	b	__und_fault
 ENDPROC(__und_usr_fault_32)
@@ -748,6 +825,7 @@ ENTRY(__switch_to)
 	ldr	r7, [r7, #TSK_STACK_CANARY]
 #endif
 #ifdef CONFIG_CPU_USE_DOMAINS
+<<<<<<< HEAD
 #ifdef CONFIG_EMULATE_DOMAIN_MANAGER_V7
 	stmdb	r13!, {r0-r3, lr}
 	mov	r0, r6
@@ -757,6 +835,10 @@ ENTRY(__switch_to)
 	mcr	p15, 0, r6, c3, c0, 0		@ Set domain register
 #endif
 #endif
+=======
+	mcr	p15, 0, r6, c3, c0, 0		@ Set domain register
+#endif
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	mov	r5, r0
 	add	r4, r2, #TI_CPU_SAVE
 	ldr	r0, =thread_notify_head
@@ -792,10 +874,29 @@ ENDPROC(__switch_to)
 #ifdef CONFIG_ARM_THUMB
 	bx	\reg
 #else
+<<<<<<< HEAD
 	ret	\reg
 #endif
 	.endm
 
+=======
+	mov	pc, \reg
+#endif
+	.endm
+
+	.macro	kuser_pad, sym, size
+	.if	(. - \sym) & 3
+	.rept	4 - (. - \sym) & 3
+	.byte	0
+	.endr
+	.endif
+	.rept	(\size - (. - \sym)) / 4
+	.word	0xe7fddef1
+	.endr
+	.endm
+
+#ifdef CONFIG_KUSER_HELPERS
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	.align	5
 	.globl	__kuser_helper_start
 __kuser_helper_start:
@@ -963,7 +1064,11 @@ kuser_cmpxchg64_fixup:
 #if __LINUX_ARM_ARCH__ < 6
 	bcc	kuser_cmpxchg32_fixup
 #endif
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	.previous
 
 #else
@@ -977,18 +1082,26 @@ kuser_cmpxchg64_fixup:
 #error "incoherent kernel configuration"
 #endif
 
+<<<<<<< HEAD
 	/* pad to next slot */
 	.rept	(16 - (. - __kuser_cmpxchg64)/4)
 	.word	0
 	.endr
 
 	.align	5
+=======
+	kuser_pad __kuser_cmpxchg64, 64
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 __kuser_memory_barrier:				@ 0xffff0fa0
 	smp_dmb	arm
 	usr_ret	lr
 
+<<<<<<< HEAD
 	.align	5
+=======
+	kuser_pad __kuser_memory_barrier, 32
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 __kuser_cmpxchg:				@ 0xffff0fc0
 
@@ -1036,7 +1149,11 @@ kuser_cmpxchg32_fixup:
 	subs	r8, r4, r7
 	rsbcss	r8, r8, #(2b - 1b)
 	strcs	r7, [sp, #S_PC]
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	.previous
 
 #else
@@ -1061,13 +1178,22 @@ kuser_cmpxchg32_fixup:
 
 #endif
 
+<<<<<<< HEAD
 	.align	5
+=======
+	kuser_pad __kuser_cmpxchg, 32
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 __kuser_get_tls:				@ 0xffff0fe0
 	ldr	r0, [pc, #(16 - 8)]	@ read TLS, set in kuser_get_tls_init
 	usr_ret	lr
 	mrc	p15, 0, r0, c13, c0, 3	@ 0xffff0fe8 hardware TLS code
+<<<<<<< HEAD
 	.rep	4
+=======
+	kuser_pad __kuser_get_tls, 16
+	.rep	3
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	.word	0			@ 0xffff0ff0 software TLS value, then
 	.endr				@ pad up to __kuser_helper_version
 
@@ -1077,14 +1203,25 @@ __kuser_helper_version:				@ 0xffff0ffc
 	.globl	__kuser_helper_end
 __kuser_helper_end:
 
+<<<<<<< HEAD
+=======
+#endif
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  THUMB(	.thumb	)
 
 /*
  * Vector stubs.
  *
+<<<<<<< HEAD
  * This code is copied to 0xffff0200 so we can use branches in the
  * vectors, rather than ldr's.  Note that this code must not
  * exceed 0x300 bytes.
+=======
+ * This code is copied to 0xffff1000 so we can use branches in the
+ * vectors, rather than ldr's.  Note that this code must not exceed
+ * a page size.
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  *
  * Common stub entry macro:
  *   Enter in IRQ mode, spsr = SVC/USR CPSR, lr = SVC/USR PC
@@ -1143,8 +1280,22 @@ ENDPROC(vector_\name)
 1:
 	.endm
 
+<<<<<<< HEAD
 	.globl	__stubs_start
 __stubs_start:
+=======
+	.section .stubs, "ax", %progbits
+__stubs_start:
+	@ This must be the first word
+	.word	vector_swi
+
+vector_rst:
+ ARM(	swi	SYS_ERROR0	)
+ THUMB(	svc	#0		)
+ THUMB(	nop			)
+	b	vector_und
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 /*
  * Interrupt dispatcher
  */
@@ -1239,6 +1390,19 @@ __stubs_start:
 	.align	5
 
 /*=============================================================================
+<<<<<<< HEAD
+=======
+ * Address exception handler
+ *-----------------------------------------------------------------------------
+ * These aren't too critical.
+ * (they're not supposed to happen, and won't happen in 32-bit data mode).
+ */
+
+vector_addrexcptn:
+	b	vector_addrexcptn
+
+/*=============================================================================
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  * Undefined FIQs
  *-----------------------------------------------------------------------------
  * Enter in FIQ mode, spsr = ANY CPSR, lr = ANY PC
@@ -1251,6 +1415,7 @@ __stubs_start:
 vector_fiq:
 	subs	pc, lr, #4
 
+<<<<<<< HEAD
 /*=============================================================================
  * Address exception handler
  *-----------------------------------------------------------------------------
@@ -1292,6 +1457,24 @@ __vectors_start:
 
 	.globl	__vectors_end
 __vectors_end:
+=======
+.krait_fixup:
+	.word	msm_krait_need_wfe_fixup
+
+	.globl	vector_fiq_offset
+	.equ	vector_fiq_offset, vector_fiq
+
+	.section .vectors, "ax", %progbits
+__vectors_start:
+	W(b)	vector_rst
+	W(b)	vector_und
+	W(ldr)	pc, __vectors_start + 0x1000
+	W(b)	vector_pabt
+	W(b)	vector_dabt
+	W(b)	vector_addrexcptn
+	W(b)	vector_irq
+	W(b)	vector_fiq
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	.data
 

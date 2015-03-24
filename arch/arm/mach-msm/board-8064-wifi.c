@@ -51,6 +51,7 @@ void *wlan_static_scan_buf0;
 void *wlan_static_scan_buf1;
 void *wlan_static_dhd_info_buf;
 
+<<<<<<< HEAD
 #define ENABLE_4335BT_WAR
 
 #ifdef ENABLE_4335BT_WAR
@@ -58,6 +59,8 @@ static int bt_off = 0;
 extern int bt_is_running;
 #endif /* ENABLE_4335BT_WAR */
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static void *brcm_wlan_mem_prealloc(int section, unsigned long size)
 {
 	if (section == PREALLOC_WLAN_SEC_NUM)
@@ -206,17 +209,22 @@ int __init brcm_wifi_init_gpio(void)
 	return 0;
 }
 
+<<<<<<< HEAD
 #ifdef ENABLE_4335BT_WAR
 static int brcm_wlan_power(int onoff,bool b0rev)
 #else
 static int brcm_wlan_power(int onoff)
 #endif
+=======
+static int brcm_wlan_power(int onoff)
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 {
 	printk(KERN_INFO"------------------------------------------------");
 	printk(KERN_INFO"------------------------------------------------\n");
 	printk(KERN_INFO"%s Enter: power %s\n", __func__, onoff ? "on" : "off");
 
 	if (onoff) {
+<<<<<<< HEAD
 #ifdef ENABLE_4335BT_WAR
 		if(b0rev == true && ice_gpiox_get(FPGA_GPIO_BT_EN) == 0)
 		{
@@ -230,6 +238,8 @@ static int brcm_wlan_power(int onoff)
 		}
 #endif /* ENABLE_4335BT_WAR */
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		/*
 		if (gpio_request(GPIO_WL_REG_ON, "WL_REG_ON"))
 		{
@@ -255,6 +265,7 @@ static int brcm_wlan_power(int onoff)
 			return -EIO;
 		}
 	}
+<<<<<<< HEAD
 #ifdef ENABLE_4335BT_WAR
 	if(onoff && (bt_off == 1) && (bt_is_running == 0)) {
 		msleep(100);
@@ -262,6 +273,8 @@ static int brcm_wlan_power(int onoff)
 		printk("[brcm_wlan_power] BT_REG_OFF.\n");
 	}
 #endif
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return 0;
 }
 
@@ -312,7 +325,10 @@ static int brcm_wlan_set_carddetect(int val)
 
 	/* msleep(200); wait for carddetect */
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return 0;
 }
 

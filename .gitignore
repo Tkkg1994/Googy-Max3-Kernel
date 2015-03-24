@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /arch/arm/boot/compressed/piggy.gzip
 /scripts/basic/fixdep
 /scripts/bin2c
@@ -54,6 +55,19 @@
 /firmware/tsp_synaptics/synaptics_b0_nep_19.fw.gen.S
 ..*
 ...*
+=======
+#
+# NOTE! Don't add files that are generated in specific
+# subdirectories here. Add them in the ".gitignore" file
+# in that subdirectory instead.
+#
+# NOTE! Please use 'git ls-files -i --exclude-standard'
+# command after changing this file, to see if there are
+# any tracked files which get ignored after the change.
+#
+# Normal rules
+#
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 .*
 *.o
 *.o.*
@@ -77,6 +91,7 @@ modules.builtin
 *.lzo
 *.patch
 *.gcno
+<<<<<<< HEAD
 .*.cmd
 *.builtin
 *.order
@@ -87,6 +102,12 @@ modules.builtin
 /arch/arm/boot/zImage
 /usr/gen_init_cpio
 /usr/initramfs_data.cpio
+=======
+
+#
+# Top-level generic files
+#
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 /tags
 /TAGS
 /linux
@@ -95,12 +116,31 @@ modules.builtin
 /System.map
 /Module.markers
 /Module.symvers
+<<<<<<< HEAD
 !.gitignore
 !.mailmap
+=======
+
+#
+# Debian directory (make deb-pkg)
+#
+/debian/
+
+#
+# git files that we don't want to ignore even it they are dot-files
+#
+!.gitignore
+!.mailmap
+
+#
+# Generated include files
+#
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 include/config
 include/linux/version.h
 include/generated
 arch/*/include/generated
+<<<<<<< HEAD
 kernel/config_data.h
 kernel/relocate_kernel_64.S
 drivers/tty/vt/defkeymap.c
@@ -111,13 +151,35 @@ patches
 series
 cscope.*
 ncscope.*
+=======
+
+# stgit generated dirs
+patches-*
+
+# quilt's files
+patches
+series
+
+# cscope files
+cscope.*
+ncscope.*
+
+# gnu global files
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 GPATH
 GRTAGS
 GSYMS
 GTAGS
+<<<<<<< HEAD
 *.orig
 *~
 \#*#
 /arch/arm/boot/compressed/ashldi3.S
 /arch/arm/boot/compressed/lib1funcs.S
 /arch/arm/boot/compressed/vmlinux.lds
+=======
+
+*.orig
+*~
+\#*#
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea

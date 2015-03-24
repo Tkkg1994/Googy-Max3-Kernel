@@ -3973,12 +3973,25 @@ static int cgroup_css_sets_empty(struct cgroup *cgrp)
 {
 	struct cg_cgroup_link *link;
 
+<<<<<<< HEAD
 	list_for_each_entry(link, &cgrp->css_sets, cgrp_link_list) {
 		struct css_set *cg = link->cg;
 		if (atomic_read(&cg->refcount) > 0)
 			return 0;
 	}
 
+=======
+	read_lock(&css_set_lock);
+	list_for_each_entry(link, &cgrp->css_sets, cgrp_link_list) {
+		struct css_set *cg = link->cg;
+		if (cg && (atomic_read(&cg->refcount) > 0)) {
+			read_unlock(&css_set_lock);
+			return 0;
+		}
+	}
+
+	read_unlock(&css_set_lock);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return 1;
 }
 

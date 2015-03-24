@@ -287,9 +287,19 @@ int msm_rtb_probe(struct platform_device *pdev)
 	atomic_set(&msm_rtb_idx, 0);
 	msm_rtb.step_size = 1;
 #endif
+<<<<<<< HEAD
 // 	if (kernel_sec_get_debug_level() != KERNEL_SEC_DEBUG_LEVEL_LOW) {
 // 		msm_rtb.filter = 1 << LOGK_READL | 1 << LOGK_WRITEL;
 // 	}
+=======
+#ifdef CONFIG_SEC_DEBUG
+	if (kernel_sec_get_debug_level() != KERNEL_SEC_DEBUG_LEVEL_LOW) {
+#endif
+		msm_rtb.filter = 1 << LOGK_READL | 1 << LOGK_WRITEL;
+#ifdef CONFIG_SEC_DEBUG
+	}
+#endif
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	atomic_notifier_chain_register(&panic_notifier_list,
 						&msm_rtb_panic_blk);
 	msm_rtb.initialized = 1;

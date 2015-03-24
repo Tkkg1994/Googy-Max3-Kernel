@@ -142,6 +142,10 @@ static const char * const task_state_array[] = {
 	"x (dead)",		/*  64 */
 	"K (wakekill)",		/* 128 */
 	"W (waking)",		/* 256 */
+<<<<<<< HEAD
+=======
+	"P (parked)",		/* 512 */
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 };
 
 static inline const char *get_task_state(struct task_struct *tsk)

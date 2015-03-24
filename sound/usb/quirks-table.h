@@ -331,6 +331,7 @@ YAMAHA_DEVICE(0x105d, NULL),
 		}
 	}
 },
+<<<<<<< HEAD
 {
 	USB_DEVICE(0x0499, 0x1509),
 	.driver_info = (unsigned long) & (const struct snd_usb_audio_quirk) {
@@ -361,6 +362,8 @@ YAMAHA_DEVICE(0x105d, NULL),
 		}
 	}
 },
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 YAMAHA_DEVICE(0x2000, "DGP-7"),
 YAMAHA_DEVICE(0x2001, "DGP-5"),
 YAMAHA_DEVICE(0x2002, NULL),

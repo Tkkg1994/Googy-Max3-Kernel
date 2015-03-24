@@ -31,10 +31,13 @@
 #include <mach/msm_iomap.h>
 #endif
 
+<<<<<<< HEAD
 #ifdef CONFIG_EMULATE_DOMAIN_MANAGER_V7
 #include <asm/domain.h>
 #endif /* CONFIG_EMULATE_DOMAIN_MANAGER_V7 */
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include "fault.h"
 
 #define CREATE_TRACE_POINTS
@@ -237,7 +240,11 @@ __do_kernel_fault(struct mm_struct *mm, unsigned long addr, unsigned int fsr,
 			"isb"
 			::"r"(0));
 		//tima_dump_log2();
+<<<<<<< HEAD
 		return; 
+=======
+		return;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 #endif
 
@@ -556,6 +563,7 @@ do_translation_fault(unsigned long addr, unsigned int fsr,
 
 	if (pud_none(*pud_k))
 		goto bad_area;
+<<<<<<< HEAD
 	if (!pud_present(*pud)) {
 		set_pud(pud, *pud_k);
 		/*
@@ -566,6 +574,10 @@ do_translation_fault(unsigned long addr, unsigned int fsr,
 		 */
 		flush_tlb_kernel_page(addr);
 	}
+=======
+	if (!pud_present(*pud))
+		set_pud(pud, *pud_k);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	pmd = pmd_offset(pud, addr);
 	pmd_k = pmd_offset(pud_k, addr);
@@ -588,9 +600,14 @@ do_translation_fault(unsigned long addr, unsigned int fsr,
 #endif
 	if (pmd_none(pmd_k[index]))
 		goto bad_area;
+<<<<<<< HEAD
 	if (!pmd_present(pmd[index]))
 		copy_pmd(pmd, pmd_k);
 
+=======
+
+	copy_pmd(pmd, pmd_k);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return 0;
 
 bad_area:
@@ -774,11 +791,14 @@ do_DataAbort(unsigned long addr, unsigned int fsr, struct pt_regs *regs)
 	const struct fsr_info *inf = fsr_info + fsr_fs(fsr);
 	struct siginfo info;
 
+<<<<<<< HEAD
 #ifdef CONFIG_EMULATE_DOMAIN_MANAGER_V7
 	if (emulate_domain_manager_data_abort(fsr, addr))
 		return;
 #endif
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #ifdef CONFIG_MSM_KRAIT_TBB_ABORT_HANDLER
 	if (krait_tbb_fixup(fsr, regs))
 		return;
@@ -816,11 +836,14 @@ do_PrefetchAbort(unsigned long addr, unsigned int ifsr, struct pt_regs *regs)
 	const struct fsr_info *inf = ifsr_info + fsr_fs(ifsr);
 	struct siginfo info;
 
+<<<<<<< HEAD
 #ifdef CONFIG_EMULATE_DOMAIN_MANAGER_V7
 	if (emulate_domain_manager_prefetch_abort(ifsr, addr))
 		return;
 #endif
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (!inf->fn(addr, ifsr | FSR_LNX_PF, regs))
 		return;
 

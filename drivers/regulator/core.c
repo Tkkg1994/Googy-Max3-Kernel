@@ -1428,14 +1428,20 @@ void regulator_put(struct regulator *regulator)
 		device_remove_file(regulator->dev, &regulator->dev_attr);
 		kfree(regulator->dev_attr.attr.name);
 	}
+<<<<<<< HEAD
 	mutex_lock(&rdev->mutex);
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	kfree(regulator->supply_name);
 	list_del(&regulator->list);
 	kfree(regulator);
 
 	rdev->open_count--;
 	rdev->exclusive = 0;
+<<<<<<< HEAD
 	mutex_unlock(&rdev->mutex);
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	module_put(rdev->owner);
 	mutex_unlock(&regulator_list_mutex);

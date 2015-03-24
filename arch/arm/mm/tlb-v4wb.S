@@ -14,7 +14,10 @@
  */
 #include <linux/linkage.h>
 #include <linux/init.h>
+<<<<<<< HEAD
 #include <asm/assembler.h>
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <asm/asm-offsets.h>
 #include <asm/tlbflush.h>
 #include "proc-macros.S"
@@ -34,7 +37,11 @@ ENTRY(v4wb_flush_user_tlb_range)
 	vma_vm_mm ip, r2
 	act_mm	r3				@ get current->active_mm
 	eors	r3, ip, r3				@ == mm ?
+<<<<<<< HEAD
 	retne	lr				@ no, we dont do anything
+=======
+	movne	pc, lr				@ no, we dont do anything
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	vma_vm_flags r2, r2
 	mcr	p15, 0, r3, c7, c10, 4		@ drain WB
 	tst	r2, #VM_EXEC
@@ -45,7 +52,11 @@ ENTRY(v4wb_flush_user_tlb_range)
 	add	r0, r0, #PAGE_SZ
 	cmp	r0, r1
 	blo	1b
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	v4_flush_kern_tlb_range(start, end)
@@ -66,7 +77,11 @@ ENTRY(v4wb_flush_kern_tlb_range)
 	add	r0, r0, #PAGE_SZ
 	cmp	r0, r1
 	blo	1b
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	__INITDATA
 

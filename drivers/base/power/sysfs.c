@@ -314,22 +314,54 @@ static ssize_t wakeup_active_count_show(struct device *dev,
 
 static DEVICE_ATTR(wakeup_active_count, 0444, wakeup_active_count_show, NULL);
 
+<<<<<<< HEAD
 static ssize_t wakeup_hit_count_show(struct device *dev,
 				struct device_attribute *attr, char *buf)
+=======
+static ssize_t wakeup_abort_count_show(struct device *dev,
+					struct device_attribute *attr,
+					char *buf)
 {
 	unsigned long count = 0;
 	bool enabled = false;
 
 	spin_lock_irq(&dev->power.lock);
 	if (dev->power.wakeup) {
-		count = dev->power.wakeup->hit_count;
+		count = dev->power.wakeup->wakeup_count;
 		enabled = true;
 	}
 	spin_unlock_irq(&dev->power.lock);
 	return enabled ? sprintf(buf, "%lu\n", count) : sprintf(buf, "\n");
 }
 
+static DEVICE_ATTR(wakeup_abort_count, 0444, wakeup_abort_count_show, NULL);
+
+static ssize_t wakeup_expire_count_show(struct device *dev,
+					struct device_attribute *attr,
+					char *buf)
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
+{
+	unsigned long count = 0;
+	bool enabled = false;
+
+	spin_lock_irq(&dev->power.lock);
+	if (dev->power.wakeup) {
+<<<<<<< HEAD
+		count = dev->power.wakeup->hit_count;
+=======
+		count = dev->power.wakeup->expire_count;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
+		enabled = true;
+	}
+	spin_unlock_irq(&dev->power.lock);
+	return enabled ? sprintf(buf, "%lu\n", count) : sprintf(buf, "\n");
+}
+
+<<<<<<< HEAD
 static DEVICE_ATTR(wakeup_hit_count, 0444, wakeup_hit_count_show, NULL);
+=======
+static DEVICE_ATTR(wakeup_expire_count, 0444, wakeup_expire_count_show, NULL);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 static ssize_t wakeup_active_show(struct device *dev,
 				struct device_attribute *attr, char *buf)
@@ -486,7 +518,12 @@ static struct attribute *wakeup_attrs[] = {
 	&dev_attr_wakeup.attr,
 	&dev_attr_wakeup_count.attr,
 	&dev_attr_wakeup_active_count.attr,
+<<<<<<< HEAD
 	&dev_attr_wakeup_hit_count.attr,
+=======
+	&dev_attr_wakeup_abort_count.attr,
+	&dev_attr_wakeup_expire_count.attr,
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	&dev_attr_wakeup_active.attr,
 	&dev_attr_wakeup_total_time_ms.attr,
 	&dev_attr_wakeup_max_time_ms.attr,

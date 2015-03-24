@@ -13,7 +13,10 @@
  */
 
 #include <linux/ftrace.h>
+<<<<<<< HEAD
 #include <linux/module.h>
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <linux/uaccess.h>
 
 #include <asm/cacheflush.h>
@@ -64,6 +67,7 @@ static unsigned long adjust_address(struct dyn_ftrace *rec, unsigned long addr)
 }
 #endif
 
+<<<<<<< HEAD
 int ftrace_arch_code_modify_prepare(void)
 {
 	set_kernel_text_rw();
@@ -78,6 +82,8 @@ int ftrace_arch_code_modify_post_process(void)
 	return 0;
 }
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static unsigned long ftrace_call_replace(unsigned long pc, unsigned long addr)
 {
 	return arm_gen_branch_link(pc, addr);
@@ -194,6 +200,7 @@ void prepare_ftrace_return(unsigned long *parent, unsigned long self_addr,
 	old = *parent;
 	*parent = return_hooker;
 
+<<<<<<< HEAD
 	err = ftrace_push_return_trace(old, self_addr, &trace.depth,
 				       frame_pointer);
 	if (err == -EBUSY) {
@@ -207,6 +214,22 @@ void prepare_ftrace_return(unsigned long *parent, unsigned long self_addr,
 	if (!ftrace_graph_entry(&trace)) {
 		current->curr_ret_stack--;
 		*parent = old;
+=======
+	trace.func = self_addr;
+	trace.depth = current->curr_ret_stack + 1;
+
+	/* Only trace if the calling function expects to */
+	if (!ftrace_graph_entry(&trace)) {
+		*parent = old;
+		return;
+	}
+
+	err = ftrace_push_return_trace(old, self_addr, &trace.depth,
+				       frame_pointer);
+	if (err == -EBUSY) {
+		*parent = old;
+		return;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 }
 

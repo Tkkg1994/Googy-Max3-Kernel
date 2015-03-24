@@ -778,7 +778,11 @@ int ion_cp_cache_ops(struct ion_heap *heap, struct ion_buffer *buffer,
 }
 
 static int ion_cp_print_debug(struct ion_heap *heap, struct seq_file *s,
+<<<<<<< HEAD
 			      const struct rb_root *mem_map)
+=======
+			      const struct list_head *mem_map)
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 {
 	unsigned long total_alloc;
 	unsigned long total_size;
@@ -808,16 +812,24 @@ static int ion_cp_print_debug(struct ion_heap *heap, struct seq_file *s,
 		unsigned long size = cp_heap->total_size;
 		unsigned long end = base+size;
 		unsigned long last_end = base;
+<<<<<<< HEAD
 		struct rb_node *n;
+=======
+		struct mem_map_data *data;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 		seq_printf(s, "\nMemory Map\n");
 		seq_printf(s, "%16.s %14.s %14.s %14.s\n",
 			   "client", "start address", "end address",
 			   "size (hex)");
 
+<<<<<<< HEAD
 		for (n = rb_first(mem_map); n; n = rb_next(n)) {
 			struct mem_map_data *data =
 					rb_entry(n, struct mem_map_data, node);
+=======
+		list_for_each_entry(data, mem_map, node) {
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			const char *client_name = "(null)";
 
 			if (last_end < data->addr) {

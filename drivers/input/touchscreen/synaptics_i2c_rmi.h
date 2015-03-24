@@ -25,7 +25,13 @@
 /*#define dev_dbg(dev, fmt, arg...) dev_info(dev, fmt, ##arg)*/
 
 /* DVFS feature : TOUCH BOOSTER */
+<<<<<<< HEAD
 #define TSP_BOOSTER
+=======
+#ifdef CONFIG_SEC_DVFS_BOOSTER
+#define TSP_BOOSTER
+#endif
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #ifdef TSP_BOOSTER
 #define DVFS_STAGE_NINTH		9
 #define DVFS_STAGE_DUAL		2
@@ -50,6 +56,11 @@
 #if defined(CONFIG_MACH_JACTIVE_EUR) || defined(CONFIG_MACH_JACTIVE_ATT)
 #define FW_IMAGE_NAME_B0_HSYNC		"tsp_synaptics/jactive/synaptics_b0_hsync.fw"
 #define FW_IMAGE_NAME_B0_HSYNC_FAC	"tsp_synaptics/jactive/synaptics_b0_hsync_fac.fw"
+<<<<<<< HEAD
+=======
+#define FW_IMAGE_NAME_B0_HSYNC04	"tsp_synaptics/jactive/synaptics_b0_hsync04.fw"
+#define FW_IMAGE_NAME_B0_HSYNC04_FAC	"tsp_synaptics/jactive/synaptics_b0_hsync04_fac.fw"
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /* NON HYNC F/W will be removed */
 /* PRODUCT ID : SY 01, SY 02, S5000B */

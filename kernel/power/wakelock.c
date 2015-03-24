@@ -32,7 +32,11 @@ enum {
 	DEBUG_WAKE_LOCK = 1U << 4,
 };
 static int debug_mask = DEBUG_EXIT_SUSPEND |
+<<<<<<< HEAD
 				DEBUG_WAKEUP | DEBUG_SUSPEND | DEBUG_EXPIRE;  
+=======
+				DEBUG_WAKEUP | DEBUG_SUSPEND | DEBUG_EXPIRE;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 module_param_named(debug_mask, debug_mask, int, S_IRUGO | S_IWUSR | S_IWGRP);
 
 #define WAKE_LOCK_TYPE_MASK              (0x0f)
@@ -82,7 +86,11 @@ int get_expired_time(struct wake_lock *lock, ktime_t *expire_time)
 		return 0;
 	jiffies_to_timespec(-timeout, &delta);
 	set_normalized_timespec(&ts, kt.tv_sec + tomono.tv_sec - delta.tv_sec,
+<<<<<<< HEAD
 				kt.tv_nsec + tomono.tv_nsec - delta.tv_nsec);
+=======
+				(s64)kt.tv_nsec + tomono.tv_nsec - delta.tv_nsec);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	*expire_time = timespec_to_ktime(ts);
 	return 1;
 }
@@ -301,6 +309,12 @@ long has_wake_lock(int type)
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+static bool is_suspend_sys_sync_waiting;
+static void suspend_sys_sync_handler(unsigned long);
+static DEFINE_TIMER(suspend_sys_sync_timer, suspend_sys_sync_handler, 0, 0);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static void suspend_sys_sync(struct work_struct *work)
 {
 	if (debug_mask & DEBUG_SUSPEND)
@@ -313,6 +327,13 @@ static void suspend_sys_sync(struct work_struct *work)
 
 	spin_lock(&suspend_sys_sync_lock);
 	suspend_sys_sync_count--;
+<<<<<<< HEAD
+=======
+	if (is_suspend_sys_sync_waiting && (suspend_sys_sync_count == 0)) {
+		complete(&suspend_sys_sync_comp);
+		del_timer(&suspend_sys_sync_timer);
+	}
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	spin_unlock(&suspend_sys_sync_lock);
 }
 static DECLARE_WORK(suspend_sys_sync_work, suspend_sys_sync);
@@ -329,8 +350,11 @@ void suspend_sys_sync_queue(void)
 }
 
 static bool suspend_sys_sync_abort;
+<<<<<<< HEAD
 static void suspend_sys_sync_handler(unsigned long);
 static DEFINE_TIMER(suspend_sys_sync_timer, suspend_sys_sync_handler, 0, 0);
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 /* value should be less then half of input event wake lock timeout value
  * which is currently set to 5*HZ (see drivers/input/evdev.c)
  */
@@ -355,7 +379,13 @@ int suspend_sys_sync_wait(void)
 	if (suspend_sys_sync_count != 0) {
 		mod_timer(&suspend_sys_sync_timer, jiffies +
 				SUSPEND_SYS_SYNC_TIMEOUT);
+<<<<<<< HEAD
 		wait_for_completion(&suspend_sys_sync_comp);
+=======
+		is_suspend_sys_sync_waiting = true;
+		wait_for_completion(&suspend_sys_sync_comp);
+		is_suspend_sys_sync_waiting = false;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 	if (suspend_sys_sync_abort) {
 		pr_info("suspend aborted....while waiting for sys_sync\n");

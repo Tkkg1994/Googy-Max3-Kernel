@@ -127,7 +127,11 @@ static u64 get_sample_period(void)
 /* Commands for resetting the watchdog */
 static void __touch_watchdog(void)
 {
+<<<<<<< HEAD
 	int this_cpu = smp_processor_id();
+=======
+	int this_cpu = raw_smp_processor_id();
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	__this_cpu_write(watchdog_touch_ts, get_timestamp(this_cpu));
 }

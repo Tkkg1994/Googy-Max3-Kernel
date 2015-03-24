@@ -50,9 +50,13 @@ pgd_t *pgd_alloc(struct mm_struct *mm)
 	memcpy(new_pgd + USER_PTRS_PER_PGD, init_pgd + USER_PTRS_PER_PGD,
 		       (PTRS_PER_PGD - USER_PTRS_PER_PGD) * sizeof(pgd_t));
 
+<<<<<<< HEAD
 #if !defined(CONFIG_CPU_CACHE_V7) || !defined(CONFIG_SMP)
 	clean_dcache_area(new_pgd, PTRS_PER_PGD * sizeof(pgd_t));
 #endif
+=======
+	clean_dcache_area(new_pgd, PTRS_PER_PGD * sizeof(pgd_t));
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #ifdef CONFIG_ARM_LPAE
 	/*

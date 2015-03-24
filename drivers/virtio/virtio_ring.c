@@ -511,6 +511,7 @@ static bool vring_enable_cb(struct virtqueue *_vq)
 	 * either clear the flags bit or point the event index at the next
 	 * entry. Always do both to keep code simple. */
 	vq->vring.avail->flags &= ~VRING_AVAIL_F_NO_INTERRUPT;
+<<<<<<< HEAD
 	vring_used_event(&vq->vring) = last_used_idx = vq->last_used_idx;
 	END_USE(vq);
 	return last_used_idx;
@@ -550,6 +551,17 @@ bool virtqueue_enable_cb(struct virtqueue *_vq)
 {
 	unsigned last_used_idx = virtqueue_enable_cb_prepare(_vq);
 	return !virtqueue_poll(_vq, last_used_idx);
+=======
+	vring_used_event(&vq->vring) = vq->last_used_idx;
+	virtio_mb(vq);
+	if (unlikely(more_used(vq))) {
+		END_USE(vq);
+		return false;
+	}
+
+	END_USE(vq);
+	return true;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 /**

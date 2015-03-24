@@ -1039,7 +1039,11 @@ void do_exit(long code)
 	/*
 	 * Make sure we are holding no locks:
 	 */
+<<<<<<< HEAD
 	debug_check_no_locks_held(tsk);
+=======
+	debug_check_no_locks_held();
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	/*
 	 * We can do this unlocked here. The futex code uses this flag
 	 * just to verify whether the pi state cleanup has been done

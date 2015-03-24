@@ -121,5 +121,9 @@ ENTRY(__memzero)
 	strneb	r2, [r0], #1		@ 1
 	tst	r1, #1			@ 1 a byte left over
 	strneb	r2, [r0], #1		@ 1
+<<<<<<< HEAD
 	ret	lr			@ 1
+=======
+	mov	pc, lr			@ 1
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(__memzero)

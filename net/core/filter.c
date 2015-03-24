@@ -38,6 +38,10 @@
 #include <linux/filter.h>
 #include <linux/reciprocal_div.h>
 #include <linux/ratelimit.h>
+<<<<<<< HEAD
+=======
+#include <linux/seccomp.h>
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /* No hurry in this branch
  *
@@ -356,6 +360,14 @@ load_b:
 				A = 0;
 			continue;
 		}
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_SECCOMP_FILTER
+		case BPF_S_ANC_SECCOMP_LD_W:
+			A = seccomp_bpf_load(fentry->k);
+			continue;
+#endif
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		default:
 			WARN_RATELIMIT(1, "Unknown code:%u jt:%u tf:%u k:%u\n",
 				       fentry->code, fentry->jt,

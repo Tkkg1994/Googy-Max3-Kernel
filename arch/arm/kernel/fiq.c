@@ -39,6 +39,10 @@
 #include <linux/kernel.h>
 #include <linux/init.h>
 #include <linux/interrupt.h>
+<<<<<<< HEAD
+=======
+#include <linux/irq.h>
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <linux/seq_file.h>
 
 #include <asm/cacheflush.h>
@@ -47,6 +51,14 @@
 #include <asm/irq.h>
 #include <asm/traps.h>
 
+<<<<<<< HEAD
+=======
+#define FIQ_OFFSET ({					\
+		extern void *vector_fiq_offset;		\
+		(unsigned)&vector_fiq_offset;		\
+	})
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static unsigned long no_fiq_insn;
 
 /* Default reacquire function
@@ -79,6 +91,7 @@ int show_fiq_list(struct seq_file *p, int prec)
 
 void set_fiq_handler(void *start, unsigned int length)
 {
+<<<<<<< HEAD
 #if defined(CONFIG_CPU_USE_DOMAINS)
 	memcpy((void *)0xffff001c, start, length);
 #else
@@ -87,6 +100,16 @@ void set_fiq_handler(void *start, unsigned int length)
 	flush_icache_range(0xffff001c, 0xffff001c + length);
 	if (!vectors_high())
 		flush_icache_range(0x1c, 0x1c + length);
+=======
+	void *base = vectors_page;
+	unsigned offset = FIQ_OFFSET;
+
+	memcpy(base + offset, start, length);
+	if (!cache_is_vipt_nonaliasing())
+		flush_icache_range((unsigned long)base + offset, offset +
+				   length);
+	flush_icache_range(0xffff0000 + offset, 0xffff0000 + offset + length);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 int claim_fiq(struct fiq_handler *f)
@@ -122,14 +145,31 @@ void release_fiq(struct fiq_handler *f)
 	while (current_fiq->fiq_op(current_fiq->dev_id, 0));
 }
 
+<<<<<<< HEAD
 void enable_fiq(int fiq)
 {
 	enable_irq(fiq + FIQ_START);
+=======
+static int fiq_start;
+
+void enable_fiq(int fiq)
+{
+	enable_irq(fiq + fiq_start);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 void disable_fiq(int fiq)
 {
+<<<<<<< HEAD
 	disable_irq(fiq + FIQ_START);
+=======
+	disable_irq(fiq + fiq_start);
+}
+
+void fiq_set_type(int fiq, unsigned int type)
+{
+	irq_set_irq_type(fiq + FIQ_START, type);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 EXPORT_SYMBOL(set_fiq_handler);
@@ -139,8 +179,18 @@ EXPORT_SYMBOL(claim_fiq);
 EXPORT_SYMBOL(release_fiq);
 EXPORT_SYMBOL(enable_fiq);
 EXPORT_SYMBOL(disable_fiq);
+<<<<<<< HEAD
 
 void __init init_FIQ(void)
 {
 	no_fiq_insn = *(unsigned long *)0xffff001c;
+=======
+EXPORT_SYMBOL(fiq_set_type);
+
+void __init init_FIQ(int start)
+{
+	unsigned offset = FIQ_OFFSET;
+	no_fiq_insn = *(unsigned long *)(0xffff0000 + offset);
+	fiq_start = start;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }

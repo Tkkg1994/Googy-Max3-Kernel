@@ -116,11 +116,15 @@ void machine_kexec(struct kimage *image)
 	unsigned long reboot_code_buffer_phys;
 	void *reboot_code_buffer;
 
+<<<<<<< HEAD
 	if (num_online_cpus() > 1) {
 	    pr_err("kexec: error: multiple CPUs still online\n");
 	    return;
 	}
 	
+=======
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	page_list = image->head & PAGE_MASK;
 
 	/* we need both effective and real address here */

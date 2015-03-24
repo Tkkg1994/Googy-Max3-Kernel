@@ -19,15 +19,24 @@
 #include <linux/mm.h>
 #include <linux/err.h>
 #include <linux/cpu.h>
+<<<<<<< HEAD
 #include <linux/smp.h>
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <linux/seq_file.h>
 #include <linux/irq.h>
 #include <linux/percpu.h>
 #include <linux/clockchips.h>
 #include <linux/completion.h>
+<<<<<<< HEAD
 #include <linux/cpufreq.h>
 
 #include <linux/atomic.h>
+=======
+
+#include <linux/atomic.h>
+#include <asm/smp.h>
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <asm/cacheflush.h>
 #include <asm/cpu.h>
 #include <asm/cputype.h>
@@ -43,9 +52,15 @@
 #include <asm/ptrace.h>
 #include <asm/localtimer.h>
 #include <asm/smp_plat.h>
+<<<<<<< HEAD
 #include <asm/mpu.h>
 
 #if defined(CONFIG_SEC_DEBUG)
+=======
+#include <asm/mach/arch.h>
+
+#ifdef CONFIG_SEC_DEBUG
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <mach/sec_debug.h>
 #endif
 /*
@@ -67,6 +82,17 @@ enum ipi_msg_type {
 
 static DECLARE_COMPLETION(cpu_running);
 
+<<<<<<< HEAD
+=======
+static struct smp_operations smp_ops;
+
+void __init smp_set_ops(struct smp_operations *ops)
+{
+	if (ops)
+		smp_ops = *ops;
+};
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 int __cpuinit __cpu_up(unsigned int cpu)
 {
 	struct cpuinfo_arm *ci = &per_cpu(cpu_data, cpu);
@@ -97,10 +123,13 @@ int __cpuinit __cpu_up(unsigned int cpu)
 	 * its stack and the page tables.
 	 */
 	secondary_data.stack = task_stack_page(idle) + THREAD_START_SP;
+<<<<<<< HEAD
 #ifdef CONFIG_ARM_MPU
 	secondary_data.mpu_rgn_szr = mpu_rgn_info.rgns[MPU_RAM_REGION].drsr;
 #endif
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	secondary_data.pgdir = virt_to_phys(idmap_pgd);
 	secondary_data.swapper_pg_dir = virt_to_phys(swapper_pg_dir);
 	__cpuc_flush_dcache_area(&secondary_data, sizeof(secondary_data));
@@ -126,14 +155,77 @@ int __cpuinit __cpu_up(unsigned int cpu)
 		pr_err("CPU%u: failed to boot: %d\n", cpu, ret);
 	}
 
+<<<<<<< HEAD
 	memset(&secondary_data, 0, sizeof(secondary_data));
+=======
+	secondary_data.stack = NULL;
+	secondary_data.pgdir = 0;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	return ret;
+}
+
+<<<<<<< HEAD
+#ifdef CONFIG_HOTPLUG_CPU
+static void percpu_timer_stop(void);
+
+=======
+/* platform specific SMP operations */
+void __attribute__((weak)) __init smp_init_cpus(void)
+{
+	if (smp_ops.smp_init_cpus)
+		smp_ops.smp_init_cpus();
+}
+
+void __attribute__((weak)) __init platform_smp_prepare_cpus(unsigned int max_cpus)
+{
+	if (smp_ops.smp_prepare_cpus)
+		smp_ops.smp_prepare_cpus(max_cpus);
+}
+
+void __attribute__((weak)) __cpuinit platform_secondary_init(unsigned int cpu)
+{
+	if (smp_ops.smp_secondary_init)
+		smp_ops.smp_secondary_init(cpu);
+}
+
+int __attribute__((weak)) __cpuinit boot_secondary(unsigned int cpu, struct task_struct *idle)
+{
+	if (smp_ops.smp_boot_secondary)
+		return smp_ops.smp_boot_secondary(cpu, idle);
+	return -ENOSYS;
 }
 
 #ifdef CONFIG_HOTPLUG_CPU
 static void percpu_timer_stop(void);
 
+int __attribute__((weak)) platform_cpu_kill(unsigned int cpu)
+{
+	if (smp_ops.cpu_kill)
+		return smp_ops.cpu_kill(cpu);
+	return 1;
+}
+
+void __attribute__((weak)) platform_cpu_die(unsigned int cpu)
+{
+	if (smp_ops.cpu_die)
+		smp_ops.cpu_die(cpu);
+}
+
+int __attribute__((weak)) platform_cpu_disable(unsigned int cpu)
+{
+	if (smp_ops.cpu_disable)
+		return smp_ops.cpu_disable(cpu);
+
+	/*
+	* By default, allow disabling all CPUs except the first one,
+	* since this is special on a lot of platforms, e.g. because
+	* of clock tick interrupts.
+	*/
+	return cpu == 0 ? -EPERM : 0;
+}
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 /*
  * __cpu_disable runs on the processor to be shutdown.
  */
@@ -197,6 +289,7 @@ void __cpu_die(unsigned int cpu)
 	}
 	pr_debug("CPU%u: shutdown\n", cpu);
 
+<<<<<<< HEAD
 	/*
 	 * platform_cpu_kill() is generally expected to do the powering off
 	 * and/or cutting of clocks to the dying CPU.  Optionally, this may
@@ -204,6 +297,8 @@ void __cpu_die(unsigned int cpu)
 	 * this call, but that means there is _no_ synchronisation between
 	 * the requesting CPU and the dying CPU actually losing power.
 	 */
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (!platform_cpu_kill(cpu))
 		printk("CPU%u: unable to kill\n", cpu);
 }
@@ -223,6 +318,7 @@ void __ref cpu_die(void)
 	idle_task_exit();
 
 	local_irq_disable();
+<<<<<<< HEAD
 	/*
 	 * Flush the data out of the L1 cache for this CPU.  This must be
 	 * before the completion to ensure that data is safely written out
@@ -257,6 +353,16 @@ void __ref cpu_die(void)
 	 *
 	 * The return path should not be used for platforms which can
 	 * power off the CPU.
+=======
+	mb();
+
+	/* Tell __cpu_die() that this CPU is now safe to dispose of */
+	complete(&cpu_died);
+
+	/*
+	 * actual CPU shutdown procedure is at least platform (if not
+	 * CPU) specific.
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	 */
 	platform_cpu_die(cpu);
 
@@ -300,7 +406,10 @@ asmlinkage void __cpuinit secondary_start_kernel(void)
 	 * switch away from it before attempting any exclusive accesses.
 	 */
 	cpu_switch_mm(mm->pgd, mm);
+<<<<<<< HEAD
 	local_flush_bp_all();
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	enter_lazy_tlb(mm, current);
 	local_flush_tlb_all();
 
@@ -313,10 +422,16 @@ asmlinkage void __cpuinit secondary_start_kernel(void)
 	current->active_mm = mm;
 	cpumask_set_cpu(cpu, mm_cpumask(mm));
 
+<<<<<<< HEAD
 	cpu_init();
 
 	pr_debug("CPU%u: Booted secondary processor\n", cpu);
 
+=======
+	pr_debug("CPU%u: Booted secondary processor\n", cpu);
+
+	cpu_init();
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	preempt_disable();
 	trace_hardirqs_off();
 
@@ -370,7 +485,13 @@ void __init smp_cpus_done(unsigned int max_cpus)
 
 void __init smp_prepare_boot_cpu(void)
 {
+<<<<<<< HEAD
 	set_my_cpu_offset(per_cpu_offset(smp_processor_id()));
+=======
+	unsigned int cpu = smp_processor_id();
+
+	per_cpu(cpu_data, cpu).idle = current;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 void __init smp_prepare_cpus(unsigned int max_cpus)
@@ -544,6 +665,7 @@ static void percpu_timer_stop(void)
 
 static DEFINE_RAW_SPINLOCK(stop_lock);
 
+<<<<<<< HEAD
 /*
  * ipi_cpu_stop - handle IPI from smp_send_stop()
  */
@@ -555,6 +677,21 @@ static void ipi_cpu_stop(unsigned int cpu)
 		printk(KERN_CRIT "CPU%u: stopping\n", cpu);
 		dump_stack();
 #if defined(CONFIG_SEC_DEBUG)
+=======
+DEFINE_PER_CPU(struct pt_regs, regs_before_stop);
+/*
+ * ipi_cpu_stop - handle IPI from smp_send_stop()
+ */
+static void ipi_cpu_stop(unsigned int cpu, struct pt_regs *regs)
+{
+	if (system_state == SYSTEM_BOOTING ||
+	    system_state == SYSTEM_RUNNING) {
+		per_cpu(regs_before_stop, cpu) = *regs;
+		raw_spin_lock(&stop_lock);
+		printk(KERN_CRIT "CPU%u: stopping\n", cpu);
+		dump_stack();
+#ifdef CONFIG_SEC_DEBUG
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		sec_debug_dump_stack();
 #endif
 		raw_spin_unlock(&stop_lock);
@@ -565,6 +702,11 @@ static void ipi_cpu_stop(unsigned int cpu)
 	local_fiq_disable();
 	local_irq_disable();
 
+<<<<<<< HEAD
+=======
+	flush_cache_all();
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	while (1)
 		cpu_relax();
 }
@@ -666,7 +808,11 @@ void handle_IPI(int ipinr, struct pt_regs *regs)
 
 	case IPI_CPU_STOP:
 		irq_enter();
+<<<<<<< HEAD
 		ipi_cpu_stop(cpu);
+=======
+		ipi_cpu_stop(cpu, regs);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		irq_exit();
 		break;
 
@@ -687,6 +833,20 @@ void smp_send_reschedule(int cpu)
 	smp_cross_call(cpumask_of(cpu), IPI_RESCHEDULE);
 }
 
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_HOTPLUG_CPU
+static void smp_kill_cpus(cpumask_t *mask)
+{
+	unsigned int cpu;
+	for_each_cpu(cpu, mask)
+		platform_cpu_kill(cpu);
+}
+#else
+static void smp_kill_cpus(cpumask_t *mask) { }
+#endif
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 void smp_send_stop(void)
 {
 	unsigned long timeout;
@@ -698,12 +858,23 @@ void smp_send_stop(void)
 		smp_cross_call(&mask, IPI_CPU_STOP);
 
 	/* Wait up to one second for other CPUs to stop */
+<<<<<<< HEAD
 	timeout = MSEC_PER_SEC;
 	while (num_active_cpus() > 1 && timeout--)
 		mdelay(1);
 
 	if (num_active_cpus() > 1)
 		pr_warning("SMP: failed to stop secondary CPUs\n");
+=======
+	timeout = USEC_PER_SEC;
+	while (num_active_cpus() > 1 && timeout--)
+		udelay(1);
+
+	if (num_active_cpus() > 1)
+		pr_warning("SMP: failed to stop secondary CPUs\n");
+
+	smp_kill_cpus(&mask);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 /*
@@ -713,6 +884,7 @@ int setup_profiling_timer(unsigned int multiplier)
 {
 	return -EINVAL;
 }
+<<<<<<< HEAD
 
 #ifdef CONFIG_CPU_FREQ
 
@@ -767,3 +939,5 @@ core_initcall(register_cpufreq_notifier);
 
 #endif
  
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea

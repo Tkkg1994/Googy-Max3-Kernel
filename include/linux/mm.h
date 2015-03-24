@@ -302,6 +302,7 @@ unsigned long vmalloc_to_pfn(const void *addr);
  * On nommu, vmalloc/vfree wrap through kmalloc/kfree directly, so there
  * is no special casing required.
  */
+<<<<<<< HEAD
 static inline int is_vmalloc_addr(const void *x)
 {
 #ifdef CONFIG_MMU
@@ -312,6 +313,18 @@ static inline int is_vmalloc_addr(const void *x)
 	return 0;
 #endif
 }
+=======
+
+#ifdef CONFIG_MMU
+extern int is_vmalloc_addr(const void *x);
+#else
+static inline int is_vmalloc_addr(const void *x)
+{
+	return 0;
+}
+#endif
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #ifdef CONFIG_MMU
 extern int is_vmalloc_or_module_addr(const void *x);
 #else
@@ -806,6 +819,20 @@ static inline void *page_rmapping(struct page *page)
 	return (void *)((unsigned long)page->mapping & ~PAGE_MAPPING_FLAGS);
 }
 
+<<<<<<< HEAD
+=======
+extern struct address_space *__page_file_mapping(struct page *);
+
+static inline
+struct address_space *page_file_mapping(struct page *page)
+{
+	if (unlikely(PageSwapCache(page)))
+		return __page_file_mapping(page);
+
+	return page->mapping;
+}
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static inline int PageAnon(struct page *page)
 {
 	return ((unsigned long)page->mapping & PAGE_MAPPING_ANON) != 0;
@@ -822,6 +849,23 @@ static inline pgoff_t page_index(struct page *page)
 	return page->index;
 }
 
+<<<<<<< HEAD
+=======
+extern pgoff_t __page_file_index(struct page *page);
+
+/*
+ * Return the file index of the page. Regular pagecache pages use ->index
+ * whereas swapcache pages use swp_offset(->private)
+ */
+static inline pgoff_t page_file_index(struct page *page)
+{
+	if (unlikely(PageSwapCache(page)))
+		return __page_file_index(page);
+
+	return page->index;
+}
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 /*
  * Return true if this page is mapped into pagetables.
  */
@@ -1371,7 +1415,11 @@ extern int vma_adjust(struct vm_area_struct *vma, unsigned long start,
 extern struct vm_area_struct *vma_merge(struct mm_struct *,
 	struct vm_area_struct *prev, unsigned long addr, unsigned long end,
 	unsigned long vm_flags, struct anon_vma *, struct file *, pgoff_t,
+<<<<<<< HEAD
 	struct mempolicy *);
+=======
+	struct mempolicy *, const char __user *);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 extern struct anon_vma *find_mergeable_anon_vma(struct vm_area_struct *);
 extern int split_vma(struct mm_struct *,
 	struct vm_area_struct *, unsigned long addr, int new_below);
@@ -1427,8 +1475,13 @@ int write_one_page(struct page *page, int wait);
 void task_dirty_inc(struct task_struct *tsk);
 
 /* readahead.c */
+<<<<<<< HEAD
 #define VM_MAX_READAHEAD	512	/* kbytes */
 #define VM_MIN_READAHEAD	32	/* kbytes (includes current page) */
+=======
+#define VM_MAX_READAHEAD	128	/* kbytes */
+#define VM_MIN_READAHEAD	16	/* kbytes (includes current page) */
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 int force_page_cache_readahead(struct address_space *mapping, struct file *filp,
 			pgoff_t offset, unsigned long nr_to_read);

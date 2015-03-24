@@ -189,6 +189,7 @@ static struct attribute_group kernel_attr_group = {
 	.attrs = kernel_attrs,
 };
 
+<<<<<<< HEAD
 
 static unsigned int Lgentle_fair_sleepers = 1;
 extern void relay_gfs(unsigned int gfs);
@@ -246,6 +247,8 @@ static struct attribute_group sched_features_attr_group = {
 /* Initialize fast charge sysfs folder */
 static struct kobject *sched_features_kobj;
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static int __init ksysfs_init(void)
 {
 	int error;
@@ -259,12 +262,15 @@ static int __init ksysfs_init(void)
 	if (error)
 		goto kset_exit;
 
+<<<<<<< HEAD
 	sched_features_kobj = kobject_create_and_add("sched", kernel_kobj);
 	error = sysfs_create_group(sched_features_kobj, &sched_features_attr_group);
 
 	if (error)
 		kobject_put(sched_features_kobj);
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (notes_size > 0) {
 		notes_attr.size = notes_size;
 		error = sysfs_create_bin_file(kernel_kobj, &notes_attr);

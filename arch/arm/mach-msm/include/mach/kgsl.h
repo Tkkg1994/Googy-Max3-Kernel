@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -72,6 +76,10 @@ struct kgsl_device_platform_data {
 	unsigned int nap_allowed;
 	unsigned int clk_map;
 	unsigned int idle_needed;
+<<<<<<< HEAD
+=======
+	unsigned int step_mul;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	struct msm_bus_scale_pdata *bus_scale_table;
 	struct kgsl_device_iommu_data *iommu_data;
 	int iommu_count;

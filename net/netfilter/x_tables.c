@@ -834,8 +834,18 @@ xt_replace_table(struct xt_table *table,
 		return NULL;
 	}
 
+<<<<<<< HEAD
 	table->private = newinfo;
 	newinfo->initial_entries = private->initial_entries;
+=======
+	newinfo->initial_entries = private->initial_entries;
+	/*
+	 * Ensure contents of newinfo are visible before assigning to
+	 * private.
+	 */
+	smp_wmb();
+	table->private = newinfo;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	/*
 	 * Even though table entries have now been swapped, other CPU's

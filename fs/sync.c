@@ -16,13 +16,17 @@
 #include <linux/quotaops.h>
 #include <linux/backing-dev.h>
 #include "internal.h"
+<<<<<<< HEAD
 #ifdef CONFIG_ASYNC_FSYNC
 #include <linux/statfs.h>
 #endif
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #define VALID_FLAGS (SYNC_FILE_RANGE_WAIT_BEFORE|SYNC_FILE_RANGE_WRITE| \
 			SYNC_FILE_RANGE_WAIT_AFTER)
 
+<<<<<<< HEAD
 #ifdef CONFIG_ASYNC_FSYNC
 #define FLAG_ASYNC_FSYNC        0x1
 static struct workqueue_struct *fsync_workqueue = NULL;
@@ -32,6 +36,8 @@ struct fsync_work {
 };
 #endif
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 /*
  * Do the filesystem syncing work. For simple filesystems
  * writeback_inodes_sb(sb) just dirties buffers with inodes so we have to
@@ -107,13 +113,18 @@ static void sync_filesystems(int wait)
  * sync everything.  Start out by waking pdflush, because that writes back
  * all queues in parallel.
  */
+<<<<<<< HEAD
 static void do_sync(void)
+=======
+SYSCALL_DEFINE0(sync)
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 {
 	wakeup_flusher_threads(0, WB_REASON_SYNC);
 	sync_filesystems(0);
 	sync_filesystems(1);
 	if (unlikely(laptop_mode))
 		laptop_sync_completion();
+<<<<<<< HEAD
 	return;
 }
 
@@ -168,6 +179,8 @@ SYSCALL_DEFINE0(sync)
 	ACCESS_ONCE(sync_seq)++;
 	WARN_ON_ONCE((sync_seq & 0x1) != 0);
 	mutex_unlock(&sync_mutex);
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return 0;
 }
 
@@ -250,6 +263,7 @@ int vfs_fsync(struct file *file, int datasync)
 }
 EXPORT_SYMBOL(vfs_fsync);
 
+<<<<<<< HEAD
 #ifdef CONFIG_ASYNC_FSYNC
 extern int emmc_perf_degr(void);
 #define LOW_STORAGE_THRESHOLD   786432
@@ -305,10 +319,13 @@ static void do_afsync_work(struct work_struct *work)
 }
 #endif
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static int do_fsync(unsigned int fd, int datasync)
 {
 	struct file *file;
 	int ret = -EBADF;
+<<<<<<< HEAD
 #ifdef CONFIG_ASYNC_FSYNC
 	struct fsync_work *fwork;
 #endif
@@ -356,6 +373,13 @@ no_async:
 				current->parent->pid, current->parent->comm,
 				ktime_to_ms(fsync_diff), path);
 		}
+=======
+
+	file = fget(fd);
+	if (file) {
+		ret = vfs_fsync(file, datasync);
+		fput(file);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 	return ret;
 }

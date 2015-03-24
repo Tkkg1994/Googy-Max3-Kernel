@@ -45,6 +45,10 @@
 #include <linux/debugobjects.h>
 #include <linux/sched.h>
 #include <linux/timer.h>
+<<<<<<< HEAD
+=======
+#include <linux/freezer.h>
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #include <asm/uaccess.h>
 
@@ -1553,7 +1557,11 @@ static int __sched do_nanosleep(struct hrtimer_sleeper *t, enum hrtimer_mode mod
 			t->task = NULL;
 
 		if (likely(t->task))
+<<<<<<< HEAD
 			schedule();
+=======
+			freezable_schedule();
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 		hrtimer_cancel(&t->timer);
 		mode = HRTIMER_MODE_ABS;

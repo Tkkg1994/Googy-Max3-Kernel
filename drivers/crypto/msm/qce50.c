@@ -66,6 +66,10 @@ struct qce_device {
 	struct clk *ce_core_src_clk;	/* Handle to CE src clk*/
 	struct clk *ce_core_clk;	/* Handle to CE clk */
 	struct clk *ce_clk;		/* Handle to CE clk */
+<<<<<<< HEAD
+=======
+	struct clk *ce_bus_clk;	/* Handle to CE AXI clk*/
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	qce_comp_func_ptr_t qce_cb;	/* qce callback function pointer */
 
@@ -2540,6 +2544,10 @@ static int __qce_init_clk(struct qce_device *pce_dev)
 	struct clk *ce_core_clk;
 	struct clk *ce_clk;
 	struct clk *ce_core_src_clk;
+<<<<<<< HEAD
+=======
+	struct clk *ce_bus_clk;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	/* Get CE3 src core clk. */
 	ce_core_src_clk = clk_get(pce_dev->pdev, "core_clk_src");
@@ -2550,6 +2558,10 @@ static int __qce_init_clk(struct qce_device *pce_dev)
 		rc = clk_set_rate(pce_dev->ce_core_src_clk, 100000000);
 		if (rc) {
 			clk_put(pce_dev->ce_core_src_clk);
+<<<<<<< HEAD
+=======
+			pce_dev->ce_core_src_clk = NULL;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			pr_err("Unable to set the core src clk @100Mhz.\n");
 			goto err_clk;
 		}
@@ -2581,21 +2593,77 @@ static int __qce_init_clk(struct qce_device *pce_dev)
 	}
 	pce_dev->ce_clk = ce_clk;
 
+<<<<<<< HEAD
 	/* Enable CE core clk */
 	rc = clk_prepare_enable(pce_dev->ce_core_clk);
 	if (rc) {
 		pr_err("Unable to enable/prepare CE core clk\n");
+=======
+	/* Get CE AXI clk */
+	ce_bus_clk = clk_get(pce_dev->pdev, "bus_clk");
+	if (IS_ERR(ce_bus_clk)) {
+		rc = PTR_ERR(ce_bus_clk);
+		pr_err("Unable to get CE BUS interface clk\n");
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		if (pce_dev->ce_core_src_clk != NULL)
 			clk_put(pce_dev->ce_core_src_clk);
 		clk_put(pce_dev->ce_core_clk);
 		clk_put(pce_dev->ce_clk);
 		goto err_clk;
+<<<<<<< HEAD
 	} else {
 		/* Enable CE clk */
+=======
+	}
+	pce_dev->ce_bus_clk = ce_bus_clk;
+
+err_clk:
+	if (rc)
+		pr_err("Unable to init CE clks, rc = %d\n", rc);
+	return rc;
+}
+
+static void __qce_deinit_clk(struct qce_device *pce_dev)
+{
+	if (pce_dev->ce_clk  != NULL) {
+		clk_put(pce_dev->ce_clk);
+		pce_dev->ce_clk  = NULL;
+	}
+	if (pce_dev->ce_core_clk != NULL) {
+		clk_put(pce_dev->ce_core_clk);
+		pce_dev->ce_core_clk = NULL;
+	}
+	if (pce_dev->ce_bus_clk != NULL) {
+		clk_put(pce_dev->ce_bus_clk);
+		pce_dev->ce_bus_clk = NULL;
+	}
+	if (pce_dev->ce_core_src_clk != NULL) {
+		clk_put(pce_dev->ce_core_src_clk);
+		pce_dev->ce_core_src_clk = NULL;
+	}
+}
+
+static int __qce_enable_clk(void *handle)
+{
+	struct qce_device *pce_dev = (struct qce_device *) handle;
+	int rc = 0;
+
+	/* Enable CE core clk */
+	if (pce_dev->ce_core_clk != NULL) {
+		rc = clk_prepare_enable(pce_dev->ce_core_clk);
+		if (rc) {
+			pr_err("Unable to enable/prepare CE core clk\n");
+			return rc;
+		}
+	}
+	/* Enable CE clk */
+	if (pce_dev->ce_clk != NULL) {
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		rc = clk_prepare_enable(pce_dev->ce_clk);
 		if (rc) {
 			pr_err("Unable to enable/prepare CE iface clk\n");
 			clk_disable_unprepare(pce_dev->ce_core_clk);
+<<<<<<< HEAD
 			if (pce_dev->ce_core_src_clk != NULL)
 				clk_put(pce_dev->ce_core_src_clk);
 			clk_put(pce_dev->ce_core_clk);
@@ -2606,6 +2674,36 @@ static int __qce_init_clk(struct qce_device *pce_dev)
 err_clk:
 	if (rc)
 		pr_err("Unable to init CE clks, rc = %d\n", rc);
+=======
+			return rc;
+		}
+	}
+	/* Enable AXI clk */
+	if (pce_dev->ce_bus_clk != NULL) {
+		rc = clk_prepare_enable(pce_dev->ce_bus_clk);
+		if (rc) {
+			pr_err("Unable to enable/prepare CE BUS clk\n");
+			clk_disable_unprepare(pce_dev->ce_clk);
+			clk_disable_unprepare(pce_dev->ce_core_clk);
+			return rc;
+		}
+	}
+	return rc;
+}
+
+static int __qce_disable_clk(void *handle)
+{
+	struct qce_device *pce_dev = (struct qce_device *) handle;
+	int rc = 0;
+
+	if (pce_dev->ce_clk != NULL)
+		clk_disable_unprepare(pce_dev->ce_clk);
+	if (pce_dev->ce_core_clk != NULL)
+		clk_disable_unprepare(pce_dev->ce_core_clk);
+	if (pce_dev->ce_bus_clk != NULL)
+		clk_disable_unprepare(pce_dev->ce_bus_clk);
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return rc;
 }
 
@@ -2645,8 +2743,18 @@ void *qce_open(struct platform_device *pdev, int *rc)
 	if (*rc)
 		goto err_mem;
 
+<<<<<<< HEAD
 	if (_probe_ce_engine(pce_dev)) {
 		*rc = -ENXIO;
+=======
+	*rc = __qce_enable_clk(pce_dev);
+	if (*rc)
+		goto err;
+
+	if (_probe_ce_engine(pce_dev)) {
+		*rc = -ENXIO;
+		__qce_disable_clk(pce_dev);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		goto err;
 	}
 	*rc = 0;
@@ -2655,6 +2763,7 @@ void *qce_open(struct platform_device *pdev, int *rc)
 
 	return pce_dev;
 err:
+<<<<<<< HEAD
 	clk_disable_unprepare(pce_dev->ce_clk);
 	clk_disable_unprepare(pce_dev->ce_core_clk);
 
@@ -2662,6 +2771,10 @@ err:
 		clk_put(pce_dev->ce_core_src_clk);
 	clk_put(pce_dev->ce_clk);
 	clk_put(pce_dev->ce_core_clk);
+=======
+	__qce_deinit_clk(pce_dev);
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 err_mem:
 	if (pce_dev->coh_vmem)
 		dma_free_coherent(pce_dev->pdev, pce_dev->memsize,
@@ -2691,12 +2804,17 @@ int qce_close(void *handle)
 		dma_free_coherent(pce_dev->pdev, pce_dev->memsize,
 				pce_dev->coh_vmem, pce_dev->coh_pmem);
 
+<<<<<<< HEAD
 	clk_disable_unprepare(pce_dev->ce_clk);
 	clk_disable_unprepare(pce_dev->ce_core_clk);
 	if (pce_dev->ce_core_src_clk != NULL)
 		clk_put(pce_dev->ce_core_src_clk);
 	clk_put(pce_dev->ce_clk);
 	clk_put(pce_dev->ce_core_clk);
+=======
+	__qce_disable_clk(pce_dev);
+	__qce_deinit_clk(pce_dev);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	qce_sps_exit(pce_dev);
 	kfree(handle);

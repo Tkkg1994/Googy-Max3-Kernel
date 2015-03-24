@@ -16,6 +16,12 @@
 #include <asm/hwcap.h>
 #include <asm/pgtable-hwdef.h>
 #include <asm/pgtable.h>
+<<<<<<< HEAD
+=======
+#ifdef TIMA_EMUL_ENABLED
+#include <asm/entry-macro-tima.S>
+#endif
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #include "proc-macros.S"
 
@@ -26,7 +32,11 @@
 #endif
 
 ENTRY(cpu_v7_proc_init)
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(cpu_v7_proc_init)
 
 ENTRY(cpu_v7_proc_fin)
@@ -34,7 +44,11 @@ ENTRY(cpu_v7_proc_fin)
 	bic	r0, r0, #0x1000			@ ...i............
 	bic	r0, r0, #0x0006			@ .............ca.
 	mcr	p15, 0, r0, c1, c0, 0		@ disable caches
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(cpu_v7_proc_fin)
 
 /*
@@ -56,8 +70,16 @@ ENTRY(cpu_v7_reset)
 	bic	r1, r1, #0x1			@ ...............m
  THUMB(	bic	r1, r1, #1 << 30 )		@ SCTLR.TE (Thumb exceptions)
 	mcr	p15, 0, r1, c1, c0, 0		@ disable MMU
+<<<<<<< HEAD
 	isb
 	bx	r0
+=======
+	mcr     p15, 0, ip, c8, c7, 0           @ invalidate I & D,flush TLB
+	mcr     p15, 0, ip, c7, c5, 6           @ flush BTC
+	dsb
+	isb
+	mov	pc, r0
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(cpu_v7_reset)
 	.popsection
 
@@ -71,6 +93,7 @@ ENDPROC(cpu_v7_reset)
 ENTRY(cpu_v7_do_idle)
 	dsb					@ WFI may enter a low-power mode
 	wfi
+<<<<<<< HEAD
 	ret	lr
 ENDPROC(cpu_v7_do_idle)
 
@@ -85,6 +108,21 @@ ENTRY(cpu_v7_dcache_clean_area)
 	bhi	2b
 	dsb	ishst
 	ret	lr
+=======
+	mov	pc, lr
+ENDPROC(cpu_v7_do_idle)
+
+ENTRY(cpu_v7_dcache_clean_area)
+#ifndef TLB_CAN_READ_FROM_L1_CACHE
+	dcache_line_size r2, r3
+1:	mcr	p15, 0, r0, c7, c10, 1		@ clean D entry
+	add	r0, r0, r2
+	subs	r1, r1, r2
+	bhi	1b
+	dsb
+#endif
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(cpu_v7_dcache_clean_area)
 
 	string	cpu_v7_name, "ARMv7 Processor"
@@ -92,13 +130,18 @@ ENDPROC(cpu_v7_dcache_clean_area)
 
 /* Suspend/resume support: derived from arch/arm/mach-s5pv210/sleep.S */
 .globl	cpu_v7_suspend_size
+<<<<<<< HEAD
 .equ	cpu_v7_suspend_size, 4 * 9
+=======
+.equ	cpu_v7_suspend_size, 4 * 8
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #ifdef CONFIG_ARM_CPU_SUSPEND
 ENTRY(cpu_v7_do_suspend)
 	stmfd	sp!, {r4 - r10, lr}
 	mrc	p15, 0, r4, c13, c0, 0	@ FCSE/PID
 	mrc	p15, 0, r5, c13, c0, 3	@ User r/o thread ID
 	stmia	r0!, {r4 - r5}
+<<<<<<< HEAD
 #ifdef CONFIG_MMU
 	mrc	p15, 0, r6, c3, c0, 0	@ Domain ID
 #ifdef CONFIG_ARM_LPAE
@@ -112,16 +155,30 @@ ENTRY(cpu_v7_do_suspend)
 	mrc	p15, 0, r9, c1, c0, 1	@ Auxiliary control register
 	mrc	p15, 0, r10, c1, c0, 2	@ Co-processor access control
 	stmia	r0, {r5 - r11}
+=======
+	mrc	p15, 0, r6, c3, c0, 0	@ Domain ID
+	mrc	p15, 0, r7, c2, c0, 1	@ TTB 1
+	mrc	p15, 0, r11, c2, c0, 2	@ TTB control register
+	mrc	p15, 0, r8, c1, c0, 0	@ Control register
+	mrc	p15, 0, r9, c1, c0, 1	@ Auxiliary control register
+	mrc	p15, 0, r10, c1, c0, 2	@ Co-processor access control
+	stmia	r0, {r6 - r11}
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	ldmfd	sp!, {r4 - r10, pc}
 ENDPROC(cpu_v7_do_suspend)
 
 ENTRY(cpu_v7_do_resume)
 	mov	ip, #0
+<<<<<<< HEAD
+=======
+	mcr	p15, 0, ip, c8, c7, 0	@ invalidate TLBs
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	mcr	p15, 0, ip, c7, c5, 0	@ invalidate I cache
 	mcr	p15, 0, ip, c13, c0, 1	@ set reserved context ID
 	ldmia	r0!, {r4 - r5}
 	mcr	p15, 0, r4, c13, c0, 0	@ FCSE/PID
 	mcr	p15, 0, r5, c13, c0, 3	@ User r/o thread ID
+<<<<<<< HEAD
 	ldmia	r0, {r5 - r11}
 #ifdef CONFIG_MMU
 	mcr	p15, 0, ip, c8, c7, 0	@ invalidate TLBs
@@ -141,10 +198,48 @@ ENTRY(cpu_v7_do_resume)
 	mcr	p15, 0, r4, c10, c2, 0	@ write PRRR
 	mcr	p15, 0, r5, c10, c2, 1	@ write NMRR
 #endif	/* CONFIG_MMU */
+=======
+	ldmia	r0, {r6 - r11}
+#ifndef TIMA_EMUL_ENABLED
+	mcr	p15, 0, r6, c3, c0, 0	@ Domain ID
+#else
+	tima_macro_emul_crit_instn r6, 0x3f806221
+
+#endif
+#ifndef CONFIG_ARM_LPAE
+	ALT_SMP(orr	r1, r1, #TTB_FLAGS_SMP)
+	ALT_UP(orr	r1, r1, #TTB_FLAGS_UP)
+#endif
+#ifndef TIMA_EMUL_ENABLED
+	mcr	p15, 0, r1, c2, c0, 0	@ TTB 0
+#else
+	tima_macro_emul_crit_instn r7, 0x3f803221
+
+#endif
+#ifndef TIMA_EMUL_ENABLED
+	mcr	p15, 0, r7, c2, c0, 1	@ TTB 1
+#else
+	tima_macro_emul_crit_instn r8, 0x3f804221
+
+#endif
+#ifndef TIMA_EMUL_ENABLED
+	mcr	p15, 0, r11, c2, c0, 2	@ TTB control register
+#else
+	tima_macro_emul_crit_instn ip, 0x3f805221
+
+#endif
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	mrc	p15, 0, r4, c1, c0, 1	@ Read Auxiliary control register
 	teq	r4, r9			@ Is it already set?
 	mcrne	p15, 0, r9, c1, c0, 1	@ No, so write it
 	mcr	p15, 0, r10, c1, c0, 2	@ Co-processor access control
+<<<<<<< HEAD
+=======
+	ldr	r4, =PRRR		@ PRRR
+	ldr	r5, =NMRR		@ NMRR
+	mcr	p15, 0, r4, c10, c2, 0	@ write PRRR
+	mcr	p15, 0, r5, c10, c2, 1	@ write NMRR
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	isb
 	dsb
 	mov	r0, r8			@ control register
@@ -153,6 +248,7 @@ ENDPROC(cpu_v7_do_resume)
 #endif
 
 	__CPUINIT
+<<<<<<< HEAD
 #ifdef CONFIG_CPU_PJ4B
 	globl_equ	cpu_pj4b_switch_mm,     cpu_v7_switch_mm
 	globl_equ	cpu_pj4b_set_pte_ext,	cpu_v7_set_pte_ext
@@ -175,6 +271,8 @@ ENDPROC(cpu_pj4b_do_idle)
 	globl_equ	cpu_pj4b_suspend_size,	cpu_v7_suspend_size
 
 #endif
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	__v7_setup
@@ -189,8 +287,12 @@ ENDPROC(cpu_pj4b_do_idle)
  */
 __v7_ca5mp_setup:
 __v7_ca9mp_setup:
+<<<<<<< HEAD
 __v7_cr7mp_setup:
 	mov	r10, #(1 << 0)			@ Cache/TLB ops broadcasting
+=======
+	mov	r10, #(1 << 0)			@ TLB ops broadcasting
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	b	1f
 __v7_ca7mp_setup:
 __v7_ca15mp_setup:
@@ -204,6 +306,7 @@ __v7_ca15mp_setup:
 	orreq	r0, r0, r10			@ Enable CPU-specific SMP bits
 	mcreq	p15, 0, r0, c1, c0, 1
 #endif
+<<<<<<< HEAD
 	b	__v7_setup
 
 __v7_pj4b_setup:
@@ -260,6 +363,8 @@ __v7_pj4b_setup:
 
 #endif /* CONFIG_CPU_PJ4B */
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 __v7_setup:
 	adr	r12, __v7_setup_stack		@ the local stack
 	stmia	r12, {r0-r5, r7, r9, r11, lr}
@@ -279,8 +384,12 @@ __v7_setup:
 	ldr	r10, =0x00000c08		@ Cortex-A8 primary part number
 	teq	r0, r10
 	bne	2f
+<<<<<<< HEAD
 #if defined(CONFIG_ARM_ERRATA_430973) && !defined(CONFIG_ARCH_MULTIPLATFORM)
 
+=======
+#ifdef CONFIG_ARM_ERRATA_430973
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	teq	r5, #0x00100000			@ only present in r1p*
 	mrceq	p15, 0, r10, c1, c0, 1		@ read aux control register
 	orreq	r10, r10, #(1 << 6)		@ set IBE to 1
@@ -336,6 +445,7 @@ __v7_setup:
 1:
 #endif
 
+<<<<<<< HEAD
 	/* Cortex-A15 Errata */
 3:	ldr	r10, =0x00000c0f		@ Cortex-A15 primary part number
 	teq	r0, r10
@@ -349,6 +459,9 @@ __v7_setup:
 #endif
 
 4:	mov	r10, #0
+=======
+3:	mov	r10, #0
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	mcr	p15, 0, r10, c7, c5, 0		@ I+BTB cache invalidate
 #ifdef CONFIG_MMU
 	mcr	p15, 0, r10, c8, c7, 0		@ invalidate I + D TLBs
@@ -358,7 +471,35 @@ __v7_setup:
 	mcr	p15, 0, r5, c10, c2, 0		@ write PRRR
 	mcr	p15, 0, r6, c10, c2, 1		@ write NMRR
 #endif
+<<<<<<< HEAD
 	dsb					@ Complete invalidations
+=======
+
+#if defined(CONFIG_ARCH_MSM_SCORPION) && !defined(CONFIG_MSM_SMP)
+	mov     r0, #0x33
+	mcr     p15, 3, r0, c15, c0, 3          @ set L2CR1
+#endif
+#if defined (CONFIG_ARCH_MSM_SCORPION)
+	mrc     p15, 0, r0, c1, c0, 1           @ read ACTLR
+#ifdef CONFIG_CPU_CACHE_ERR_REPORT
+	orr     r0, r0, #0x37                   @ turn on L1/L2 error reporting
+#else
+	bic     r0, r0, #0x37
+#endif
+#if defined (CONFIG_ARCH_MSM_SCORPIONMP)
+	orr    r0, r0, #0x1 << 24     @ optimal setting for Scorpion MP
+#endif
+#ifndef CONFIG_ARCH_MSM_KRAIT
+	mcr     p15, 0, r0, c1, c0, 1           @ write ACTLR
+#endif
+#endif
+#if defined (CONFIG_ARCH_MSM_SCORPIONMP)
+	mrc     p15, 3, r0, c15, c0, 2  @ optimal setting for Scorpion MP
+	orr         r0, r0, #0x1 << 21
+	mcr     p15, 3, r0, c15, c0, 2
+#endif
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #ifndef CONFIG_ARM_THUMBEE
 	mrc	p15, 0, r0, c0, c1, 0		@ read ID_PFR0 for ThumbEE
 	and	r0, r0, #(0xf << 12)		@ ThumbEE enabled field
@@ -384,7 +525,11 @@ __v7_setup:
 	bic	r0, r0, r5			@ clear bits them
 	orr	r0, r0, r6			@ set them
  THUMB(	orr	r0, r0, #1 << 30	)	@ Thumb exceptions
+<<<<<<< HEAD
 	ret	lr				@ return to head.S:__ret
+=======
+	mov	pc, lr				@ return to head.S:__ret
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(__v7_setup)
 
 	.align	2
@@ -395,9 +540,12 @@ __v7_setup_stack:
 
 	@ define struct processor (see <asm/proc-fns.h> and proc-macros.S)
 	define_processor_functions v7, dabort=v7_early_abort, pabort=v7_pabort, suspend=1
+<<<<<<< HEAD
 #ifdef CONFIG_CPU_PJ4B
 	define_processor_functions pj4b, dabort=v7_early_abort, pabort=v7_pabort, suspend=1
 #endif
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	.section ".rodata"
 
@@ -410,7 +558,11 @@ __v7_setup_stack:
 	/*
 	 * Standard v7 proc info content
 	 */
+<<<<<<< HEAD
 .macro __v7_proc initfunc, mm_mmuflags = 0, io_mmuflags = 0, hwcaps = 0, proc_fns = v7_processor_functions
+=======
+.macro __v7_proc initfunc, mm_mmuflags = 0, io_mmuflags = 0, hwcaps = 0
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	ALT_SMP(.long	PMD_TYPE_SECT | PMD_SECT_AP_WRITE | PMD_SECT_AP_READ | \
 			PMD_SECT_AF | PMD_FLAGS_SMP | \mm_mmuflags)
 	ALT_UP(.long	PMD_TYPE_SECT | PMD_SECT_AP_WRITE | PMD_SECT_AP_READ | \
@@ -423,7 +575,11 @@ __v7_setup_stack:
 	.long	HWCAP_SWP | HWCAP_HALF | HWCAP_THUMB | HWCAP_FAST_MULT | \
 		HWCAP_EDSP | HWCAP_TLS | \hwcaps
 	.long	cpu_v7_name
+<<<<<<< HEAD
 	.long	\proc_fns
+=======
+	.long	v7_processor_functions
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	.long	v7wbi_tlb_fns
 	.long	v6_user_fns
 	.long	v7_cache_fns
@@ -449,6 +605,7 @@ __v7_ca9mp_proc_info:
 	.long	0xff0ffff0
 	__v7_proc __v7_ca9mp_setup
 	.size	__v7_ca9mp_proc_info, . - __v7_ca9mp_proc_info
+<<<<<<< HEAD
 
 #endif	/* CONFIG_ARM_LPAE */
 
@@ -475,13 +632,22 @@ __v7_cr7mp_proc_info:
 	.size	__v7_cr7mp_proc_info, . - __v7_cr7mp_proc_info
 
 	/*
+=======
+#endif	/* CONFIG_ARM_LPAE */
+
+	/*
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	 * ARM Ltd. Cortex A7 processor.
 	 */
 	.type	__v7_ca7mp_proc_info, #object
 __v7_ca7mp_proc_info:
 	.long	0x410fc070
 	.long	0xff0ffff0
+<<<<<<< HEAD
 	__v7_proc __v7_ca7mp_setup
+=======
+	__v7_proc __v7_ca7mp_setup, hwcaps = HWCAP_IDIV
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	.size	__v7_ca7mp_proc_info, . - __v7_ca7mp_proc_info
 
 	/*
@@ -491,7 +657,11 @@ __v7_ca7mp_proc_info:
 __v7_ca15mp_proc_info:
 	.long	0x410fc0f0
 	.long	0xff0ffff0
+<<<<<<< HEAD
 	__v7_proc __v7_ca15mp_setup
+=======
+	__v7_proc __v7_ca15mp_setup, hwcaps = HWCAP_IDIV
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	.size	__v7_ca15mp_proc_info, . - __v7_ca15mp_proc_info
 
 	/*
@@ -501,6 +671,7 @@ __v7_ca15mp_proc_info:
 __krait_proc_info:
 	.long	0x510f0400		@ Required ID value
 	.long	0xff0ffc00		@ Mask for ID
+<<<<<<< HEAD
 	/*
 	 * Some Krait processors don't indicate support for SDIV and UDIV
 	 * instructions in the ARM instruction set, even though they actually
@@ -508,6 +679,9 @@ __krait_proc_info:
 	 * instructions even though they actually do support them.
 	 */
 	__v7_proc __v7_setup, hwcaps = HWCAP_IDIV | HWCAP_VFPv4
+=======
+	__v7_proc __v7_setup, hwcaps = HWCAP_IDIV
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	.size	__krait_proc_info, . - __krait_proc_info
 
 	/*

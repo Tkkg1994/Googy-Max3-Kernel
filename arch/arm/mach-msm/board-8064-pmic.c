@@ -498,7 +498,11 @@ apq8064_pm8921_irq_pdata __devinitdata = {
 
 static struct pm8xxx_rtc_platform_data
 apq8064_pm8921_rtc_pdata = {
+<<<<<<< HEAD
 	.rtc_write_enable       = false,
+=======
+	.rtc_write_enable       = true,
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	.rtc_alarm_powerup      = false,
 };
 

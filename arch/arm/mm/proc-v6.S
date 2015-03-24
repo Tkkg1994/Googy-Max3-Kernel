@@ -36,14 +36,22 @@
 #define PMD_FLAGS_SMP	PMD_SECT_WBWA|PMD_SECT_S
 
 ENTRY(cpu_v6_proc_init)
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 ENTRY(cpu_v6_proc_fin)
 	mrc	p15, 0, r0, c1, c0, 0		@ ctrl register
 	bic	r0, r0, #0x1000			@ ...i............
 	bic	r0, r0, #0x0006			@ .............ca.
 	mcr	p15, 0, r0, c1, c0, 0		@ disable caches
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	cpu_v6_reset(loc)
@@ -62,7 +70,11 @@ ENTRY(cpu_v6_reset)
 	mcr	p15, 0, r1, c1, c0, 0		@ disable MMU
 	mov	r1, #0
 	mcr	p15, 0, r1, c7, c5, 4		@ ISB
+<<<<<<< HEAD
 	ret	r0
+=======
+	mov	pc, r0
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(cpu_v6_reset)
 	.popsection
 
@@ -77,14 +89,26 @@ ENTRY(cpu_v6_do_idle)
 	mov	r1, #0
 	mcr	p15, 0, r1, c7, c10, 4		@ DWB - WFI may enter a low-power mode
 	mcr	p15, 0, r1, c7, c0, 4		@ wait for interrupt
+<<<<<<< HEAD
 	ret	lr
 
 ENTRY(cpu_v6_dcache_clean_area)
+=======
+	mov	pc, lr
+
+ENTRY(cpu_v6_dcache_clean_area)
+#ifndef TLB_CAN_READ_FROM_L1_CACHE
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 1:	mcr	p15, 0, r0, c7, c10, 1		@ clean D entry
 	add	r0, r0, #D_CACHE_LINE_SIZE
 	subs	r1, r1, #D_CACHE_LINE_SIZE
 	bhi	1b
+<<<<<<< HEAD
 	ret	lr
+=======
+#endif
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	cpu_arm926_switch_mm(pgd_phys, tsk)
@@ -99,7 +123,11 @@ ENTRY(cpu_v6_dcache_clean_area)
 ENTRY(cpu_v6_switch_mm)
 #ifdef CONFIG_MMU
 	mov	r2, #0
+<<<<<<< HEAD
 	mmid	r1, r1				@ get mm->context.id
+=======
+	ldr	r1, [r1, #MM_CONTEXT_ID]	@ get mm->context.id
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	ALT_SMP(orr	r0, r0, #TTB_FLAGS_SMP)
 	ALT_UP(orr	r0, r0, #TTB_FLAGS_UP)
 	mcr	p15, 0, r2, c7, c5, 6		@ flush BTAC/BTB
@@ -113,7 +141,11 @@ ENTRY(cpu_v6_switch_mm)
 #endif
 	mcr	p15, 0, r1, c13, c0, 1		@ set context ID
 #endif
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	cpu_v6_set_pte_ext(ptep, pte, ext)
@@ -131,7 +163,11 @@ ENTRY(cpu_v6_set_pte_ext)
 #ifdef CONFIG_MMU
 	armv6_set_pte_ext cpu_v6
 #endif
+<<<<<<< HEAD
 	ret	lr
+=======
+	mov	pc, lr
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /* Suspend/resume support: taken from arch/arm/mach-s3c64xx/sleep.S */
 .globl	cpu_v6_suspend_size
@@ -241,7 +277,11 @@ __v6_setup:
 	mcreq	p15, 0, r5, c1, c0, 1		@ write aux control reg
 	orreq	r0, r0, #(1 << 21)		@ low interrupt latency configuration
 #endif
+<<<<<<< HEAD
 	ret	lr				@ return to head.S:__ret
+=======
+	mov	pc, lr				@ return to head.S:__ret
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	/*
 	 *         V X F   I D LR

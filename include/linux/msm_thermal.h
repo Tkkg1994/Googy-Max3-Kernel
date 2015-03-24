@@ -23,6 +23,7 @@ struct msm_thermal_data {
 	int32_t core_limit_temp_degC;
 	int32_t core_temp_hysteresis_degC;
 	uint32_t core_control_mask;
+<<<<<<< HEAD
 #ifdef CONFIG_MAKO_THERMAL
 	uint32_t shutdown_temp;
 	uint32_t allowed_max_high;
@@ -49,6 +50,11 @@ struct msm_thermal_stat {
 #endif
 
 #if defined(CONFIG_THERMAL_MONITOR) || defined(CONFIG_MAKO_THERMAL)
+=======
+};
+
+#ifdef CONFIG_THERMAL_MONITOR
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 extern int msm_thermal_init(struct msm_thermal_data *pdata);
 extern int msm_thermal_device_init(void);
 #else

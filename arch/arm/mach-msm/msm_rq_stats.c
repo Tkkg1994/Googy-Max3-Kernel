@@ -43,6 +43,10 @@ struct notifier_block freq_policy;
 struct cpu_load_data {
 	cputime64_t prev_cpu_idle;
 	cputime64_t prev_cpu_wall;
+<<<<<<< HEAD
+=======
+	cputime64_t prev_cpu_iowait;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	unsigned int avg_load_maxfreq;
 	unsigned int samples;
 	unsigned int window_size;
@@ -88,15 +92,38 @@ static inline cputime64_t get_cpu_idle_time(unsigned int cpu, cputime64_t *wall)
 	return idle_time;
 }
 
+<<<<<<< HEAD
+=======
+static inline cputime64_t get_cpu_iowait_time(unsigned int cpu,
+							cputime64_t *wall)
+{
+	u64 iowait_time = get_cpu_iowait_time_us(cpu, wall);
+
+	if (iowait_time == -1ULL)
+		return 0;
+
+	return iowait_time;
+}
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static int update_average_load(unsigned int freq, unsigned int cpu)
 {
 
 	struct cpu_load_data *pcpu = &per_cpu(cpuload, cpu);
+<<<<<<< HEAD
 	cputime64_t cur_wall_time, cur_idle_time;
 	unsigned int idle_time, wall_time;
 	unsigned int cur_load, load_at_max_freq;
 
 	cur_idle_time = get_cpu_idle_time(cpu, &cur_wall_time);
+=======
+	cputime64_t cur_wall_time, cur_idle_time, cur_iowait_time;
+	unsigned int idle_time, wall_time, iowait_time;
+	unsigned int cur_load, load_at_max_freq;
+
+	cur_idle_time = get_cpu_idle_time(cpu, &cur_wall_time);
+	cur_iowait_time = get_cpu_iowait_time(cpu, &cur_wall_time);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	wall_time = (unsigned int) (cur_wall_time - pcpu->prev_cpu_wall);
 	pcpu->prev_cpu_wall = cur_wall_time;
@@ -104,7 +131,17 @@ static int update_average_load(unsigned int freq, unsigned int cpu)
 	idle_time = (unsigned int) (cur_idle_time - pcpu->prev_cpu_idle);
 	pcpu->prev_cpu_idle = cur_idle_time;
 
+<<<<<<< HEAD
 	if (unlikely(wall_time <= 0 || wall_time < idle_time))
+=======
+	iowait_time = (unsigned int) (cur_iowait_time - pcpu->prev_cpu_iowait);
+	pcpu->prev_cpu_iowait = cur_iowait_time;
+
+	if (idle_time >= iowait_time)
+		idle_time -= iowait_time;
+
+	if (unlikely(!wall_time || wall_time < idle_time))
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		return 0;
 
 	cur_load = 100 * (wall_time - idle_time) / wall_time;
@@ -162,7 +199,11 @@ static int cpufreq_transition_handler(struct notifier_block *nb,
 		for_each_cpu(j, this_cpu->related_cpus) {
 			struct cpu_load_data *pcpu = &per_cpu(cpuload, j);
 			mutex_lock(&pcpu->cpu_load_mutex);
+<<<<<<< HEAD
 			update_average_load(freqs->old, j);
+=======
+			update_average_load(freqs->old, freqs->cpu);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			pcpu->cur_freq = freqs->new;
 			mutex_unlock(&pcpu->cpu_load_mutex);
 		}
@@ -171,6 +212,7 @@ static int cpufreq_transition_handler(struct notifier_block *nb,
 	return 0;
 }
 
+<<<<<<< HEAD
 static void update_related_cpus(void)
 {
 	unsigned cpu;
@@ -184,6 +226,8 @@ static void update_related_cpus(void)
 	}
 }
 
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static int cpu_hotplug_handler(struct notifier_block *nb,
 			unsigned long val, void *data)
 {
@@ -192,9 +236,12 @@ static int cpu_hotplug_handler(struct notifier_block *nb,
 
 	switch (val) {
 	case CPU_ONLINE:
+<<<<<<< HEAD
 		if (!this_cpu->cur_freq)
 			this_cpu->cur_freq = cpufreq_quick_get(cpu);
 			update_related_cpus();
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	case CPU_ONLINE_FROZEN:
 		this_cpu->avg_load_maxfreq = 0;
 	}
@@ -387,12 +434,20 @@ static int __init msm_rq_stats_init(void)
 	int ret;
 	int i;
 	struct cpufreq_policy cpu_policy;
+<<<<<<< HEAD
 
 #ifndef CONFIG_SMP
 	/* Bail out if this is not an SMP Target */
 	rq_info.init = 0;
 	return -ENOSYS;
 #endif
+=======
+	/* Bail out if this is not an SMP Target */
+	if (!is_smp()) {
+		rq_info.init = 0;
+		return -ENOSYS;
+	}
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	rq_wq = create_singlethread_workqueue("rq_stats");
 	BUG_ON(!rq_wq);
@@ -411,9 +466,17 @@ static int __init msm_rq_stats_init(void)
 		struct cpu_load_data *pcpu = &per_cpu(cpuload, i);
 		mutex_init(&pcpu->cpu_load_mutex);
 		cpufreq_get_policy(&cpu_policy, i);
+<<<<<<< HEAD
 		pcpu->policy_max = cpu_policy.max;
 		if (cpu_online(i))
 			pcpu->cur_freq = cpu_policy.cur;
+=======
+		pcpu->policy_max = cpu_policy.cpuinfo.max_freq;
+#ifdef CONFIG_MACH_JF
+		/* This is initial frequency */
+		pcpu->cur_freq = 1566000;
+#endif
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		cpumask_copy(pcpu->related_cpus, cpu_policy.cpus);
 	}
 	freq_transition.notifier_call = cpufreq_transition_handler;
@@ -431,11 +494,19 @@ late_initcall(msm_rq_stats_init);
 
 static int __init msm_rq_stats_early_init(void)
 {
+<<<<<<< HEAD
 #ifndef CONFIG_SMP
 	/* Bail out if this is not an SMP Target */
 	rq_info.init = 0;
 	return -ENOSYS;
 #endif
+=======
+	/* Bail out if this is not an SMP Target */
+	if (!is_smp()) {
+		rq_info.init = 0;
+		return -ENOSYS;
+	}
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	pm_notifier(system_suspend_handler, 0);
 	return 0;

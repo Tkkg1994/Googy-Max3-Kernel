@@ -39,6 +39,10 @@ extern void release_fiq(struct fiq_handler *f);
 extern void set_fiq_handler(void *start, unsigned int length);
 extern void enable_fiq(int fiq);
 extern void disable_fiq(int fiq);
+<<<<<<< HEAD
+=======
+extern void fiq_set_type(int fiq, unsigned int type);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #else
 static inline int claim_fiq(struct fiq_handler *f)
 {
@@ -48,6 +52,10 @@ static inline void release_fiq(struct fiq_handler *f) { }
 static inline void set_fiq_handler(void *start, unsigned int length) { }
 static inline void enable_fiq(int fiq) { }
 static inline void disable_fiq(int fiq) { }
+<<<<<<< HEAD
+=======
+static inline void fiq_set_type(int fiq, unsigned int type) { }
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif
 
 /* helpers defined in fiqasm.S: */

@@ -51,7 +51,11 @@ make_env = os.environ
 pwd = os.environ.get("PWD")
 make_env.update({
         'ARCH': 'arm',
+<<<<<<< HEAD
         'CROSS_COMPILE': pwd + '/../prebuilts/gcc/linux-x86/arm/arm-eabi-4.7/bin/arm-eabi-',
+=======
+        'CROSS_COMPILE': pwd + '/../prebuilts/gcc/linux-x86/arm/arm-eabi-4.8/bin/arm-eabi-',
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
         'KCONFIG_NOTIMESTAMP': 'true' })
 all_options = {}
 

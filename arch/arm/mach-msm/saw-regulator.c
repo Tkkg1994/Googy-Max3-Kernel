@@ -54,11 +54,23 @@ struct saw_vreg {
 	struct regulator_dev		*rdev;
 	char				*name;
 	int				uV;
+<<<<<<< HEAD
+=======
+	int				last_set_uV;
+	unsigned			vlevel;
+	bool				online;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 };
 
 /* Minimum core operating voltage */
 #define MIN_CORE_VOLTAGE		950000
 
+<<<<<<< HEAD
+=======
+/* Specifies an uninitialized voltage */
+#define INVALID_VOLTAGE			-1
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 /* Specifies the PMIC internal slew rate in uV/us. */
 #define REGULATOR_SLEW_RATE		1250
 
@@ -69,12 +81,39 @@ static int saw_get_voltage(struct regulator_dev *rdev)
 	return vreg->uV;
 }
 
+<<<<<<< HEAD
+=======
+static int _set_voltage(struct regulator_dev *rdev)
+{
+	struct saw_vreg *vreg = rdev_get_drvdata(rdev);
+	int rc;
+
+	rc = msm_spm_set_vdd(rdev_get_id(rdev), vreg->vlevel);
+	if (!rc) {
+		if (vreg->uV > vreg->last_set_uV) {
+			/* Wait for voltage to stabalize. */
+			udelay((vreg->uV - vreg->last_set_uV) /
+						REGULATOR_SLEW_RATE);
+		}
+		vreg->last_set_uV = vreg->uV;
+	} else {
+		pr_err("%s: msm_spm_set_vdd failed %d\n", vreg->name, rc);
+		vreg->uV = vreg->last_set_uV;
+	}
+
+	return rc;
+}
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static int saw_set_voltage(struct regulator_dev *rdev, int min_uV, int max_uV,
 			   unsigned *selector)
 {
 	struct saw_vreg *vreg = rdev_get_drvdata(rdev);
 	int uV = min_uV;
+<<<<<<< HEAD
 	int rc;
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	u8 vprog, band;
 
 	if (uV < FTSMPS_BAND1_UV_MIN && max_uV >= FTSMPS_BAND1_UV_MIN)
@@ -119,6 +158,7 @@ static int saw_set_voltage(struct regulator_dev *rdev, int min_uV, int max_uV,
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	rc = msm_spm_set_vdd(rdev_get_id(rdev), band | vprog);
 	if (!rc) {
 		if (uV > vreg->uV) {
@@ -129,13 +169,59 @@ static int saw_set_voltage(struct regulator_dev *rdev, int min_uV, int max_uV,
 	} else {
 		pr_err("%s: msm_spm_set_vdd failed %d\n", vreg->name, rc);
 	}
+=======
+	vreg->vlevel = band | vprog;
+	vreg->uV = uV;
+
+	if (!vreg->online)
+		return 0;
+
+	return _set_voltage(rdev);
+}
+
+static int saw_enable(struct regulator_dev *rdev)
+{
+	struct saw_vreg *vreg = rdev_get_drvdata(rdev);
+	int rc = 0;
+
+	if (vreg->uV != vreg->last_set_uV)
+		rc = _set_voltage(rdev);
+
+	if (!rc)
+		vreg->online = true;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	return rc;
+}
+
+<<<<<<< HEAD
+static struct regulator_ops saw_ops = {
+	.get_voltage = saw_get_voltage,
+	.set_voltage = saw_set_voltage,
+=======
+static int saw_disable(struct regulator_dev *rdev)
+{
+	struct saw_vreg *vreg = rdev_get_drvdata(rdev);
+
+	vreg->online = false;
+
+	return 0;
+}
+
+static int saw_is_enabled(struct regulator_dev *rdev)
+{
+	struct saw_vreg *vreg = rdev_get_drvdata(rdev);
+
+	return vreg->online;
 }
 
 static struct regulator_ops saw_ops = {
 	.get_voltage = saw_get_voltage,
 	.set_voltage = saw_set_voltage,
+	.enable	     = saw_enable,
+	.disable     = saw_disable,
+	.is_enabled  = saw_is_enabled,
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 };
 
 static int __devinit saw_probe(struct platform_device *pdev)
@@ -168,12 +254,22 @@ static int __devinit saw_probe(struct platform_device *pdev)
 		goto free_vreg;
 	}
 
+<<<<<<< HEAD
 	vreg->desc.name  = vreg->name;
 	vreg->desc.id    = pdev->id;
 	vreg->desc.ops   = &saw_ops;
 	vreg->desc.type  = REGULATOR_VOLTAGE;
 	vreg->desc.owner = THIS_MODULE;
 	vreg->uV	 = MIN_CORE_VOLTAGE;
+=======
+	vreg->desc.name	  = vreg->name;
+	vreg->desc.id	  = pdev->id;
+	vreg->desc.ops	  = &saw_ops;
+	vreg->desc.type	  = REGULATOR_VOLTAGE;
+	vreg->desc.owner  = THIS_MODULE;
+	vreg->uV	  = INVALID_VOLTAGE;
+	vreg->last_set_uV = MIN_CORE_VOLTAGE;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	vreg->rdev = regulator_register(&vreg->desc, &pdev->dev,
 							init_data, vreg, NULL);
@@ -233,5 +329,8 @@ module_exit(saw_exit);
 
 MODULE_LICENSE("GPL v2");
 MODULE_DESCRIPTION("SAW regulator driver");
+<<<<<<< HEAD
 MODULE_VERSION("1.0");
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 MODULE_ALIAS("platform:saw-regulator");

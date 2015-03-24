@@ -253,11 +253,16 @@ static int poll_idle(struct cpuidle_device *dev,
 
 	t1 = ktime_get();
 	local_irq_enable();
+<<<<<<< HEAD
 	if (!current_set_polling_and_test()) {
 		while (!need_resched())
 			cpu_relax();
 	}
 	current_clr_polling();
+=======
+	while (!need_resched())
+		cpu_relax();
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	t2 = ktime_get();
 	diff = ktime_to_us(ktime_sub(t2, t1));
@@ -353,7 +358,11 @@ EXPORT_SYMBOL_GPL(cpuidle_enable_device);
  */
 void cpuidle_disable_device(struct cpuidle_device *dev)
 {
+<<<<<<< HEAD
 	if (!dev || !dev->enabled)
+=======
+	if (!dev->enabled)
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		return;
 	if (!cpuidle_get_driver() || !cpuidle_curr_governor)
 		return;
@@ -531,12 +540,18 @@ EXPORT_SYMBOL_GPL(cpuidle_register);
 
 #ifdef CONFIG_SMP
 
+<<<<<<< HEAD
 #if 0
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static void smp_callback(void *v)
 {
 	/* we already woke the CPU up, nothing more to do */
 }
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  * This function gets called when a part of the kernel has a new latency
@@ -547,9 +562,13 @@ static void smp_callback(void *v)
 static int cpuidle_latency_notify(struct notifier_block *b,
 		unsigned long l, void *v)
 {
+<<<<<<< HEAD
 #if 0
 	smp_call_function(smp_callback, NULL, 1);
 #endif
+=======
+	smp_call_function(smp_callback, NULL, 1);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return NOTIFY_OK;
 }
 

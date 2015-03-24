@@ -100,7 +100,10 @@ header-y += comstats.h
 header-y += connector.h
 header-y += const.h
 header-y += cramfs_fs.h
+<<<<<<< HEAD
 header-y += csdio.h
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 header-y += cuda.h
 header-y += cyclades.h
 header-y += cycx_cfm.h
@@ -345,6 +348,10 @@ header-y += scc.h
 header-y += sched.h
 header-y += screen_info.h
 header-y += sdla.h
+<<<<<<< HEAD
+=======
+header-y += seccomp.h
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 header-y += securebits.h
 header-y += selinux_netlink.h
 header-y += sem.h

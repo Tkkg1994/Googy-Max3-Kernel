@@ -86,10 +86,15 @@ pte_alloc_one_kernel(struct mm_struct *mm, unsigned long addr)
 	pte_t *pte;
 
 	pte = (pte_t *)__get_free_page(PGALLOC_GFP);
+<<<<<<< HEAD
 #if !defined(CONFIG_CPU_CACHE_V7) || !defined(CONFIG_SMP)
 	if (pte)
 		clean_pte_table(pte);
 #endif
+=======
+	if (pte)
+		clean_pte_table(pte);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	return pte;
 }
@@ -105,10 +110,15 @@ pte_alloc_one(struct mm_struct *mm, unsigned long addr)
 	pte = alloc_pages(PGALLOC_GFP, 0);
 #endif
 	if (pte) {
+<<<<<<< HEAD
 #if !defined(CONFIG_CPU_CACHE_V7) || !defined(CONFIG_SMP)
 		if (!PageHighMem(pte))
 			clean_pte_table(page_address(pte));
 #endif
+=======
+		if (!PageHighMem(pte))
+			clean_pte_table(page_address(pte));
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		pgtable_page_ctor(pte);
 	}
 
@@ -168,9 +178,15 @@ static inline void __pmd_populate(pmd_t *pmdp, phys_addr_t pte,
 		"isb\n"
 		"pop    {r0, r8-r11}\n"
 		:"=r"(tima_wr_out):"r"(cmd_id),"r"((unsigned long)pmdp),"r"(pmdval),"r"(__pmd(pmdval + 256 * sizeof(pte_t))):"r0","r8","r9","r10","r11","cc");
+<<<<<<< HEAD
 		
 		if ((pmdp[0]|0x4)!=(__pmd(pmdval)|0x4)) {
 			printk(KERN_ERR"pmdp[0] %lx != __pmd(pmdval) %lx - %lx %lx in func: %s tima_wr_out = %lx\n", 
+=======
+
+		if ((pmdp[0]|0x4)!=(__pmd(pmdval)|0x4)) {
+			printk(KERN_ERR"pmdp[0] %lx != __pmd(pmdval) %lx - %lx %lx in func: %s tima_wr_out = %lx\n",
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 					(unsigned long) pmdp[0], (unsigned long) __pmd(pmdval), (unsigned long) pmdp[1], (unsigned long) (__pmd(pmdval + 256 * sizeof(pte_t))),
 					__func__, tima_wr_out);
 			tima_send_cmd(pmdp[0], 0x3f810221);

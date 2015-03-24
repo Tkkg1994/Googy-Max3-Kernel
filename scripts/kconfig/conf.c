@@ -559,6 +559,7 @@ int main(int ac, char **av)
 				"***\n"), defconfig_file);
 			exit(1);
 		}
+<<<<<<< HEAD
                 name = getenv("KCONFIG_SELINUX");
                 printf("KCONFIG_SELINUX(%s)\n", name);
                 if (name) {
@@ -604,6 +605,8 @@ int main(int ac, char **av)
 				exit(1);
 			}
 		}
+=======
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		break;
 	case savedefconfig:
 	case silentoldconfig:
@@ -620,7 +623,11 @@ int main(int ac, char **av)
 	case randconfig:
 		name = getenv("KCONFIG_ALLCONFIG");
 		if (name && !stat(name, &tmpstat)) {
+<<<<<<< HEAD
 			conf_read_simple(name, S_DEF_USER, true);
+=======
+			conf_read_simple(name, S_DEF_USER);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			break;
 		}
 		switch (input_mode) {
@@ -632,9 +639,15 @@ int main(int ac, char **av)
 		default: break;
 		}
 		if (!stat(name, &tmpstat))
+<<<<<<< HEAD
 			conf_read_simple(name, S_DEF_USER, true);
 		else if (!stat("all.config", &tmpstat))
 			conf_read_simple("all.config", S_DEF_USER, true);
+=======
+			conf_read_simple(name, S_DEF_USER);
+		else if (!stat("all.config", &tmpstat))
+			conf_read_simple("all.config", S_DEF_USER);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		break;
 	default:
 		break;

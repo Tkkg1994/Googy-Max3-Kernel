@@ -15,7 +15,11 @@
 #include <mach/timex.h>
 
 typedef unsigned long cycles_t;
+<<<<<<< HEAD
 
 #define get_cycles() ({ cycles_t c; read_current_timer(&c) ? 0 : c; })
+=======
+#define get_cycles()	({ cycles_t c; read_current_timer(&c) ? 0 : c; })
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #endif

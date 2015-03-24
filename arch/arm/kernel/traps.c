@@ -449,7 +449,11 @@ asmlinkage void __exception do_undefinstr(struct pt_regs *regs)
 		return;
 
 	trace_undef_instr(regs, (void *)pc);
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 die_sig:
 #ifdef CONFIG_DEBUG_USER
 	if (user_debug & UDBG_UNDEFINED) {
@@ -520,6 +524,7 @@ static int bad_syscall(int n, struct pt_regs *regs)
 	return regs->ARM_r0;
 }
 
+<<<<<<< HEAD
 static inline int
 __do_cache_op(unsigned long start, unsigned long end)
 {
@@ -554,6 +559,30 @@ do_cache_op(unsigned long start, unsigned long end, int flags)
 
 return __do_cache_op(start, end);
   
+=======
+static inline void
+do_cache_op(unsigned long start, unsigned long end, int flags)
+{
+	struct mm_struct *mm = current->active_mm;
+	struct vm_area_struct *vma;
+
+	if (end < start || flags)
+		return;
+
+	down_read(&mm->mmap_sem);
+	vma = find_vma(mm, start);
+	if (vma && vma->vm_start < end) {
+		if (start < vma->vm_start)
+			start = vma->vm_start;
+		if (end > vma->vm_end)
+			end = vma->vm_end;
+
+		up_read(&mm->mmap_sem);
+		flush_cache_user_range(start, end);
+		return;
+	}
+	up_read(&mm->mmap_sem);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 /*
@@ -566,6 +595,13 @@ asmlinkage int arm_syscall(int no, struct pt_regs *regs)
 	struct thread_info *thread = current_thread_info();
 	siginfo_t info;
 
+<<<<<<< HEAD
+=======
+	/* Emulate/fallthrough. */
+	if (no == -1)
+		return regs->ARM_r0;
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if ((no >> 16) != (__ARM_NR_BASE>> 16))
 		return bad_syscall(no, regs);
 
@@ -599,7 +635,12 @@ asmlinkage int arm_syscall(int no, struct pt_regs *regs)
 	 * the specified region).
 	 */
 	case NR(cacheflush):
+<<<<<<< HEAD
 		return do_cache_op(regs->ARM_r0, regs->ARM_r1, regs->ARM_r2);
+=======
+		do_cache_op(regs->ARM_r0, regs->ARM_r1, regs->ARM_r2);
+		return 0;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	case NR(usr26):
 		if (!(elf_hwcap & HWCAP_26BIT))
@@ -833,32 +874,70 @@ void __init trap_init(void)
 	return;
 }
 
+<<<<<<< HEAD
 static void __init kuser_get_tls_init(unsigned long vectors)
 {
+=======
+#ifdef CONFIG_KUSER_HELPERS
+static void __init kuser_init(void *vectors)
+{
+	extern char __kuser_helper_start[], __kuser_helper_end[];
+	int kuser_sz = __kuser_helper_end - __kuser_helper_start;
+
+	memcpy(vectors + 0x1000 - kuser_sz, __kuser_helper_start, kuser_sz);
+
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	/*
 	 * vectors + 0xfe0 = __kuser_get_tls
 	 * vectors + 0xfe8 = hardware TLS instruction at 0xffff0fe8
 	 */
 	if (tls_emu || has_tls_reg)
+<<<<<<< HEAD
 		memcpy((void *)vectors + 0xfe0, (void *)vectors + 0xfe8, 4);
 }
+=======
+		memcpy(vectors + 0xfe0, vectors + 0xfe8, 4);
+}
+#else
+static void __init kuser_init(void *vectors)
+{
+}
+#endif
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 void __init early_trap_init(void *vectors_base)
 {
 	unsigned long vectors = (unsigned long)vectors_base;
 	extern char __stubs_start[], __stubs_end[];
 	extern char __vectors_start[], __vectors_end[];
+<<<<<<< HEAD
 	extern char __kuser_helper_start[], __kuser_helper_end[];
 	int kuser_sz = __kuser_helper_end - __kuser_helper_start;
+=======
+	unsigned i;
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	vectors_page = vectors_base;
 
 	/*
+<<<<<<< HEAD
+=======
+	 * Poison the vectors page with an undefined instruction.  This
+	 * instruction is chosen to be undefined for both ARM and Thumb
+	 * ISAs.  The Thumb version is an undefined instruction with a
+	 * branch back to the undefined instruction.
+	 */
+	for (i = 0; i < PAGE_SIZE / sizeof(u32); i++)
+		((u32 *)vectors_base)[i] = 0xe7fddef1;
+
+	/*
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	 * Copy the vectors, stubs and kuser helpers (in entry-armv.S)
 	 * into the vector page, mapped at 0xffff0000, and ensure these
 	 * are visible to the instruction stream.
 	 */
 	memcpy((void *)vectors, __vectors_start, __vectors_end - __vectors_start);
+<<<<<<< HEAD
 	memcpy((void *)vectors + 0x200, __stubs_start, __stubs_end - __stubs_start);
 	memcpy((void *)vectors + 0x1000 - kuser_sz, __kuser_helper_start, kuser_sz);
 
@@ -877,5 +956,12 @@ void __init early_trap_init(void *vectors_base)
 	       syscall_restart_code, sizeof(syscall_restart_code));
 
 	flush_icache_range(vectors, vectors + PAGE_SIZE);
+=======
+	memcpy((void *)vectors + 0x1000, __stubs_start, __stubs_end - __stubs_start);
+
+	kuser_init(vectors_base);
+
+	flush_icache_range(vectors, vectors + PAGE_SIZE * 2);
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	modify_domain(DOMAIN_USER, DOMAIN_CLIENT);
 }

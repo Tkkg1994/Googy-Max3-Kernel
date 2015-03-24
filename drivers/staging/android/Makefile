@@ -2,7 +2,11 @@ ccflags-y += -I$(src)			# needed for trace events
 
 obj-$(CONFIG_ANDROID_BINDER_IPC)	+= binder.o
 obj-$(CONFIG_ASHMEM)			+= ashmem.o
+<<<<<<< HEAD
 obj-$(CONFIG_ANDROID_LOGGER)		+= logger.o logger_interface.o
+=======
+obj-$(CONFIG_ANDROID_LOGGER)		+= logger.o
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 obj-$(CONFIG_ANDROID_PERSISTENT_RAM)	+= persistent_ram.o
 obj-$(CONFIG_ANDROID_RAM_CONSOLE)	+= ram_console.o
 obj-$(CONFIG_ANDROID_TIMED_OUTPUT)	+= timed_output.o

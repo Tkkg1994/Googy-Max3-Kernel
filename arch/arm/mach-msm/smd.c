@@ -3562,6 +3562,14 @@ static int restart_notifier_cb(struct notifier_block *this,
 				  unsigned long code,
 				  void *data)
 {
+<<<<<<< HEAD
+=======
+	/*
+	 * Some SMD or SMSM clients assume SMD/SMSM SSR handling will be
+	 * done in the AFTER_SHUTDOWN level.  If this ever changes, extra
+	 * care should be taken to verify no clients are broken.
+	 */
+>>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (code == SUBSYS_AFTER_SHUTDOWN) {
 		struct restart_notifier_block *notifier;
 
