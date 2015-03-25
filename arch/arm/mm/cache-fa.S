@@ -15,10 +15,7 @@
  */
 #include <linux/linkage.h>
 #include <linux/init.h>
-<<<<<<< HEAD
 #include <asm/assembler.h>
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <asm/memory.h>
 #include <asm/page.h>
 
@@ -49,11 +46,7 @@
 ENTRY(fa_flush_icache_all)
 	mov	r0, #0
 	mcr	p15, 0, r0, c7, c5, 0		@ invalidate I cache
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(fa_flush_icache_all)
 
 /*
@@ -79,11 +72,7 @@ __flush_whole_cache:
 	mcrne	p15, 0, ip, c7, c5, 6		@ invalidate BTB
 	mcrne	p15, 0, ip, c7, c10, 4		@ drain write buffer
 	mcrne	p15, 0, ip, c7, c5, 4		@ prefetch flush
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	flush_user_cache_range(start, end, flags)
@@ -111,11 +100,7 @@ ENTRY(fa_flush_user_cache_range)
 	mcrne	p15, 0, ip, c7, c5, 6		@ invalidate BTB
 	mcrne	p15, 0, ip, c7, c10, 4		@ data write barrier
 	mcrne	p15, 0, ip, c7, c5, 4		@ prefetch flush
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	coherent_kern_range(start, end)
@@ -151,11 +136,7 @@ ENTRY(fa_coherent_user_range)
 	mcr	p15, 0, r0, c7, c5, 6		@ invalidate BTB
 	mcr	p15, 0, r0, c7, c10, 4		@ drain write buffer
 	mcr	p15, 0, r0, c7, c5, 4		@ prefetch flush
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	flush_kern_dcache_area(void *addr, size_t size)
@@ -175,11 +156,7 @@ ENTRY(fa_flush_kern_dcache_area)
 	mov	r0, #0
 	mcr	p15, 0, r0, c7, c5, 0		@ invalidate I cache
 	mcr	p15, 0, r0, c7, c10, 4		@ drain write buffer
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	dma_inv_range(start, end)
@@ -205,11 +182,7 @@ fa_dma_inv_range:
 	blo	1b
 	mov	r0, #0
 	mcr	p15, 0, r0, c7, c10, 4		@ drain write buffer
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	dma_clean_range(start, end)
@@ -227,11 +200,7 @@ fa_dma_clean_range:
 	blo	1b
 	mov	r0, #0	
 	mcr	p15, 0, r0, c7, c10, 4		@ drain write buffer
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	dma_flush_range(start,end)
@@ -246,11 +215,7 @@ ENTRY(fa_dma_flush_range)
 	blo	1b
 	mov	r0, #0	
 	mcr	p15, 0, r0, c7, c10, 4		@ drain write buffer
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	dma_map_area(start, size, dir)
@@ -273,11 +238,7 @@ ENDPROC(fa_dma_map_area)
  *	- dir	- DMA direction
  */
 ENTRY(fa_dma_unmap_area)
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(fa_dma_unmap_area)
 
 	.globl	fa_flush_kern_cache_louis

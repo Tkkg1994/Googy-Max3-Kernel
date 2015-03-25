@@ -315,11 +315,7 @@ static inline void mip6_addr_swap(struct sk_buff *skb) {}
 #endif
 
 struct dst_entry *icmpv6_route_lookup(struct net *net, struct sk_buff *skb,
-<<<<<<< HEAD
 					     struct sock *sk, struct flowi6 *fl6)
-=======
-				      struct sock *sk, struct flowi6 *fl6)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 {
 	struct dst_entry *dst, *dst2;
 	struct flowi6 fl2;
@@ -400,10 +396,6 @@ void icmpv6_send(struct sk_buff *skb, u8 type, u8 code, __u32 info)
 	int len;
 	int hlimit;
 	int err = 0;
-<<<<<<< HEAD
-=======
-	u32 mark = IP6_REPLY_MARK(net, skb->mark);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	if ((u8 *)hdr < skb->head ||
 	    (skb->network_header + sizeof(*hdr)) > skb->tail)
@@ -469,10 +461,6 @@ void icmpv6_send(struct sk_buff *skb, u8 type, u8 code, __u32 info)
 	fl6.daddr = hdr->saddr;
 	if (saddr)
 		fl6.saddr = *saddr;
-<<<<<<< HEAD
-=======
-	fl6.flowi6_mark = mark;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	fl6.flowi6_oif = iif;
 	fl6.fl6_icmp_type = type;
 	fl6.fl6_icmp_code = code;
@@ -481,10 +469,6 @@ void icmpv6_send(struct sk_buff *skb, u8 type, u8 code, __u32 info)
 	sk = icmpv6_xmit_lock(net);
 	if (sk == NULL)
 		return;
-<<<<<<< HEAD
-=======
-	sk->sk_mark = mark;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	np = inet6_sk(sk);
 
 	if (!icmpv6_xrlim_allow(sk, type, &fl6))
@@ -559,10 +543,6 @@ static void icmpv6_echo_reply(struct sk_buff *skb)
 	struct dst_entry *dst;
 	int err = 0;
 	int hlimit;
-<<<<<<< HEAD
-=======
-	u32 mark = IP6_REPLY_MARK(net, skb->mark);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	saddr = &ipv6_hdr(skb)->daddr;
 
@@ -579,19 +559,11 @@ static void icmpv6_echo_reply(struct sk_buff *skb)
 		fl6.saddr = *saddr;
 	fl6.flowi6_oif = skb->dev->ifindex;
 	fl6.fl6_icmp_type = ICMPV6_ECHO_REPLY;
-<<<<<<< HEAD
-=======
-	fl6.flowi6_mark = mark;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	security_skb_classify_flow(skb, flowi6_to_flowi(&fl6));
 
 	sk = icmpv6_xmit_lock(net);
 	if (sk == NULL)
 		return;
-<<<<<<< HEAD
-=======
-	sk->sk_mark = mark;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	np = inet6_sk(sk);
 
 	if (!fl6.flowi6_oif && ipv6_addr_is_multicast(&fl6.daddr))

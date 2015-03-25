@@ -28,12 +28,8 @@
 
 #ifndef _TSPDRV_H
 #define _TSPDRV_H
-<<<<<<< HEAD
 //#define VIBE_DEBUG
 #undef VIBE_DEBUG
-=======
-#define VIBE_DEBUG
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <mach/msm_iomap.h>
 
 #include <linux/mfd/pm8xxx/pm8921.h>
@@ -190,11 +186,7 @@ int32_t g_nlra_gp_clk_pwm_mul = IMM_PWM_MULTIPLIER;
 	#ifdef VIBE_DEBUG
 		#define DbgOut(_x_, ...) printk(_x_, ##__VA_ARGS__)
 	#else   /* VIBE_DEBUG */
-<<<<<<< HEAD
 		#define DbgOut(_x_, ...)
-=======
-		#define DbgOut(_x_)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	#endif  /* VIBE_DEBUG */
 
 	#if defined(VIBE_RECORD) && defined(VIBE_DEBUG)

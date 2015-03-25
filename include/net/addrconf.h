@@ -169,10 +169,6 @@ extern int __ipv6_dev_ac_dec(struct inet6_dev *idev, const struct in6_addr *addr
 extern int ipv6_chk_acast_addr(struct net *net, struct net_device *dev,
 			       const struct in6_addr *addr);
 
-<<<<<<< HEAD
-=======
-u32 addrconf_rt_table(const struct net_device *dev, u32 default_table);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /* Device notifier */
 extern int register_inet6addr_notifier(struct notifier_block *nb);

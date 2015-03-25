@@ -18,10 +18,6 @@
 
 #define USB_AHBBURST         (MSM_USB_BASE + 0x0090)
 #define USB_AHBMODE          (MSM_USB_BASE + 0x0098)
-<<<<<<< HEAD
-=======
-#define USB_GENCONFIG2       (MSM_USB_BASE + 0x00A0)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #define USB_CAPLENGTH        (MSM_USB_BASE + 0x0100) /* 8 bit */
 #define USB_HS_GPTIMER_BASE  (MSM_USB_BASE + 0x80)
 
@@ -36,11 +32,6 @@
 #define USB_USBINTR          (MSM_USB_BASE + 0x0148)
 #define USB_FRINDEX          (MSM_USB_BASE + 0x014C)
 
-<<<<<<< HEAD
-=======
-#define GENCFG2_SYS_CLK_HOST_DEV_GATE_EN     BIT(13)
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #define PORTSC_PHCD            (1 << 23) /* phy suspend mode */
 #define PORTSC_PTS_MASK         (3 << 30)
 #define PORTSC_PTS_ULPI         (3 << 30)

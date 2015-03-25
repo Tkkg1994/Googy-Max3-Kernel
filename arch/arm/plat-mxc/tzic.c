@@ -180,11 +180,7 @@ void __init tzic_init_irq(void __iomem *irqbase)
 
 #ifdef CONFIG_FIQ
 	/* Initialize FIQ */
-<<<<<<< HEAD
 	init_FIQ();
-=======
-	init_FIQ(FIQ_START);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif
 
 	pr_info("TrustZone Interrupt Controller (TZIC) initialized\n");

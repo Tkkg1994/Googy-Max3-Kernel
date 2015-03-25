@@ -28,10 +28,6 @@ Currently, these files are in /proc/sys/vm:
 - dirty_writeback_centisecs
 - drop_caches
 - extfrag_threshold
-<<<<<<< HEAD
-=======
-- extra_free_kbytes
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 - hugepages_treat_as_movable
 - hugetlb_shm_group
 - laptop_mode
@@ -59,12 +55,9 @@ Currently, these files are in /proc/sys/vm:
 - stat_interval
 - swappiness
 - vfs_cache_pressure
-<<<<<<< HEAD
 - wmark_high_kbytes
 - wmark_low_kbytes
 - wmark_min_kbytes
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 - zone_reclaim_mode
 
 ==============================================================
@@ -178,24 +171,6 @@ fragmentation index is <= extfrag_threshold. The default value is 500.
 
 ==============================================================
 
-<<<<<<< HEAD
-=======
-extra_free_kbytes
-
-This parameter tells the VM to keep extra free memory between the threshold
-where background reclaim (kswapd) kicks in, and the threshold where direct
-reclaim (by allocating processes) kicks in.
-
-This is useful for workloads that require low latency memory allocations
-and have a bounded burstiness in memory allocations, for example a
-realtime application that receives and transmits network traffic
-(causing in-kernel memory allocations) with a maximum total message burst
-size of 200MB may need 200MB of extra free memory to avoid direct reclaim
-related latencies.
-
-==============================================================
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 hugepages_treat_as_movable
 
 This parameter is only useful when kernelcore= is specified at boot time to
@@ -387,11 +362,8 @@ become subtly broken, and prone to deadlock under high loads.
 
 Setting this too high will OOM your machine instantly.
 
-<<<<<<< HEAD
 This is also updated when wmark_min_free_kbytes changes.
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 =============================================================
 
 min_slab_ratio:
@@ -696,7 +668,6 @@ causes the kernel to prefer to reclaim dentries and inodes.
 
 ==============================================================
 
-<<<<<<< HEAD
 wmark_high_kbytes
 
 Contains the amount of free memory above which kswapd stops reclaiming pages.
@@ -729,8 +700,6 @@ updated. The minimum is 0 and maximum is wmark_low_kbytes.
 
 ==============================================================
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 zone_reclaim_mode:
 
 Zone_reclaim_mode allows someone to set more or less aggressive approaches to

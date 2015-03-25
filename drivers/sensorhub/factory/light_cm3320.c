@@ -13,16 +13,11 @@
  *
  */
 #include "../ssp.h"
-<<<<<<< HEAD
-=======
-#include "../../../arch/arm/mach-msm/board-8064.h"
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #define	VENDOR		"CAPELLA"
 #define	CHIP_ID_3320	"CM3320"
 #define	CHIP_ID		"CM3323"
 
-<<<<<<< HEAD
 
 #if defined(CONFIG_MACH_JF_ATT) || defined(CONFIG_MACH_JF_TMO) || \
 	defined(CONFIG_MACH_JF_EUR) || defined(CONFIG_MACH_JACTIVE_EUR)
@@ -35,9 +30,6 @@
 #elif defined(CONFIG_MACH_JFVE_EUR)
 #define CHIP_CM3323_REV	0
 #endif
-=======
-static int chip_cm3323_rev = 0;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*************************************************************************/
 /* factory Sysfs                                                         */
@@ -51,7 +43,6 @@ static ssize_t light_vendor_show(struct device *dev,
 static ssize_t light_name_show(struct device *dev,
 	struct device_attribute *attr, char *buf)
 {
-<<<<<<< HEAD
 #ifdef CHIP_CM3323_REV
 	struct ssp_data *data = dev_get_drvdata(dev);
 	if (data->ap_rev >= CHIP_CM3323_REV)
@@ -61,13 +52,6 @@ static ssize_t light_name_show(struct device *dev,
 #else
 	return sprintf(buf, "%s\n", CHIP_ID_3320);
 #endif
-=======
-	struct ssp_data *data = dev_get_drvdata(dev);
-	if (data->ap_rev >= chip_cm3323_rev)
-		return sprintf(buf, "%s\n", CHIP_ID);
-	else
-		return sprintf(buf, "%s\n", CHIP_ID_3320);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 static ssize_t light_lux_show(struct device *dev,
@@ -105,14 +89,6 @@ static struct device_attribute *light_attrs[] = {
 
 void initialize_light_factorytest(struct ssp_data *data)
 {
-<<<<<<< HEAD
-=======
-	if (system_rev <= 10)
-		chip_cm3323_rev = 8;
-	else
-		chip_cm3323_rev = 9;
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	sensors_register(data->light_device, data, light_attrs, "light_sensor");
 }
 

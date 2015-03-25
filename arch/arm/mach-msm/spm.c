@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2010-2011, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2010-2012, The Linux Foundation. All rights reserved.
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -136,14 +132,6 @@ static inline uint32_t msm_spm_get_sts_curr_pmic_data(
 /******************************************************************************
  * Public functions
  *****************************************************************************/
-<<<<<<< HEAD
-=======
-/**
- * msm_spm_set_low_power_mode() - Configure SPM start address for low power mode
- * @mode: SPM LPM mode to enter
- * @notify_rpm: Notify RPM in this mode
- */
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 int msm_spm_set_low_power_mode(unsigned int mode, bool notify_rpm)
 {
 	struct msm_spm_device *dev = &__get_cpu_var(msm_spm_devices);
@@ -197,14 +185,6 @@ int msm_spm_set_low_power_mode(unsigned int mode, bool notify_rpm)
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-/**
- * msm_spm_set_vdd(): Set core voltage
- * @cpu: core id
- * @vlevel: Encoded PMIC data.
- */
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 int msm_spm_set_vdd(unsigned int cpu, unsigned int vlevel)
 {
 	struct msm_spm_device *dev;
@@ -255,20 +235,6 @@ set_vdd_bail:
 	return -EIO;
 }
 
-<<<<<<< HEAD
-=======
-/**
- * msm_spm_get_vdd(): Get core voltage
- * @cpu: core id
- * @return: Returns encoded PMIC data.
- */
-unsigned int msm_spm_get_vdd(unsigned int cpu)
-{
-	struct msm_spm_device *dev = &per_cpu(msm_spm_devices, cpu);
-	return dev->reg_shadow[MSM_SPM_REG_SAW_VCTL];
-}
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 void msm_spm_reinit(void)
 {
 	struct msm_spm_device *dev = &__get_cpu_var(msm_spm_devices);
@@ -281,14 +247,6 @@ void msm_spm_reinit(void)
 	mb();
 }
 
-<<<<<<< HEAD
-=======
-/**
- * msm_spm_init(): Board initalization function
- * @data: platform specific SPM register configuration data
- * @nr_devs: Number of SPM devices being initialized
- */
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 int __init msm_spm_init(struct msm_spm_platform_data *data, int nr_devs)
 {
 	unsigned int cpu;

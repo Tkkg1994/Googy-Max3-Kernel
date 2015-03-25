@@ -18,10 +18,7 @@
  *
  */
 
-<<<<<<< HEAD
 #include <linux/export.h>
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <net/addrconf.h>
 #include <net/ipv6.h>
 #include <net/ip6_route.h>
@@ -29,10 +26,6 @@
 #include <net/udp.h>
 #include <net/transp_v6.h>
 #include <net/ping.h>
-<<<<<<< HEAD
-=======
-#include <linux/module.h>
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 struct proto pingv6_prot = {
 	.name =		"PINGv6",
@@ -166,10 +159,6 @@ int ping_v6_sendmsg(struct kiocb *iocb, struct sock *sk, struct msghdr *msg,
 	fl6.flowi6_proto = IPPROTO_ICMPV6;
 	fl6.saddr = np->saddr;
 	fl6.daddr = *daddr;
-<<<<<<< HEAD
-=======
-	fl6.flowi6_mark = sk->sk_mark;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	fl6.fl6_icmp_type = user_icmph.icmp6_type;
 	fl6.fl6_icmp_code = user_icmph.icmp6_code;
 	fl6.flowi6_uid = sock_i_uid(sk);

@@ -17,16 +17,11 @@
 #include <asm/assembler.h>
 #include <asm/ptrace.h>
 #include <asm/asm-offsets.h>
-<<<<<<< HEAD
 #include <asm/memory.h>
 #include <asm/cp15.h>
 #include <asm/thread_info.h>
 #include <asm/v7m.h>
 #include <asm/mpu.h>
-=======
-#include <asm/cp15.h>
-#include <asm/thread_info.h>
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  * Kernel startup entry point.
@@ -52,7 +47,6 @@ ENTRY(stext)
 
 	setmode	PSR_F_BIT | PSR_I_BIT | SVC_MODE, r9 @ ensure svc mode
 						@ and irqs disabled
-<<<<<<< HEAD
 #if defined(CONFIG_CPU_CP15)
 	mrc	p15, 0, r9, c0, c0		@ get processor id
 #elif defined(CONFIG_CPU_V7M)
@@ -96,8 +90,6 @@ ENTRY(secondary_startup)
 	 * as it has already been validated by the primary processor.
 	 */
 	setmode	PSR_F_BIT | PSR_I_BIT | SVC_MODE, r9
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #ifndef CONFIG_CPU_CP15
 	ldr	r9, =CONFIG_PROCESSOR_ID
 #else
@@ -107,7 +99,6 @@ ENTRY(secondary_startup)
 	movs	r10, r5				@ invalid processor (r5=0)?
 	beq	__error_p				@ yes, error 'p'
 
-<<<<<<< HEAD
 	adr	r4, __secondary_data
 	ldmia	r4, {r7, r12}
 
@@ -119,9 +110,6 @@ ENTRY(secondary_startup)
 
 	adr	lr, BSYM(__after_proc_init)	@ return address
 	mov	r13, r12			@ __secondary_switched address
-=======
-	adr	lr, BSYM(__after_proc_init)	@ return (PIC) address
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  ARM(	add	pc, r10, #PROCINFO_INITFUNC	)
  THUMB(	add	r12, r10, #PROCINFO_INITFUNC	)
  THUMB(	mov	pc, r12				)
@@ -163,7 +151,6 @@ __after_proc_init:
 ENDPROC(__after_proc_init)
 	.ltorg
 
-<<<<<<< HEAD
 #ifdef CONFIG_ARM_MPU
 
 
@@ -238,6 +225,4 @@ ENTRY(__setup_mpu)
 	mov pc,lr
 ENDPROC(__setup_mpu)
 #endif
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include "head-common.S"

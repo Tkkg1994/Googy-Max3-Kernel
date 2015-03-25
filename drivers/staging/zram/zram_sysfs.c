@@ -202,15 +202,10 @@ static ssize_t mem_used_total_show(struct device *dev,
 	u64 val = 0;
 	struct zram *zram = dev_to_zram(dev);
 
-<<<<<<< HEAD
 	down_read(&zram->init_lock);
 	if (zram->init_done)
 		val = zs_get_total_size_bytes(zram->mem_pool);
 	up_read(&zram->init_lock);
-=======
-	if (zram->init_done)
-		val = zs_get_total_size_bytes(zram->mem_pool);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	return sprintf(buf, "%llu\n", val);
 }

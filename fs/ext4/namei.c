@@ -1109,15 +1109,8 @@ static struct dentry *ext4_lookup(struct inode *dir, struct dentry *dentry, stru
 #else
 	bh = ext4_find_entry(dir, &dentry->d_name, &de);
 #endif
-<<<<<<< HEAD
 	if (IS_ERR(bh))
 		return (struct dentry *) bh;
-=======
-
-	if (IS_ERR(bh))
-		return (struct dentry *) bh;
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	inode = NULL;
 	if (bh) {
 		__u32 ino = le32_to_cpu(de->inode);
@@ -1130,7 +1123,6 @@ static struct dentry *ext4_lookup(struct inode *dir, struct dentry *dentry, stru
 			EXT4_ERROR_INODE(dir, "bad inode number: %u", ino);
 			return ERR_PTR(-EIO);
 		}
-<<<<<<< HEAD
 		if (unlikely(ino == dir->i_ino)) {
 			EXT4_ERROR_INODE(dir, "'%.*s' linked to parent dir",
 					 dentry->d_name.len,
@@ -1140,13 +1132,6 @@ static struct dentry *ext4_lookup(struct inode *dir, struct dentry *dentry, stru
 		brelse(bh);
 
 		inode = ext4_iget_normal(dir->i_sb, ino);
-=======
-
-		brelse(bh);
-
-		inode = ext4_iget_normal(dir->i_sb, ino);
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		if (inode == ERR_PTR(-ESTALE)) {
 			EXT4_ERROR_INODE(dir,
 			 "deleted inode referenced: %u  at parent inode : %lu",
@@ -1182,13 +1167,6 @@ struct dentry *ext4_get_parent(struct dentry *child)
 #else
 	bh = ext4_find_entry(child->d_inode, &dotdot, &de);
 #endif
-<<<<<<< HEAD
-=======
-
-	if (IS_ERR(bh))
-		return (struct dentry *) bh;
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (!bh)
 		return ERR_PTR(-ENOENT);
 	ino = le32_to_cpu(de->inode);
@@ -2274,10 +2252,6 @@ static int ext4_rmdir(struct inode *dir, struct dentry *dentry)
 #else
 	bh = ext4_find_entry(dir, &dentry->d_name, &de);
 #endif
-<<<<<<< HEAD
-=======
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (IS_ERR(bh))
 		return PTR_ERR(bh);
 	if (!bh)
@@ -2349,15 +2323,8 @@ static int ext4_unlink(struct inode *dir, struct dentry *dentry)
 #else
 	bh = ext4_find_entry(dir, &dentry->d_name, &de);
 #endif
-<<<<<<< HEAD
 	if (IS_ERR(bh))
 		return PTR_ERR(bh);
-=======
-
-	if (IS_ERR(bh))
-		return PTR_ERR(bh);
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (!bh)
 		goto end_unlink;
 
@@ -2578,15 +2545,8 @@ static int ext4_rename(struct inode *old_dir, struct dentry *old_dentry,
 #else
 	old_bh = ext4_find_entry(old_dir, &old_dentry->d_name, &old_de);
 #endif
-<<<<<<< HEAD
 	if (IS_ERR(old_bh))
 		return PTR_ERR(old_bh);
-=======
-
-	if (IS_ERR(old_bh))
-		return PTR_ERR(old_bh);
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	/*
 	 *  Check for inode number is _not_ due to possible IO errors.
 	 *  We might rmdir the source, keep it as pwd of some process
@@ -2604,19 +2564,11 @@ static int ext4_rename(struct inode *old_dir, struct dentry *old_dentry,
 #else
 	new_bh = ext4_find_entry(new_dir, &new_dentry->d_name, &new_de);
 #endif
-<<<<<<< HEAD
-=======
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (IS_ERR(new_bh)) {
 		retval = PTR_ERR(new_bh);
 		new_bh = NULL;
 		goto end_rename;
 	}
-<<<<<<< HEAD
-=======
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (new_bh) {
 		if (!new_inode) {
 			brelse(new_bh);
@@ -2699,10 +2651,6 @@ static int ext4_rename(struct inode *old_dir, struct dentry *old_dentry,
 #else
 		old_bh2 = ext4_find_entry(old_dir, &old_dentry->d_name, &old_de2);
 #endif
-<<<<<<< HEAD
-=======
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		if (IS_ERR(old_bh2)) {
 			retval = PTR_ERR(old_bh2);
 		} else if (old_bh2) {

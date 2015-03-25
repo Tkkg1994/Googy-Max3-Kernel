@@ -582,14 +582,10 @@ dhd_prot_init(dhd_pub_t *dhd)
 		goto done;
 
 
-<<<<<<< HEAD
 #if defined(WL_CFG80211)
 	if (dhd_download_fw_on_driverload)
 #endif /* defined(WL_CFG80211) */
 		ret = dhd_preinit_ioctls(dhd);
-=======
-	ret = dhd_preinit_ioctls(dhd);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	/* Always assumes wl for now */
 	dhd->iswl = TRUE;
 

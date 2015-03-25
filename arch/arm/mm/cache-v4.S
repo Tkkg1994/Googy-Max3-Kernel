@@ -9,10 +9,7 @@
  */
 #include <linux/linkage.h>
 #include <linux/init.h>
-<<<<<<< HEAD
 #include <asm/assembler.h>
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <asm/page.h>
 #include "proc-macros.S"
 
@@ -22,11 +19,7 @@
  *	Unconditionally clean and invalidate the entire icache.
  */
 ENTRY(v4_flush_icache_all)
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(v4_flush_icache_all)
 
 /*
@@ -48,11 +41,7 @@ ENTRY(v4_flush_kern_cache_all)
 #ifdef CONFIG_CPU_CP15
 	mov	r0, #0
 	mcr	p15, 0, r0, c7, c7, 0		@ flush ID cache
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #else
 	/* FALLTHROUGH */
 #endif
@@ -71,11 +60,7 @@ ENTRY(v4_flush_user_cache_range)
 #ifdef CONFIG_CPU_CP15
 	mov	ip, #0
 	mcreq	p15, 0, ip, c7, c7, 0		@ flush ID cache
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #else
 	/* FALLTHROUGH */
 #endif
@@ -104,12 +89,8 @@ ENTRY(v4_coherent_kern_range)
  *	- end	 - virtual end address
  */
 ENTRY(v4_coherent_user_range)
-<<<<<<< HEAD
 	mov	r0, #0
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	flush_kern_dcache_area(void *addr, size_t size)
@@ -136,11 +117,7 @@ ENTRY(v4_dma_flush_range)
 	mov	r0, #0
 	mcr	p15, 0, r0, c7, c7, 0		@ flush ID cache
 #endif
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	dma_unmap_area(start, size, dir)
@@ -160,11 +137,7 @@ ENTRY(v4_dma_unmap_area)
  *	- dir	- DMA direction
  */
 ENTRY(v4_dma_map_area)
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(v4_dma_unmap_area)
 ENDPROC(v4_dma_map_area)
 

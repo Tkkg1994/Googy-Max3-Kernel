@@ -12,10 +12,7 @@
 #define __ASM_ARM_ATOMIC_H
 
 #include <linux/compiler.h>
-<<<<<<< HEAD
 #include <linux/prefetch.h>
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <linux/types.h>
 #include <linux/irqflags.h>
 #include <asm/barrier.h>
@@ -32,10 +29,7 @@
  */
 #define atomic_read(v)	(*(volatile int *)&(v)->counter)
 #define atomic_set(v,i)	(((v)->counter) = (i))
-<<<<<<< HEAD
 #define cpu_relaxed_read_atomic(v)	atomic_read(v)
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #if __LINUX_ARM_ARCH__ >= 6
 
@@ -49,10 +43,7 @@ static inline void atomic_add(int i, atomic_t *v)
 	unsigned long tmp;
 	int result;
 
-<<<<<<< HEAD
 	prefetchw(&v->counter);
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	__asm__ __volatile__("@ atomic_add\n"
 "1:	ldrex	%0, [%3]\n"
 "	add	%0, %0, %4\n"
@@ -70,10 +61,7 @@ static inline int atomic_add_return(int i, atomic_t *v)
 	int result;
 
 	smp_mb();
-<<<<<<< HEAD
 	prefetchw(&v->counter);
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	__asm__ __volatile__("@ atomic_add_return\n"
 "1:	ldrex	%0, [%3]\n"
@@ -95,10 +83,7 @@ static inline void atomic_sub(int i, atomic_t *v)
 	unsigned long tmp;
 	int result;
 
-<<<<<<< HEAD
 	prefetchw(&v->counter);
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	__asm__ __volatile__("@ atomic_sub\n"
 "1:	ldrex	%0, [%3]\n"
 "	sub	%0, %0, %4\n"
@@ -116,10 +101,7 @@ static inline int atomic_sub_return(int i, atomic_t *v)
 	int result;
 
 	smp_mb();
-<<<<<<< HEAD
 	prefetchw(&v->counter);
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	__asm__ __volatile__("@ atomic_sub_return\n"
 "1:	ldrex	%0, [%3]\n"
@@ -138,17 +120,11 @@ static inline int atomic_sub_return(int i, atomic_t *v)
 
 static inline int atomic_cmpxchg(atomic_t *ptr, int old, int new)
 {
-<<<<<<< HEAD
 	int oldval;
 	unsigned long res;
 
 	smp_mb();
 	prefetchw(&ptr->counter);
-=======
-	unsigned long oldval, res;
-
-	smp_mb();
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	do {
 		__asm__ __volatile__("@ atomic_cmpxchg\n"
@@ -170,10 +146,7 @@ static inline void atomic_clear_mask(unsigned long mask, unsigned long *addr)
 {
 	unsigned long tmp, tmp2;
 
-<<<<<<< HEAD
 	prefetchw(addr);
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	__asm__ __volatile__("@ atomic_clear_mask\n"
 "1:	ldrex	%0, [%3]\n"
 "	bic	%0, %0, %4\n"
@@ -185,7 +158,6 @@ static inline void atomic_clear_mask(unsigned long mask, unsigned long *addr)
 	: "cc");
 }
 
-<<<<<<< HEAD
 static inline int __atomic_add_unless(atomic_t *v, int a, int u)
 {
 	int oldval, newval;
@@ -213,8 +185,6 @@ static inline int __atomic_add_unless(atomic_t *v, int a, int u)
 	return oldval;
 }
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #else /* ARM_ARCH_6 */
 
 #ifdef CONFIG_SMP
@@ -272,13 +242,6 @@ static inline void atomic_clear_mask(unsigned long mask, unsigned long *addr)
 	raw_local_irq_restore(flags);
 }
 
-<<<<<<< HEAD
-=======
-#endif /* __LINUX_ARM_ARCH__ */
-
-#define atomic_xchg(v, new) (xchg(&((v)->counter), new))
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static inline int __atomic_add_unless(atomic_t *v, int a, int u)
 {
 	int c, old;
@@ -289,13 +252,10 @@ static inline int __atomic_add_unless(atomic_t *v, int a, int u)
 	return c;
 }
 
-<<<<<<< HEAD
 #endif /* __LINUX_ARM_ARCH__ */
 
 #define atomic_xchg(v, new) (xchg(&((v)->counter), new))
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #define atomic_inc(v)		atomic_add(1, v)
 #define atomic_dec(v)		atomic_sub(1, v)
 
@@ -314,26 +274,16 @@ static inline int __atomic_add_unless(atomic_t *v, int a, int u)
 
 #ifndef CONFIG_GENERIC_ATOMIC64
 typedef struct {
-<<<<<<< HEAD
 	long long counter;
-=======
-	u64 __aligned(8) counter;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 } atomic64_t;
 
 #define ATOMIC64_INIT(i) { (i) }
 
-<<<<<<< HEAD
 //                                                                                 
 static inline long long atomic64_read(const atomic64_t *v)
 //                                                                                 
 {
 	long long result;
-=======
-static inline u64 atomic64_read(atomic64_t *v)
-{
-	u64 result;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	__asm__ __volatile__("@ atomic64_read\n"
 "	ldrexd	%0, %H0, [%1]"
@@ -344,18 +294,11 @@ static inline u64 atomic64_read(atomic64_t *v)
 	return result;
 }
 
-<<<<<<< HEAD
 static inline void atomic64_set(atomic64_t *v, long long i)
 {
 	long long tmp;
 
 	prefetchw(&v->counter);
-=======
-static inline void atomic64_set(atomic64_t *v, u64 i)
-{
-	u64 tmp;
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	__asm__ __volatile__("@ atomic64_set\n"
 "1:	ldrexd	%0, %H0, [%2]\n"
 "	strexd	%0, %3, %H3, [%2]\n"
@@ -366,7 +309,6 @@ static inline void atomic64_set(atomic64_t *v, u64 i)
 	: "cc");
 }
 
-<<<<<<< HEAD
 static inline void atomic64_add(long long i, atomic64_t *v)
 {
 	long long result;
@@ -377,17 +319,6 @@ static inline void atomic64_add(long long i, atomic64_t *v)
 "1:	ldrexd	%0, %H0, [%3]\n"
 "	adds	%Q0, %Q0, %Q4\n"
 "	adc	%R0, %R0, %R4\n"
-=======
-static inline void atomic64_add(u64 i, atomic64_t *v)
-{
-	u64 result;
-	unsigned long tmp;
-
-	__asm__ __volatile__("@ atomic64_add\n"
-"1:	ldrexd	%0, %H0, [%3]\n"
-"	adds	%0, %0, %4\n"
-"	adc	%H0, %H0, %H4\n"
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 "	strexd	%1, %0, %H0, [%3]\n"
 "	teq	%1, #0\n"
 "	bne	1b"
@@ -396,7 +327,6 @@ static inline void atomic64_add(u64 i, atomic64_t *v)
 	: "cc");
 }
 
-<<<<<<< HEAD
 static inline long long atomic64_add_return(long long i, atomic64_t *v)
 {
 	long long result;
@@ -409,19 +339,6 @@ static inline long long atomic64_add_return(long long i, atomic64_t *v)
 "1:	ldrexd	%0, %H0, [%3]\n"
 "	adds	%Q0, %Q0, %Q4\n"
 "	adc	%R0, %R0, %R4\n"
-=======
-static inline u64 atomic64_add_return(u64 i, atomic64_t *v)
-{
-	u64 result;
-	unsigned long tmp;
-
-	smp_mb();
-
-	__asm__ __volatile__("@ atomic64_add_return\n"
-"1:	ldrexd	%0, %H0, [%3]\n"
-"	adds	%0, %0, %4\n"
-"	adc	%H0, %H0, %H4\n"
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 "	strexd	%1, %0, %H0, [%3]\n"
 "	teq	%1, #0\n"
 "	bne	1b"
@@ -434,7 +351,6 @@ static inline u64 atomic64_add_return(u64 i, atomic64_t *v)
 	return result;
 }
 
-<<<<<<< HEAD
 static inline void atomic64_sub(long long i, atomic64_t *v)
 {
 	long long result;
@@ -445,17 +361,6 @@ static inline void atomic64_sub(long long i, atomic64_t *v)
 "1:	ldrexd	%0, %H0, [%3]\n"
 "	subs	%Q0, %Q0, %Q4\n"
 "	sbc	%R0, %R0, %R4\n"
-=======
-static inline void atomic64_sub(u64 i, atomic64_t *v)
-{
-	u64 result;
-	unsigned long tmp;
-
-	__asm__ __volatile__("@ atomic64_sub\n"
-"1:	ldrexd	%0, %H0, [%3]\n"
-"	subs	%0, %0, %4\n"
-"	sbc	%H0, %H0, %H4\n"
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 "	strexd	%1, %0, %H0, [%3]\n"
 "	teq	%1, #0\n"
 "	bne	1b"
@@ -464,7 +369,6 @@ static inline void atomic64_sub(u64 i, atomic64_t *v)
 	: "cc");
 }
 
-<<<<<<< HEAD
 static inline long long atomic64_sub_return(long long i, atomic64_t *v)
 {
 	long long result;
@@ -477,19 +381,6 @@ static inline long long atomic64_sub_return(long long i, atomic64_t *v)
 "1:	ldrexd	%0, %H0, [%3]\n"
 "	subs	%Q0, %Q0, %Q4\n"
 "	sbc	%R0, %R0, %R4\n"
-=======
-static inline u64 atomic64_sub_return(u64 i, atomic64_t *v)
-{
-	u64 result;
-	unsigned long tmp;
-
-	smp_mb();
-
-	__asm__ __volatile__("@ atomic64_sub_return\n"
-"1:	ldrexd	%0, %H0, [%3]\n"
-"	subs	%0, %0, %4\n"
-"	sbc	%H0, %H0, %H4\n"
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 "	strexd	%1, %0, %H0, [%3]\n"
 "	teq	%1, #0\n"
 "	bne	1b"
@@ -502,7 +393,6 @@ static inline u64 atomic64_sub_return(u64 i, atomic64_t *v)
 	return result;
 }
 
-<<<<<<< HEAD
 static inline long long atomic64_cmpxchg(atomic64_t *ptr, long long old, long long new)
 {
 	long long oldval;
@@ -510,14 +400,6 @@ static inline long long atomic64_cmpxchg(atomic64_t *ptr, long long old, long lo
 
 	smp_mb();
 	prefetchw(&ptr->counter);
-=======
-static inline u64 atomic64_cmpxchg(atomic64_t *ptr, u64 old, u64 new)
-{
-	u64 oldval;
-	unsigned long res;
-
-	smp_mb();
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	do {
 		__asm__ __volatile__("@ atomic64_cmpxchg\n"
@@ -536,7 +418,6 @@ static inline u64 atomic64_cmpxchg(atomic64_t *ptr, u64 old, u64 new)
 	return oldval;
 }
 
-<<<<<<< HEAD
 static inline long long atomic64_xchg(atomic64_t *ptr, long long new)
 {
 	long long result;
@@ -544,14 +425,6 @@ static inline long long atomic64_xchg(atomic64_t *ptr, long long new)
 
 	smp_mb();
 	prefetchw(&ptr->counter);
-=======
-static inline u64 atomic64_xchg(atomic64_t *ptr, u64 new)
-{
-	u64 result;
-	unsigned long tmp;
-
-	smp_mb();
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	__asm__ __volatile__("@ atomic64_xchg\n"
 "1:	ldrexd	%0, %H0, [%3]\n"
@@ -567,7 +440,6 @@ static inline u64 atomic64_xchg(atomic64_t *ptr, u64 new)
 	return result;
 }
 
-<<<<<<< HEAD
 static inline long long atomic64_dec_if_positive(atomic64_t *v)
 {
 	long long result;
@@ -581,20 +453,6 @@ static inline long long atomic64_dec_if_positive(atomic64_t *v)
 "	subs	%Q0, %Q0, #1\n"
 "	sbc	%R0, %R0, #0\n"
 "	teq	%R0, #0\n"
-=======
-static inline u64 atomic64_dec_if_positive(atomic64_t *v)
-{
-	u64 result;
-	unsigned long tmp;
-
-	smp_mb();
-
-	__asm__ __volatile__("@ atomic64_dec_if_positive\n"
-"1:	ldrexd	%0, %H0, [%3]\n"
-"	subs	%0, %0, #1\n"
-"	sbc	%H0, %H0, #0\n"
-"	teq	%H0, #0\n"
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 "	bmi	2f\n"
 "	strexd	%1, %0, %H0, [%3]\n"
 "	teq	%1, #0\n"
@@ -609,23 +467,14 @@ static inline u64 atomic64_dec_if_positive(atomic64_t *v)
 	return result;
 }
 
-<<<<<<< HEAD
 static inline int atomic64_add_unless(atomic64_t *v, long long a, long long u)
 {
 	long long val;
-=======
-static inline int atomic64_add_unless(atomic64_t *v, u64 a, u64 u)
-{
-	u64 val;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	unsigned long tmp;
 	int ret = 1;
 
 	smp_mb();
-<<<<<<< HEAD
 	prefetchw(&v->counter);
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	__asm__ __volatile__("@ atomic64_add_unless\n"
 "1:	ldrexd	%0, %H0, [%4]\n"
@@ -633,13 +482,8 @@ static inline int atomic64_add_unless(atomic64_t *v, u64 a, u64 u)
 "	teqeq	%H0, %H5\n"
 "	moveq	%1, #0\n"
 "	beq	2f\n"
-<<<<<<< HEAD
 "	adds	%Q0, %Q0, %Q6\n"
 "	adc	%R0, %R0, %R6\n"
-=======
-"	adds	%0, %0, %6\n"
-"	adc	%H0, %H0, %H6\n"
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 "	strexd	%2, %0, %H0, [%4]\n"
 "	teq	%2, #0\n"
 "	bne	1b\n"

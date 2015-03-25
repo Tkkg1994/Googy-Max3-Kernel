@@ -13,10 +13,7 @@
  */
 #include <linux/linkage.h>
 #include <linux/init.h>
-<<<<<<< HEAD
 #include <asm/assembler.h>
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <asm/page.h>
 #include "proc-macros.S"
 
@@ -52,11 +49,7 @@
 ENTRY(v4wt_flush_icache_all)
 	mov	r0, #0
 	mcr	p15, 0, r0, c7, c5, 0		@ invalidate I cache
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(v4wt_flush_icache_all)
 
 /*
@@ -79,11 +72,7 @@ __flush_whole_cache:
 	tst	r2, #VM_EXEC
 	mcrne	p15, 0, ip, c7, c5, 0		@ invalidate I cache
 	mcr	p15, 0, ip, c7, c6, 0		@ invalidate D cache
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	flush_user_cache_range(start, end, flags)
@@ -106,11 +95,7 @@ ENTRY(v4wt_flush_user_cache_range)
 	add	r0, r0, #CACHE_DLINESIZE
 	cmp	r0, r1
 	blo	1b
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	coherent_kern_range(start, end)
@@ -141,12 +126,8 @@ ENTRY(v4wt_coherent_user_range)
 	add	r0, r0, #CACHE_DLINESIZE
 	cmp	r0, r1
 	blo	1b
-<<<<<<< HEAD
 	mov	r0, #0
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	flush_kern_dcache_area(void *addr, size_t size)
@@ -180,11 +161,7 @@ v4wt_dma_inv_range:
 	add	r0, r0, #CACHE_DLINESIZE
 	cmp	r0, r1
 	blo	1b
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	dma_flush_range(start, end)
@@ -216,11 +193,7 @@ ENTRY(v4wt_dma_unmap_area)
  *	- dir	- DMA direction
  */
 ENTRY(v4wt_dma_map_area)
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(v4wt_dma_unmap_area)
 ENDPROC(v4wt_dma_map_area)
 

@@ -58,10 +58,6 @@
 #define PTRACE_EVENT_EXEC	4
 #define PTRACE_EVENT_VFORK_DONE	5
 #define PTRACE_EVENT_EXIT	6
-<<<<<<< HEAD
-=======
-#define PTRACE_EVENT_SECCOMP	7
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 /* Extended result codes which enabled by means other than options.  */
 #define PTRACE_EVENT_STOP	128
 
@@ -73,14 +69,8 @@
 #define PTRACE_O_TRACEEXEC	(1 << PTRACE_EVENT_EXEC)
 #define PTRACE_O_TRACEVFORKDONE	(1 << PTRACE_EVENT_VFORK_DONE)
 #define PTRACE_O_TRACEEXIT	(1 << PTRACE_EVENT_EXIT)
-<<<<<<< HEAD
 
 #define PTRACE_O_MASK		0x0000007f
-=======
-#define PTRACE_O_TRACESECCOMP	(1 << PTRACE_EVENT_SECCOMP)
-
-#define PTRACE_O_MASK		0x000000ff
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #include <asm/ptrace.h>
 
@@ -108,10 +98,6 @@
 #define PT_TRACE_EXEC		PT_EVENT_FLAG(PTRACE_EVENT_EXEC)
 #define PT_TRACE_VFORK_DONE	PT_EVENT_FLAG(PTRACE_EVENT_VFORK_DONE)
 #define PT_TRACE_EXIT		PT_EVENT_FLAG(PTRACE_EVENT_EXIT)
-<<<<<<< HEAD
-=======
-#define PT_TRACE_SECCOMP	PT_EVENT_FLAG(PTRACE_EVENT_SECCOMP)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /* single stepping state bits (used on ARM and PA-RISC) */
 #define PT_SINGLESTEP_BIT	31

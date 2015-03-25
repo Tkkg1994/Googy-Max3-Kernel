@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2011-2012, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2011-2013, The Linux Foundation. All rights reserved.
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -36,10 +32,6 @@ enum bam_irq {
 	BAM_DEV_IRQ_RDY_TO_SLEEP = 0x00000001,
 	BAM_DEV_IRQ_HRESP_ERROR = 0x00000002,
 	BAM_DEV_IRQ_ERROR = 0x00000004,
-<<<<<<< HEAD
-=======
-	BAM_DEV_IRQ_TIMER = 0x00000010,
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 };
 
 /* Pipe interrupt mask */

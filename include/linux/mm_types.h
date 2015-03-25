@@ -226,13 +226,6 @@ struct vm_area_struct {
 	 * linkage into the address_space->i_mmap prio tree, or
 	 * linkage to the list of like vmas hanging off its node, or
 	 * linkage of vma in the address_space->i_mmap_nonlinear list.
-<<<<<<< HEAD
-=======
-	 *
-	 * For private anonymous mappings, a pointer to a null terminated string
-	 * in the user process containing the name given to the vma, or NULL
-	 * if unnamed.
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	 */
 	union {
 		struct {
@@ -242,10 +235,6 @@ struct vm_area_struct {
 		} vm_set;
 
 		struct raw_prio_tree_node prio_tree_node;
-<<<<<<< HEAD
-=======
-		const char __user *anon_name;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	} shared;
 
 	/*
@@ -366,7 +355,6 @@ struct mm_struct {
 	/* Architecture-specific MM context */
 	mm_context_t context;
 
-<<<<<<< HEAD
 	/* Swap token stuff */
 	/*
 	 * Last value of global fault stamp as seen by this process.
@@ -378,8 +366,6 @@ struct mm_struct {
 	unsigned int token_priority;
 	unsigned int last_interval;
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	unsigned long flags; /* Must use atomic bitops to access the bits */
 
 	struct core_state *core_state; /* coredumping support */
@@ -428,17 +414,4 @@ static inline cpumask_t *mm_cpumask(struct mm_struct *mm)
 	return mm->cpu_vm_mask_var;
 }
 
-<<<<<<< HEAD
-=======
-
-/* Return the name for an anonymous mapping or NULL for a file-backed mapping */
-static inline const char __user *vma_get_anon_name(struct vm_area_struct *vma)
-{
-	if (vma->vm_file)
-		return NULL;
-
-	return vma->shared.anon_name;
-}
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif /* _LINUX_MM_TYPES_H */

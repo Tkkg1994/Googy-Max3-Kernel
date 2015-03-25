@@ -243,11 +243,7 @@ static int lowmem_shrink(struct shrinker *s, struct shrink_control *sc)
 				read_unlock(&tasklist_lock);
 				return 0;
 		}
-<<<<<<< HEAD
 		
-=======
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		oom_score_adj = p->signal->oom_score_adj;
 		if (oom_score_adj < min_score_adj) {
 			task_unlock(p);

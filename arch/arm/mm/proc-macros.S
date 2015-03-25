@@ -38,7 +38,6 @@
 
 /*
  * mmid - get context id from mm pointer (mm->context.id)
-<<<<<<< HEAD
  * note, this field is 64bit, so in big-endian the two words are swapped too.
  */
 	.macro	mmid, rd, rn
@@ -47,11 +46,6 @@
 #else
 	ldr	\rd, [\rn, #MM_CONTEXT_ID]
 #endif
-=======
- */
-	.macro	mmid, rd, rn
-	ldr	\rd, [\rn, #MM_CONTEXT_ID]
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	.endm
 
 /*

@@ -11,10 +11,7 @@
  */
 
 #include <linux/linkage.h>
-<<<<<<< HEAD
 #include <asm/assembler.h>
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #ifdef __ARMEB__
 #define xh r0
@@ -35,11 +32,7 @@ ENTRY(__ucmpdi2)
 	movlo	r0, #0
 	moveq	r0, #1
 	movhi	r0, #2
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 ENDPROC(__ucmpdi2)
 
@@ -52,11 +45,7 @@ ENTRY(__aeabi_ulcmp)
 	movlo	r0, #-1
 	moveq	r0, #0
 	movhi	r0, #1
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 ENDPROC(__aeabi_ulcmp)
 

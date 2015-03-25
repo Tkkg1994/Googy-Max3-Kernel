@@ -1,11 +1,7 @@
 /* arch/arm/mach-msm/pm.h
  *
  * Copyright (C) 2007 Google, Inc.
-<<<<<<< HEAD
  * Copyright (c) 2009-2012, The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2009-2013, The Linux Foundation. All rights reserved.
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  * Author: San Mehat <san@android.com>
  *
  * This software is licensed under the terms of the GNU General Public
@@ -56,12 +52,7 @@ enum msm_pm_sleep_mode {
 	MSM_PM_SLEEP_MODE_RETENTION = MSM_PM_SLEEP_MODE_APPS_SLEEP,
 	MSM_PM_SLEEP_MODE_POWER_COLLAPSE_SUSPEND = 5,
 	MSM_PM_SLEEP_MODE_POWER_COLLAPSE_NO_XO_SHUTDOWN = 6,
-<<<<<<< HEAD
 	MSM_PM_SLEEP_MODE_NR
-=======
-	MSM_PM_SLEEP_MODE_NR = 7,
-	MSM_PM_SLEEP_MODE_NOT_SELECTED,
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 };
 
 #define MSM_PM_MODE(cpu, mode_nr)  ((cpu) * MSM_PM_SLEEP_MODE_NR + (mode_nr))
@@ -102,55 +93,18 @@ struct msm_pm_sleep_ops {
 			bool notify_rpm, bool collapsed);
 };
 
-<<<<<<< HEAD
-=======
-enum msm_pm_pc_mode_type {
-	MSM_PM_PC_TZ_L2_INT,   /*Power collapse terminates in TZ;
-					integrated L2 cache controller */
-	MSM_PM_PC_NOTZ_L2_EXT, /* Power collapse doesn't terminate in
-					TZ; external L2 cache controller */
-	MSM_PM_PC_TZ_L2_EXT,   /* Power collapse terminates in TZ;
-					external L2 cache controller */
-};
-
-struct msm_pm_cp15_save_data {
-	bool save_cp15;
-	uint32_t active_vdd;
-	uint32_t qsb_pc_vdd;
-	uint32_t reg_saved_state_size;
-	uint32_t *reg_data;
-	uint32_t *reg_val;
-};
-
-struct msm_pm_init_data_type {
-	enum msm_pm_pc_mode_type pc_mode;
-	bool retention_calls_tz;
-	struct msm_pm_cp15_save_data cp15_data;
-	bool use_sync_timer;
-};
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 struct msm_pm_cpr_ops {
 	void (*cpr_suspend)(void);
 	void (*cpr_resume)(void);
 };
 
 void msm_pm_set_platform_data(struct msm_pm_platform_data *data, int count);
-<<<<<<< HEAD
 int msm_pm_idle_prepare(struct cpuidle_device *dev,
 			struct cpuidle_driver *drv, int index);
 void msm_pm_set_irq_extns(struct msm_pm_irq_calls *irq_calls);
 int msm_pm_idle_enter(enum msm_pm_sleep_mode sleep_mode);
 void msm_pm_cpu_enter_lowpower(unsigned int cpu);
 void __init msm_pm_set_tz_retention_flag(unsigned int flag);
-=======
-enum msm_pm_sleep_mode msm_pm_idle_enter(struct cpuidle_device *dev,
-			struct cpuidle_driver *drv, int index);
-void msm_pm_set_irq_extns(struct msm_pm_irq_calls *irq_calls);
-void msm_pm_cpu_enter_lowpower(unsigned int cpu);
-void __init msm_pm_set_tz_retention_flag(unsigned int flag);
-void msm_pm_enable_retention(bool enable);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #ifdef CONFIG_MSM_PM8X60
 void msm_pm_set_rpm_wakeup_irq(unsigned int irq);

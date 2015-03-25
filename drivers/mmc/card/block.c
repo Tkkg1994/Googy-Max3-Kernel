@@ -555,11 +555,7 @@ static int mmc_blk_ioctl_cmd(struct block_device *bdev,
 		int len;
 		data.blksz = idata->ic.blksz;
 		data.blocks = idata->ic.blocks;
-<<<<<<< HEAD
 		
-=======
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		sg = mmc_blk_get_sg(card, idata->buf, &len, idata->buf_bytes);
 		data.sg = sg;
 		data.sg_len = len;
@@ -1052,7 +1048,6 @@ static int mmc_blk_reset(struct mmc_blk_data *md, struct mmc_host *host,
 
 	md->reset_done |= type;
 	err = mmc_hw_reset(host);
-<<<<<<< HEAD
 	if (err && err != -EOPNOTSUPP) {
 		/* We failed to reset so we need to abort the request */
 		pr_err("%s: %s: failed to reset %d\n", mmc_hostname(host),
@@ -1061,10 +1056,6 @@ static int mmc_blk_reset(struct mmc_blk_data *md, struct mmc_host *host,
 	}
 	/* Ensure we switch back to the correct partition */
 	if (host->card) {
-=======
-	/* Ensure we switch back to the correct partition */
-	if (err != -EOPNOTSUPP) {
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		struct mmc_blk_data *main_md = mmc_get_drvdata(host->card);
 		int part_err;
 
@@ -1340,7 +1331,6 @@ static int mmc_blk_err_check(struct mmc_card *card,
 		u32 status;
 		unsigned long timeout;
 
-<<<<<<< HEAD
 		/* Check stop command response */
 		if (brq->stop.resp[0] & R1_ERROR) {
 			pr_err("%s: %s: general error sending stop command, stop cmd response %#x\n",
@@ -1349,8 +1339,6 @@ static int mmc_blk_err_check(struct mmc_card *card,
 			gen_err = 1;
 		}
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		timeout = jiffies + msecs_to_jiffies(MMC_BLK_TIMEOUT_MS);
 		do {
 			int err = get_card_status(card, &status, 5);
@@ -1370,7 +1358,6 @@ static int mmc_blk_err_check(struct mmc_card *card,
 
 				return MMC_BLK_CMD_ERR;
 			}
-<<<<<<< HEAD
 
 			if (status & R1_ERROR) {
 				pr_err("%s: %s: general error sending status command, card status %#x\n",
@@ -1379,8 +1366,6 @@ static int mmc_blk_err_check(struct mmc_card *card,
 				gen_err = 1;
 			}
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			/*
 			 * Some cards mishandle the status bits,
 			 * so make sure to check both the busy
@@ -2280,13 +2265,10 @@ static int mmc_blk_issue_rq(struct mmc_queue *mq, struct request *req)
 	struct mmc_host *host = card->host;
 	unsigned long flags;
 
-<<<<<<< HEAD
 	if (req && !mq->mqrq_prev->req) {
 		/* claim host only for the first request */
 		mmc_claim_host(card->host);
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #ifdef CONFIG_MMC_BLOCK_DEFERRED_RESUME
 	if (mmc_bus_needs_resume(card->host)) {
 		mmc_resume_bus(card->host);
@@ -2294,12 +2276,6 @@ static int mmc_blk_issue_rq(struct mmc_queue *mq, struct request *req)
 	}
 #endif
 
-<<<<<<< HEAD
-=======
-	if (req && !mq->mqrq_prev->req) {
-		/* claim host only for the first request */
-		mmc_claim_host(card->host);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		if (card->ext_csd.bkops_en)
 			mmc_stop_bkops(card);
 	}
@@ -2712,7 +2688,6 @@ static const struct mmc_fixup blk_fixups[] =
 		  MMC_QUIRK_INAND_DATA_TIMEOUT),
 
 	/*
-<<<<<<< HEAD
 	 * Some Samsung MMC cards need longer data read timeout than
 	 * indicated in CSD.
 	 */
@@ -2720,8 +2695,6 @@ static const struct mmc_fixup blk_fixups[] =
 		  MMC_QUIRK_LONG_READ_TIME),
 
 	/*
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	 * On these Samsung MoviNAND parts, performing secure erase or
 	 * secure trim can result in unrecoverable corruption due to a
 	 * firmware bug.

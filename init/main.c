@@ -69,10 +69,7 @@
 #include <linux/slab.h>
 #include <linux/perf_event.h>
 #include <linux/random.h>
-<<<<<<< HEAD
 #include <s_funcs.h>
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #include <asm/io.h>
 #include <asm/bugs.h>
@@ -243,13 +240,8 @@ early_param("loglevel", loglevel);
  static int __init battStatus(char *str)
 {
 	int batt_val;
-<<<<<<< HEAD
   
 	
-=======
-
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (get_option(&str, &batt_val)) {
 		console_batt_stat = batt_val;
 		return 0;
@@ -438,18 +430,9 @@ static int __init do_early_param(char *param, char *val)
 	/* We accept everything at this stage. */
 #ifdef CONFIG_SAMSUNG_LPM_MODE
 	/*  check power off charging */
-<<<<<<< HEAD
 	if ((strncmp(param, "androidboot.mode", 16) == 0)) {
 		if (strncmp(val, "charger", 7) == 0)
 			poweroff_charging = 1;
-=======
-	if ((strncmp(param, "androidboot.mode", 16) == 0) ||
-	    (strncmp(param, "androidboot.bootchg", 19) == 0)) {
-		if ((strncmp(val, "charger", 7) == 0) ||
-		    (strncmp(val, "true", 4) == 0)) {
-			poweroff_charging = 1;
-		}
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 #endif
 	return 0;
@@ -589,10 +572,7 @@ asmlinkage void __init start_kernel(void)
 	boot_init_stack_canary();
 	mm_init_owner(&init_mm, &init_task);
 	mm_init_cpumask(&init_mm);
-<<<<<<< HEAD
 	replace_str((char*)&boot_command_line,"androidboot.bootchg=true","androidboot.mode=charger");
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	setup_command_line(command_line);
 	setup_nr_cpu_ids();
 	setup_per_cpu_areas();

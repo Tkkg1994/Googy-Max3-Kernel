@@ -78,10 +78,7 @@ ENTRY(v3_coherent_kern_range)
  *	- end	 - virtual end address
  */
 ENTRY(v3_coherent_user_range)
-<<<<<<< HEAD
 	mov	r0, #0
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	mov	pc, lr
 
 /*

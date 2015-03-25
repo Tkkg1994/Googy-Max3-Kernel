@@ -1194,8 +1194,5 @@ source "net/netfilter/ipset/Kconfig"
 
 source "net/netfilter/ipvs/Kconfig"
 
-<<<<<<< HEAD
 source "net/netfilter/interceptor/Kconfig"
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea

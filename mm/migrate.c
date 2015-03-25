@@ -34,10 +34,6 @@
 #include <linux/syscalls.h>
 #include <linux/hugetlb.h>
 #include <linux/gfp.h>
-<<<<<<< HEAD
-=======
-#include <trace/events/kmem.h>
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #include <asm/tlbflush.h>
 
@@ -988,20 +984,12 @@ int migrate_pages(struct list_head *from,
 {
 	int retry = 1;
 	int nr_failed = 0;
-<<<<<<< HEAD
-=======
-	int nr_succeeded = 0;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	int pass = 0;
 	struct page *page;
 	struct page *page2;
 	int swapwrite = current->flags & PF_SWAPWRITE;
 	int rc;
 
-<<<<<<< HEAD
-=======
-	trace_migrate_pages_start(mode);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (!swapwrite)
 		current->flags |= PF_SWAPWRITE;
 
@@ -1020,15 +1008,8 @@ int migrate_pages(struct list_head *from,
 				goto out;
 			case -EAGAIN:
 				retry++;
-<<<<<<< HEAD
 				break;
 			case 0:
-=======
-				trace_migrate_retry(retry);
-				break;
-			case 0:
-				nr_succeeded++;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 				break;
 			default:
 				/* Permanent failure */
@@ -1039,20 +1020,9 @@ int migrate_pages(struct list_head *from,
 	}
 	rc = 0;
 out:
-<<<<<<< HEAD
 	if (!swapwrite)
 		current->flags &= ~PF_SWAPWRITE;
 
-=======
-	if (nr_succeeded)
-		count_vm_events(PGMIGRATE_SUCCESS, nr_succeeded);
-	if (nr_failed)
-		count_vm_events(PGMIGRATE_FAIL, nr_failed);
-	if (!swapwrite)
-		current->flags &= ~PF_SWAPWRITE;
-
-	trace_migrate_pages_end(mode);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (rc)
 		return rc;
 

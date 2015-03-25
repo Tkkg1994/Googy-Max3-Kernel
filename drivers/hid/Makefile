@@ -26,14 +26,10 @@ ifdef CONFIG_LOGIWHEELS_FF
 	hid-logitech-y	+= hid-lg4ff.o
 endif
 
-<<<<<<< HEAD
 hid-wiimote-y		:= hid-wiimote-core.o
 ifdef CONFIG_HID_WIIMOTE_EXT
 	hid-wiimote-y	+= hid-wiimote-ext.o
 endif
-=======
-hid-wiimote-y		:= hid-wiimote-core.o hid-wiimote-modules.o
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ifdef CONFIG_DEBUG_FS
 	hid-wiimote-y	+= hid-wiimote-debug.o
 endif

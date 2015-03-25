@@ -1880,12 +1880,7 @@ extern int ext4_mb_add_groupinfo(struct super_block *sb,
 		ext4_group_t i, struct ext4_group_desc *desc);
 extern int ext4_group_add_blocks(handle_t *handle, struct super_block *sb,
 				ext4_fsblk_t block, unsigned long count);
-<<<<<<< HEAD
 extern int ext4_trim_fs(struct super_block *, struct fstrim_range *);
-=======
-extern int ext4_trim_fs(struct super_block *, struct fstrim_range *,
-				unsigned long blkdev_flags);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /* inode.c */
 struct buffer_head *ext4_getblk(handle_t *, struct inode *,

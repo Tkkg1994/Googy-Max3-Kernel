@@ -51,11 +51,7 @@ struct task_struct;
 extern void debug_show_all_locks(void);
 extern void debug_show_held_locks(struct task_struct *task);
 extern void debug_check_no_locks_freed(const void *from, unsigned long len);
-<<<<<<< HEAD
 extern void debug_check_no_locks_held(struct task_struct *task);
-=======
-extern void debug_check_no_locks_held(void);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #else
 static inline void debug_show_all_locks(void)
 {
@@ -71,11 +67,7 @@ debug_check_no_locks_freed(const void *from, unsigned long len)
 }
 
 static inline void
-<<<<<<< HEAD
 debug_check_no_locks_held(struct task_struct *task)
-=======
-debug_check_no_locks_held(void)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 {
 }
 #endif

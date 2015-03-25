@@ -11,10 +11,7 @@
  */
 
 #include <linux/linkage.h>
-<<<<<<< HEAD
 #include <asm/assembler.h>
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #ifdef __ARMEB__
 #define xh r0
@@ -45,11 +42,7 @@ ENTRY(__aeabi_lmul)
 	adc	xh, xh, yh, lsr #16
 	adds	xl, xl, ip, lsl #16
 	adc	xh, xh, ip, lsr #16
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 ENDPROC(__muldi3)
 ENDPROC(__aeabi_lmul)

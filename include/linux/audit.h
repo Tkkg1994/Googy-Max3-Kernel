@@ -463,11 +463,7 @@ extern void audit_putname(const char *name);
 extern void __audit_inode(const char *name, const struct dentry *dentry);
 extern void __audit_inode_child(const struct dentry *dentry,
 				const struct inode *parent);
-<<<<<<< HEAD
 extern void __audit_seccomp(unsigned long syscall);
-=======
-extern void __audit_seccomp(unsigned long syscall, long signr, int code);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 extern void __audit_ptrace(struct task_struct *t);
 
 static inline int audit_dummy_context(void)
@@ -512,17 +508,10 @@ static inline void audit_inode_child(const struct dentry *dentry,
 }
 void audit_core_dumps(long signr);
 
-<<<<<<< HEAD
 static inline void audit_seccomp(unsigned long syscall)
 {
 	if (unlikely(!audit_dummy_context()))
 		__audit_seccomp(syscall);
-=======
-static inline void audit_seccomp(unsigned long syscall, long signr, int code)
-{
-	if (unlikely(!audit_dummy_context()))
-		__audit_seccomp(syscall, signr, code);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 static inline void audit_ptrace(struct task_struct *t)
@@ -645,11 +634,7 @@ extern int audit_signals;
 #define audit_inode(n,d) do { (void)(d); } while (0)
 #define audit_inode_child(i,p) do { ; } while (0)
 #define audit_core_dumps(i) do { ; } while (0)
-<<<<<<< HEAD
 #define audit_seccomp(i) do { ; } while (0)
-=======
-#define audit_seccomp(i,s,c) do { ; } while (0)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #define auditsc_get_stamp(c,t,s) (0)
 #define audit_get_loginuid(t) (-1)
 #define audit_get_sessionid(t) (-1)

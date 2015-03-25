@@ -328,7 +328,6 @@
 #endif
 	.endm
 
-<<<<<<< HEAD
 	.irp	c,,eq,ne,cs,cc,mi,pl,vs,vc,hi,ls,ge,lt,gt,le,hs,lo
 	.macro	ret\c, reg
 #if __LINUX_ARM_ARCH__ < 6
@@ -350,6 +349,4 @@
 #endif
 	.endm
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif /* __ASM_ASSEMBLER_H__ */

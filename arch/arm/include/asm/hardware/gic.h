@@ -58,18 +58,11 @@ static inline void gic_init(unsigned int nr, int start,
 {
 	gic_init_bases(nr, start, dist, cpu, 0, NULL);
 }
-<<<<<<< HEAD
 void gic_set_irq_secure(unsigned int irq);
 
 void msm_gic_save(void);
 void msm_gic_restore(void);
 void core1_gic_configure_and_raise(void);
-=======
-
-void msm_gic_save(void);
-void msm_gic_restore(void);
-void gic_configure_and_raise(unsigned int irq, unsigned int cpu);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif
 
 #endif

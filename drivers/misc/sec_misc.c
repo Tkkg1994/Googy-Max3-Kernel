@@ -33,10 +33,6 @@
 #include <mach/gpio.h>
 #include <linux/sec_param.h>
 #include <mach/sec_debug.h>
-<<<<<<< HEAD
-=======
-#include <linux/sec_class.h>
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #define MOVINAND_CHECKSUM
 #define RORY_CONTROL
 
@@ -65,11 +61,7 @@ static struct miscdevice sec_misc_device = {
 static ssize_t emmc_checksum_done_show(struct device *dev,
 		struct device_attribute *attr, char *buf)
 {
-<<<<<<< HEAD
 	return snprintf(buf, sizeof(buf), "%d\n", emmc_checksum_done);
-=======
-	return snprintf(buf, (int)sizeof(buf), "%d\n", emmc_checksum_done);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 static ssize_t emmc_checksum_done_store(struct device *dev,
@@ -90,11 +82,7 @@ static DEVICE_ATTR(emmc_checksum_done, S_IRUGO | S_IWUSR ,
 static ssize_t emmc_checksum_pass_show(struct device *dev,
 		struct device_attribute *attr, char *buf)
 {
-<<<<<<< HEAD
 	return snprintf(buf, sizeof(buf), "%d\n", emmc_checksum_pass);
-=======
-	return snprintf(buf, (int)sizeof(buf), "%d\n", emmc_checksum_pass);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 static ssize_t emmc_checksum_pass_store(struct device *dev,
@@ -122,11 +110,7 @@ static ssize_t rory_control_show(struct device *dev,
 
 	sec_get_param(param_rory_control, &rory_control);
 
-<<<<<<< HEAD
 	return snprintf(buf, sizeof(buf), "%d\n", rory_control);
-=======
-	return snprintf(buf, (int)sizeof(buf), "%d\n", rory_control);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 static ssize_t rory_control_store(struct device *dev,
@@ -148,10 +132,6 @@ static DEVICE_ATTR(rory_control, S_IRUGO | S_IWUSR ,
 		rory_control_show, rory_control_store);
 #endif /*RORY_CONTROL*/
 
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_SEC_DEBUG
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static unsigned int convert_debug_level_str(const char *str)
 {
 	if (strncasecmp(str, "0xA0A0", 6) == 0)
@@ -210,10 +190,6 @@ static ssize_t debug_level_store(struct device *dev,
 
 static DEVICE_ATTR(debug_level, S_IRUGO | S_IWUSR ,
 		debug_level_show, debug_level_store);
-<<<<<<< HEAD
-=======
-#endif
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #if defined(CONFIG_MACH_APEXQ) || defined(CONFIG_MACH_AEGIS2)
 static ssize_t slideCount_show
@@ -247,13 +223,7 @@ static struct device_attribute *sec_misc_attrs[] = {
 	&dev_attr_emmc_checksum_done,
 	&dev_attr_emmc_checksum_pass,
 	&dev_attr_rory_control,
-<<<<<<< HEAD
 	&dev_attr_debug_level,
-=======
-#ifdef CONFIG_SEC_DEBUG
-	&dev_attr_debug_level,
-#endif
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #if defined(CONFIG_MACH_APEXQ) || defined(CONFIG_MACH_AEGIS2)
 	&dev_attr_slideCount,
 #endif

@@ -109,13 +109,7 @@ static inline void prefetch(const void *ptr)
 {
 	__asm__ __volatile__(
 		"pld\t%a0"
-<<<<<<< HEAD
 		:: "p" (ptr));
-=======
-		:
-		: "p" (ptr)
-		: "cc");
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 #define ARCH_HAS_PREFETCHW
@@ -129,9 +123,6 @@ static inline void prefetch(const void *ptr)
 
 #endif
 
-<<<<<<< HEAD
 #include <asm-generic/processor.h>
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif /* __ASM_ARM_PROCESSOR_H */

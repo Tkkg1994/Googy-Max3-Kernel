@@ -27,10 +27,7 @@
 #include <asm/atomic.h>
 #include <asm/page.h>
 #include <mach/msm_dcvs.h>
-<<<<<<< HEAD
 #include "acpuclock-common.h"
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <trace/events/mpdcvs_trace.h>
 
 #define CORE_HANDLE_OFFSET (0xA0)
@@ -150,11 +147,7 @@ static struct dcvs_core core_list[CORES_MAX];
 
 static struct kobject *cores_kobj;
 
-<<<<<<< HEAD
 #define DCVS_MAX_NUM_FREQS FREQ_TABLE_SIZE
-=======
-#define DCVS_MAX_NUM_FREQS 15
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static struct msm_dcvs_freq_entry cpu_freq_tbl[DCVS_MAX_NUM_FREQS];
 static unsigned num_cpu_freqs;
 static struct msm_dcvs_platform_data *dcvs_pdata;

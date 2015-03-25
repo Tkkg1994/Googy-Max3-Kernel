@@ -1,11 +1,7 @@
 config ZRAM
 	tristate "Compressed RAM block device support"
-<<<<<<< HEAD
 	depends on BLOCK && SYSFS
 	select ZSMALLOC
-=======
-	depends on BLOCK && SYSFS && ZSMALLOC
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	select LZO_COMPRESS
 	select LZO_DECOMPRESS
 	default n

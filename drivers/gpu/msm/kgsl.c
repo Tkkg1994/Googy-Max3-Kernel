@@ -1544,12 +1544,9 @@ static long kgsl_ioctl_rb_issueibcmds(struct kgsl_device_private *dev_priv,
 	context = kgsl_context_get_owner(dev_priv, param->drawctxt_id);
 	if (context == NULL) {
 		result = -EINVAL;
-<<<<<<< HEAD
 		KGSL_DRV_ERR(dev_priv->device,
 			"invalid context_id %d\n",
 			param->drawctxt_id);
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		goto done;
 	}
 
@@ -2065,11 +2062,7 @@ static int kgsl_setup_useraddr(struct kgsl_mem_entry *entry,
 	size = ALIGN(size, PAGE_SIZE);
 
 	if (_check_region(offset & PAGE_MASK, size, len)) {
-<<<<<<< HEAD
 		KGSL_CORE_ERR("Offset (%d) + size (%d) is larger"
-=======
-		KGSL_CORE_ERR("Offset (%ld) + size (%d) is larger"
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			      "than region length %d\n",
 			      offset & PAGE_MASK, size, len);
 		return -EINVAL;
@@ -2192,11 +2185,8 @@ static int kgsl_setup_ion(struct kgsl_mem_entry *entry,
 		entry->memdesc.size += s->length;
 		entry->memdesc.sglen++;
 	}
-<<<<<<< HEAD
 	
 	entry->memdesc.size = PAGE_ALIGN(entry->memdesc.size);
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	return 0;
 err:

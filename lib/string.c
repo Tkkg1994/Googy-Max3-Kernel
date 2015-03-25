@@ -26,10 +26,7 @@
 #include <linux/export.h>
 #include <linux/bug.h>
 #include <linux/errno.h>
-<<<<<<< HEAD
 #include <linux/memcopy.h>
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #ifndef __HAVE_ARCH_STRNICMP
 /**
@@ -618,19 +615,11 @@ EXPORT_SYMBOL(memzero_explicit);
  */
 void *memcpy(void *dest, const void *src, size_t count)
 {
-<<<<<<< HEAD
 	unsigned long dstp = (unsigned long)dest; 
 	unsigned long srcp = (unsigned long)src; 
 
 	/* Copy from the beginning to the end */ 
 	mem_copy_fwd(dstp, srcp, count); 
-=======
-	char *tmp = dest;
-	const char *s = src;
-
-	while (count--)
-		*tmp++ = *s++;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return dest;
 }
 EXPORT_SYMBOL(memcpy);
@@ -647,7 +636,6 @@ EXPORT_SYMBOL(memcpy);
  */
 void *memmove(void *dest, const void *src, size_t count)
 {
-<<<<<<< HEAD
 	unsigned long dstp = (unsigned long)dest; 
 	unsigned long srcp = (unsigned long)src; 
 
@@ -657,23 +645,6 @@ void *memmove(void *dest, const void *src, size_t count)
 	} else {
 		/* Copy from the end to the beginning */ 
 		mem_copy_bwd(dstp, srcp, count); 
-=======
-	char *tmp;
-	const char *s;
-
-	if (dest <= src) {
-		tmp = dest;
-		s = src;
-		while (count--)
-			*tmp++ = *s++;
-	} else {
-		tmp = dest;
-		tmp += count;
-		s = src;
-		s += count;
-		while (count--)
-			*--tmp = *--s;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 	return dest;
 }

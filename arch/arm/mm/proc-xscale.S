@@ -118,11 +118,7 @@ ENTRY(cpu_xscale_proc_init)
 	mrc	p15, 0, r1, c1, c0, 1
 	bic	r1, r1, #1
 	mcr	p15, 0, r1, c1, c0, 1
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  * cpu_xscale_proc_fin()
@@ -132,11 +128,7 @@ ENTRY(cpu_xscale_proc_fin)
 	bic	r0, r0, #0x1800			@ ...IZ...........
 	bic	r0, r0, #0x0006			@ .............CA.
 	mcr	p15, 0, r0, c1, c0, 0		@ disable caches
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  * cpu_xscale_reset(loc)
@@ -168,11 +160,7 @@ ENTRY(cpu_xscale_reset)
 	@ CAUTION: MMU turned off from this point. We count on the pipeline
 	@ already containing those two last instructions to survive.
 	mcr	p15, 0, ip, c8, c7, 0		@ invalidate I & D TLBs
-<<<<<<< HEAD
 	ret	r0
-=======
-	mov	pc, r0
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(cpu_xscale_reset)
 	.popsection
 
@@ -191,11 +179,7 @@ ENDPROC(cpu_xscale_reset)
 ENTRY(cpu_xscale_do_idle)
 	mov	r0, #1
 	mcr	p14, 0, r0, c7, c0, 0		@ Go to IDLE
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /* ================================= CACHE ================================ */
 
@@ -207,11 +191,7 @@ ENTRY(cpu_xscale_do_idle)
 ENTRY(xscale_flush_icache_all)
 	mov	r0, #0
 	mcr	p15, 0, r0, c7, c5, 0		@ invalidate I cache
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(xscale_flush_icache_all)
 
 /*
@@ -236,11 +216,7 @@ __flush_whole_cache:
 	tst	r2, #VM_EXEC
 	mcrne	p15, 0, ip, c7, c5, 0		@ Invalidate I cache & BTB
 	mcrne	p15, 0, ip, c7, c10, 4		@ Drain Write (& Fill) Buffer
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	flush_user_cache_range(start, end, vm_flags)
@@ -269,11 +245,7 @@ ENTRY(xscale_flush_user_cache_range)
 	tst	r2, #VM_EXEC
 	mcrne	p15, 0, ip, c7, c5, 6		@ Invalidate BTB
 	mcrne	p15, 0, ip, c7, c10, 4		@ Drain Write (& Fill) Buffer
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	coherent_kern_range(start, end)
@@ -297,11 +269,7 @@ ENTRY(xscale_coherent_kern_range)
 	mov	r0, #0
 	mcr	p15, 0, r0, c7, c5, 0		@ Invalidate I cache & BTB
 	mcr	p15, 0, r0, c7, c10, 4		@ Drain Write (& Fill) Buffer
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	coherent_user_range(start, end)
@@ -323,11 +291,7 @@ ENTRY(xscale_coherent_user_range)
 	mov	r0, #0
 	mcr	p15, 0, r0, c7, c5, 6		@ Invalidate BTB
 	mcr	p15, 0, r0, c7, c10, 4		@ Drain Write (& Fill) Buffer
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	flush_kern_dcache_area(void *addr, size_t size)
@@ -348,11 +312,7 @@ ENTRY(xscale_flush_kern_dcache_area)
 	mov	r0, #0
 	mcr	p15, 0, r0, c7, c5, 0		@ Invalidate I cache & BTB
 	mcr	p15, 0, r0, c7, c10, 4		@ Drain Write (& Fill) Buffer
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	dma_inv_range(start, end)
@@ -376,11 +336,7 @@ xscale_dma_inv_range:
 	cmp	r0, r1
 	blo	1b
 	mcr	p15, 0, r0, c7, c10, 4		@ Drain Write (& Fill) Buffer
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	dma_clean_range(start, end)
@@ -397,11 +353,7 @@ xscale_dma_clean_range:
 	cmp	r0, r1
 	blo	1b
 	mcr	p15, 0, r0, c7, c10, 4		@ Drain Write (& Fill) Buffer
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	dma_flush_range(start, end)
@@ -419,11 +371,7 @@ ENTRY(xscale_dma_flush_range)
 	cmp	r0, r1
 	blo	1b
 	mcr	p15, 0, r0, c7, c10, 4		@ Drain Write (& Fill) Buffer
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  *	dma_map_area(start, size, dir)
@@ -459,11 +407,7 @@ ENDPROC(xscale_80200_A0_A1_dma_map_area)
  *	- dir	- DMA direction
  */
 ENTRY(xscale_dma_unmap_area)
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(xscale_dma_unmap_area)
 
 	.globl	xscale_flush_kern_cache_louis
@@ -513,11 +457,7 @@ ENTRY(cpu_xscale_dcache_clean_area)
 	add	r0, r0, #CACHELINESIZE
 	subs	r1, r1, #CACHELINESIZE
 	bhi	1b
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /* =============================== PageTable ============================== */
 
@@ -580,11 +520,7 @@ ENTRY(cpu_xscale_set_pte_ext)
 	orr	r2, r2, ip
 
 	xscale_set_pte_ext_epilogue
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	.ltorg
 	.align
@@ -637,11 +573,7 @@ __xscale_setup:
 	mrc	p15, 0, r0, c1, c0, 0		@ get control register
 	bic	r0, r0, r5
 	orr	r0, r0, r6
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	.size	__xscale_setup, . - __xscale_setup
 
 	/*

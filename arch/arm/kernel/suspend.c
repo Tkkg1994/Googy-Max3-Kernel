@@ -1,27 +1,16 @@
 #include <linux/init.h>
-<<<<<<< HEAD
 #include <linux/slab.h>
 
 #include <asm/cacheflush.h>
-=======
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <asm/idmap.h>
 #include <asm/pgalloc.h>
 #include <asm/pgtable.h>
 #include <asm/memory.h>
-<<<<<<< HEAD
 #include <asm/smp_plat.h>
 #include <asm/suspend.h>
 #include <asm/tlbflush.h>
 
 extern int __cpu_suspend(unsigned long, int (*)(unsigned long), u32 cpuid);
-=======
-#include <asm/suspend.h>
-#include <asm/tlbflush.h>
-
-extern int __cpu_suspend(unsigned long, int (*)(unsigned long));
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 extern void cpu_resume_mmu(void);
 
 /*
@@ -68,10 +57,7 @@ void __cpu_suspend_save(u32 *ptr, u32 ptrsz, u32 sp, u32 *save_ptr)
 int cpu_suspend(unsigned long arg, int (*fn)(unsigned long))
 {
 	struct mm_struct *mm = current->active_mm;
-<<<<<<< HEAD
 	u32 __mpidr = cpu_logical_map(smp_processor_id());
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	int ret;
 
 	if (!idmap_pgd)
@@ -83,7 +69,6 @@ int cpu_suspend(unsigned long arg, int (*fn)(unsigned long))
 	 * resume (indicated by a zero return code), we need to switch
 	 * back to the correct page tables.
 	 */
-<<<<<<< HEAD
 	ret = __cpu_suspend(arg, fn, __mpidr);
 	if (ret == 0) {
 		cpu_switch_mm(mm->pgd, mm);
@@ -91,17 +76,10 @@ int cpu_suspend(unsigned long arg, int (*fn)(unsigned long))
 		local_flush_tlb_all();
 	} else {
 		local_flush_tlb_all_non_is();
-=======
-	ret = __cpu_suspend(arg, fn);
-	if (ret == 0) {
-		cpu_switch_mm(mm->pgd, mm);
-		local_flush_tlb_all();
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 
 	return ret;
 }
-<<<<<<< HEAD
 
 extern struct sleep_save_sp sleep_save_sp;
 
@@ -120,5 +98,3 @@ static int cpu_suspend_alloc_sp(void)
 }
 early_initcall(cpu_suspend_alloc_sp);
  
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea

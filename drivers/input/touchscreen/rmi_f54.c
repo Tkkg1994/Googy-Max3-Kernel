@@ -1002,13 +1002,7 @@ static void run_absdelta_read(void);
 static void run_trx_short_test(void);
 static void hover_enable(void);
 static void hover_no_sleep_enable(void);
-<<<<<<< HEAD
 static void boost_level(void);
-=======
-#ifdef TSP_BOOSTER
-static void boost_level(void);
-#endif
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static void clear_cover_mode(void);
 static void glove_mode(void);
 static void get_glove_sensitivity(void);
@@ -1040,13 +1034,7 @@ struct ft_cmd ft_cmds[] = {
 	{FT_CMD("run_trx_short_test", run_trx_short_test),},
 	{FT_CMD("hover_enable", hover_enable),},
 	{FT_CMD("hover_no_sleep_enable", hover_no_sleep_enable),},
-<<<<<<< HEAD
 	{FT_CMD("boost_level", boost_level),},
-=======
-#ifdef TSP_BOOSTER
-	{FT_CMD("boost_level", boost_level),},
-#endif
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	{FT_CMD("clear_cover_mode", clear_cover_mode),},
 	{FT_CMD("glove_mode", glove_mode),},
 	{FT_CMD("get_glove_sensitivity", get_glove_sensitivity),},
@@ -3080,46 +3068,25 @@ static void hover_rezero(void)
 	set_cmd_result(data, data->cmd_buff, strlen(data->cmd_buff));
 }
 
-<<<<<<< HEAD
-=======
-#ifdef TSP_BOOSTER
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static void boost_level(void)
 {
 	struct factory_data *data = f54->factory_data;
 	struct synaptics_rmi4_data *rmi4_data = f54->rmi4_data;
-<<<<<<< HEAD
 	int retval;
 
-=======
-#ifdef TSP_BOOSTER
-	int retval;
-#endif
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	dev_info(&rmi4_data->i2c_client->dev, "%s\n", __func__);
 
 	set_default_result(data);
 
-<<<<<<< HEAD
-=======
-#ifdef TSP_BOOSTER
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	rmi4_data->dvfs_boost_mode = data->cmd_param[0];
 
 	dev_info(&rmi4_data->i2c_client->dev,
 			"%s: dvfs_boost_mode = %d\n",
 			__func__, rmi4_data->dvfs_boost_mode);
-<<<<<<< HEAD
 
 	snprintf(data->cmd_buff, sizeof(data->cmd_buff), "OK");
 	data->cmd_state = CMD_STATUS_OK;
 
-=======
-#endif
-	snprintf(data->cmd_buff, sizeof(data->cmd_buff), "OK");
-	data->cmd_state = CMD_STATUS_OK;
-#ifdef TSP_BOOSTER
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (rmi4_data->dvfs_boost_mode == DVFS_STAGE_NONE) {
 			retval = set_freq_limit(DVFS_TOUCH_ID, -1);
 			if (retval < 0) {
@@ -3132,10 +3099,6 @@ static void boost_level(void)
 				rmi4_data->dvfs_lock_status = false;
 			}
 	}
-<<<<<<< HEAD
-=======
-#endif
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	set_cmd_result(data, data->cmd_buff, strlen(data->cmd_buff));
 
@@ -3147,10 +3110,6 @@ static void boost_level(void)
 
 	return;
 }
-<<<<<<< HEAD
-=======
-#endif
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 static void not_support_cmd(void)
 {

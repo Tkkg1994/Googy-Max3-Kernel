@@ -104,11 +104,6 @@ struct cfs_bandwidth {
 struct task_group {
 	struct cgroup_subsys_state css;
 
-<<<<<<< HEAD
-=======
-	bool notify_on_migrate;
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #ifdef CONFIG_FAIR_GROUP_SCHED
 	/* schedulable entities of this group on each cpu */
 	struct sched_entity **se;
@@ -487,7 +482,6 @@ DECLARE_PER_CPU(struct rq, runqueues);
 #define cpu_curr(cpu)		(cpu_rq(cpu)->curr)
 #define raw_rq()		(&__raw_get_cpu_var(runqueues))
 
-<<<<<<< HEAD
 #ifdef CONFIG_INTELLI_PLUG
 struct nr_stats_s {
 	/* time-based average load */
@@ -504,8 +498,6 @@ struct nr_stats_s {
 DECLARE_PER_CPU(struct nr_stats_s, runqueue_stats);
 #endif
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #ifdef CONFIG_SMP
 
 #define rcu_dereference_check_sched_domain(p) \
@@ -576,14 +568,6 @@ static inline struct task_group *task_group(struct task_struct *p)
 	return p->sched_task_group;
 }
 
-<<<<<<< HEAD
-=======
-static inline bool task_notify_on_migrate(struct task_struct *p)
-{
-	return task_group(p)->notify_on_migrate;
-}
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 /* Change a task's cfs_rq and parent entity if it moves across CPUs/groups */
 static inline void set_task_rq(struct task_struct *p, unsigned int cpu)
 {
@@ -609,14 +593,7 @@ static inline struct task_group *task_group(struct task_struct *p)
 {
 	return NULL;
 }
-<<<<<<< HEAD
 
-=======
-static inline bool task_notify_on_migrate(struct task_struct *p)
-{
-	return false;
-}
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif /* CONFIG_CGROUP_SCHED */
 
 static inline void __set_task_cpu(struct task_struct *p, unsigned int cpu)
@@ -903,10 +880,7 @@ extern void sysrq_sched_debug_show(void);
 extern void sched_init_granularity(void);
 extern void update_max_interval(void);
 extern void update_group_power(struct sched_domain *sd, int cpu);
-<<<<<<< HEAD
 extern int update_runtime(struct notifier_block *nfb, unsigned long action, void *hcpu);
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 extern void init_sched_rt_class(void);
 extern void init_sched_fair_class(void);
 
@@ -954,7 +928,6 @@ extern void cpuacct_charge(struct task_struct *tsk, u64 cputime);
 static inline void cpuacct_charge(struct task_struct *tsk, u64 cputime) {}
 #endif
 
-<<<<<<< HEAD
 #ifdef CONFIG_INTELLI_PLUG
 static inline unsigned int do_avg_nr_running(struct rq *rq)
 {
@@ -992,17 +965,10 @@ static inline void inc_nr_running(struct rq *rq)
 #ifdef CONFIG_INTELLI_PLUG
 	write_seqcount_end(&nr_stats->ave_seqcnt);
 #endif
-=======
-static inline void inc_nr_running(struct rq *rq)
-{
-	sched_update_nr_prod(cpu_of(rq), rq->nr_running, true);
-	rq->nr_running++;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 static inline void dec_nr_running(struct rq *rq)
 {
-<<<<<<< HEAD
 #ifdef CONFIG_INTELLI_PLUG
 	struct nr_stats_s *nr_stats = &per_cpu(runqueue_stats, rq->cpu);
 #endif
@@ -1017,10 +983,6 @@ static inline void dec_nr_running(struct rq *rq)
 #ifdef CONFIG_INTELLI_PLUG
 	write_seqcount_end(&nr_stats->ave_seqcnt);
 #endif
-=======
-	sched_update_nr_prod(cpu_of(rq), rq->nr_running, false);
-	rq->nr_running--;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 extern void update_rq_clock(struct rq *rq);
@@ -1240,10 +1202,7 @@ extern void print_rt_stats(struct seq_file *m, int cpu);
 
 extern void init_cfs_rq(struct cfs_rq *cfs_rq);
 extern void init_rt_rq(struct rt_rq *rt_rq, struct rq *rq);
-<<<<<<< HEAD
 extern int unthrottle_rt_rq(struct rq *rq);
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 extern void cfs_bandwidth_usage_inc(void);
 extern void cfs_bandwidth_usage_dec(void);

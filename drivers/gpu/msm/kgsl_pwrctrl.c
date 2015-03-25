@@ -459,7 +459,6 @@ static int kgsl_pwrctrl_gpuclk_show(struct device *dev,
 {
 	struct kgsl_device *device = kgsl_device_from_dev(dev);
 	struct kgsl_pwrctrl *pwr;
-<<<<<<< HEAD
 	unsigned int level;
 
 	if (device == NULL)
@@ -471,13 +470,6 @@ static int kgsl_pwrctrl_gpuclk_show(struct device *dev,
 		level = pwr->active_pwrlevel;
 	return snprintf(buf, PAGE_SIZE, "%d\n",
 			pwr->pwrlevels[level].gpu_freq);
-=======
-	if (device == NULL)
-		return 0;
-	pwr = &device->pwrctrl;
-	return snprintf(buf, PAGE_SIZE, "%d\n",
-			pwr->pwrlevels[pwr->active_pwrlevel].gpu_freq);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 static int kgsl_pwrctrl_pwrnap_store(struct device *dev,
@@ -1235,15 +1227,6 @@ void kgsl_timer(unsigned long data)
 	}
 }
 
-<<<<<<< HEAD
-=======
-bool kgsl_pwrctrl_isenabled(struct kgsl_device *device)
-{
-	struct kgsl_pwrctrl *pwr = &device->pwrctrl;
-	return (test_bit(KGSL_PWRFLAGS_CLK_ON, &pwr->power_flags) != 0);
-}
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 /**
  * kgsl_pre_hwaccess - Enforce preconditions for touching registers
  * @device: The device
@@ -1458,7 +1441,6 @@ int kgsl_pwrctrl_wake(struct kgsl_device *device)
 }
 EXPORT_SYMBOL(kgsl_pwrctrl_wake);
 
-<<<<<<< HEAD
 bool kgsl_pwrctrl_isenabled(struct kgsl_device *device)
 {
 	struct kgsl_pwrctrl *pwr = &device->pwrctrl;
@@ -1466,8 +1448,6 @@ bool kgsl_pwrctrl_isenabled(struct kgsl_device *device)
 }
 EXPORT_SYMBOL(kgsl_pwrctrl_isenabled);
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 void kgsl_pwrctrl_enable(struct kgsl_device *device)
 {
 	/* Order pwrrail/clk sequence based upon platform */

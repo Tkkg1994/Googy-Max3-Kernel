@@ -725,10 +725,7 @@ static int virtio_pci_freeze(struct device *dev)
 	struct pci_dev *pci_dev = to_pci_dev(dev);
 	struct virtio_pci_device *vp_dev = pci_get_drvdata(pci_dev);
 	struct virtio_driver *drv;
-<<<<<<< HEAD
 	unsigned status = 0;
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	int ret;
 
 	drv = container_of(vp_dev->vdev.dev.driver,

@@ -389,15 +389,4 @@
 			<39  93>,
 			<40  95>;
 	};
-<<<<<<< HEAD
-=======
-
-	qcom,pm-8x60@fe805664 {
-		compatible = "qcom,pm-8x60";
-		reg = <0xfe805664 0x40>;
-		qcom,pc-mode = "tz_l2_int";
-		qcom,use-sync-timer;
-	};
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 };

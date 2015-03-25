@@ -89,17 +89,11 @@ copy_literal_run:
 						COPY8(op, ip);
 						op += 8;
 						ip += 8;
-<<<<<<< HEAD
 #  if !defined(__arm__)
 						COPY8(op, ip);
 						op += 8;
 						ip += 8;
 #  endif
-=======
-						COPY8(op, ip);
-						op += 8;
-						ip += 8;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 					} while (ip < ie);
 					ip = ie;
 					op = oe;
@@ -198,17 +192,11 @@ copy_literal_run:
 					COPY8(op, m_pos);
 					op += 8;
 					m_pos += 8;
-<<<<<<< HEAD
 #  if !defined(__arm__)
 					COPY8(op, m_pos);
 					op += 8;
 					m_pos += 8;
 #  endif
-=======
-					COPY8(op, m_pos);
-					op += 8;
-					m_pos += 8;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 				} while (op < oe);
 				op = oe;
 				if (HAVE_IP(6)) {

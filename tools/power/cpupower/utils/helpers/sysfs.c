@@ -362,26 +362,7 @@ char *sysfs_get_cpuidle_driver(void)
  */
 int sysfs_get_sched(const char *smt_mc)
 {
-<<<<<<< HEAD
 	return -ENODEV;
-=======
-	unsigned long value;
-	char linebuf[MAX_LINE_LEN];
-	char *endp;
-	char path[SYSFS_PATH_MAX];
-
-	if (strcmp("mc", smt_mc) && strcmp("smt", smt_mc))
-		return -EINVAL;
-
-	snprintf(path, sizeof(path),
-		PATH_TO_CPU "sched_%s_power_savings", smt_mc);
-	if (sysfs_read_file(path, linebuf, MAX_LINE_LEN) == 0)
-		return -1;
-	value = strtoul(linebuf, &endp, 0);
-	if (endp == linebuf || errno == ERANGE)
-		return -1;
-	return value;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 /*
@@ -392,25 +373,5 @@ int sysfs_get_sched(const char *smt_mc)
  */
 int sysfs_set_sched(const char *smt_mc, int val)
 {
-<<<<<<< HEAD
 	return -ENODEV; 
-=======
-	char linebuf[MAX_LINE_LEN];
-	char path[SYSFS_PATH_MAX];
-	struct stat statbuf;
-
-	if (strcmp("mc", smt_mc) && strcmp("smt", smt_mc))
-		return -EINVAL;
-
-	snprintf(path, sizeof(path),
-		PATH_TO_CPU "sched_%s_power_savings", smt_mc);
-	sprintf(linebuf, "%d", val);
-
-	if (stat(path, &statbuf) != 0)
-		return -ENODEV;
-
-	if (sysfs_write_file(path, linebuf, MAX_LINE_LEN) == 0)
-		return -1;
-	return 0;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }

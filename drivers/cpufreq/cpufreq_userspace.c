@@ -174,11 +174,7 @@ static int cpufreq_governor_userspace(struct cpufreq_policy *policy,
 		} else {
 			__cpufreq_driver_target(policy,
 						per_cpu(cpu_set_freq, cpu),
-<<<<<<< HEAD
 						CPUFREQ_RELATION_C);
-=======
-						CPUFREQ_RELATION_L);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		}
 		per_cpu(cpu_min_freq, cpu) = policy->min;
 		per_cpu(cpu_max_freq, cpu) = policy->max;

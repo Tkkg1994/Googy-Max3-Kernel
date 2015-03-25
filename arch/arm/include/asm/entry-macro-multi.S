@@ -35,9 +35,5 @@
 \symbol_name:
 	mov	r8, lr
 	arch_irq_handler_default
-<<<<<<< HEAD
 	ret	r8
-=======
-	mov     pc, r8
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	.endm

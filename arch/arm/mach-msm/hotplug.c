@@ -12,13 +12,8 @@
 #include <linux/smp.h>
 #include <linux/cpu.h>
 #include <linux/ratelimit.h>
-<<<<<<< HEAD
 #include <linux/notifier.h>
 
-=======
-
-#include <asm/cacheflush.h>
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <asm/smp_plat.h>
 #include <asm/vfp.h>
 
@@ -36,12 +31,6 @@ static DEFINE_PER_CPU(unsigned int, warm_boot_flag);
 
 static inline void cpu_enter_lowpower(void)
 {
-<<<<<<< HEAD
-=======
-	/* Just flush the cache. Changing the coherency is not yet
-	 * available on msm. */
-	flush_cache_all();
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 static inline void cpu_leave_lowpower(void)

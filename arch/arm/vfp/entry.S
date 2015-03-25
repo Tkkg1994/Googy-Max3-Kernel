@@ -19,28 +19,12 @@
 #include <asm/vfpmacros.h>
 #include "../kernel/entry-header.S"
 
-<<<<<<< HEAD
-=======
-@ VFP entry point.
-@
-@  r0  = instruction opcode (32-bit ARM or two 16-bit Thumb)
-@  r2  = PC value to resume execution after successful emulation
-@  r9  = normal "successful" return address
-@  r10 = this threads thread_info structure
-@  lr  = unrecognised instruction return address
-@  IRQs disabled.
-@
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENTRY(do_vfp)
 #ifdef CONFIG_PREEMPT_COUNT
 	ldr	r4, [r10, #TI_PREEMPT]	@ get preempt count
 	add	r11, r4, #1		@ increment it
 	str	r11, [r10, #TI_PREEMPT]
 #endif
-<<<<<<< HEAD
-=======
-	enable_irq
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	str	r2, [sp, #S_PC]		@ update regs->ARM_pc for Thumb 2 case
  	ldr	r4, .LCvfp
 	ldr	r11, [r10, #TI_CPU]	@ CPU number
@@ -55,11 +39,7 @@ ENTRY(vfp_null_entry)
 	sub	r11, r4, #1		@ decrement it
 	str	r11, [r10, #TI_PREEMPT]
 #endif
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(vfp_null_entry)
 
 	.align	2
@@ -79,11 +59,7 @@ ENTRY(vfp_testing_entry)
 #endif
 	ldr	r0, VFP_arch_address
 	str	r5, [r0]		@ known non-zero value
-<<<<<<< HEAD
 	ret	r9			@ we have handled the fault
-=======
-	mov	pc, r9			@ we have handled the fault
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(vfp_testing_entry)
 
 	.align	2

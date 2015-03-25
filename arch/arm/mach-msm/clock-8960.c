@@ -381,7 +381,6 @@ enum vdd_dig_levels {
 	VDD_DIG_NUM
 };
 
-<<<<<<< HEAD
 static int vdd_uv[] = {
 	[VDD_DIG_NONE]    =       0,
 	[VDD_DIG_LOW]     =  945000,
@@ -419,18 +418,6 @@ static int set_vdd_dig_8960(struct clk_vdd_class *vdd_class, int level)
 				    vdd_uv[level], vdd_uv[VDD_DIG_HIGH], 1);
 	//pr_alert("GPU VOLTAGE - %d - %d", vdd_uv[level], ret);
 	return ret;
-=======
-static int set_vdd_dig_8960(struct clk_vdd_class *vdd_class, int level)
-{
-	static const int vdd_uv[] = {
-		[VDD_DIG_NONE]    =       0,
-		[VDD_DIG_LOW]     =  945000,
-		[VDD_DIG_NOMINAL] = 1050000,
-		[VDD_DIG_HIGH]    = 1150000
-	};
-	return rpm_vreg_set_voltage(RPM_VREG_ID_PM8921_S3, RPM_VREG_VOTER3,
-				    vdd_uv[level], 1150000, 1);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 static DEFINE_VDD_CLASS(vdd_dig, set_vdd_dig_8960, VDD_DIG_NUM);
@@ -3555,10 +3542,6 @@ static struct rcg_clk gfx2d1_clk = {
 /*Shared by 8064, 8930, and 8960ab*/
 static struct clk_freq_tbl clk_tbl_gfx3d[] = {
 	F_GFX3D(        0, gnd,   0,  0),
-<<<<<<< HEAD
-=======
-	F_GFX3D(  1800000, pxo,   1, 15),
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	F_GFX3D( 27000000, pxo,   0,  0),
 	F_GFX3D( 48000000, pll8,  1,  8),
 	F_GFX3D( 54857000, pll8,  1,  7),
@@ -5568,15 +5551,9 @@ static struct clk_lookup msm_clocks_8064[] = {
 	CLK_LOOKUP("npl_clk",		npl_tv_clk.c,		""),
 
 	CLK_LOOKUP("core_clk",		gfx3d_clk.c,	"kgsl-3d0.0"),
-<<<<<<< HEAD
 	CLK_LOOKUP("core_clk",		gfx3d_clk.c,	"footswitch-8x60.2"),
 	CLK_LOOKUP("bus_clk",
 			    gfx3d_axi_clk.c, "footswitch-8x60.2"),
-=======
-	CLK_LOOKUP("core_clk",		gfx3d_clk.c,	"footswitch-8x60.11"),
-	CLK_LOOKUP("bus_clk",
-			    gfx3d_axi_clk.c, "footswitch-8x60.11"),
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	CLK_LOOKUP("iface_clk",         vcap_p_clk.c,           ""),
 	CLK_LOOKUP("iface_clk",         vcap_p_clk.c,           "msm_vcap.0"),
 	CLK_LOOKUP("iface_clk",         vcap_p_clk.c,	"footswitch-8x60.10"),
@@ -5630,11 +5607,7 @@ static struct clk_lookup msm_clocks_8064[] = {
 	CLK_LOOKUP("master_iface_clk",	dsi2_m_p_clk.c,		"mipi_dsi.2"),
 	CLK_LOOKUP("slave_iface_clk",	dsi2_s_p_clk.c,		"mipi_dsi.2"),
 	CLK_LOOKUP("iface_clk",		gfx3d_p_clk.c,	"kgsl-3d0.0"),
-<<<<<<< HEAD
 	CLK_LOOKUP("iface_clk",		gfx3d_p_clk.c,	"footswitch-8x60.2"),
-=======
-	CLK_LOOKUP("iface_clk",		gfx3d_p_clk.c,	"footswitch-8x60.11"),
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	CLK_LOOKUP("master_iface_clk",	hdmi_m_p_clk.c,		"hdmi_msm.1"),
 	CLK_LOOKUP("slave_iface_clk",	hdmi_s_p_clk.c,		"hdmi_msm.1"),
 	CLK_LOOKUP("iface_clk",		ijpeg_p_clk.c,		"msm_gemini.0"),
@@ -5882,11 +5855,7 @@ static struct clk_lookup msm_clocks_8960_common[] __initdata = {
 	CLK_LOOKUP("iface_clk",		gsbi1_p_clk.c,		"spi_qsd.1"),
 #else
 	CLK_LOOKUP("iface_clk",		gsbi1_p_clk.c,		"spi_qsd.0"),
-<<<<<<< HEAD
 #endif	
-=======
-#endif
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	CLK_LOOKUP("iface_clk",		gsbi2_p_clk.c,		""),
 	CLK_LOOKUP("iface_clk",		gsbi3_p_clk.c,		"qup_i2c.3"),
 	CLK_LOOKUP("iface_clk",		gsbi4_p_clk.c,		"qup_i2c.4"),
@@ -5918,11 +5887,7 @@ static struct clk_lookup msm_clocks_8960_common[] __initdata = {
 	CLK_LOOKUP("iface_clk",		pmic_arb1_p_clk.c,	""),
 	CLK_LOOKUP("core_clk",		pmic_ssbi2_clk.c,	""),
 	CLK_LOOKUP("mem_clk",		rpm_msg_ram_p_clk.c,	""),
-<<<<<<< HEAD
 	CLK_LOOKUP("cam_clk",		cam0_clk.c,	"4-002d"),	
-=======
-	CLK_LOOKUP("cam_clk",		cam0_clk.c,	"4-002d"),
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	CLK_LOOKUP("cam_clk",		cam0_clk.c,	"4-001a"),
 	CLK_LOOKUP("cam_clk",		cam0_clk.c,	"4-0010"),
 	CLK_LOOKUP("cam_clk",		cam0_clk.c,	"4-006c"),
@@ -6308,11 +6273,7 @@ static struct clk_lookup msm_clocks_8930[] = {
 	CLK_LOOKUP("iface_clk",		pmic_arb1_p_clk.c,	""),
 	CLK_LOOKUP("core_clk",		pmic_ssbi2_clk.c,	""),
 	CLK_LOOKUP("mem_clk",		rpm_msg_ram_p_clk.c,	""),
-<<<<<<< HEAD
 	CLK_LOOKUP("cam_clk",		cam0_clk.c,	"4-002d"),	
-=======
-	CLK_LOOKUP("cam_clk",		cam0_clk.c,	"4-002d"),
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	CLK_LOOKUP("cam_clk",		cam0_clk.c,	"4-001a"),
 	CLK_LOOKUP("cam_clk",		cam1_clk.c,	"4-006c"),
 	CLK_LOOKUP("cam_clk",		cam1_clk.c,	"4-0048"),

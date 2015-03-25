@@ -222,7 +222,6 @@ extern int arm_add_memory(phys_addr_t start, unsigned long size);
 extern void early_print(const char *str, ...);
 extern void dump_machine_table(void);
 
-<<<<<<< HEAD
 /*
  * Early command line parameters.
  */
@@ -235,8 +234,6 @@ struct early_params {
 static struct early_params __early_##fn __used			\
 __attribute__((__section__(".early_param.init"))) = { name, fn }
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif  /*  __KERNEL__  */
 
 #endif

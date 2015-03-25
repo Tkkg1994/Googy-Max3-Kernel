@@ -51,22 +51,14 @@
  */
 ENTRY(cpu_arm720_dcache_clean_area)
 ENTRY(cpu_arm720_proc_init)
-<<<<<<< HEAD
 		ret	lr
-=======
-		mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 ENTRY(cpu_arm720_proc_fin)
 		mrc	p15, 0, r0, c1, c0, 0
 		bic	r0, r0, #0x1000			@ ...i............
 		bic	r0, r0, #0x000e			@ ............wca.
 		mcr	p15, 0, r0, c1, c0, 0		@ disable caches
-<<<<<<< HEAD
 		ret	lr
-=======
-		mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  * Function: arm720_proc_do_idle(void)
@@ -74,11 +66,7 @@ ENTRY(cpu_arm720_proc_fin)
  * Purpose : put the processor in proper idle mode
  */
 ENTRY(cpu_arm720_do_idle)
-<<<<<<< HEAD
 		ret	lr
-=======
-		mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  * Function: arm720_switch_mm(unsigned long pgd_phys)
@@ -93,11 +81,7 @@ ENTRY(cpu_arm720_switch_mm)
 		mcr	p15, 0, r0, c2, c0, 0		@ update page table ptr
 		mcr	p15, 0, r1, c8, c7, 0		@ flush TLB (v4)
 #endif
-<<<<<<< HEAD
 		ret	lr
-=======
-		mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  * Function: arm720_set_pte_ext(pte_t *ptep, pte_t pte, unsigned int ext)
@@ -110,11 +94,7 @@ ENTRY(cpu_arm720_set_pte_ext)
 #ifdef CONFIG_MMU
 	armv3_set_pte_ext wc_disable=0
 #endif
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  * Function: arm720_reset
@@ -132,11 +112,7 @@ ENTRY(cpu_arm720_reset)
 		bic	ip, ip, #0x000f			@ ............wcam
 		bic	ip, ip, #0x2100			@ ..v....s........
 		mcr	p15, 0, ip, c1, c0, 0		@ ctrl register
-<<<<<<< HEAD
 		ret	r0
-=======
-		mov	pc, r0
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(cpu_arm720_reset)
 		.popsection
 
@@ -154,11 +130,7 @@ __arm710_setup:
 	bic	r0, r0, r5
 	ldr	r5, arm710_cr1_set
 	orr	r0, r0, r5
-<<<<<<< HEAD
 	ret	lr				@ __ret (head.S)
-=======
-	mov	pc, lr				@ __ret (head.S)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	.size	__arm710_setup, . - __arm710_setup
 
 	/*
@@ -186,11 +158,7 @@ __arm720_setup:
 	mrc	p15, 0, r0, c1, c0		@ get control register
 	bic	r0, r0, r5
 	orr	r0, r0, r6
-<<<<<<< HEAD
 	ret	lr				@ __ret (head.S)
-=======
-	mov	pc, lr				@ __ret (head.S)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	.size	__arm720_setup, . - __arm720_setup
 
 	/*

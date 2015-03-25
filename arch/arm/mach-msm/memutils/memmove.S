@@ -56,34 +56,19 @@ ENTRY(memmove)
 	CALGN(	add	pc, r4, ip		)
 
 	PLD(	pld	[r1, #-4]		)
-<<<<<<< HEAD
 2:	PLD(	subs	r2, r2, #192		)
-=======
-2:	PLD(	subs	r2, r2, #320		)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	PLD(	pld	[r1, #-68]		)
 	PLD(	pld	[r1, #-132]		)
 	PLD(	blt	4f			)
 	PLD(	pld	[r1, #-196]		)
-<<<<<<< HEAD
 
 3:	PLD(	pld	[r1, #-260]		)
 
-=======
-	PLD(	pld	[r1, #-260]		)
-	PLD(	pld	[r1, #-324]		)
-
-3:	PLD(	pld	[r1, #-388]		)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 4:		ldmdb	r1!, {r3, r4, r5, r6, r7, r8, ip, lr}
 		subs	r2, r2, #32
 		stmdb	r0!, {r3, r4, r5, r6, r7, r8, ip, lr}
 		bge	3b
-<<<<<<< HEAD
 	PLD(	cmn	r2, #192		)
-=======
-	PLD(	cmn	r2, #320		)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	PLD(	bge	4b			)
 
 5:		ands	ip, r2, #28
@@ -155,22 +140,12 @@ ENTRY(memmove)
 11:		stmfd	sp!, {r5 - r9}
 
 	PLD(	pld	[r1, #-4]		)
-<<<<<<< HEAD
 	PLD(	subs	r2, r2, #192		)
-=======
-	PLD(	subs	r2, r2, #320		)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	PLD(	pld	[r1, #-68]		)
 	PLD(	pld	[r1, #-132]		)
 	PLD(	blt	13f			)
 	PLD(	pld	[r1, #-196]		)
-<<<<<<< HEAD
 12:	PLD(	pld	[r1, #-260]		)
-=======
-	PLD(	pld	[r1, #-260]		)
-	PLD(	pld	[r1, #-324]		)
-12:	PLD(	pld	[r1, #-388]		)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 13:		ldmdb   r1!, {r7, r8, r9, ip}
 		mov     lr, r3, push #\push
 		subs    r2, r2, #32
@@ -192,11 +167,7 @@ ENTRY(memmove)
 		orr     r4, r4, r3, pull #\pull
 		stmdb   r0!, {r4 - r9, ip, lr}
 		bge	12b
-<<<<<<< HEAD
 	PLD(	cmn	r2, #192		)
-=======
-	PLD(	cmn	r2, #320		)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	PLD(	bge	13b			)
 
 		ldmfd	sp!, {r5 - r9}

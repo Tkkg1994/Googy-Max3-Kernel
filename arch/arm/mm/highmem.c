@@ -112,16 +112,11 @@ void *kmap_atomic_pfn(unsigned long pfn)
 {
 	unsigned long vaddr;
 	int idx, type;
-<<<<<<< HEAD
 	struct page *page = pfn_to_page(pfn);
 
 	pagefault_disable();
 	if (!PageHighMem(page))
 		return page_address(page);
-=======
-
-	pagefault_disable();
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	type = kmap_atomic_idx_push();
 	idx = type + KM_TYPE_NR * smp_processor_id();

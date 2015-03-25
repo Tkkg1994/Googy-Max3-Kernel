@@ -144,15 +144,6 @@ typedef struct compat_siginfo {
 			int _band;	/* POLL_IN, POLL_OUT, POLL_MSG */
 			int _fd;
 		} _sigpoll;
-<<<<<<< HEAD
-=======
-
-		struct {
-			unsigned int _call_addr; /* calling insn */
-			int _syscall;	/* triggering system call number */
-			unsigned int _arch;	/* AUDIT_ARCH_* of syscall */
-		} _sigsys;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	} _sifields;
 } compat_siginfo_t;
 

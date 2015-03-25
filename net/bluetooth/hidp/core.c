@@ -816,11 +816,7 @@ static int hidp_setup_hid(struct hidp_session *session,
 	hid->version = req->version;
 	hid->country = req->country;
 
-<<<<<<< HEAD
 	strncpy(hid->name, req->name, sizeof(req->name) - 1);
-=======
-	strncpy(hid->name, req->name, 128);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	strncpy(hid->phys, batostr(&bt_sk(session->ctrl_sock->sk)->src), 64);
 	strncpy(hid->uniq, batostr(&bt_sk(session->ctrl_sock->sk)->dst), 64);
 

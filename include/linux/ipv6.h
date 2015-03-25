@@ -161,10 +161,6 @@ struct ipv6_devconf {
 	__s32		accept_ra_rt_info_max_plen;
 #endif
 #endif
-<<<<<<< HEAD
-=======
-	__s32		accept_ra_rt_table;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	__s32		proxy_ndp;
 	__s32		accept_source_route;
 #ifdef CONFIG_IPV6_OPTIMISTIC_DAD
@@ -219,10 +215,6 @@ enum {
 	DEVCONF_ACCEPT_DAD,
 	DEVCONF_FORCE_TLLAO,
 	DEVCONF_ACCEPT_RA_PREFIX_ROUTE,
-<<<<<<< HEAD
-=======
-	DEVCONF_ACCEPT_RA_RT_TABLE,
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	DEVCONF_MAX
 };
 

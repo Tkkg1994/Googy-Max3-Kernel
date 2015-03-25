@@ -14,11 +14,8 @@ enum {
 	ARM_SEC_CORE,
 	ARM_SEC_EXIT,
 	ARM_SEC_DEVEXIT,
-<<<<<<< HEAD
 	ARM_SEC_HOT,
 	ARM_SEC_UNLIKELY,
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	ARM_SEC_MAX,
 };
 #endif

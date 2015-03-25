@@ -34,10 +34,7 @@ config ARCH_MSM7X27
 	select MULTI_IRQ_HANDLER
 	select MSM_PROC_COMM_REGULATOR
 	select CLEANCACHE
-<<<<<<< HEAD
 	select QCACHE
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	select MSM_PM2 if PM
 	select MSM_RUN_QUEUE_STATS if MSM_SOC_REV_A
 	select DONT_MAP_HOLE_AFTER_MEMBANK0
@@ -160,19 +157,12 @@ config ARCH_MSM8960
 	select MSM_SPM_V2
 	select MSM_L2_SPM
 	select MSM_NATIVE_RESTART
-<<<<<<< HEAD
 	select DONT_MAP_HOLE_AFTER_MEMBANK0
 	select MSM_REMOTE_SPINLOCK_SFPB
 	select ARCH_SPARSEMEM_ENABLE
 	select ARCH_HAS_HOLES_MEMORYMODEL
 	select CLEANCACHE
 	select QCACHE
-=======
-	select ENABLE_VMALLOC_SAVINGS
-	select MSM_REMOTE_SPINLOCK_SFPB
-	select ARCH_HAS_HOLES_MEMORYMODEL
-	select CLEANCACHE
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	select MSM_MULTIMEDIA_USE_ION
 	select MULTI_IRQ_HANDLER
 	select MSM_PM8X60 if PM
@@ -182,10 +172,7 @@ config ARCH_MSM8960
 	select MSM_KRAIT_WFE_FIXUP
 	select MSM_IOMMU_GPU_SYNC
 	select MSM_CPU_PWRCTL
-<<<<<<< HEAD
 	select HAS_MACH_MEMUTILS
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	select GENERIC_TIME_VSYSCALL
 	select USE_USER_ACCESSIBLE_TIMERS
 	select ARM_USE_USER_ACCESSIBLE_TIMERS
@@ -212,13 +199,9 @@ config ARCH_MSM8930
 	select MSM_SPM_V2
 	select MSM_L2_SPM
 	select MSM_NATIVE_RESTART
-<<<<<<< HEAD
 	select DONT_MAP_HOLE_AFTER_MEMBANK0
 	select MSM_REMOTE_SPINLOCK_SFPB
 	select ARCH_SPARSEMEM_ENABLE
-=======
-	select MSM_REMOTE_SPINLOCK_SFPB
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	select ARCH_HAS_HOLES_MEMORYMODEL
 	select MSM_ULTRASOUND
 	select MULTI_IRQ_HANDLER
@@ -228,13 +211,8 @@ config ARCH_MSM8930
 	select MSM_KRAIT_WFE_FIXUP
 	select MSM_IOMMU_GPU_SYNC
 	select MSM_CPU_PWRCTL
-<<<<<<< HEAD
 	select HAS_MACH_MEMUTILS
 	select GENERIC_TIME_VSYSCALL
-=======
-	select GENERIC_TIME_VSYSCALL
-	select ENABLE_VMALLOC_SAVINGS
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	select USE_USER_ACCESSIBLE_TIMERS
 	select ARM_USE_USER_ACCESSIBLE_TIMERS
 	select MSM_USE_USER_ACCESSIBLE_TIMERS
@@ -260,10 +238,7 @@ config ARCH_APQ8064
 	select CPU_HAS_L2_PMU
 	select HOLES_IN_ZONE if SPARSEMEM
 	select CLEANCACHE
-<<<<<<< HEAD
 	select QCACHE
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	select MIGHT_HAVE_PCI
 	select ARCH_SUPPORTS_MSI
 	select ARM_HAS_SG_CHAIN
@@ -271,13 +246,8 @@ config ARCH_APQ8064
 	select SPARSEMEM_ALLOC_MEM_MAP_TOGETHER if SPARSEMEM
 	select MSM_IOMMU_GPU_SYNC
 	select MSM_CPU_PWRCTL
-<<<<<<< HEAD
 	select HAS_MACH_MEMUTILS
 	select GENERIC_TIME_VSYSCALL
-=======
-	select GENERIC_TIME_VSYSCALL
-    select ENABLE_VMALLOC_SAVINGS
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	select USE_USER_ACCESSIBLE_TIMERS
 	select ARM_USE_USER_ACCESSIBLE_TIMERS
 	select MSM_USE_USER_ACCESSIBLE_TIMERS
@@ -306,10 +276,7 @@ config ARCH_MSM8974
 	select MSM_RPM_REGULATOR_SMD
 	select ARM_HAS_SG_CHAIN
 	select MSM_RUN_QUEUE_STATS
-<<<<<<< HEAD
 	select HAS_MACH_MEMUTILS
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 config ARCH_MPQ8092
 	bool "MPQ8092"
@@ -507,11 +474,7 @@ config MSM_MPM
 
 config MSM_MPM_OF
 	bool "Modem Power Manager"
-<<<<<<< HEAD
 	depends on CONFIG_OF
-=======
-	depends on OF
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	help
 	  MPM is a dedicated hardware resource responsible for entering and
 	  waking up from a system wide low power mode. The MPM driver tracks
@@ -1130,11 +1093,7 @@ config TARGET_LOCALE_JPN
 	help
 	  Enable LOCALE JPN.
 	  used to distinguish LOCALE-related differences.
-<<<<<<< HEAD
 	  
-=======
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 endmenu
 
 config MSM_STACKED_MEMORY
@@ -1559,7 +1518,6 @@ config MSM_PCIE
 	  Enables the PCIe functionality by configures PCIe core on
 	  MSM chipset and by enabling the ARM PCI framework extension.
 
-<<<<<<< HEAD
 config MSM_RPC_SDIO_XPRT
 	depends on MSM_SDIO_AL
 	default y
@@ -1574,8 +1532,6 @@ config MSM_RPC_SDIO_DEBUG
 	help
 	  Support for debugging SDIO XPRT
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 config MSM_SMD_DEBUG
 	depends on MSM_SMD
 	default y
@@ -1584,7 +1540,6 @@ config MSM_SMD_DEBUG
 	  Support for debugging the SMD for communication
 	  between the ARM9 and ARM11
 
-<<<<<<< HEAD
 config MSM_SDIO_AL
 	depends on ((ARCH_MSM7X30 || MACH_MSM8X60_FUSN_FFA || MACH_TYPE_MSM8X60_FUSION) && HAS_WAKELOCK)
 	default y
@@ -1600,8 +1555,6 @@ config MSM_SDIO_DMUX
 	help
 	  Support Muxed Data Channels over SDIO interface.
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 config MSM_BAM_DMUX
 	bool "BAM Data Mux Driver"
 	depends on SPS
@@ -1661,7 +1614,6 @@ config MSM_SMD_NMEA
 
 	  If in doubt, say yes.
 
-<<<<<<< HEAD
 config MSM_SDIO_TTY
 	bool "SDIO TTY Driver"
 	depends on MSM_SDIO_AL
@@ -1672,8 +1624,6 @@ config MSM_SDIO_TTY
 	  applications for passing data through the
 	  SDIO interface.
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 config MSM_HSIC_TTY
 	bool "HSIC TTY Driver"
 	default n
@@ -1701,23 +1651,12 @@ config MSM_SMD_QMI
 
 	  If in doubt, say yes.
 
-<<<<<<< HEAD
 config MSM_SDIO_CMUX
 	bool "SDIO CMUX Driver"
 	depends on MSM_SDIO_AL
 	default n
 	help
 	  Provides a Muxed port interface over SDIO QMI
-=======
-config MSM_SMD_PKT
-	bool "SMD Packet Driver"
-	depends on MSM_SMD
-	default y
-	help
-	  Provides a binary SMD non-muxed packet port interface.
-
-	  If in doubt, say yes.
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 config MSM_DSPS
 	bool "Sensors DSPS driver"
@@ -1731,7 +1670,6 @@ config MSM_DSPS
 	  The number of clocks and their name may vary between targets.
 	  It also triggers the PIL to load the DSPS firmware.
 
-<<<<<<< HEAD
 config MSM_SDIO_CTL
 	bool "SDIO CTL Driver"
 	depends on MSM_SDIO_CMUX
@@ -1739,8 +1677,6 @@ config MSM_SDIO_CTL
 	help
 	  Provides a binary SDIO control port interface.
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 config MSM_ONCRPCROUTER
 	depends on MSM_SMD
 	default n
@@ -1868,7 +1804,6 @@ config MSM_RMT_STORAGE_CLIENT_STATS
 	  Collects performance statistics and shows this information
 	  through a debugfs file rmt_storage_stats.
 
-<<<<<<< HEAD
 config MSM_SDIO_SMEM
         depends on MSM_SDIO_AL
         default n
@@ -1878,8 +1813,6 @@ config MSM_SDIO_SMEM
 	  memory. Used by remote storage client to shadow
 	  MDM9K filesystem.
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 config MSM_DALRPC
 	bool "DAL RPC support"
 	default n
@@ -1914,7 +1847,6 @@ config MSM_CPU_FREQ_MIN
 
 endif # CPU_FREQ_MSM
 
-<<<<<<< HEAD
 config LOW_CPUCLOCKS
 	bool "Enable ultra low CPU clocks"
 	default n
@@ -1934,8 +1866,6 @@ config OC_ULTIMATE
 	help
 	  Ultimate Krait overclocking up to 2.3 GHz
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 config MSM_AVS_HW
 	bool "Enable Adaptive Voltage Scaling (AVS)"
 	default n
@@ -2539,11 +2469,7 @@ config MSM_SLEEP_STATS_DEVICE
 
 config MSM_RUN_QUEUE_STATS
 	bool "Enable collection and exporting of MSM Run Queue stats to userspace"
-<<<<<<< HEAD
 	depends on (MSM_SOC_REV_A || ARCH_MSM8X60 || ARCH_MSM8960)
-=======
-	default n
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	help
 	 This option enalbes statistics collection on Run Queue. A daemon
          in user mode, called MPDecision will be using this data to decide
@@ -3019,7 +2945,6 @@ config EXT_SUBMIC_BIAS
 	 To compile this option, choose M here:
 	 If unsure, say N here.
 
-<<<<<<< HEAD
 config FORCE_FAST_CHARGE
 	bool "Force fast charging (AC/USB) by Yank555.lu"
 	default n
@@ -3028,8 +2953,6 @@ config FORCE_FAST_CHARGE
 	  are detected as USB to charge as AC (1A/h) or to set
 	  custom charging currents for AC and USB.
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 config EXT_SPK_AMP
        	depends on ARCH_MSM8930
 	default n
@@ -3168,22 +3091,11 @@ config SEC_FACTORY
 	default n
 	help
 	  Enable Features only For FACTORY BINARY.
-<<<<<<< HEAD
 	  
-=======
-
-config SAMSUNG_PRODUCT_SHIP
-	bool "set up for product shipping"
-	default n
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 config HAS_MACH_MEMUTILS
 	default n
 	bool "Motorola MSM memcpy enhancements"
 	help
 	Faster memcpy performance for Krait
-<<<<<<< HEAD
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 endif

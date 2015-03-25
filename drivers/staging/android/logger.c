@@ -26,10 +26,7 @@
 #include <linux/slab.h>
 #include <linux/time.h>
 #include "logger.h"
-<<<<<<< HEAD
 #include "logger_interface.h"
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #include <asm/ioctls.h>
 #ifdef CONFIG_SEC_DEBUG
@@ -404,15 +401,12 @@ static void do_write_log(struct logger_log *log, const void *buf, size_t count)
 {
 	size_t len;
 
-<<<<<<< HEAD
 	// if logger mode is disabled, terminate instantly
 	if (logger_mode == 0)
 	{
 			return;
 	} 
         
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	len = min(count, log->size - log->w_off);
 	memcpy(log->buffer + log->w_off, buf, len);
 
@@ -436,15 +430,12 @@ static ssize_t do_write_log_from_user(struct logger_log *log,
 {
 	size_t len;
 
-<<<<<<< HEAD
 	// if logger mode is disabled, terminate instantly
 	if (logger_mode == 0)
 	{
 			return 0;
 	} 
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	len = min(count, log->size - log->w_off);
 	if (len && copy_from_user(log->buffer + log->w_off, buf, len))
 		return -EFAULT;

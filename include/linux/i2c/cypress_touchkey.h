@@ -16,13 +16,7 @@ extern int ISSP_main(void);
 extern int get_lcd_attached(void);
 
 /* DVFS feature : TOUCH BOOSTER */
-<<<<<<< HEAD
 #define TSP_BOOSTER
-=======
-#ifdef CONFIG_SEC_DVFS_BOOSTER
-#define TSP_BOOSTER
-#endif
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #ifdef TSP_BOOSTER
 #include <linux/cpufreq.h>
 

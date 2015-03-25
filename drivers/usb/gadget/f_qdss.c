@@ -583,11 +583,7 @@ static int qdss_bind_config(struct usb_configuration *c, const char *name)
 
 	spin_lock_irqsave(&d_lock, flags);
 	list_for_each_entry(ch, &usb_qdss_ch_list, list) {
-<<<<<<< HEAD
 		if (!strncmp(name, ch->name, sizeof(ch->name))) {
-=======
-		if (!strncmp(name, ch->name, (int)sizeof(ch->name))) {
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			found = 1;
 			break;
 		}
@@ -741,11 +737,7 @@ struct usb_qdss_ch *usb_qdss_open(const char *name, void *priv,
 	spin_lock_irqsave(&d_lock, flags);
 	/* Check if we already have a channel with this name */
 	list_for_each_entry(ch, &usb_qdss_ch_list, list) {
-<<<<<<< HEAD
 		if (!strncmp(name, ch->name, sizeof(ch->name))) {
-=======
-		if (!strncmp(name, ch->name, (int)sizeof(ch->name))) {
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			found = 1;
 			break;
 		}

@@ -618,7 +618,6 @@ ext4_fsblk_t ext4_count_free_clusters(struct super_block *sb)
 
 static inline int test_root(ext4_group_t a, int b)
 {
-<<<<<<< HEAD
 	while (1) {
 		if (a < b)
 			return 0;
@@ -628,13 +627,6 @@ static inline int test_root(ext4_group_t a, int b)
 			return 0;
 		a = a / b;
 	}
-=======
-	int num = b;
-
-	while (a > num)
-		num *= b;
-	return num == a;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 static int ext4_group_sparse(ext4_group_t group)

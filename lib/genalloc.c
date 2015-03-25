@@ -247,11 +247,7 @@ void gen_pool_destroy(struct gen_pool *pool)
 
 		end_bit = (chunk->end_addr - chunk->start_addr) >> order;
 		nbytes = sizeof(struct gen_pool_chunk) +
-<<<<<<< HEAD
 				(end_bit + BITS_PER_BYTE - 1) / BITS_PER_BYTE;
-=======
-				BITS_TO_LONGS(end_bit) * sizeof(long);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		bit = find_next_bit(chunk->bits, end_bit, 0);
 		BUG_ON(bit < end_bit);
 

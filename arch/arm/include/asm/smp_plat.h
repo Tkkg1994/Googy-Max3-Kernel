@@ -23,12 +23,9 @@ static inline bool is_smp(void)
 }
 
 /* all SMP configurations have the extended CPUID registers */
-<<<<<<< HEAD
 #ifndef CONFIG_MMU
 #define tlb_ops_need_broadcast()	0
 #else
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static inline int tlb_ops_need_broadcast(void)
 {
 	if (!is_smp())
@@ -36,10 +33,7 @@ static inline int tlb_ops_need_broadcast(void)
 
 	return ((read_cpuid_ext(CPUID_EXT_MMFR3) >> 12) & 0xf) < 2;
 }
-<<<<<<< HEAD
 #endif
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #if !defined(CONFIG_SMP) || __LINUX_ARM_ARCH__ >= 7
 #define cache_ops_need_broadcast()	0
@@ -59,7 +53,6 @@ static inline int cache_ops_need_broadcast(void)
 extern int __cpu_logical_map[];
 #define cpu_logical_map(cpu)	__cpu_logical_map[cpu]
 
-<<<<<<< HEAD
 /*
  * NOTE ! Assembly code relies on the following
  * structure memory layout in order to carry out load
@@ -79,6 +72,4 @@ static inline u32 mpidr_hash_size(void)
 	return 1 << mpidr_hash.bits;
 }
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif

@@ -23,10 +23,6 @@
 #include <linux/rcupdate.h>
 #include <linux/ftrace.h>
 #include <linux/smp.h>
-<<<<<<< HEAD
-=======
-#include <linux/smpboot.h>
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <linux/tick.h>
 
 #define CREATE_TRACE_POINTS
@@ -209,11 +205,7 @@ EXPORT_SYMBOL(local_bh_enable_ip);
  * we want to handle softirqs as soon as possible, but they
  * should not be able to lock up the box.
  */
-<<<<<<< HEAD
 #define MAX_SOFTIRQ_TIME  max(1, (2*HZ/1000))
-=======
-#define MAX_SOFTIRQ_TIME  msecs_to_jiffies(2)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 asmlinkage void __do_softirq(void)
 {
@@ -751,7 +743,6 @@ void __init softirq_init(void)
 	open_softirq(HI_SOFTIRQ, tasklet_hi_action);
 }
 
-<<<<<<< HEAD
 static int run_ksoftirqd(void * __bind_cpu)
 {
 	set_current_state(TASK_INTERRUPTIBLE);
@@ -795,24 +786,6 @@ wait_to_die:
 	}
 	__set_current_state(TASK_RUNNING);
 	return 0;
-=======
-static int ksoftirqd_should_run(unsigned int cpu)
-{
-	return local_softirq_pending();
-}
-
-static void run_ksoftirqd(unsigned int cpu)
-{
-	local_irq_disable();
-	if (local_softirq_pending()) {
-		__do_softirq();
-		rcu_note_context_switch(cpu);
-		local_irq_enable();
-		cond_resched();
-		return;
-	}
-	local_irq_enable();
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 #ifdef CONFIG_HOTPLUG_CPU
@@ -878,7 +851,6 @@ static int __cpuinit cpu_callback(struct notifier_block *nfb,
 				  unsigned long action,
 				  void *hcpu)
 {
-<<<<<<< HEAD
 	int hotcpu = (unsigned long)hcpu;
 	struct task_struct *p;
 
@@ -923,16 +895,6 @@ static int __cpuinit cpu_callback(struct notifier_block *nfb,
 	}
 #endif /* CONFIG_HOTPLUG_CPU */
  	}
-=======
-	switch (action) {
-#ifdef CONFIG_HOTPLUG_CPU
-	case CPU_DEAD:
-	case CPU_DEAD_FROZEN:
-		takeover_tasklets((unsigned long)hcpu);
-		break;
-#endif /* CONFIG_HOTPLUG_CPU */
-	}
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return NOTIFY_OK;
 }
 
@@ -940,7 +902,6 @@ static struct notifier_block __cpuinitdata cpu_nfb = {
 	.notifier_call = cpu_callback
 };
 
-<<<<<<< HEAD
 static __init int spawn_ksoftirqd(void)
 {
 	void *cpu = (void *)(long)smp_processor_id();
@@ -949,21 +910,6 @@ static __init int spawn_ksoftirqd(void)
 	BUG_ON(err != NOTIFY_OK);
 	cpu_callback(&cpu_nfb, CPU_ONLINE, cpu);
 	register_cpu_notifier(&cpu_nfb);
-=======
-static struct smp_hotplug_thread softirq_threads = {
-	.store			= &ksoftirqd,
-	.thread_should_run	= ksoftirqd_should_run,
-	.thread_fn		= run_ksoftirqd,
-	.thread_comm		= "ksoftirqd/%u",
-};
-
-static __init int spawn_ksoftirqd(void)
-{
-	register_cpu_notifier(&cpu_nfb);
-
-	BUG_ON(smpboot_register_percpu_thread(&softirq_threads));
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return 0;
 }
 early_initcall(spawn_ksoftirqd);

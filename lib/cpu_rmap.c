@@ -45,10 +45,7 @@ struct cpu_rmap *alloc_cpu_rmap(unsigned int size, gfp_t flags)
 	if (!rmap)
 		return NULL;
 
-<<<<<<< HEAD
 	kref_init(&rmap->refcount);
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	rmap->obj = (void **)((char *)rmap + obj_offset);
 
 	/* Initially assign CPUs to objects on a rota, since we have
@@ -67,7 +64,6 @@ struct cpu_rmap *alloc_cpu_rmap(unsigned int size, gfp_t flags)
 }
 EXPORT_SYMBOL(alloc_cpu_rmap);
 
-<<<<<<< HEAD
 /**
  * cpu_rmap_release - internal reclaiming helper called from kref_put
  * @ref: kref to struct cpu_rmap
@@ -97,8 +93,6 @@ int cpu_rmap_put(struct cpu_rmap *rmap)
 }
 EXPORT_SYMBOL(cpu_rmap_put);
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 /* Reevaluate nearest object for given CPU, comparing with the given
  * neighbours at the given distance.
  */
@@ -233,12 +227,7 @@ struct irq_glue {
  * free_irq_cpu_rmap - free a CPU affinity reverse-map used for IRQs
  * @rmap: Reverse-map allocated with alloc_irq_cpu_map(), or %NULL
  *
-<<<<<<< HEAD
  * Must be called in process context, before freeing the IRQs.
-=======
- * Must be called in process context, before freeing the IRQs, and
- * without holding any locks required by global workqueue items.
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  */
 void free_irq_cpu_rmap(struct cpu_rmap *rmap)
 {
@@ -252,7 +241,6 @@ void free_irq_cpu_rmap(struct cpu_rmap *rmap)
 		glue = rmap->obj[index];
 		irq_set_affinity_notifier(glue->notify.irq, NULL);
 	}
-<<<<<<< HEAD
 
 	cpu_rmap_put(rmap);
 }
@@ -265,14 +253,6 @@ EXPORT_SYMBOL(free_irq_cpu_rmap);
  *
  * This is executed in workqueue context.
  */
-=======
-	irq_run_affinity_notifiers();
-
-	kfree(rmap);
-}
-EXPORT_SYMBOL(free_irq_cpu_rmap);
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static void
 irq_cpu_rmap_notify(struct irq_affinity_notify *notify, const cpumask_t *mask)
 {
@@ -285,22 +265,16 @@ irq_cpu_rmap_notify(struct irq_affinity_notify *notify, const cpumask_t *mask)
 		pr_warning("irq_cpu_rmap_notify: update failed: %d\n", rc);
 }
 
-<<<<<<< HEAD
 /**
  * irq_cpu_rmap_release - reclaiming callback for IRQ subsystem
  * @ref: kref to struct irq_affinity_notify passed by irq/manage.c
  */
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static void irq_cpu_rmap_release(struct kref *ref)
 {
 	struct irq_glue *glue =
 		container_of(ref, struct irq_glue, notify.kref);
-<<<<<<< HEAD
 
 	cpu_rmap_put(glue->rmap);
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	kfree(glue);
 }
 
@@ -325,7 +299,6 @@ int irq_cpu_rmap_add(struct cpu_rmap *rmap, int irq)
 	glue->notify.notify = irq_cpu_rmap_notify;
 	glue->notify.release = irq_cpu_rmap_release;
 	glue->rmap = rmap;
-<<<<<<< HEAD
 	cpu_rmap_get(rmap);
 	glue->index = cpu_rmap_add(rmap, glue);
 	rc = irq_set_affinity_notifier(irq, &glue->notify);
@@ -333,12 +306,6 @@ int irq_cpu_rmap_add(struct cpu_rmap *rmap, int irq)
 		cpu_rmap_put(glue->rmap);
 		kfree(glue);
 	}
-=======
-	glue->index = cpu_rmap_add(rmap, glue);
-	rc = irq_set_affinity_notifier(irq, &glue->notify);
-	if (rc)
-		kfree(glue);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return rc;
 }
 EXPORT_SYMBOL(irq_cpu_rmap_add);

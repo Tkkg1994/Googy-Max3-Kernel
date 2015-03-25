@@ -53,7 +53,6 @@
 #define CREATE_TRACE_POINTS
 #include <trace/events/vmscan.h>
 
-<<<<<<< HEAD
 /*
  * reclaim_mode determines how the inactive list is shrunk
  * RECLAIM_MODE_SINGLE: Reclaim only order-0 pages
@@ -72,8 +71,6 @@ typedef unsigned __bitwise__ reclaim_mode_t;
 #define RECLAIM_MODE_LUMPYRECLAIM	((__force reclaim_mode_t)0x08u)
 #define RECLAIM_MODE_COMPACTION		((__force reclaim_mode_t)0x10u)
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #ifdef CONFIG_RUNTIME_COMPCACHE
 struct rtcc_control {
 	int nr_anon;
@@ -108,16 +105,11 @@ struct scan_control {
 
 	int order;
 
-<<<<<<< HEAD
 	/*
 	 * Intend to reclaim enough continuous memory rather than reclaim
 	 * enough amount of memory. i.e, mode for high order allocation.
 	 */
 	reclaim_mode_t reclaim_mode;
-=======
-	/* Scan (total_size >> priority) pages at once */
-	int priority;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	/*
 	 * The memory cgroup that hit its limit and as a result is the
@@ -196,36 +188,26 @@ static bool global_reclaim(struct scan_control *sc)
 {
 	return !sc->target_mem_cgroup;
 }
-<<<<<<< HEAD
 
 static bool scanning_global_lru(struct mem_cgroup_zone *mz)
 {
 	return !mz->mem_cgroup;
 }
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #else
 static bool global_reclaim(struct scan_control *sc)
 {
 	return true;
 }
-<<<<<<< HEAD
 
 static bool scanning_global_lru(struct mem_cgroup_zone *mz)
 {
 	return true;
 }
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif
 
 static struct zone_reclaim_stat *get_reclaim_stat(struct mem_cgroup_zone *mz)
 {
-<<<<<<< HEAD
 	if (!scanning_global_lru(mz))
-=======
-	if (!mem_cgroup_disabled())
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		return mem_cgroup_get_reclaim_stat(mz->mem_cgroup, mz->zone);
 
 	return &mz->zone->reclaim_stat;
@@ -256,11 +238,7 @@ static unsigned long zone_nr_lru_pages(struct mem_cgroup_zone *mz,
 				       enum lru_list lru)
 
 {
-<<<<<<< HEAD
 	if (!scanning_global_lru(mz))
-=======
-	if (!mem_cgroup_disabled())
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		return mem_cgroup_zone_nr_lru_pages(mz->mem_cgroup,
 						    zone_to_nid(mz->zone),
 						    zone_idx(mz->zone),
@@ -432,7 +410,6 @@ out:
 	return ret;
 }
 
-<<<<<<< HEAD
 static void set_reclaim_mode(int priority, struct scan_control *sc,
 				   bool sync)
 {
@@ -466,8 +443,6 @@ static void reset_reclaim_mode(struct scan_control *sc)
 	sc->reclaim_mode = RECLAIM_MODE_SINGLE | RECLAIM_MODE_ASYNC;
 }
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static inline int is_page_cache_freeable(struct page *page)
 {
 	/*
@@ -487,13 +462,10 @@ static int may_write_to_queue(struct backing_dev_info *bdi,
 		return 1;
 	if (bdi == current->backing_dev_info)
 		return 1;
-<<<<<<< HEAD
 
 	/* lumpy reclaim for hugepage often need a lot of write */
 	if (sc->order > PAGE_ALLOC_COSTLY_ORDER)
 		return 1;
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return 0;
 }
 
@@ -596,16 +568,9 @@ static pageout_t pageout(struct page *page, struct address_space *mapping,
 		if (!PageWriteback(page)) {
 			/* synchronous write or broken a_ops? */
 			ClearPageReclaim(page);
-<<<<<<< HEAD
 		}
 		trace_mm_vmscan_writepage(page,
 			trace_reclaim_flags(page, sc->reclaim_mode));
-=======
-			if (PageError(page))
-				return PAGE_ACTIVATE;
-		}
-		trace_mm_vmscan_writepage(page, trace_reclaim_flags(page));
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		inc_zone_page_state(page, NR_VMSCAN_WRITE);
 		return PAGE_SUCCESS;
 	}
@@ -782,16 +747,12 @@ enum page_references {
 };
 
 static enum page_references page_check_references(struct page *page,
-<<<<<<< HEAD
 						  struct mem_cgroup_zone *mz,
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 						  struct scan_control *sc)
 {
 	int referenced_ptes, referenced_page;
 	unsigned long vm_flags;
 
-<<<<<<< HEAD
 	referenced_ptes = page_referenced(page, 1, mz->mem_cgroup, &vm_flags);
 	referenced_page = TestClearPageReferenced(page);
 
@@ -799,12 +760,6 @@ static enum page_references page_check_references(struct page *page,
 	if (sc->reclaim_mode & RECLAIM_MODE_LUMPYRECLAIM)
 		return PAGEREF_RECLAIM;
 
-=======
-	referenced_ptes = page_referenced(page, 1, sc->target_mem_cgroup,
-					  &vm_flags);
-	referenced_page = TestClearPageReferenced(page);
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	/*
 	 * Mlock lost the isolation race with us.  Let try_to_unmap()
 	 * move the page to the unevictable list.
@@ -854,20 +809,11 @@ static enum page_references page_check_references(struct page *page,
  * shrink_page_list() returns the number of reclaimed pages
  */
 static unsigned long shrink_page_list(struct list_head *page_list,
-<<<<<<< HEAD
 				      struct mem_cgroup_zone *mz,
 				      struct scan_control *sc,
 				      int priority,
 				      unsigned long *ret_nr_dirty,
 				      unsigned long *ret_nr_writeback)
-=======
-				      struct zone *zone,
-				      struct scan_control *sc,
-				      enum ttu_flags ttu_flags,
-				      unsigned long *ret_nr_dirty,
-				      unsigned long *ret_nr_writeback,
-				      bool force_reclaim)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 {
 	LIST_HEAD(ret_pages);
 	LIST_HEAD(free_pages);
@@ -880,17 +826,10 @@ static unsigned long shrink_page_list(struct list_head *page_list,
 	cond_resched();
 
 	while (!list_empty(page_list)) {
-<<<<<<< HEAD
 		enum page_references references;
 		struct address_space *mapping;
 		struct page *page;
 		int may_enter_fs;
-=======
-		struct address_space *mapping;
-		struct page *page;
-		int may_enter_fs;
-		enum page_references references = PAGEREF_RECLAIM_CLEAN;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 		cond_resched();
 
@@ -901,11 +840,7 @@ static unsigned long shrink_page_list(struct list_head *page_list,
 			goto keep;
 
 		VM_BUG_ON(PageActive(page));
-<<<<<<< HEAD
 		VM_BUG_ON(page_zone(page) != mz->zone);
-=======
-		VM_BUG_ON(page_zone(page) != zone);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 		sc->nr_scanned++;
 
@@ -924,7 +859,6 @@ static unsigned long shrink_page_list(struct list_head *page_list,
 
 		if (PageWriteback(page)) {
 			nr_writeback++;
-<<<<<<< HEAD
 			/*
 			 * Synchronous reclaim cannot queue pages for
 			 * writeback due to the possibility of stack overflow
@@ -941,15 +875,6 @@ static unsigned long shrink_page_list(struct list_head *page_list,
 		}
 
 		references = page_check_references(page, mz, sc);
-=======
-			unlock_page(page);
-			goto keep;
-		}
-
-		if (!force_reclaim)
-			references = page_check_references(page, sc);
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		switch (references) {
 		case PAGEREF_ACTIVATE:
 			goto activate_locked;
@@ -979,11 +904,7 @@ static unsigned long shrink_page_list(struct list_head *page_list,
 		 * processes. Try to unmap it here.
 		 */
 		if (page_mapped(page) && mapping) {
-<<<<<<< HEAD
 			switch (try_to_unmap(page, TTU_UNMAP)) {
-=======
-			switch (try_to_unmap(page, ttu_flags)) {
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			case SWAP_FAIL:
 				goto activate_locked;
 			case SWAP_AGAIN:
@@ -1004,12 +925,7 @@ static unsigned long shrink_page_list(struct list_head *page_list,
 			 * unless under significant pressure.
 			 */
 			if (page_is_file_cache(page) &&
-<<<<<<< HEAD
 					(!current_is_kswapd() || priority >= DEF_PRIORITY - 2)) {
-=======
-					(!current_is_kswapd() ||
-					 sc->priority >= DEF_PRIORITY - 2)) {
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 				/*
 				 * Immediately reclaim when written back.
 				 * Similar in principal to deactivate_page()
@@ -1038,11 +954,7 @@ static unsigned long shrink_page_list(struct list_head *page_list,
 				goto activate_locked;
 			case PAGE_SUCCESS:
 				if (PageWriteback(page))
-<<<<<<< HEAD
 					goto keep_lumpy;
-=======
-					goto keep;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 				if (PageDirty(page))
 					goto keep;
 
@@ -1128,10 +1040,7 @@ cull_mlocked:
 			try_to_free_swap(page);
 		unlock_page(page);
 		putback_lru_page(page);
-<<<<<<< HEAD
 		reset_reclaim_mode(sc);
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		continue;
 
 activate_locked:
@@ -1144,11 +1053,8 @@ activate_locked:
 keep_locked:
 		unlock_page(page);
 keep:
-<<<<<<< HEAD
 		reset_reclaim_mode(sc);
 keep_lumpy:
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		list_add(&page->lru, &ret_pages);
 		VM_BUG_ON(PageLRU(page) || PageUnevictable(page));
 	}
@@ -1160,11 +1066,7 @@ keep_lumpy:
 	 * will encounter the same problem
 	 */
 	if (nr_dirty && nr_dirty == nr_congested && global_reclaim(sc))
-<<<<<<< HEAD
 		zone_set_flag(mz->zone, ZONE_CONGESTED);
-=======
-		zone_set_flag(zone, ZONE_CONGESTED);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	free_hot_cold_page_list(&free_pages, 1);
 
@@ -1175,36 +1077,6 @@ keep_lumpy:
 	return nr_reclaimed;
 }
 
-<<<<<<< HEAD
-=======
-unsigned long reclaim_clean_pages_from_list(struct zone *zone,
-					    struct list_head *page_list)
-{
-	struct scan_control sc = {
-		.gfp_mask = GFP_KERNEL,
-		.priority = DEF_PRIORITY,
-		.may_unmap = 1,
-	};
-	unsigned long ret, dummy1, dummy2;
-	struct page *page, *next;
-	LIST_HEAD(clean_pages);
-
-	list_for_each_entry_safe(page, next, page_list, lru) {
-		if (page_is_file_cache(page) && !PageDirty(page)) {
-			ClearPageActive(page);
-			list_move(&page->lru, &clean_pages);
-		}
-	}
-
-	ret = shrink_page_list(&clean_pages, zone, &sc,
-				TTU_UNMAP|TTU_IGNORE_ACCESS,
-				&dummy1, &dummy2, true);
-	list_splice(&clean_pages, page_list);
-	__mod_zone_page_state(zone, NR_ISOLATED_FILE, -ret);
-	return ret;
-}
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 /*
  * Attempt to remove the specified page from its LRU.  Only take this page
  * if it is of the appropriate PageActive status.  Pages which are being
@@ -1215,21 +1087,15 @@ unsigned long reclaim_clean_pages_from_list(struct zone *zone,
  *
  * returns 0 on success, -ve errno on failure.
  */
-<<<<<<< HEAD
 int __isolate_lru_page(struct page *page, isolate_mode_t mode, int file)
 {
 	bool all_lru_mode;
-=======
-int __isolate_lru_page(struct page *page, isolate_mode_t mode)
-{
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	int ret = -EINVAL;
 
 	/* Only take pages on the LRU. */
 	if (!PageLRU(page))
 		return ret;
 
-<<<<<<< HEAD
 	all_lru_mode = (mode & (ISOLATE_ACTIVE|ISOLATE_INACTIVE)) ==
 		(ISOLATE_ACTIVE|ISOLATE_INACTIVE);
 
@@ -1250,10 +1116,6 @@ int __isolate_lru_page(struct page *page, isolate_mode_t mode)
 	 * unevictable; only give shrink_page_list evictable pages.
 	 */
 	if (PageUnevictable(page))
-=======
-	/* Compaction should not handle unevictable pages but CMA can do so */
-	if (PageUnevictable(page) && !(mode & ISOLATE_UNEVICTABLE))
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		return ret;
 
 	ret = -EBUSY;
@@ -1319,26 +1181,17 @@ int __isolate_lru_page(struct page *page, isolate_mode_t mode)
  * Appropriate locks must be held before calling this function.
  *
  * @nr_to_scan:	The number of pages to look through on the list.
-<<<<<<< HEAD
  * @mz:		The mem_cgroup_zone to pull pages from.
-=======
- * @lruvec:	The LRU vector to pull pages from.
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  * @dst:	The temp list to put pages on to.
  * @nr_scanned:	The number of pages that were scanned.
  * @sc:		The scan_control struct for this reclaim session
  * @mode:	One of the LRU isolation modes
-<<<<<<< HEAD
  * @active:	True [1] if isolating active pages
  * @file:	True [1] if isolating file [!anon] pages
-=======
- * @lru:	LRU list id for isolating
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  *
  * returns how many pages were moved onto *@dst.
  */
 static unsigned long isolate_lru_pages(unsigned long nr_to_scan,
-<<<<<<< HEAD
 		struct mem_cgroup_zone *mz, struct list_head *dst,
 		unsigned long *nr_scanned, struct scan_control *sc,
 		isolate_mode_t mode, int active, int file)
@@ -1357,43 +1210,23 @@ static unsigned long isolate_lru_pages(unsigned long nr_to_scan,
 		lru += LRU_ACTIVE;
 	if (file)
 		lru += LRU_FILE;
-=======
-		struct lruvec *lruvec, struct list_head *dst,
-		unsigned long *nr_scanned, struct scan_control *sc,
-		isolate_mode_t mode, enum lru_list lru)
-{
-	struct list_head *src;
-	unsigned long nr_taken = 0;
-	unsigned long scan;
-	int file = is_file_lru(lru);
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	src = &lruvec->lists[lru];
 
 	for (scan = 0; scan < nr_to_scan && !list_empty(src); scan++) {
 		struct page *page;
-<<<<<<< HEAD
 		unsigned long pfn;
 		unsigned long end_pfn;
 		unsigned long page_pfn;
 		int zone_id;
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 		page = lru_to_page(src);
 		prefetchw_prev_lru_page(page, src, flags);
 
 		VM_BUG_ON(!PageLRU(page));
 
-<<<<<<< HEAD
 		switch (__isolate_lru_page(page, mode, file)) {
 		case 0:
 			mem_cgroup_lru_del(page);
-=======
-		switch (__isolate_lru_page(page, mode)) {
-		case 0:
-			mem_cgroup_lru_del_list(page, lru);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			list_move(&page->lru, dst);
 			nr_taken += hpage_nr_pages(page);
 			break;
@@ -1406,7 +1239,6 @@ static unsigned long isolate_lru_pages(unsigned long nr_to_scan,
 		default:
 			BUG();
 		}
-<<<<<<< HEAD
 
 		if (!sc->order || !(sc->reclaim_mode & RECLAIM_MODE_LUMPYRECLAIM))
 			continue;
@@ -1485,8 +1317,6 @@ static unsigned long isolate_lru_pages(unsigned long nr_to_scan,
 		/* If we break out of the loop above, lumpy reclaim failed */
 		if (pfn < end_pfn)
 			nr_lumpy_failed++;
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 
 	*nr_scanned = scan;
@@ -1494,10 +1324,7 @@ static unsigned long isolate_lru_pages(unsigned long nr_to_scan,
 	trace_mm_vmscan_lru_isolate(sc->order,
 			nr_to_scan, scan,
 			nr_taken,
-<<<<<<< HEAD
 			nr_lumpy_taken, nr_lumpy_dirty, nr_lumpy_failed,
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			mode, file);
 	return nr_taken;
 }
@@ -1631,7 +1458,6 @@ putback_inactive_pages(struct mem_cgroup_zone *mz,
 	list_splice(&pages_to_free, page_list);
 }
 
-<<<<<<< HEAD
 static noinline_for_stack void
 update_isolated_counts(struct mem_cgroup_zone *mz,
 		       struct list_head *page_list,
@@ -1719,25 +1545,18 @@ static inline bool should_reclaim_stall(unsigned long nr_taken,
 	return priority <= lumpy_stall_priority;
 }
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 /*
  * shrink_inactive_list() is a helper for shrink_zone().  It returns the number
  * of reclaimed pages
  */
 static noinline_for_stack unsigned long
 shrink_inactive_list(unsigned long nr_to_scan, struct mem_cgroup_zone *mz,
-<<<<<<< HEAD
 		     struct scan_control *sc, int priority, int file)
-=======
-		     struct scan_control *sc, enum lru_list lru)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 {
 	LIST_HEAD(page_list);
 	unsigned long nr_scanned;
 	unsigned long nr_reclaimed = 0;
 	unsigned long nr_taken;
-<<<<<<< HEAD
 	unsigned long nr_anon;
 	unsigned long nr_file;
 	unsigned long nr_dirty = 0;
@@ -1745,15 +1564,6 @@ shrink_inactive_list(unsigned long nr_to_scan, struct mem_cgroup_zone *mz,
 	isolate_mode_t isolate_mode = ISOLATE_INACTIVE;
 	struct zone *zone = mz->zone;
 	struct zone_reclaim_stat *reclaim_stat = get_reclaim_stat(mz);
-=======
-	unsigned long nr_dirty = 0;
-	unsigned long nr_writeback = 0;
-	isolate_mode_t isolate_mode = 0;
-	int file = is_file_lru(lru);
-	struct zone *zone = mz->zone;
-	struct zone_reclaim_stat *reclaim_stat = get_reclaim_stat(mz);
-	struct lruvec *lruvec = mem_cgroup_zone_lruvec(zone, mz->mem_cgroup);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	while (unlikely(too_many_isolated(zone, file, sc))) {
 		congestion_wait(BLK_RW_ASYNC, HZ/10);
@@ -1763,13 +1573,10 @@ shrink_inactive_list(unsigned long nr_to_scan, struct mem_cgroup_zone *mz,
 			return SWAP_CLUSTER_MAX;
 	}
 
-<<<<<<< HEAD
 	set_reclaim_mode(priority, sc, false);
 	if (sc->reclaim_mode & RECLAIM_MODE_LUMPYRECLAIM)
 		isolate_mode |= ISOLATE_ACTIVE;
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	lru_add_drain();
 
 	if (!sc->may_unmap)
@@ -1779,17 +1586,8 @@ shrink_inactive_list(unsigned long nr_to_scan, struct mem_cgroup_zone *mz,
 
 	spin_lock_irq(&zone->lru_lock);
 
-<<<<<<< HEAD
 	nr_taken = isolate_lru_pages(nr_to_scan, mz, &page_list, &nr_scanned,
 				     sc, isolate_mode, 0, file);
-=======
-	nr_taken = isolate_lru_pages(nr_to_scan, lruvec, &page_list,
-				     &nr_scanned, sc, isolate_mode, lru);
-
-	__mod_zone_page_state(zone, NR_LRU_BASE + lru, -nr_taken);
-	__mod_zone_page_state(zone, NR_ISOLATED_ANON + file, nr_taken);
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (global_reclaim(sc)) {
 		zone->pages_scanned += nr_scanned;
 		if (current_is_kswapd())
@@ -1804,7 +1602,6 @@ shrink_inactive_list(unsigned long nr_to_scan, struct mem_cgroup_zone *mz,
 	if (nr_taken == 0)
 		return 0;
 
-<<<<<<< HEAD
 	update_isolated_counts(mz, &page_list, &nr_anon, &nr_file);
 
 	nr_reclaimed = shrink_page_list(&page_list, mz, sc, priority,
@@ -1821,14 +1618,6 @@ shrink_inactive_list(unsigned long nr_to_scan, struct mem_cgroup_zone *mz,
 
 	reclaim_stat->recent_scanned[0] += nr_anon;
 	reclaim_stat->recent_scanned[1] += nr_file;
-=======
-	nr_reclaimed = shrink_page_list(&page_list, zone, sc, TTU_UNMAP,
-					&nr_dirty, &nr_writeback, false);
-
-	spin_lock_irq(&zone->lru_lock);
-
-	reclaim_stat->recent_scanned[file] += nr_taken;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	if (global_reclaim(sc)) {
 		if (current_is_kswapd())
@@ -1841,12 +1630,8 @@ shrink_inactive_list(unsigned long nr_to_scan, struct mem_cgroup_zone *mz,
 
 	putback_inactive_pages(mz, &page_list);
 
-<<<<<<< HEAD
 	__mod_zone_page_state(zone, NR_ISOLATED_ANON, -nr_anon);
 	__mod_zone_page_state(zone, NR_ISOLATED_FILE, -nr_file);
-=======
-	__mod_zone_page_state(zone, NR_ISOLATED_ANON + file, -nr_taken);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	spin_unlock_irq(&zone->lru_lock);
 
@@ -1875,12 +1660,7 @@ shrink_inactive_list(unsigned long nr_to_scan, struct mem_cgroup_zone *mz,
 	 * DEF_PRIORITY-6 For SWAP_CLUSTER_MAX isolated pages, throttle if any
 	 *                     isolated page is PageWriteback
 	 */
-<<<<<<< HEAD
 	if (nr_writeback && nr_writeback >= (nr_taken >> (DEF_PRIORITY-priority)))
-=======
-	if (nr_writeback && nr_writeback >=
-			(nr_taken >> (DEF_PRIORITY - sc->priority)))
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		wait_iff_congested(zone, BLK_RW_ASYNC, HZ/10);
 
 #ifdef CONFIG_RUNTIME_COMPCACHE
@@ -1895,13 +1675,8 @@ shrink_inactive_list(unsigned long nr_to_scan, struct mem_cgroup_zone *mz,
 	trace_mm_vmscan_lru_shrink_inactive(zone->zone_pgdat->node_id,
 		zone_idx(zone),
 		nr_scanned, nr_reclaimed,
-<<<<<<< HEAD
 		priority,
 		trace_shrink_flags(file, sc->reclaim_mode));
-=======
-		sc->priority,
-		trace_shrink_flags(file));
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return nr_reclaimed;
 }
 
@@ -1964,11 +1739,7 @@ static void move_active_pages_to_lru(struct zone *zone,
 static void shrink_active_list(unsigned long nr_to_scan,
 			       struct mem_cgroup_zone *mz,
 			       struct scan_control *sc,
-<<<<<<< HEAD
 			       int priority, int file)
-=======
-			       enum lru_list lru)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 {
 	unsigned long nr_taken;
 	unsigned long nr_scanned;
@@ -1979,7 +1750,6 @@ static void shrink_active_list(unsigned long nr_to_scan,
 	struct page *page;
 	struct zone_reclaim_stat *reclaim_stat = get_reclaim_stat(mz);
 	unsigned long nr_rotated = 0;
-<<<<<<< HEAD
 	isolate_mode_t isolate_mode = ISOLATE_ACTIVE;
 	struct zone *zone = mz->zone;
 
@@ -1987,15 +1757,6 @@ static void shrink_active_list(unsigned long nr_to_scan,
 
 	reset_reclaim_mode(sc);
 
-=======
-	isolate_mode_t isolate_mode = 0;
-	int file = is_file_lru(lru);
-	struct zone *zone = mz->zone;
-	struct lruvec *lruvec = mem_cgroup_zone_lruvec(zone, mz->mem_cgroup);
-
-	lru_add_drain();
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (!sc->may_unmap)
 		isolate_mode |= ISOLATE_UNMAPPED;
 	if (!sc->may_writepage)
@@ -2003,27 +1764,18 @@ static void shrink_active_list(unsigned long nr_to_scan,
 
 	spin_lock_irq(&zone->lru_lock);
 
-<<<<<<< HEAD
 	nr_taken = isolate_lru_pages(nr_to_scan, mz, &l_hold, &nr_scanned, sc,
 				     isolate_mode, 1, file);
-=======
-	nr_taken = isolate_lru_pages(nr_to_scan, lruvec, &l_hold,
-				     &nr_scanned, sc, isolate_mode, lru);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (global_reclaim(sc))
 		zone->pages_scanned += nr_scanned;
 
 	reclaim_stat->recent_scanned[file] += nr_taken;
 
 	__count_zone_vm_events(PGREFILL, zone, nr_scanned);
-<<<<<<< HEAD
 	if (file)
 		__mod_zone_page_state(zone, NR_ACTIVE_FILE, -nr_taken);
 	else
 		__mod_zone_page_state(zone, NR_ACTIVE_ANON, -nr_taken);
-=======
-	__mod_zone_page_state(zone, NR_LRU_BASE + lru, -nr_taken);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	__mod_zone_page_state(zone, NR_ISOLATED_ANON + file, nr_taken);
 	spin_unlock_irq(&zone->lru_lock);
 
@@ -2045,12 +1797,7 @@ static void shrink_active_list(unsigned long nr_to_scan,
 			}
 		}
 
-<<<<<<< HEAD
 		if (page_referenced(page, 0, mz->mem_cgroup, &vm_flags)) {
-=======
-		if (page_referenced(page, 0, sc->target_mem_cgroup,
-				    &vm_flags)) {
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			nr_rotated += hpage_nr_pages(page);
 			/*
 			 * Identify referenced, file-backed active pages and
@@ -2083,15 +1830,10 @@ static void shrink_active_list(unsigned long nr_to_scan,
 	 */
 	reclaim_stat->recent_rotated[file] += nr_rotated;
 
-<<<<<<< HEAD
 	move_active_pages_to_lru(zone, &l_active, &l_hold,
 						LRU_ACTIVE + file * LRU_FILE);
 	move_active_pages_to_lru(zone, &l_inactive, &l_hold,
 						LRU_BASE   + file * LRU_FILE);
-=======
-	move_active_pages_to_lru(zone, &l_active, &l_hold, lru);
-	move_active_pages_to_lru(zone, &l_inactive, &l_hold, lru - LRU_ACTIVE);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	__mod_zone_page_state(zone, NR_ISOLATED_ANON + file, -nr_taken);
 	spin_unlock_irq(&zone->lru_lock);
 
@@ -2129,11 +1871,7 @@ static int inactive_anon_is_low(struct mem_cgroup_zone *mz)
 	if (!total_swap_pages)
 		return 0;
 
-<<<<<<< HEAD
 	if (!scanning_global_lru(mz))
-=======
-	if (!mem_cgroup_disabled())
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		return mem_cgroup_inactive_anon_is_low(mz->mem_cgroup,
 						       mz->zone);
 
@@ -2172,11 +1910,7 @@ static int inactive_file_is_low_global(struct zone *zone)
  */
 static int inactive_file_is_low(struct mem_cgroup_zone *mz)
 {
-<<<<<<< HEAD
 	if (!scanning_global_lru(mz))
-=======
-	if (!mem_cgroup_disabled())
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		return mem_cgroup_inactive_file_is_low(mz->mem_cgroup,
 						       mz->zone);
 
@@ -2193,17 +1927,12 @@ static int inactive_list_is_low(struct mem_cgroup_zone *mz, int file)
 
 static unsigned long shrink_list(enum lru_list lru, unsigned long nr_to_scan,
 				 struct mem_cgroup_zone *mz,
-<<<<<<< HEAD
 				 struct scan_control *sc, int priority)
-=======
-				 struct scan_control *sc)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 {
 	int file = is_file_lru(lru);
 
 	if (is_active_lru(lru)) {
 		if (inactive_list_is_low(mz, file))
-<<<<<<< HEAD
 			shrink_active_list(nr_to_scan, mz, sc, priority, file);
 		return 0;
 	}
@@ -2213,16 +1942,6 @@ static unsigned long shrink_list(enum lru_list lru, unsigned long nr_to_scan,
 
 static int vmscan_swappiness(struct mem_cgroup_zone *mz,
 			     struct scan_control *sc)
-=======
-			shrink_active_list(nr_to_scan, mz, sc, lru);
-		return 0;
-	}
-
-	return shrink_inactive_list(nr_to_scan, mz, sc, lru);
-}
-
-static int vmscan_swappiness(struct scan_control *sc)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 {
 #ifdef CONFIG_RUNTIME_COMPCACHE
 	if (rtcc_reclaim(sc))
@@ -2230,11 +1949,7 @@ static int vmscan_swappiness(struct scan_control *sc)
 #endif /* CONFIG_RUNTIME_COMPCACHE */
 	if (global_reclaim(sc))
 		return vm_swappiness;
-<<<<<<< HEAD
 	return mem_cgroup_swappiness(mz->mem_cgroup);
-=======
-	return mem_cgroup_swappiness(sc->target_mem_cgroup);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 /*
@@ -2246,11 +1961,7 @@ static int vmscan_swappiness(struct scan_control *sc)
  * nr[0] = anon pages to scan; nr[1] = file pages to scan
  */
 static void get_scan_count(struct mem_cgroup_zone *mz, struct scan_control *sc,
-<<<<<<< HEAD
 			   unsigned long *nr, int priority)
-=======
-			   unsigned long *nr)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 {
 	unsigned long anon, file, free;
 	unsigned long anon_prio, file_prio;
@@ -2306,13 +2017,8 @@ static void get_scan_count(struct mem_cgroup_zone *mz, struct scan_control *sc,
 	 * With swappiness at 100, anonymous and file have the same priority.
 	 * This scanning priority is essentially the inverse of IO cost.
 	 */
-<<<<<<< HEAD
 	anon_prio = vmscan_swappiness(mz, sc);
 	file_prio = 200 - vmscan_swappiness(mz, sc);
-=======
-	anon_prio = vmscan_swappiness(sc);
-	file_prio = 200 - vmscan_swappiness(sc);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	/*
 	 * OK, so we have swap space and a fair amount of page cache
@@ -2357,13 +2063,8 @@ out:
 		unsigned long scan;
 
 		scan = zone_nr_lru_pages(mz, lru);
-<<<<<<< HEAD
 		if (priority || noswap || !vmscan_swappiness(mz, sc)) {
 			scan >>= priority;
-=======
-		if (sc->priority || noswap || !vmscan_swappiness(sc)) {
-			scan >>= sc->priority;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			if (!scan && force_scan)
 				scan = SWAP_CLUSTER_MAX;
 			scan = div64_u64(scan * fraction[file], denominator);
@@ -2372,32 +2073,12 @@ out:
 	}
 }
 
-<<<<<<< HEAD
 /*
  * Reclaim/compaction depends on a number of pages being freed. To avoid
  * disruption to the system, a small number of order-0 pages continue to be
  * rotated and reclaimed in the normal fashion. However, by the time we get
  * back to the allocator and call try_to_compact_zone(), we ensure that
  * there are enough free pages for it to be likely successful
-=======
-/* Use reclaim/compaction for costly allocs or under memory pressure */
-static bool in_reclaim_compaction(struct scan_control *sc)
-{
-	if (COMPACTION_BUILD && sc->order &&
-			(sc->order > PAGE_ALLOC_COSTLY_ORDER ||
-			 sc->priority < DEF_PRIORITY - 2))
-		return true;
-
-	return false;
-}
-
-/*
- * Reclaim/compaction is used for high-order allocation requests. It reclaims
- * order-0 pages before compacting the zone. should_continue_reclaim() returns
- * true if more pages should be reclaimed such that when the page allocator
- * calls try_to_compact_zone() that it will have enough free pages to succeed.
- * It will give up earlier than that if there is difficulty reclaiming pages.
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  */
 static inline bool should_continue_reclaim(struct mem_cgroup_zone *mz,
 					unsigned long nr_reclaimed,
@@ -2408,11 +2089,7 @@ static inline bool should_continue_reclaim(struct mem_cgroup_zone *mz,
 	unsigned long inactive_lru_pages;
 
 	/* If not in reclaim/compaction mode, stop */
-<<<<<<< HEAD
 	if (!(sc->reclaim_mode & RECLAIM_MODE_COMPACTION))
-=======
-	if (!in_reclaim_compaction(sc))
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		return false;
 
 	/* Consider stopping depending on scan and reclaim activity */
@@ -2463,11 +2140,7 @@ static inline bool should_continue_reclaim(struct mem_cgroup_zone *mz,
 /*
  * This is a basic per-zone page freer.  Used by both kswapd and direct reclaim.
  */
-<<<<<<< HEAD
 static void shrink_mem_cgroup_zone(int priority, struct mem_cgroup_zone *mz,
-=======
-static void shrink_mem_cgroup_zone(struct mem_cgroup_zone *mz,
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 				   struct scan_control *sc)
 {
 	unsigned long nr[NR_LRU_LISTS];
@@ -2483,11 +2156,7 @@ static void shrink_mem_cgroup_zone(struct mem_cgroup_zone *mz,
 restart:
 	nr_reclaimed = 0;
 	nr_scanned = sc->nr_scanned;
-<<<<<<< HEAD
 	get_scan_count(mz, sc, nr, priority);
-=======
-	get_scan_count(mz, sc, nr);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #ifdef CONFIG_RUNTIME_COMPCACHE
 	if (rtcc_reclaim(sc))
@@ -2511,11 +2180,7 @@ restart:
 				nr[lru] -= nr_to_scan;
 
 				nr_reclaimed += shrink_list(lru, nr_to_scan,
-<<<<<<< HEAD
 							    mz, sc, priority);
-=======
-							    mz, sc);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			}
 		}
 		/*
@@ -2526,12 +2191,7 @@ restart:
 		 * with multiple processes reclaiming pages, the total
 		 * freeing target can get unreasonably large.
 		 */
-<<<<<<< HEAD
 		if (nr_reclaimed >= nr_to_reclaim && priority < DEF_PRIORITY)
-=======
-		if (nr_reclaimed >= nr_to_reclaim &&
-		    sc->priority < DEF_PRIORITY)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			break;
 	}
 	blk_finish_plug(&plug);
@@ -2542,40 +2202,23 @@ restart:
 	 * rebalance the anon lru active/inactive ratio.
 	 */
 	if (inactive_anon_is_low(mz))
-<<<<<<< HEAD
 		shrink_active_list(SWAP_CLUSTER_MAX, mz, sc, priority, 0);
 
 	/* reclaim/compaction might need reclaim to continue */
 	if (should_continue_reclaim(mz, nr_reclaimed,
 					sc->nr_scanned - nr_scanned, sc))
-=======
-		shrink_active_list(SWAP_CLUSTER_MAX, mz,
-				   sc, LRU_ACTIVE_ANON);
-
-	/* reclaim/compaction might need reclaim to continue */
-	if (should_continue_reclaim(mz, nr_reclaimed,
-				    sc->nr_scanned - nr_scanned, sc))
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		goto restart;
 
 	throttle_vm_writeout(sc->gfp_mask);
 }
 
-<<<<<<< HEAD
 static void shrink_zone(int priority, struct zone *zone,
 			struct scan_control *sc)
-=======
-static void shrink_zone(struct zone *zone, struct scan_control *sc)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 {
 	struct mem_cgroup *root = sc->target_mem_cgroup;
 	struct mem_cgroup_reclaim_cookie reclaim = {
 		.zone = zone,
-<<<<<<< HEAD
 		.priority = priority,
-=======
-		.priority = sc->priority,
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	};
 	struct mem_cgroup *memcg;
 
@@ -2586,11 +2229,7 @@ static void shrink_zone(struct zone *zone, struct scan_control *sc)
 			.zone = zone,
 		};
 
-<<<<<<< HEAD
 		shrink_mem_cgroup_zone(priority, &mz, sc);
-=======
-		shrink_mem_cgroup_zone(&mz, sc);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		/*
 		 * Limit reclaim has historically picked one memcg and
 		 * scanned it with decreasing priority levels until
@@ -2666,12 +2305,8 @@ static inline bool compaction_ready(struct zone *zone, struct scan_control *sc)
  * the caller that it should consider retrying the allocation instead of
  * further reclaim.
  */
-<<<<<<< HEAD
 static bool shrink_zones(int priority, struct zonelist *zonelist,
 					struct scan_control *sc)
-=======
-static bool shrink_zones(struct zonelist *zonelist, struct scan_control *sc)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 {
 	struct zoneref *z;
 	struct zone *zone;
@@ -2698,11 +2333,7 @@ static bool shrink_zones(struct zonelist *zonelist, struct scan_control *sc)
 		if (global_reclaim(sc)) {
 			if (!cpuset_zone_allowed_hardwall(zone, GFP_KERNEL))
 				continue;
-<<<<<<< HEAD
 			if (priority != DEF_PRIORITY &&
-=======
-			if (sc->priority != DEF_PRIORITY &&
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			    !zone_reclaimable(zone))
 				continue;	/* Let kswapd poll it */
 			if (COMPACTION_BUILD) {
@@ -2735,11 +2366,7 @@ static bool shrink_zones(struct zonelist *zonelist, struct scan_control *sc)
 			/* need some check for avoid more shrink_zone() */
 		}
 
-<<<<<<< HEAD
 		shrink_zone(priority, zone, sc);
-=======
-		shrink_zone(zone, sc);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 
 	return aborted_reclaim;
@@ -2785,10 +2412,7 @@ static unsigned long do_try_to_free_pages(struct zonelist *zonelist,
 					struct scan_control *sc,
 					struct shrink_control *shrink)
 {
-<<<<<<< HEAD
 	int priority;
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	unsigned long total_scanned = 0;
 	struct reclaim_state *reclaim_state = current->reclaim_state;
 	struct zoneref *z;
@@ -2801,17 +2425,11 @@ static unsigned long do_try_to_free_pages(struct zonelist *zonelist,
 	if (global_reclaim(sc))
 		count_vm_event(ALLOCSTALL);
 
-<<<<<<< HEAD
 	for (priority = DEF_PRIORITY; priority >= 0; priority--) {
 		sc->nr_scanned = 0;
 		if (!priority)
 			disable_swap_token(sc->target_mem_cgroup);
 		aborted_reclaim = shrink_zones(priority, zonelist, sc);
-=======
-	do {
-		sc->nr_scanned = 0;
-		aborted_reclaim = shrink_zones(zonelist, sc);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 		/*
 		 * Don't shrink slabs when reclaiming memory from
@@ -2853,11 +2471,7 @@ static unsigned long do_try_to_free_pages(struct zonelist *zonelist,
 
 		/* Take a nap, wait for some writeback to complete */
 		if (!sc->hibernation_mode && sc->nr_scanned &&
-<<<<<<< HEAD
 		    priority < DEF_PRIORITY - 2) {
-=======
-		    sc->priority < DEF_PRIORITY - 2) {
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			struct zone *preferred_zone;
 
 			first_zones_zonelist(zonelist, gfp_zone(sc->gfp_mask),
@@ -2865,11 +2479,7 @@ static unsigned long do_try_to_free_pages(struct zonelist *zonelist,
 						&preferred_zone);
 			wait_iff_congested(preferred_zone, BLK_RW_ASYNC, HZ/10);
 		}
-<<<<<<< HEAD
 	}
-=======
-	} while (--sc->priority >= 0);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 out:
 	delayacct_freepages_end();
@@ -2911,10 +2521,6 @@ unsigned long try_to_free_pages(struct zonelist *zonelist, int order,
 		.may_swap = 1,
 #endif /* CONFIG_RUNTIME_COMPCACHE */
 		.order = order,
-<<<<<<< HEAD
-=======
-		.priority = DEF_PRIORITY,
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		.target_mem_cgroup = NULL,
 		.nodemask = nodemask,
 	};
@@ -2947,10 +2553,6 @@ unsigned long mem_cgroup_shrink_node_zone(struct mem_cgroup *memcg,
 		.may_unmap = 1,
 		.may_swap = !noswap,
 		.order = 0,
-<<<<<<< HEAD
-=======
-		.priority = 0,
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		.target_mem_cgroup = memcg,
 	};
 	struct mem_cgroup_zone mz = {
@@ -2961,11 +2563,7 @@ unsigned long mem_cgroup_shrink_node_zone(struct mem_cgroup *memcg,
 	sc.gfp_mask = (gfp_mask & GFP_RECLAIM_MASK) |
 			(GFP_HIGHUSER_MOVABLE & ~GFP_RECLAIM_MASK);
 
-<<<<<<< HEAD
 	trace_mm_vmscan_memcg_softlimit_reclaim_begin(0,
-=======
-	trace_mm_vmscan_memcg_softlimit_reclaim_begin(sc.order,
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 						      sc.may_writepage,
 						      sc.gfp_mask);
 
@@ -2976,11 +2574,7 @@ unsigned long mem_cgroup_shrink_node_zone(struct mem_cgroup *memcg,
 	 * will pick up pages from other mem cgroup's as well. We hack
 	 * the priority and make it zero.
 	 */
-<<<<<<< HEAD
 	shrink_mem_cgroup_zone(0, &mz, &sc);
-=======
-	shrink_mem_cgroup_zone(&mz, &sc);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	trace_mm_vmscan_memcg_softlimit_reclaim_end(sc.nr_reclaimed);
 
@@ -3001,10 +2595,6 @@ unsigned long try_to_free_mem_cgroup_pages(struct mem_cgroup *memcg,
 		.may_swap = !noswap,
 		.nr_to_reclaim = SWAP_CLUSTER_MAX,
 		.order = 0,
-<<<<<<< HEAD
-=======
-		.priority = DEF_PRIORITY,
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		.target_mem_cgroup = memcg,
 		.nodemask = NULL, /* we don't care the placement */
 		.gfp_mask = (gfp_mask & GFP_RECLAIM_MASK) |
@@ -3035,12 +2625,8 @@ unsigned long try_to_free_mem_cgroup_pages(struct mem_cgroup *memcg,
 }
 #endif
 
-<<<<<<< HEAD
 static void age_active_anon(struct zone *zone, struct scan_control *sc,
 			    int priority)
-=======
-static void age_active_anon(struct zone *zone, struct scan_control *sc)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 {
 	struct mem_cgroup *memcg;
 
@@ -3056,11 +2642,7 @@ static void age_active_anon(struct zone *zone, struct scan_control *sc)
 
 		if (inactive_anon_is_low(&mz))
 			shrink_active_list(SWAP_CLUSTER_MAX, &mz,
-<<<<<<< HEAD
 					   sc, priority, 0);
-=======
-					   sc, LRU_ACTIVE_ANON);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 		memcg = mem_cgroup_iter(NULL, memcg, NULL);
 	} while (memcg);
@@ -3179,14 +2761,9 @@ static bool sleeping_prematurely(pg_data_t *pgdat, int order, long remaining,
 static unsigned long balance_pgdat(pg_data_t *pgdat, int order,
 							int *classzone_idx)
 {
-<<<<<<< HEAD
 	struct zone *unbalanced_zone;
 	unsigned long balanced;
 	int priority;
-=======
-	int all_zones_ok;
-	unsigned long balanced;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	int i;
 	int end_zone = 0;	/* Inclusive.  0 = ZONE_DMA */
 	unsigned long total_scanned;
@@ -3214,15 +2791,10 @@ static unsigned long balance_pgdat(pg_data_t *pgdat, int order,
 	};
 loop_again:
 	total_scanned = 0;
-<<<<<<< HEAD
-=======
-	sc.priority = DEF_PRIORITY;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	sc.nr_reclaimed = 0;
 	sc.may_writepage = !laptop_mode;
 	count_vm_event(PAGEOUTRUN);
 
-<<<<<<< HEAD
 	for (priority = DEF_PRIORITY; priority >= 0; priority--) {
 		unsigned long lru_pages = 0;
 		int has_under_min_watermark_zone = 0;
@@ -3232,13 +2804,6 @@ loop_again:
 			disable_swap_token(NULL);
 
 		unbalanced_zone = NULL;
-=======
-	do {
-		unsigned long lru_pages = 0;
-		int has_under_min_watermark_zone = 0;
-
-		all_zones_ok = 1;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		balanced = 0;
 
 		/*
@@ -3251,11 +2816,7 @@ loop_again:
 			if (!populated_zone(zone))
 				continue;
 
-<<<<<<< HEAD
 			if (priority != DEF_PRIORITY &&
-=======
-			if (sc.priority != DEF_PRIORITY &&
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			    !zone_reclaimable(zone))
 				continue;
 
@@ -3263,11 +2824,7 @@ loop_again:
 			 * Do some background aging of the anon list, to give
 			 * pages a chance to be referenced before reclaiming.
 			 */
-<<<<<<< HEAD
 			age_active_anon(zone, &sc, priority);
-=======
-			age_active_anon(zone, &sc);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 			/*
 			 * If the number of buffer_heads in the machine
@@ -3314,11 +2871,7 @@ loop_again:
 			if (!populated_zone(zone))
 				continue;
 
-<<<<<<< HEAD
 			if (priority != DEF_PRIORITY &&
-=======
-			if (sc.priority != DEF_PRIORITY &&
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			    !zone_reclaimable(zone))
 				continue;
 
@@ -3362,11 +2915,7 @@ loop_again:
 			if ((buffer_heads_over_limit && is_highmem_idx(i)) ||
 			    !zone_balanced(zone, testorder,
 					   balance_gap, end_zone)) {
-<<<<<<< HEAD
 				shrink_zone(priority, zone, &sc);
-=======
-				shrink_zone(zone, &sc);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 				reclaim_state->reclaimed_slab = 0;
 				nr_slab = shrink_slab(&shrink, sc.nr_scanned, lru_pages);
@@ -3391,11 +2940,7 @@ loop_again:
 			}
 
 			if (!zone_balanced(zone, testorder, 0, end_zone)) {
-<<<<<<< HEAD
 				unbalanced_zone = zone;
-=======
-				all_zones_ok = 0;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 				/*
 				 * We are still under min water mark.  This
 				 * means that we have a GFP_ATOMIC allocation
@@ -3418,29 +2963,17 @@ loop_again:
 			}
 
 		}
-<<<<<<< HEAD
 		if (!unbalanced_zone || (order && pgdat_balanced(pgdat, balanced, *classzone_idx)))
-=======
-		if (all_zones_ok || (order && pgdat_balanced(pgdat, balanced, *classzone_idx)))
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			break;		/* kswapd: all done */
 		/*
 		 * OK, kswapd is getting into trouble.  Take a nap, then take
 		 * another pass across the zones.
 		 */
-<<<<<<< HEAD
 		if (total_scanned && (priority < DEF_PRIORITY - 2)) {
 			if (has_under_min_watermark_zone)
 				count_vm_event(KSWAPD_SKIP_CONGESTION_WAIT);
 			else
 				wait_iff_congested(unbalanced_zone, BLK_RW_ASYNC, HZ/10);
-=======
-		if (total_scanned && (sc.priority < DEF_PRIORITY - 2)) {
-			if (has_under_min_watermark_zone)
-				count_vm_event(KSWAPD_SKIP_CONGESTION_WAIT);
-			else
-				congestion_wait(BLK_RW_ASYNC, HZ/10);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		}
 
 		/*
@@ -3451,11 +2984,7 @@ loop_again:
 		 */
 		if (sc.nr_reclaimed >= SWAP_CLUSTER_MAX)
 			break;
-<<<<<<< HEAD
 	}
-=======
-	} while (--sc.priority >= 0);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 out:
 
 	/*
@@ -3463,11 +2992,7 @@ out:
 	 * high-order: Balanced zones must make up at least 25% of the node
 	 *             for the node to be balanced
 	 */
-<<<<<<< HEAD
 	if (unbalanced_zone && (!order || !pgdat_balanced(pgdat, balanced, *classzone_idx))) {
-=======
-	if (!(all_zones_ok || (order && pgdat_balanced(pgdat, balanced, *classzone_idx)))) {
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		cond_resched();
 
 		try_to_freeze();
@@ -3509,7 +3034,6 @@ out:
 			if (!populated_zone(zone))
 				continue;
 
-<<<<<<< HEAD
 			if (priority != DEF_PRIORITY &&
 				!zone_reclaimable(zone))
 				continue;
@@ -3526,8 +3050,6 @@ out:
 				goto loop_again;
 			}
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			/* Check if the memory needs to be defragmented. */
 			if (zone_watermark_ok(zone, order,
 				    low_wmark_pages(zone), *classzone_idx, 0))
@@ -3589,17 +3111,6 @@ static void kswapd_try_to_sleep(pg_data_t *pgdat, int order, int classzone_idx)
 		 */
 		set_pgdat_percpu_threshold(pgdat, calculate_normal_threshold);
 
-<<<<<<< HEAD
-=======
-		/*
-		 * Compaction records what page blocks it recently failed to
-		 * isolate pages from and skips them in the future scanning.
-		 * When kswapd is going to sleep, it is reasonable to assume
-		 * that pages and compaction may succeed so reset the cache.
-		 */
-		reset_isolation_suitable(pgdat);
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		if (!kthread_should_stop())
 			schedule();
 
@@ -3806,13 +3317,9 @@ static unsigned long rtcc_do_try_to_free_pages(struct zonelist *zonelist, struct
 
 	for (priority = DEF_PRIORITY/2; priority >= 0; priority--) {
 		sc->nr_scanned = 0;
-<<<<<<< HEAD
 		if (!priority)
 			disable_swap_token(sc->target_mem_cgroup);
 		aborted_reclaim = shrink_zones(priority, zonelist, sc);
-=======
-		aborted_reclaim = shrink_zones(zonelist, sc);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 		total_scanned += sc->nr_scanned;
 		if (sc->nr_reclaimed >= sc->nr_to_reclaim)
@@ -3934,10 +3441,6 @@ unsigned long shrink_all_memory(unsigned long nr_to_reclaim)
 		.nr_to_reclaim = nr_to_reclaim,
 		.hibernation_mode = 1,
 		.order = 0,
-<<<<<<< HEAD
-=======
-		.priority = DEF_PRIORITY,
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	};
 	struct shrink_control shrink = {
 		.gfp_mask = sc.gfp_mask,
@@ -4118,10 +3621,7 @@ static int __zone_reclaim(struct zone *zone, gfp_t gfp_mask, unsigned int order)
 	const unsigned long nr_pages = 1 << order;
 	struct task_struct *p = current;
 	struct reclaim_state reclaim_state;
-<<<<<<< HEAD
 	int priority;
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	struct scan_control sc = {
 		.may_writepage = !!(zone_reclaim_mode & RECLAIM_WRITE),
 		.may_unmap = !!(zone_reclaim_mode & RECLAIM_SWAP),
@@ -4134,10 +3634,6 @@ static int __zone_reclaim(struct zone *zone, gfp_t gfp_mask, unsigned int order)
 				       SWAP_CLUSTER_MAX),
 		.gfp_mask = gfp_mask,
 		.order = order,
-<<<<<<< HEAD
-=======
-		.priority = ZONE_RECLAIM_PRIORITY,
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	};
 	struct shrink_control shrink = {
 		.gfp_mask = sc.gfp_mask,
@@ -4160,17 +3656,11 @@ static int __zone_reclaim(struct zone *zone, gfp_t gfp_mask, unsigned int order)
 		 * Free memory by calling shrink zone with increasing
 		 * priorities until we have enough memory freed.
 		 */
-<<<<<<< HEAD
 		priority = ZONE_RECLAIM_PRIORITY;
 		do {
 			shrink_zone(priority, zone, &sc);
 			priority--;
 		} while (priority >= 0 && sc.nr_reclaimed < nr_pages);
-=======
-		do {
-			shrink_zone(zone, &sc);
-		} while (sc.nr_reclaimed < nr_pages && --sc.priority >= 0);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 
 	nr_slab_pages0 = zone_page_state(zone, NR_SLAB_RECLAIMABLE);

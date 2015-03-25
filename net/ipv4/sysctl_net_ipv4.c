@@ -38,13 +38,6 @@ static int tcp_syn_retries_min = 1;
 static int tcp_syn_retries_max = MAX_TCP_SYNCNT;
 static int ip_ping_group_range_min[] = { 0, 0 };
 static int ip_ping_group_range_max[] = { GID_T_MAX, GID_T_MAX };
-<<<<<<< HEAD
-=======
-static int tcp_delack_seg_min = TCP_DELACK_MIN;
-static int tcp_delack_seg_max = 60;
-static int tcp_use_userconfig_min;
-static int tcp_use_userconfig_max = 1;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /* Update system visible IP port range */
 static void set_local_port_range(int range[2])
@@ -130,24 +123,6 @@ static int ipv4_ping_group_range(ctl_table *table, int write,
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
-/* Validate changes from /proc interface. */
-static int proc_tcp_default_init_rwnd(ctl_table *ctl, int write,
-				      void __user *buffer,
-				      size_t *lenp, loff_t *ppos)
-{
-	int old_value = *(int *)ctl->data;
-	int ret = proc_dointvec(ctl, write, buffer, lenp, ppos);
-	int new_value = *(int *)ctl->data;
-
-	if (write && ret == 0 && (new_value < 3 || new_value > 100))
-		*(int *)ctl->data = old_value;
-
-	return ret;
-}
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static int proc_tcp_congestion_control(ctl_table *ctl, int write,
 				       void __user *buffer, size_t *lenp, loff_t *ppos)
 {
@@ -705,11 +680,7 @@ static struct ctl_table ipv4_table[] = {
 		.mode           = 0644,
 		.proc_handler   = proc_dointvec
 	},
-<<<<<<< HEAD
         {
-=======
-	{
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		.procname       = "tcp_thin_dupack",
 		.data           = &sysctl_tcp_thin_dupack,
 		.maxlen         = sizeof(int),
@@ -717,16 +688,6 @@ static struct ctl_table ipv4_table[] = {
 		.proc_handler   = proc_dointvec
 	},
 	{
-<<<<<<< HEAD
-=======
-		.procname       = "tcp_default_init_rwnd",
-		.data           = &sysctl_tcp_default_init_rwnd,
-		.maxlen         = sizeof(int),
-		.mode           = 0644,
-		.proc_handler   = proc_tcp_default_init_rwnd
-	},
-	{
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		.procname	= "udp_mem",
 		.data		= &sysctl_udp_mem,
 		.maxlen		= sizeof(sysctl_udp_mem),
@@ -749,28 +710,6 @@ static struct ctl_table ipv4_table[] = {
 		.proc_handler	= proc_dointvec_minmax,
 		.extra1		= &zero
 	},
-<<<<<<< HEAD
-=======
-	{
-		.procname       = "tcp_delack_seg",
-		.data           = &sysctl_tcp_delack_seg,
-		.maxlen         = sizeof(sysctl_tcp_delack_seg),
-		.mode           = 0644,
-		.proc_handler   = tcp_proc_delayed_ack_control,
-		.extra1         = &tcp_delack_seg_min,
-		.extra2         = &tcp_delack_seg_max,
-	},
-	{
-		.procname       = "tcp_use_userconfig",
-		.data           = &sysctl_tcp_use_userconfig,
-		.maxlen         = sizeof(sysctl_tcp_use_userconfig),
-		.mode           = 0644,
-		.proc_handler   = tcp_use_userconfig_sysctl_handler,
-		.extra1         = &tcp_use_userconfig_min,
-		.extra2         = &tcp_use_userconfig_max,
-	},
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	{ }
 };
 
@@ -837,23 +776,6 @@ static struct ctl_table ipv4_net_table[] = {
 		.mode		= 0644,
 		.proc_handler	= ipv4_tcp_mem,
 	},
-<<<<<<< HEAD
-=======
-	{
-		.procname	= "fwmark_reflect",
-		.data		= &init_net.ipv4.sysctl_fwmark_reflect,
-		.maxlen		= sizeof(int),
-		.mode		= 0644,
-		.proc_handler	= proc_dointvec,
-	},
-	{
-		.procname	= "tcp_fwmark_accept",
-		.data		= &init_net.ipv4.sysctl_tcp_fwmark_accept,
-		.maxlen		= sizeof(int),
-		.mode		= 0644,
-		.proc_handler	= proc_dointvec,
-	},
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	{ }
 };
 

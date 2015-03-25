@@ -560,10 +560,6 @@ static int msm_hsic_reset(struct msm_hsic_hcd *mehci)
 	struct usb_hcd *hcd = hsic_to_hcd(mehci);
 	int ret;
 	struct msm_hsic_host_platform_data *pdata = mehci->dev->platform_data;
-<<<<<<< HEAD
-=======
-	u32 temp;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	msm_hsic_clk_reset(mehci);
 
@@ -621,13 +617,6 @@ static int msm_hsic_reset(struct msm_hsic_hcd *mehci)
 		ulpi_write(mehci, 0xA9, 0x30);
 	}
 
-<<<<<<< HEAD
-=======
-	temp = readl_relaxed(USB_GENCONFIG2);
-	temp &= ~GENCFG2_SYS_CLK_HOST_DEV_GATE_EN;
-	writel_relaxed(temp, USB_GENCONFIG2);
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	/*disable auto resume*/
 	ulpi_write(mehci, ULPI_IFC_CTRL_AUTORESUME, ULPI_CLR(ULPI_IFC_CTRL));
 
@@ -644,10 +633,6 @@ static int msm_hsic_suspend(struct msm_hsic_hcd *mehci)
 	int cnt = 0, ret;
 	u32 val;
 	int none_vol, max_vol;
-<<<<<<< HEAD
-=======
-	struct msm_hsic_host_platform_data *pdata = mehci->dev->platform_data;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	if (atomic_read(&mehci->in_lpm)) {
 		dev_dbg(mehci->dev, "%s called in lpm\n", __func__);
@@ -731,13 +716,6 @@ static int msm_hsic_suspend(struct msm_hsic_hcd *mehci)
 	enable_irq_wake(mehci->wakeup_irq);
 	enable_irq(mehci->wakeup_irq);
 
-<<<<<<< HEAD
-=======
-	if (pdata && pdata->standalone_latency)
-		pm_qos_update_request(&mehci->pm_qos_req_dma,
-			PM_QOS_DEFAULT_VALUE);
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	wake_unlock(&mehci->wlock);
 
 	dev_dbg(mehci->dev, "HSIC-USB in low power mode\n");
@@ -752,10 +730,6 @@ static int msm_hsic_resume(struct msm_hsic_hcd *mehci)
 	unsigned temp;
 	int min_vol, max_vol;
 	unsigned long flags;
-<<<<<<< HEAD
-=======
-	struct msm_hsic_host_platform_data *pdata = mehci->dev->platform_data;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	if (!atomic_read(&mehci->in_lpm)) {
 		dev_dbg(mehci->dev, "%s called in !in_lpm\n", __func__);
@@ -765,13 +739,6 @@ static int msm_hsic_resume(struct msm_hsic_hcd *mehci)
 	/* Handles race with Async interrupt */
 	disable_irq(hcd->irq);
 
-<<<<<<< HEAD
-=======
-	if (pdata && pdata->standalone_latency)
-		pm_qos_update_request(&mehci->pm_qos_req_dma,
-			pdata->standalone_latency + 1);
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	spin_lock_irqsave(&mehci->wakeup_lock, flags);
 	if (mehci->wakeup_irq_enabled) {
 		disable_irq_wake(mehci->wakeup_irq);
@@ -1022,14 +989,7 @@ static void ehci_hsic_reset_sof_bug_handler(struct usb_hcd *hcd, u32 val)
 	if (pdata && pdata->swfi_latency) {
 		next_latency = pdata->swfi_latency + 1;
 		pm_qos_update_request(&mehci->pm_qos_req_dma, next_latency);
-<<<<<<< HEAD
 		next_latency = PM_QOS_DEFAULT_VALUE;
-=======
-		if (pdata->standalone_latency)
-			next_latency = pdata->standalone_latency + 1;
-		else
-			next_latency = PM_QOS_DEFAULT_VALUE;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 
 	mehci->bus_reset = 1;
@@ -1138,14 +1098,7 @@ static int msm_hsic_resume_thread(void *data)
 	if (pdata && pdata->swfi_latency) {
 		next_latency = pdata->swfi_latency + 1;
 		pm_qos_update_request(&mehci->pm_qos_req_dma, next_latency);
-<<<<<<< HEAD
 		next_latency = PM_QOS_DEFAULT_VALUE;
-=======
-		if (pdata->standalone_latency)
-			next_latency = pdata->standalone_latency + 1;
-		else
-			next_latency = PM_QOS_DEFAULT_VALUE;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 
 	/* keep delay between bus states */
@@ -1877,15 +1830,9 @@ static int __devinit ehci_hsic_msm_probe(struct platform_device *pdev)
 
 	__mehci = mehci;
 
-<<<<<<< HEAD
 	if (pdata && pdata->swfi_latency)
 		pm_qos_add_request(&mehci->pm_qos_req_dma,
 			PM_QOS_CPU_DMA_LATENCY, PM_QOS_DEFAULT_VALUE);
-=======
-	if (pdata && pdata->standalone_latency)
-		pm_qos_add_request(&mehci->pm_qos_req_dma,
-			PM_QOS_CPU_DMA_LATENCY, pdata->standalone_latency + 1);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	/*
 	 * This pdev->dev is assigned parent of root-hub by USB core,
@@ -1927,11 +1874,7 @@ static int __devexit ehci_hsic_msm_remove(struct platform_device *pdev)
 	/* Remove the HCD prior to releasing our resources. */
 	usb_remove_hcd(hcd);
 
-<<<<<<< HEAD
 	if (pdata && pdata->swfi_latency)
-=======
-	if (pdata && pdata->standalone_latency)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		pm_qos_remove_request(&mehci->pm_qos_req_dma);
 
 	if (mehci->peripheral_status_irq)

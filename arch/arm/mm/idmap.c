@@ -149,12 +149,9 @@ static int __init init_static_idmap(void)
 		(long long)idmap_start, (long long)idmap_end);
 	identity_mapping_add(idmap_pgd, idmap_start, idmap_end);
 
-<<<<<<< HEAD
 	/* Flush L1 for the hardware to see this page table content */
 	flush_cache_louis();
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return 0;
 }
 early_initcall(init_static_idmap);
@@ -166,7 +163,6 @@ early_initcall(init_static_idmap);
  */
 void setup_mm_for_reboot(void)
 {
-<<<<<<< HEAD
 	/* Switch to the identity mapping. */
 	cpu_switch_mm(idmap_pgd, &init_mm);
 	local_flush_bp_all();
@@ -179,14 +175,4 @@ void setup_mm_for_reboot(void)
 	 */
 	local_flush_tlb_all();
 #endif
-=======
-	/* Clean and invalidate L1. */
-	flush_cache_all();
-
-	/* Switch to the identity mapping. */
-	cpu_switch_mm(idmap_pgd, &init_mm);
-
-	/* Flush the TLB. */
-	local_flush_tlb_all();
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }

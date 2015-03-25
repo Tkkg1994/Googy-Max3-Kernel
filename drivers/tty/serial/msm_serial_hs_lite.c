@@ -1649,11 +1649,7 @@ static int msm_serial_hsl_suspend(struct device *dev)
 		uart_suspend_port(&msm_hsl_uart_driver, port);
 		if (device_may_wakeup(dev))
 			enable_irq_wake(port->irq);
-<<<<<<< HEAD
 #if !defined(CONFIG_MACH_MELIUS)
-=======
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		if (max77693_get_jig_state() &&
 				gpio_get_value(msm_hsl_port->wakeup.rx_gpio)) {
 			/* Enable wakeup_irq
@@ -1673,10 +1669,7 @@ static int msm_serial_hsl_suspend(struct device *dev)
 			msm_hsl_port->wakeup.wakeup_set = 0;
 			//uart_connecting = 0;
 		}
-<<<<<<< HEAD
 #endif
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 
 	return 0;
@@ -1703,10 +1696,7 @@ static int msm_serial_hsl_resume(struct device *dev)
 				console_stop(port->cons);
 			msm_hsl_init_clock(port);
 		}
-<<<<<<< HEAD
 #if !defined(CONFIG_MACH_MELIUS)
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		if (max77693_get_jig_state() || msm_hsl_port->wakeup.wakeup_set) {
 			/* disable wakeup_irq */
 			if (msm_hsl_port->wakeup.irq > 0) {
@@ -1719,10 +1709,7 @@ static int msm_serial_hsl_resume(struct device *dev)
 				disable_irq(msm_hsl_port->wakeup.irq);
 			}
 		}
-<<<<<<< HEAD
 #endif
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 
 	return 0;

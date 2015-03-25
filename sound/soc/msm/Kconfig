@@ -107,11 +107,7 @@ config SND_SOC_MSM_QDSP6_INTF
 
 config SND_SOC_MSM_QDSP6V2_INTF
 	bool "SoC Q6 audio driver for MSM8974"
-<<<<<<< HEAD
 	depends on MSM_QDSP6_APR
-=======
-	depends on MSM_QDSP6_APRV2
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	help
 	 To add support for SoC audio on MSM8974.
 	 This will enable all the platform specific
@@ -155,10 +151,6 @@ config SND_SOC_MSM8960
 	select SND_SOC_CS8427 if !MACH_APQ8064_MAKO
 	select SND_SOC_DUAL_AMIC if MACH_APQ8064_MAKO
 	select SND_SOC_TPA2028D if MACH_APQ8064_MAKO
-<<<<<<< HEAD
-=======
-	select SND_HWDEP
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	default n
 	help
 	 To add support for SoC audio on MSM8960 and APQ8064 boards

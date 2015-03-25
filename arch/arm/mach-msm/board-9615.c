@@ -937,10 +937,6 @@ static struct platform_device *common_devices[] = {
 	&msm9615_rpm_stat_device,
 	&msm9615_rpm_master_stat_device,
 	&msm_tsens_device,
-<<<<<<< HEAD
-=======
-	&msm9615_pm_8x60,
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 };
 
 static void __init msm9615_i2c_init(void)

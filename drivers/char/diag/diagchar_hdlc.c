@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2008-2009, 2012-2013, The Linux Foundation.
-=======
-/* Copyright (c) 2008-2009, 2012-2014, The Linux Foundation.
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -180,13 +176,8 @@ int diag_hdlc_decode(struct diag_hdlc_decode_type *hdlc)
 	int msg_start;
 
 	if (hdlc && hdlc->src_ptr && hdlc->dest_ptr &&
-<<<<<<< HEAD
 	    (hdlc->src_size - hdlc->src_idx > 0) &&
 	    (hdlc->dest_size - hdlc->dest_idx > 0)) {
-=======
-	    (hdlc->src_size > hdlc->src_idx) &&
-	    (hdlc->dest_size > hdlc->dest_idx)) {
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 		msg_start = (hdlc->src_idx == 0) ? 1 : 0;
 

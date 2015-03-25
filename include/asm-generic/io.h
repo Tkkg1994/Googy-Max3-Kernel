@@ -148,11 +148,7 @@ static inline void insb(unsigned long addr, void *buffer, int count)
 	if (count) {
 		u8 *buf = buffer;
 		do {
-<<<<<<< HEAD
 			u8 x = __raw_readb(addr + PCI_IOBASE);
-=======
-			u8 x = inb(addr);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			*buf++ = x;
 		} while (--count);
 	}
@@ -165,11 +161,7 @@ static inline void insw(unsigned long addr, void *buffer, int count)
 	if (count) {
 		u16 *buf = buffer;
 		do {
-<<<<<<< HEAD
 			u16 x = __raw_readw(addr + PCI_IOBASE);
-=======
-			u16 x = inw(addr);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			*buf++ = x;
 		} while (--count);
 	}
@@ -182,11 +174,7 @@ static inline void insl(unsigned long addr, void *buffer, int count)
 	if (count) {
 		u32 *buf = buffer;
 		do {
-<<<<<<< HEAD
 			u32 x = __raw_readl(addr + PCI_IOBASE);
-=======
-			u32 x = inl(addr);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			*buf++ = x;
 		} while (--count);
 	}
@@ -199,11 +187,7 @@ static inline void outsb(unsigned long addr, const void *buffer, int count)
 	if (count) {
 		const u8 *buf = buffer;
 		do {
-<<<<<<< HEAD
 			__raw_writeb(*buf++, addr + PCI_IOBASE);
-=======
-			outb(*buf++, addr);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		} while (--count);
 	}
 }
@@ -215,11 +199,7 @@ static inline void outsw(unsigned long addr, const void *buffer, int count)
 	if (count) {
 		const u16 *buf = buffer;
 		do {
-<<<<<<< HEAD
 			__raw_writew(*buf++, addr + PCI_IOBASE);
-=======
-			outw(*buf++, addr);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		} while (--count);
 	}
 }
@@ -231,11 +211,7 @@ static inline void outsl(unsigned long addr, const void *buffer, int count)
 	if (count) {
 		const u32 *buf = buffer;
 		do {
-<<<<<<< HEAD
 			__raw_writel(*buf++, addr + PCI_IOBASE);
-=======
-			outl(*buf++, addr);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		} while (--count);
 	}
 }

@@ -332,12 +332,6 @@ struct inodes_stat_t {
 #define FIFREEZE	_IOWR('X', 119, int)	/* Freeze */
 #define FITHAW		_IOWR('X', 120, int)	/* Thaw */
 #define FITRIM		_IOWR('X', 121, struct fstrim_range)	/* Trim */
-<<<<<<< HEAD
-=======
-#define FS_IOC_SHUTDOWN		_IOR('X', 125, __u32)	/* Shutdown */
-
-#define FIDTRIM	_IOWR('f', 128, struct fstrim_range)	/* Deep discard trim */
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #define	FS_IOC_GETFLAGS			_IOR('f', 1, long)
 #define	FS_IOC_SETFLAGS			_IOW('f', 2, long)
@@ -386,16 +380,6 @@ struct inodes_stat_t {
 #define SYNC_FILE_RANGE_WRITE		2
 #define SYNC_FILE_RANGE_WAIT_AFTER	4
 
-<<<<<<< HEAD
-=======
-/*
- * Flags for going down operation used by FS_IOC_GOINGDOWN
- */
-#define FS_GOING_DOWN_FULLSYNC	0x0	/* going down with full sync */
-#define FS_GOING_DOWN_METASYNC	0x1	/* going down with metadata */
-#define FS_GOING_DOWN_NOSYNC	0x2	/* going down */
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #ifdef __KERNEL__
 
 #include <linux/linkage.h>
@@ -1526,13 +1510,10 @@ struct super_block {
 
 	/* Being remounted read-only */
 	int s_readonly_remount;
-<<<<<<< HEAD
 #ifdef CONFIG_ASYNC_FSYNC
 #define FLAG_ASYNC_FSYNC        0x1
 	unsigned int fsync_flags;
 #endif
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 };
 
 /* superblock cache pruning functions */
@@ -1779,16 +1760,10 @@ struct super_operations {
  *			anew.  Other functions will just ignore such inodes,
  *			if appropriate.  I_NEW is used for waiting.
  *
-<<<<<<< HEAD
  * I_SYNC		Writeback of inode is running. The bit is set during
  *			data writeback, and cleared with a wakeup on the bit
  *			address once it is done. The bit is also used to pin
  *			the inode in memory for flusher thread.
-=======
- * I_SYNC		Synchonized write of dirty inode data.  The bits is
- *			set during data writeback, and cleared with a wakeup
- *			on the bit address once it is done.
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  *
  * I_REFERENCED		Marks the inode as recently references on the LRU list.
  *

@@ -372,7 +372,6 @@ TRACE_EVENT(balance_dirty_pages,
 	  )
 );
 
-<<<<<<< HEAD
 TRACE_EVENT(writeback_sb_inodes_requeue,
 
 	TP_PROTO(struct inode *inode),
@@ -402,8 +401,6 @@ TRACE_EVENT(writeback_sb_inodes_requeue,
 	)
 );
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 DECLARE_EVENT_CLASS(writeback_congest_waited_template,
 
 	TP_PROTO(unsigned int usec_timeout, unsigned int usec_delayed),
@@ -482,16 +479,6 @@ DECLARE_EVENT_CLASS(writeback_single_inode_template,
 	)
 );
 
-<<<<<<< HEAD
-=======
-DEFINE_EVENT(writeback_single_inode_template, writeback_single_inode_requeue,
-	TP_PROTO(struct inode *inode,
-		 struct writeback_control *wbc,
-		 unsigned long nr_to_write),
-	TP_ARGS(inode, wbc, nr_to_write)
-);
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 DEFINE_EVENT(writeback_single_inode_template, writeback_single_inode,
 	TP_PROTO(struct inode *inode,
 		 struct writeback_control *wbc,

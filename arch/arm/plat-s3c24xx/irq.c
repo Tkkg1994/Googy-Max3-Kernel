@@ -533,11 +533,7 @@ void __init s3c24xx_init_irq(void)
 	int i;
 
 #ifdef CONFIG_FIQ
-<<<<<<< HEAD
 	init_FIQ();
-=======
-	init_FIQ(FIQ_START);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif
 
 	irqdbf("s3c2410_init_irq: clearing interrupt status flags\n");

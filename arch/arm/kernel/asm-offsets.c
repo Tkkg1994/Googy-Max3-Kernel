@@ -10,10 +10,7 @@
  * it under the terms of the GNU General Public License version 2 as
  * published by the Free Software Foundation.
  */
-<<<<<<< HEAD
 #include <linux/compiler.h>
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <linux/sched.h>
 #include <linux/mm.h>
 #include <linux/dma-mapping.h>
@@ -24,10 +21,7 @@
 #include <asm/thread_info.h>
 #include <asm/memory.h>
 #include <asm/procinfo.h>
-<<<<<<< HEAD
 #include <asm/suspend.h>
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <asm/hardware/cache-l2x0.h>
 #include <linux/kbuild.h>
 
@@ -43,7 +37,6 @@
  * GCC 3.2.x: miscompiles NEW_AUX_ENT in fs/binfmt_elf.c
  *            (http://gcc.gnu.org/PR8896) and incorrect structure
  *	      initialisation in fs/jffs2/erase.c
-<<<<<<< HEAD
  * GCC 4.8.0-4.8.2: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=58854
  *	      miscompiles find_get_entry(), and can result in EXT3 and EXT4
  *	      filesystem corruption (possibly other FS too).
@@ -57,12 +50,6 @@
 #error Your compiler is too buggy; it is known to miscompile kernels
 #error and result in filesystem corruption and oopses.
 #endif
-=======
- */
-#if (__GNUC__ == 3 && __GNUC_MINOR__ < 3)
-#error Your compiler is too buggy; it is known to miscompile kernels.
-#error    Known good compilers: 3.3
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif
 
 int main(void)
@@ -129,11 +116,7 @@ int main(void)
   BLANK();
 #endif
 #ifdef CONFIG_CPU_HAS_ASID
-<<<<<<< HEAD
   DEFINE(MM_CONTEXT_ID,		offsetof(struct mm_struct, context.id.counter));
-=======
-  DEFINE(MM_CONTEXT_ID,		offsetof(struct mm_struct, context.id));
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
   BLANK();
 #endif
   DEFINE(VMA_VM_MM,		offsetof(struct vm_area_struct, vm_mm));
@@ -168,14 +151,11 @@ int main(void)
 #ifdef MULTI_CACHE
   DEFINE(CACHE_FLUSH_KERN_ALL,	offsetof(struct cpu_cache_fns, flush_kern_all));
 #endif
-<<<<<<< HEAD
 #ifdef CONFIG_ARM_CPU_SUSPEND
   DEFINE(SLEEP_SAVE_SP_SZ,	sizeof(struct sleep_save_sp));
   DEFINE(SLEEP_SAVE_SP_PHYS,	offsetof(struct sleep_save_sp, save_ptr_stash_phys));
   DEFINE(SLEEP_SAVE_SP_VIRT,	offsetof(struct sleep_save_sp, save_ptr_stash));
 #endif
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
   BLANK();
   DEFINE(DMA_BIDIRECTIONAL,	DMA_BIDIRECTIONAL);
   DEFINE(DMA_TO_DEVICE,		DMA_TO_DEVICE);

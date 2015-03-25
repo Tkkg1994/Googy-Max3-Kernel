@@ -41,7 +41,6 @@ extern void kunmap_high(struct page *page);
 #endif
 #endif
 
-<<<<<<< HEAD
 /*
  * Needed to be able to broadcast the TLB invalidation for kmap.
  */
@@ -49,8 +48,6 @@ extern void kunmap_high(struct page *page);
 #undef ARCH_NEEDS_KMAP_HIGH_GET
 #endif
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #ifdef ARCH_NEEDS_KMAP_HIGH_GET
 extern void *kmap_high_get(struct page *page);
 #else

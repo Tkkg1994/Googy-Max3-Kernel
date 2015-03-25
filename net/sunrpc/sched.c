@@ -235,11 +235,7 @@ static int rpc_wait_bit_killable(void *word)
 {
 	if (fatal_signal_pending(current))
 		return -ERESTARTSYS;
-<<<<<<< HEAD
 	freezable_schedule();
-=======
-	freezable_schedule_unsafe();
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return 0;
 }
 

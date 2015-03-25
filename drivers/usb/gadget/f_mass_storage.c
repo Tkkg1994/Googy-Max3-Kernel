@@ -963,12 +963,9 @@ static int do_read_cd(struct fsg_common *common)
 		/* read all data  - 2352 byte */
 		amount_left = 2352;
 	} else {
-<<<<<<< HEAD
 	if (curlun->cdrom)
 		file_offset = ((loff_t) lba) << 11;
 	else
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		file_offset = ((loff_t) lba) << 9;
 		/* Carry out the file reads */
 		amount_left = common->data_size_from_cmnd;
@@ -976,11 +973,8 @@ static int do_read_cd(struct fsg_common *common)
 
 	if (unlikely(amount_left == 0))
 		return -EIO;		/* No default reply */
-<<<<<<< HEAD
 	if (curlun->cdrom)
 		amount_left <<= 2;
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	for (;;) {
 
@@ -1708,11 +1702,7 @@ static int do_read_capacity(struct fsg_common *common, struct fsg_buffhd *bh)
 
 	put_unaligned_be32(curlun->num_sectors - 1, &buf[0]);
 						/* Max logical block */
-<<<<<<< HEAD
 	put_unaligned_be32(curlun->cdrom ? 2048 : curlun->blksize, &buf[4]);/* Block length */
-=======
-	put_unaligned_be32(curlun->blksize, &buf[4]);/* Block length */
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return 8;
 }
 
@@ -1983,11 +1973,7 @@ static int do_read_format_capacities(struct fsg_common *common,
 
 	put_unaligned_be32(curlun->num_sectors, &buf[0]);
 						/* Number of blocks */
-<<<<<<< HEAD
 	put_unaligned_be32(curlun->cdrom ? 2048 : curlun->blksize, &buf[4]);/* Block length */
-=======
-	put_unaligned_be32(curlun->blksize, &buf[4]);/* Block length */
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	buf[4] = 0x02;				/* Current capacity */
 	return 12;
 }
@@ -2389,13 +2375,9 @@ static int check_command(struct fsg_common *common, int cmnd_size,
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
 	/* Check that only command bytes listed in the mask are non-zero
 	 * Some BIOSes put some non-zero values in READ_TOC requests in
 	 * the last two bytes */
-=======
-	/* Check that only command bytes listed in the mask are non-zero */
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	common->cmnd[1] &= 0x1f;			/* Mask away the LUN */
 	for (i = 1; i < cmnd_size; ++i) {
 		if (common->cmnd[i] && !(mask & (1 << i))) {
@@ -2569,11 +2551,7 @@ static int do_scsi_command(struct fsg_common *common)
 #ifdef _SUPPORT_MAC_
 				      (0xf<<6) | (1<<1), 1,
 #else
-<<<<<<< HEAD
 				      (0xf<<6) | (1<<1), 1,
-=======
-				      (7<<6) | (1<<1), 1,
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif
 				      "READ TOC");
 		if (reply == 0)

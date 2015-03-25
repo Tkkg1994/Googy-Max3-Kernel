@@ -87,13 +87,9 @@ static int nrpacks = 8;		/* max. number of packets per urb */
 static bool async_unlink = 1;
 static int device_setup[SNDRV_CARDS]; /* device parameter for this card */
 static bool ignore_ctl_error;
-<<<<<<< HEAD
 #ifndef CONFIG_USB_ANDROID_SAMSUNG_COMPOSITE
 struct switch_dev *usbaudiosdev;
 #endif
-=======
-struct switch_dev *usbaudiosdev;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 module_param_array(index, int, NULL, 0444);
 MODULE_PARM_DESC(index, "Index value for the USB audio adapter.");
@@ -289,11 +285,7 @@ static int snd_usb_create_streams(struct snd_usb_audio *chip, int ctrlif)
 		break;
 	}
 	}
-<<<<<<< HEAD
 
-=======
-	switch_set_state(usbaudiosdev, 1);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return 0;
 }
 
@@ -449,12 +441,9 @@ static int snd_usb_audio_create(struct usb_device *dev, int idx,
 	}
 
 	snd_usb_audio_create_proc(chip);
-<<<<<<< HEAD
 #ifndef CONFIG_USB_ANDROID_SAMSUNG_COMPOSITE
 	switch_set_state(usbaudiosdev, 1);
 #endif
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	*rchip = chip;
 	return 0;
@@ -560,10 +549,6 @@ snd_usb_audio_probe(struct usb_device *dev,
 		goto __error;
 	}
 
-<<<<<<< HEAD
-=======
-	switch_set_state(usbaudiosdev, 1);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	usb_chip[chip->index] = chip;
 	chip->num_interfaces++;
 	chip->probing = 0;
@@ -626,13 +611,9 @@ static void snd_usb_audio_disconnect(struct usb_device *dev,
 	} else {
 		mutex_unlock(&register_mutex);
 	}
-<<<<<<< HEAD
 #ifndef CONFIG_USB_ANDROID_SAMSUNG_COMPOSITE
 	switch_set_state(usbaudiosdev, 0);
 #endif
-=======
-	switch_set_state(usbaudiosdev, 0);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 /*
@@ -771,24 +752,15 @@ static struct usb_driver usb_audio_driver = {
 
 static int __init snd_usb_audio_init(void)
 {
-<<<<<<< HEAD
 #ifndef CONFIG_USB_ANDROID_SAMSUNG_COMPOSITE
 	int err;
 #endif
-=======
-	int err;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (nrpacks < 1 || nrpacks > MAX_PACKS) {
 		printk(KERN_WARNING "invalid nrpacks value.\n");
 		return -EINVAL;
 	}
-<<<<<<< HEAD
 #ifndef CONFIG_USB_ANDROID_SAMSUNG_COMPOSITE
 	usbaudiosdev = kzalloc(sizeof(usbaudiosdev), GFP_KERNEL);
-=======
-
-	usbaudiosdev = kzalloc(sizeof(*usbaudiosdev), GFP_KERNEL);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	usbaudiosdev->name = "usb_audio";
 
 	err = switch_dev_register(usbaudiosdev);
@@ -796,23 +768,16 @@ static int __init snd_usb_audio_init(void)
 		pr_err("Usb-audio switch registration failed\n");
 	else
 		pr_debug("usb hs_detected\n");
-<<<<<<< HEAD
 #endif
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return usb_register(&usb_audio_driver);
 }
 
 static void __exit snd_usb_audio_cleanup(void)
 {
 	usb_deregister(&usb_audio_driver);
-<<<<<<< HEAD
 #ifndef CONFIG_USB_ANDROID_SAMSUNG_COMPOSITE
 	kfree(usbaudiosdev);
 #endif
-=======
-	kfree(usbaudiosdev);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 module_init(snd_usb_audio_init);

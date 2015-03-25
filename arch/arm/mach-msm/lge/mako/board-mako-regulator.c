@@ -378,12 +378,7 @@ VREG_CONSUMERS(EXT_DSV_LOAD) = {
 	{ \
 		.constraints = { \
 			.name		= _name, \
-<<<<<<< HEAD
 			.valid_ops_mask	= REGULATOR_CHANGE_VOLTAGE, \
-=======
-			.valid_ops_mask	= REGULATOR_CHANGE_VOLTAGE, | \
-							  REGULATOR_CHANGE_STATUS, \
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			.min_uV		= _min_uV, \
 			.max_uV		= _max_uV, \
 		}, \

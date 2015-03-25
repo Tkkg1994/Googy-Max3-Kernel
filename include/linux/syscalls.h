@@ -858,9 +858,4 @@ asmlinkage long sys_process_vm_writev(pid_t pid,
 				      unsigned long riovcnt,
 				      unsigned long flags);
 
-<<<<<<< HEAD
-=======
-asmlinkage long sys_seccomp(unsigned int op, unsigned int flags,
-			    const char __user *uargs);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif

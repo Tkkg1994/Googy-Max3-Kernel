@@ -274,14 +274,6 @@ struct irq_affinity_notify {
 extern int
 irq_set_affinity_notifier(unsigned int irq, struct irq_affinity_notify *notify);
 
-<<<<<<< HEAD
-=======
-static inline void irq_run_affinity_notifiers(void)
-{
-	flush_scheduled_work();
-}
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #else /* CONFIG_SMP */
 
 static inline int irq_set_affinity(unsigned int irq, const struct cpumask *m)

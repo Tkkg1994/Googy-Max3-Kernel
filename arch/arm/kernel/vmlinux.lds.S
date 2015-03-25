@@ -93,12 +93,6 @@ SECTIONS
 		_text = .;
 		HEAD_TEXT
 	}
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_STRICT_MEMORY_RWX
-	. = ALIGN(1<<SECTION_SHIFT);
-#endif
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	.text : {			/* Real text segment		*/
 		_stext = .;		/* Text and read-only data	*/
@@ -121,17 +115,10 @@ SECTIONS
 		*(.got)			/* Global offset table		*/
 			ARM_CPU_KEEP(PROC_INFO)
 	}
-<<<<<<< HEAD
 #ifdef CONFIG_STRICT_MEMORY_RWX
 	. = ALIGN(1<<SECTION_SHIFT);
 #endif
 
-=======
-
-#ifdef CONFIG_STRICT_MEMORY_RWX
-	. = ALIGN(1<<SECTION_SHIFT);
-#endif
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	RO_DATA(PAGE_SIZE)
 
 #ifdef CONFIG_ARM_UNWIND
@@ -151,11 +138,8 @@ SECTIONS
 	}
 #endif
 
-<<<<<<< HEAD
 	NOTES
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	_etext = .;			/* End of text and rodata section */
 
 #ifndef CONFIG_XIP_KERNEL
@@ -166,26 +150,6 @@ SECTIONS
 #endif
 	__init_begin = .;
 #endif
-<<<<<<< HEAD
-=======
-	/*
-	 * The vectors and stubs are relocatable code, and the
-	 * only thing that matters is their relative offsets
-	 */
-	__vectors_start = .;
-	.vectors 0 : AT(__vectors_start) {
-		*(.vectors)
-	}
-	. = __vectors_start + SIZEOF(.vectors);
-	__vectors_end = .;
-
-	__stubs_start = .;
-	.stubs 0x1000 : AT(__stubs_start) {
-		*(.stubs)
-	}
-	. = __stubs_start + SIZEOF(.stubs);
-	__stubs_end = .;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	INIT_TEXT_SECTION(8)
 	.exit.text : {
@@ -194,12 +158,6 @@ SECTIONS
 	.init.proc.info : {
 		ARM_CPU_DISCARD(PROC_INFO)
 	}
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_STRICT_MEMORY_RWX
-	. = ALIGN(1<<SECTION_SHIFT);
-#endif
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	.init.arch.info : {
 		__arch_info_begin = .;
 		*(.arch.info.init)
@@ -234,13 +192,10 @@ SECTIONS
 		INIT_RAM_FS
 	}
 #ifndef CONFIG_XIP_KERNEL
-<<<<<<< HEAD
 #ifdef CONFIG_STRICT_MEMORY_RWX
 	. = ALIGN(1<<SECTION_SHIFT);
 #endif
 	__init_data = .;
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	.exit.data : {
 		ARM_EXIT_KEEP(EXIT_DATA)
 	}
@@ -255,13 +210,8 @@ SECTIONS
 	__data_loc = ALIGN(4);		/* location in binary */
 	. = PAGE_OFFSET + TEXT_OFFSET;
 #else
-<<<<<<< HEAD
 	. = ALIGN(THREAD_SIZE);
 	__init_end = .;
-=======
-	__init_end = .;
-	. = ALIGN(THREAD_SIZE);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	__data_loc = .;
 #endif
 
@@ -291,11 +241,7 @@ SECTIONS
 		/*
 		 * The exception fixup table (might need resorting at runtime)
 		 */
-<<<<<<< HEAD
 		. = ALIGN(L1_CACHE_BYTES);
-=======
-		. = ALIGN(4);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		__start___ex_table = .;
 #ifdef CONFIG_MMU
 		*(__ex_table)
@@ -369,11 +315,6 @@ SECTIONS
 	}
 #endif
 
-<<<<<<< HEAD
-=======
-	NOTES
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	BSS_SECTION(0, 0, 0)
 	_end = .;
 

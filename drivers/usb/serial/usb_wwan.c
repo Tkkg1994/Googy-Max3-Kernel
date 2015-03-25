@@ -801,27 +801,15 @@ int usb_wwan_suspend(struct usb_serial *serial, pm_message_t message)
 
 	spin_lock_irq(&intfdata->susp_lock);
 	if (PMSG_IS_AUTO(message)) {
-<<<<<<< HEAD
 
 		if (intfdata->in_flight) {
 			spin_unlock_irq(&intfdata->susp_lock);
-=======
-		spin_lock_irq(&intfdata->susp_lock);
-		b = intfdata->in_flight;
-		spin_unlock_irq(&intfdata->susp_lock);
-
-		if (b || pm_runtime_autosuspend_expiration(&serial->dev->dev))
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			return -EBUSY;
 		}
 	}
 
 	intfdata->suspended = 1;
 	spin_unlock_irq(&intfdata->susp_lock);
-<<<<<<< HEAD
-=======
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	stop_read_write_urbs(serial);
 
 	return 0;
@@ -878,17 +866,10 @@ int usb_wwan_resume(struct usb_serial *serial)
 		/* skip closed ports */
 		if (!portdata || !portdata->opened)
 			continue;
-<<<<<<< HEAD
 		
 		if (port->interrupt_in_urb) {
 			err = usb_submit_urb(port->interrupt_in_urb,
 				GFP_ATOMIC);
-=======
-
-		if (port->interrupt_in_urb) {
-			err = usb_submit_urb(port->interrupt_in_urb,
-					GFP_ATOMIC);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			if (err) {
 				dev_err(&port->dev,
 					"%s: submit int urb failed: %d\n",
@@ -916,7 +897,6 @@ int usb_wwan_resume(struct usb_serial *serial)
 				    __func__, err, j, urb, i);
 				usb_unanchor_urb(urb);
 				intfdata->suspended = 1;
-<<<<<<< HEAD
 				err_count++;
 			}
 		}
@@ -927,18 +907,6 @@ int usb_wwan_resume(struct usb_serial *serial)
 		return -EIO;
 
 	return 0;
-=======
-				spin_unlock_irq(&intfdata->susp_lock);
-				goto err_out;
-			}
-		}
-	}
-	intfdata->suspended = 0;
-	spin_unlock_irq(&intfdata->susp_lock);
-
-err_out:
-	return err;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 EXPORT_SYMBOL(usb_wwan_resume);
 #endif

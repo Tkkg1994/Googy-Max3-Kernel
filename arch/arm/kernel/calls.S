@@ -387,15 +387,6 @@
 /* 375 */	CALL(sys_setns)
 		CALL(sys_process_vm_readv)
 		CALL(sys_process_vm_writev)
-<<<<<<< HEAD
-=======
-		CALL(sys_ni_syscall)
-		CALL(sys_ni_syscall)
-/* 380 */	CALL(sys_ni_syscall)
-		CALL(sys_ni_syscall)
-		CALL(sys_ni_syscall)
-		CALL(sys_seccomp)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #ifndef syscalls_counted
 .equ syscalls_padding, ((NR_syscalls + 3) & ~3) - NR_syscalls
 #define syscalls_counted

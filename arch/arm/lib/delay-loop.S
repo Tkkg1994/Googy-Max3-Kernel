@@ -35,25 +35,17 @@ ENTRY(__loop_const_udelay)			@ 0 <= r0 <= 0x7fffff06
 		mul	r0, r2, r0		@ max = 2^32-1
 		add	r0, r0, r1, lsr #32-6
 		movs	r0, r0, lsr #6
-<<<<<<< HEAD
 		reteq	lr
-=======
-		moveq	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  * loops = r0 * HZ * loops_per_jiffy / 1000000
  */
-<<<<<<< HEAD
 		.align 3
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 @ Delay routine
 ENTRY(__loop_delay)
 		subs	r0, r0, #1
 #if 0
-<<<<<<< HEAD
 		retls	lr
 		subs	r0, r0, #1
 		retls	lr
@@ -71,25 +63,6 @@ ENTRY(__loop_delay)
 #endif
 		bhi	__loop_delay
 		ret	lr
-=======
-		movls	pc, lr
-		subs	r0, r0, #1
-		movls	pc, lr
-		subs	r0, r0, #1
-		movls	pc, lr
-		subs	r0, r0, #1
-		movls	pc, lr
-		subs	r0, r0, #1
-		movls	pc, lr
-		subs	r0, r0, #1
-		movls	pc, lr
-		subs	r0, r0, #1
-		movls	pc, lr
-		subs	r0, r0, #1
-#endif
-		bhi	__loop_delay
-		mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(__loop_udelay)
 ENDPROC(__loop_const_udelay)
 ENDPROC(__loop_delay)

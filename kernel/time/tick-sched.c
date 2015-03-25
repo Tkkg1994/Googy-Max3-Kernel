@@ -304,15 +304,10 @@ static void tick_nohz_stop_sched_tick(struct tick_sched *ts)
 		return;
 	}
 
-<<<<<<< HEAD
 	if (unlikely(ts->nohz_mode == NOHZ_MODE_INACTIVE)) {
 		ts->sleep_length = (ktime_t) { .tv64 = NSEC_PER_SEC/HZ };
 		return;
 	}
-=======
-	if (unlikely(ts->nohz_mode == NOHZ_MODE_INACTIVE))
-		return;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	if (need_resched())
 		return;
@@ -351,17 +346,10 @@ static void tick_nohz_stop_sched_tick(struct tick_sched *ts)
 		}
 	}
 	/*
-<<<<<<< HEAD
 	 * Do not stop the tick, if we are only one off (or less)
 	 * or if the cpu is required for rcu
 	 */
 	if (!ts->tick_stopped && delta_jiffies <= 1)
-=======
-	 * Do not stop the tick, if we are only one off
-	 * or if the cpu is required for rcu
-	 */
-	if (!ts->tick_stopped && delta_jiffies == 1)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		goto out;
 
 	/* Schedule the tick, if we are at least one jiffie off */
@@ -468,10 +456,7 @@ static void tick_nohz_stop_sched_tick(struct tick_sched *ts)
 out:
 	ts->next_jiffies = next_jiffies;
 	ts->last_jiffies = last_jiffies;
-<<<<<<< HEAD
 	ts->sleep_length = ktime_sub(dev->next_event, now);
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 /**
@@ -545,13 +530,8 @@ void tick_nohz_irq_exit(void)
 ktime_t tick_nohz_get_sleep_length(void)
 {
 	struct tick_sched *ts = &__get_cpu_var(tick_cpu_sched);
-<<<<<<< HEAD
 
 	return ts->sleep_length;
-=======
-	struct clock_event_device *dev = __get_cpu_var(tick_cpu_device).evtdev;
-	return ktime_sub(dev->next_event, ts->idle_entrytime);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 static void tick_nohz_restart(struct tick_sched *ts, ktime_t now)

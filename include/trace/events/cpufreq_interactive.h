@@ -28,7 +28,6 @@ DECLARE_EVENT_CLASS(set,
 	      __entry->actualfreq)
 );
 
-<<<<<<< HEAD
 DEFINE_EVENT(set, cpufreq_interactive_up,
 	TP_PROTO(u32 cpu_id, unsigned long targfreq,
 	     unsigned long actualfreq),
@@ -36,9 +35,6 @@ DEFINE_EVENT(set, cpufreq_interactive_up,
 );
 
 DEFINE_EVENT(set, cpufreq_interactive_down,
-=======
-DEFINE_EVENT(set, cpufreq_interactive_setspeed,
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	TP_PROTO(u32 cpu_id, unsigned long targfreq,
 	     unsigned long actualfreq),
 	TP_ARGS(cpu_id, targfreq, actualfreq)
@@ -46,32 +42,19 @@ DEFINE_EVENT(set, cpufreq_interactive_setspeed,
 
 DECLARE_EVENT_CLASS(loadeval,
 	    TP_PROTO(unsigned long cpu_id, unsigned long load,
-<<<<<<< HEAD
 		     unsigned long curfreq, unsigned long targfreq),
 	    TP_ARGS(cpu_id, load, curfreq, targfreq),
-=======
-		     unsigned long curtarg, unsigned long curactual,
-		     unsigned long newtarg),
-		    TP_ARGS(cpu_id, load, curtarg, curactual, newtarg),
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	    TP_STRUCT__entry(
 		    __field(unsigned long, cpu_id    )
 		    __field(unsigned long, load      )
-<<<<<<< HEAD
 		    __field(unsigned long, curfreq   )
 		    __field(unsigned long, targfreq  )
-=======
-		    __field(unsigned long, curtarg   )
-		    __field(unsigned long, curactual )
-		    __field(unsigned long, newtarg   )
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	    ),
 
 	    TP_fast_assign(
 		    __entry->cpu_id = cpu_id;
 		    __entry->load = load;
-<<<<<<< HEAD
 		    __entry->curfreq = curfreq;
 		    __entry->targfreq = targfreq;
 	    ),
@@ -79,52 +62,24 @@ DECLARE_EVENT_CLASS(loadeval,
 	    TP_printk("cpu=%lu load=%lu cur=%lu targ=%lu",
 		      __entry->cpu_id, __entry->load, __entry->curfreq,
 		      __entry->targfreq)
-=======
-		    __entry->curtarg = curtarg;
-		    __entry->curactual = curactual;
-		    __entry->newtarg = newtarg;
-	    ),
-
-	    TP_printk("cpu=%lu load=%lu cur=%lu actual=%lu targ=%lu",
-		      __entry->cpu_id, __entry->load, __entry->curtarg,
-		      __entry->curactual, __entry->newtarg)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 );
 
 DEFINE_EVENT(loadeval, cpufreq_interactive_target,
 	    TP_PROTO(unsigned long cpu_id, unsigned long load,
-<<<<<<< HEAD
 		     unsigned long curfreq, unsigned long targfreq),
 	    TP_ARGS(cpu_id, load, curfreq, targfreq)
-=======
-		     unsigned long curtarg, unsigned long curactual,
-		     unsigned long newtarg),
-	    TP_ARGS(cpu_id, load, curtarg, curactual, newtarg)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 );
 
 DEFINE_EVENT(loadeval, cpufreq_interactive_already,
 	    TP_PROTO(unsigned long cpu_id, unsigned long load,
-<<<<<<< HEAD
 		     unsigned long curfreq, unsigned long targfreq),
 	    TP_ARGS(cpu_id, load, curfreq, targfreq)
-=======
-		     unsigned long curtarg, unsigned long curactual,
-		     unsigned long newtarg),
-	    TP_ARGS(cpu_id, load, curtarg, curactual, newtarg)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 );
 
 DEFINE_EVENT(loadeval, cpufreq_interactive_notyet,
 	    TP_PROTO(unsigned long cpu_id, unsigned long load,
-<<<<<<< HEAD
 		     unsigned long curfreq, unsigned long targfreq),
 	    TP_ARGS(cpu_id, load, curfreq, targfreq)
-=======
-		     unsigned long curtarg, unsigned long curactual,
-		     unsigned long newtarg),
-	    TP_ARGS(cpu_id, load, curtarg, curactual, newtarg)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 );
 
 TRACE_EVENT(cpufreq_interactive_boost,

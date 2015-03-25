@@ -39,14 +39,8 @@ struct snd_msm {
 	struct snd_pcm *pcm;
 };
 
-<<<<<<< HEAD
 #define PLAYBACK_NUM_PERIODS	8
 #define PLAYBACK_PERIOD_SIZE	2048
-=======
-#define PLAYBACK_NUM_PERIODS		8
-#define PLAYBACK_MAX_PERIOD_SIZE	4096
-#define PLAYBACK_MIN_PERIOD_SIZE	1024
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #define CAPTURE_MIN_NUM_PERIODS 2
 #define CAPTURE_MAX_NUM_PERIODS 16
 #define CAPTURE_MAX_PERIOD_SIZE 4096
@@ -85,15 +79,9 @@ static struct snd_pcm_hardware msm_pcm_hardware_playback = {
 	.rate_max =             48000,
 	.channels_min =         1,
 	.channels_max =         2,
-<<<<<<< HEAD
 	.buffer_bytes_max =     PLAYBACK_NUM_PERIODS * PLAYBACK_PERIOD_SIZE,
 	.period_bytes_min =	PLAYBACK_PERIOD_SIZE,
 	.period_bytes_max =     PLAYBACK_PERIOD_SIZE,
-=======
-	.buffer_bytes_max =     PLAYBACK_NUM_PERIODS * PLAYBACK_MAX_PERIOD_SIZE,
-	.period_bytes_min =	PLAYBACK_MIN_PERIOD_SIZE,
-	.period_bytes_max =     PLAYBACK_MAX_PERIOD_SIZE,
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	.periods_min =          PLAYBACK_NUM_PERIODS,
 	.periods_max =          PLAYBACK_NUM_PERIODS,
 	.fifo_size =            0,
@@ -410,20 +398,6 @@ static int msm_pcm_open(struct snd_pcm_substream *substream)
 		pr_err("snd_pcm_hw_constraint_integer failed\n");
 
 
-<<<<<<< HEAD
-=======
-	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-		ret = snd_pcm_hw_constraint_minmax(runtime,
-			SNDRV_PCM_HW_PARAM_BUFFER_BYTES,
-			PLAYBACK_NUM_PERIODS * PLAYBACK_MIN_PERIOD_SIZE,
-			PLAYBACK_NUM_PERIODS * PLAYBACK_MAX_PERIOD_SIZE);
-		if (ret < 0) {
-			pr_err("constraint for buffer bytes min max ret = %d\n",
-									ret);
-		}
-	}
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE) {
 		ret = snd_pcm_hw_constraint_minmax(runtime,
 			SNDRV_PCM_HW_PARAM_BUFFER_BYTES,
@@ -737,7 +711,6 @@ static int msm_pcm_hw_params(struct snd_pcm_substream *substream,
 						  substream->stream, event);
 	}
 
-<<<<<<< HEAD
 	if (dir == OUT) {
 		ret = q6asm_audio_client_buf_alloc_contiguous(dir,
 			prtd->audio_client,
@@ -754,12 +727,6 @@ static int msm_pcm_hw_params(struct snd_pcm_substream *substream,
 			runtime->hw.periods_max);
 	}
 
-=======
-	ret = q6asm_audio_client_buf_alloc_contiguous(dir,
-			prtd->audio_client,
-			(params_buffer_bytes(params) / params_periods(params)),
-			params_periods(params));
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (ret < 0) {
 		pr_err("Audio Start: Buffer Allocation failed \
 					rc = %d\n", ret);
@@ -776,14 +743,10 @@ static int msm_pcm_hw_params(struct snd_pcm_substream *substream,
 	dma_buf->area = buf[0].data;
 	dma_buf->addr =  buf[0].phys;
 	dma_buf->bytes = runtime->hw.buffer_bytes_max;
-<<<<<<< HEAD
 	if (dir == IN)
 		dma_buf->bytes = runtime->hw.buffer_bytes_max;
 	else
 		dma_buf->bytes = params_buffer_bytes(params);
-=======
-	dma_buf->bytes = params_buffer_bytes(params);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	if (!dma_buf->area)
 		return -ENOMEM;

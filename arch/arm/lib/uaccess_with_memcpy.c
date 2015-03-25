@@ -18,10 +18,7 @@
 #include <linux/hardirq.h> /* for in_atomic() */
 #include <linux/gfp.h>
 #include <linux/highmem.h>
-<<<<<<< HEAD
 #include <linux/hugetlb.h>
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <asm/current.h>
 #include <asm/page.h>
 
@@ -44,7 +41,6 @@ pin_page_for_write(const void __user *_addr, pte_t **ptep, spinlock_t **ptlp)
 		return 0;
 
 	pmd = pmd_offset(pud, addr);
-<<<<<<< HEAD
 	if (unlikely(pmd_none(*pmd)))
 		return 0;
 
@@ -74,9 +70,6 @@ pin_page_for_write(const void __user *_addr, pte_t **ptep, spinlock_t **ptlp)
 	}
 
 	if (unlikely(pmd_bad(*pmd)))
-=======
-	if (unlikely(pmd_none(*pmd) || pmd_bad(*pmd)))
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		return 0;
 
 	pte = pte_offset_map_lock(current->mm, pmd, addr, &ptl);
@@ -130,14 +123,10 @@ __copy_to_user_memcpy(void __user *to, const void *from, unsigned long n)
 		from += tocopy;
 		n -= tocopy;
 
-<<<<<<< HEAD
 		if (pte)
 			pte_unmap_unlock(pte, ptl);
 		else
 			spin_unlock(ptl);
-=======
-		pte_unmap_unlock(pte, ptl);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 	if (!atomic)
 		up_read(&current->mm->mmap_sem);
@@ -190,14 +179,10 @@ __clear_user_memset(void __user *addr, unsigned long n)
 		addr += tocopy;
 		n -= tocopy;
 
-<<<<<<< HEAD
 		if (pte)
 			pte_unmap_unlock(pte, ptl);
 		else
 			spin_unlock(ptl);
-=======
-		pte_unmap_unlock(pte, ptl);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 	up_read(&current->mm->mmap_sem);
 

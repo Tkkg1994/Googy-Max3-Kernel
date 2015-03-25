@@ -25,10 +25,6 @@ struct netns_sysctl_ipv6 {
 	int ip6_rt_mtu_expires;
 	int ip6_rt_min_advmss;
 	int icmpv6_time;
-<<<<<<< HEAD
-=======
-	int fwmark_reflect;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 };
 
 struct netns_ipv6 {

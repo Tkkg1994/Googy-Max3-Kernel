@@ -25,10 +25,6 @@
  */
 
 #include <linux/delay.h>
-<<<<<<< HEAD
-=======
-#include <linux/smpboot.h>
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #define RCU_KTHREAD_PRIO 1
 
@@ -1229,19 +1225,6 @@ static void rcu_initiate_boost_trace(struct rcu_node *rnp)
 
 #endif /* #else #ifdef CONFIG_RCU_TRACE */
 
-<<<<<<< HEAD
-=======
-static void rcu_wake_cond(struct task_struct *t, int status)
-{
-	/*
-	 * If the thread is yielding, only wake it when this
-	 * is invoked from idle
-	 */
-	if (status != RCU_KTHREAD_YIELDING || is_idle_task(current))
-		wake_up_process(t);
-}
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 /*
  * Carry out RCU priority boosting on the task indicated by ->exp_tasks
  * or ->boost_tasks, advancing the pointer to the next task in the
@@ -1314,7 +1297,6 @@ static int rcu_boost(struct rcu_node *rnp)
 }
 
 /*
-<<<<<<< HEAD
  * Timer handler to initiate waking up of boost kthreads that
  * have yielded the CPU due to excessive numbers of tasks to
  * boost.  We wake up the per-rcu_node kthread, which in turn
@@ -1326,8 +1308,6 @@ static void rcu_boost_kthread_timer(unsigned long arg)
 }
 
 /*
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  * Priority-boosting kthread.  One per leaf rcu_node and one for the
  * root rcu_node.
  */
@@ -1350,14 +1330,8 @@ static int rcu_boost_kthread(void *arg)
 		else
 			spincnt = 0;
 		if (spincnt > 10) {
-<<<<<<< HEAD
 			trace_rcu_utilization("End boost kthread@rcu_yield");
 			rcu_yield(rcu_boost_kthread_timer, (unsigned long)rnp);
-=======
-			rnp->boost_kthread_status = RCU_KTHREAD_YIELDING;
-			trace_rcu_utilization("End boost kthread@rcu_yield");
-			schedule_timeout_interruptible(2);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			trace_rcu_utilization("Start boost kthread@rcu_yield");
 			spincnt = 0;
 		}
@@ -1395,13 +1369,8 @@ static void rcu_initiate_boost(struct rcu_node *rnp, unsigned long flags)
 			rnp->boost_tasks = rnp->gp_tasks;
 		raw_spin_unlock_irqrestore(&rnp->lock, flags);
 		t = rnp->boost_kthread_task;
-<<<<<<< HEAD
 		if (t != NULL)
 			wake_up_process(t);
-=======
-		if (t)
-			rcu_wake_cond(t, rnp->boost_kthread_status);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	} else {
 		rcu_initiate_boost_trace(rnp);
 		raw_spin_unlock_irqrestore(&rnp->lock, flags);
@@ -1418,15 +1387,8 @@ static void invoke_rcu_callbacks_kthread(void)
 	local_irq_save(flags);
 	__this_cpu_write(rcu_cpu_has_work, 1);
 	if (__this_cpu_read(rcu_cpu_kthread_task) != NULL &&
-<<<<<<< HEAD
 	    current != __this_cpu_read(rcu_cpu_kthread_task))
 		wake_up_process(__this_cpu_read(rcu_cpu_kthread_task));
-=======
-	    current != __this_cpu_read(rcu_cpu_kthread_task)) {
-		rcu_wake_cond(__this_cpu_read(rcu_cpu_kthread_task),
-			      __this_cpu_read(rcu_cpu_kthread_status));
-	}
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	local_irq_restore(flags);
 }
 
@@ -1439,7 +1401,6 @@ static bool rcu_is_callbacks_kthread(void)
 	return __get_cpu_var(rcu_cpu_kthread_task) == current;
 }
 
-<<<<<<< HEAD
 /*
  * Set the affinity of the boost kthread.  The CPU-hotplug locks are
  * held, so no one should be messing with the existence of the boost
@@ -1455,8 +1416,6 @@ static void rcu_boost_kthread_setaffinity(struct rcu_node *rnp,
 		set_cpus_allowed_ptr(rnp->boost_kthread_task, cm);
 }
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #define RCU_BOOST_DELAY_JIFFIES DIV_ROUND_UP(CONFIG_RCU_BOOST_DELAY * HZ, 1000)
 
 /*
@@ -1473,28 +1432,15 @@ static void rcu_preempt_boost_start_gp(struct rcu_node *rnp)
  * Returns zero if all is well, a negated errno otherwise.
  */
 static int __cpuinit rcu_spawn_one_boost_kthread(struct rcu_state *rsp,
-<<<<<<< HEAD
 						 struct rcu_node *rnp,
 						 int rnp_index)
 {
-=======
-						 struct rcu_node *rnp)
-{
-	int rnp_index = rnp - &rsp->node[0];
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	unsigned long flags;
 	struct sched_param sp;
 	struct task_struct *t;
 
 	if (&rcu_preempt_state != rsp)
 		return 0;
-<<<<<<< HEAD
-=======
-
-	if (!rcu_scheduler_fully_active || rnp->qsmaskinit == 0)
-		return 0;
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	rsp->boost = 1;
 	if (rnp->boost_kthread_task != NULL)
 		return 0;
@@ -1511,7 +1457,6 @@ static int __cpuinit rcu_spawn_one_boost_kthread(struct rcu_state *rsp,
 	return 0;
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_HOTPLUG_CPU
 
 /*
@@ -1531,8 +1476,6 @@ static void rcu_stop_cpu_kthread(int cpu)
 
 #endif /* #ifdef CONFIG_HOTPLUG_CPU */
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static void rcu_kthread_do_work(void)
 {
 	rcu_do_batch(&rcu_sched_state, &__get_cpu_var(rcu_sched_data));
@@ -1540,7 +1483,6 @@ static void rcu_kthread_do_work(void)
 	rcu_preempt_do_callbacks();
 }
 
-<<<<<<< HEAD
 /*
  * Wake up the specified per-rcu_node-structure kthread.
  * Because the per-rcu_node kthreads are immortal, we don't need
@@ -1647,24 +1589,6 @@ static int rcu_cpu_kthread_should_stop(int cpu)
 	}
 	per_cpu(rcu_cpu_kthread_cpu, cpu) = cpu;
 	return 0;
-=======
-static void rcu_cpu_kthread_setup(unsigned int cpu)
-{
-	struct sched_param sp;
-
-	sp.sched_priority = RCU_KTHREAD_PRIO;
-	sched_setscheduler_nocheck(current, SCHED_FIFO, &sp);
-}
-
-static void rcu_cpu_kthread_park(unsigned int cpu)
-{
-	per_cpu(rcu_cpu_kthread_status, cpu) = RCU_KTHREAD_OFFCPU;
-}
-
-static int rcu_cpu_kthread_should_run(unsigned int cpu)
-{
-	return __get_cpu_var(rcu_cpu_has_work);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 /*
@@ -1672,7 +1596,6 @@ static int rcu_cpu_kthread_should_run(unsigned int cpu)
  * RCU softirq used in flavors and configurations of RCU that do not
  * support RCU priority boosting.
  */
-<<<<<<< HEAD
 static int rcu_cpu_kthread(void *arg)
 {
 	int cpu = (int)(long)arg;
@@ -1805,37 +1728,6 @@ static int rcu_node_kthread(void *arg)
 	/* NOTREACHED */
 	rnp->node_kthread_status = RCU_KTHREAD_STOPPED;
 	return 0;
-=======
-static void rcu_cpu_kthread(unsigned int cpu)
-{
-	unsigned int *statusp = &__get_cpu_var(rcu_cpu_kthread_status);
-	char work, *workp = &__get_cpu_var(rcu_cpu_has_work);
-	int spincnt;
-
-	for (spincnt = 0; spincnt < 10; spincnt++) {
-		trace_rcu_utilization("Start CPU kthread@rcu_wait");
-		local_bh_disable();
-		*statusp = RCU_KTHREAD_RUNNING;
-		this_cpu_inc(rcu_cpu_kthread_loops);
-		local_irq_disable();
-		work = *workp;
-		*workp = 0;
-		local_irq_enable();
-		if (work)
-			rcu_kthread_do_work();
-		local_bh_enable();
-		if (*workp == 0) {
-			trace_rcu_utilization("End CPU kthread@rcu_wait");
-			*statusp = RCU_KTHREAD_WAITING;
-			return;
-		}
-	}
-	*statusp = RCU_KTHREAD_YIELDING;
-	trace_rcu_utilization("Start CPU kthread@rcu_yield");
-	schedule_timeout_interruptible(2);
-	trace_rcu_utilization("End CPU kthread@rcu_yield");
-	*statusp = RCU_KTHREAD_WAITING;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 /*
@@ -1847,7 +1739,6 @@ static void rcu_cpu_kthread(unsigned int cpu)
  * no outgoing CPU.  If there are no CPUs left in the affinity set,
  * this function allows the kthread to execute on any CPU.
  */
-<<<<<<< HEAD
 static void rcu_node_kthread_setaffinity(struct rcu_node *rnp, int outgoingcpu)
 {
 	cpumask_var_t cm;
@@ -1859,19 +1750,6 @@ static void rcu_node_kthread_setaffinity(struct rcu_node *rnp, int outgoingcpu)
 	if (!alloc_cpumask_var(&cm, GFP_KERNEL))
 		return;
 	cpumask_clear(cm);
-=======
-static void rcu_boost_kthread_setaffinity(struct rcu_node *rnp, int outgoingcpu)
-{
-	struct task_struct *t = rnp->boost_kthread_task;
-	unsigned long mask = rnp->qsmaskinit;
-	cpumask_var_t cm;
-	int cpu;
-
-	if (!t)
-		return;
-	if (!zalloc_cpumask_var(&cm, GFP_KERNEL))
-		return;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	for (cpu = rnp->grplo; cpu <= rnp->grphi; cpu++, mask >>= 1)
 		if ((mask & 0x1) && cpu != outgoingcpu)
 			cpumask_set_cpu(cpu, cm);
@@ -1881,7 +1759,6 @@ static void rcu_boost_kthread_setaffinity(struct rcu_node *rnp, int outgoingcpu)
 			cpumask_clear_cpu(cpu, cm);
 		WARN_ON_ONCE(cpumask_weight(cm) == 0);
 	}
-<<<<<<< HEAD
 	set_cpus_allowed_ptr(rnp->node_kthread_task, cm);
 	rcu_boost_kthread_setaffinity(rnp, cm);
 	free_cpumask_var(cm);
@@ -1918,27 +1795,12 @@ static int __cpuinit rcu_spawn_one_node_kthread(struct rcu_state *rsp,
 	}
 	return rcu_spawn_one_boost_kthread(rsp, rnp, rnp_index);
 }
-=======
-	set_cpus_allowed_ptr(t, cm);
-	free_cpumask_var(cm);
-}
-
-static struct smp_hotplug_thread rcu_cpu_thread_spec = {
-	.store			= &rcu_cpu_kthread_task,
-	.thread_should_run	= rcu_cpu_kthread_should_run,
-	.thread_fn		= rcu_cpu_kthread,
-	.thread_comm		= "rcuc/%u",
-	.setup			= rcu_cpu_kthread_setup,
-	.park			= rcu_cpu_kthread_park,
-};
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  * Spawn all kthreads -- called as soon as the scheduler is running.
  */
 static int __init rcu_spawn_kthreads(void)
 {
-<<<<<<< HEAD
 	int cpu;
 	struct rcu_node *rnp;
 
@@ -1953,20 +1815,6 @@ static int __init rcu_spawn_kthreads(void)
 	if (NUM_RCU_NODES > 1) {
 		rcu_for_each_leaf_node(rcu_state, rnp)
 			(void)rcu_spawn_one_node_kthread(rcu_state, rnp);
-=======
-	struct rcu_node *rnp;
-	int cpu;
-
-	rcu_scheduler_fully_active = 1;
-	for_each_possible_cpu(cpu)
-		per_cpu(rcu_cpu_has_work, cpu) = 0;
-	BUG_ON(smpboot_register_percpu_thread(&rcu_cpu_thread_spec));
-	rnp = rcu_get_root(rcu_state);
-	(void)rcu_spawn_one_boost_kthread(rcu_state, rnp);
-	if (NUM_RCU_NODES > 1) {
-		rcu_for_each_leaf_node(rcu_state, rnp)
-			(void)rcu_spawn_one_boost_kthread(rcu_state, rnp);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 	return 0;
 }
@@ -1978,16 +1826,11 @@ static void __cpuinit rcu_prepare_kthreads(int cpu)
 	struct rcu_node *rnp = rdp->mynode;
 
 	/* Fire up the incoming CPU's kthread and leaf rcu_node kthread. */
-<<<<<<< HEAD
 	if (rcu_scheduler_fully_active) {
 		(void)rcu_spawn_one_cpu_kthread(cpu);
 		if (rnp->node_kthread_task == NULL)
 			(void)rcu_spawn_one_node_kthread(rcu_state, rnp);
 	}
-=======
-	if (rcu_scheduler_fully_active)
-		(void)rcu_spawn_one_boost_kthread(rcu_state, rnp);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 
 #else /* #ifdef CONFIG_RCU_BOOST */
@@ -2011,7 +1854,6 @@ static void rcu_preempt_boost_start_gp(struct rcu_node *rnp)
 {
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_HOTPLUG_CPU
 
 static void rcu_stop_cpu_kthread(int cpu)
@@ -2025,9 +1867,6 @@ static void rcu_node_kthread_setaffinity(struct rcu_node *rnp, int outgoingcpu)
 }
 
 static void rcu_cpu_kthread_setrt(int cpu, int to_rt)
-=======
-static void rcu_boost_kthread_setaffinity(struct rcu_node *rnp, int outgoingcpu)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 {
 }
 

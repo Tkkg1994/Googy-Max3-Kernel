@@ -460,7 +460,6 @@ config SND_SOC_TPA2028D
 	default n
 	help
 	  Texas Instruments 3W Mono Class-D Audio Amplifier
-<<<<<<< HEAD
 
 config SOUND_CONTROL_HAX_GPL
 	tristate "wcd93xx sound control hax"
@@ -473,5 +472,3 @@ config SOUND_CONTROL_HAX_3_GPL
 	default y
 	help
 	  FauxSound WCD93xx chipset sound control hacks 3.0 for deeper hax
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea

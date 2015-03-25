@@ -1377,22 +1377,6 @@ struct platform_device msm9615_rpm_log_device = {
 	},
 };
 
-<<<<<<< HEAD
-=======
-static struct msm_pm_init_data_type msm_pm_data = {
-	.use_sync_timer = false,
-	.pc_mode = MSM_PM_PC_NOTZ_L2_EXT,
-};
-
-struct platform_device msm9615_pm_8x60 = {
-	.name	= "pm-8x60",
-	.id	= -1,
-	.dev	= {
-		.platform_data = &msm_pm_data,
-	},
-};
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 uint32_t __init msm9615_rpm_get_swfi_latency(void)
 {
 	int i;

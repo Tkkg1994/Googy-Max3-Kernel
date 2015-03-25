@@ -25,11 +25,7 @@ endif
 obj-$(CONFIG_HAVE_MEMBLOCK) += memblock.o
 
 obj-$(CONFIG_BOUNCE)	+= bounce.o
-<<<<<<< HEAD
 obj-$(CONFIG_SWAP)	+= page_io.o swap_state.o swapfile.o thrash.o
-=======
-obj-$(CONFIG_SWAP)	+= page_io.o swap_state.o swapfile.o
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 obj-$(CONFIG_HAS_DMA)	+= dmapool.o
 obj-$(CONFIG_HUGETLBFS)	+= hugetlb.o
 obj-$(CONFIG_NUMA) 	+= mempolicy.o

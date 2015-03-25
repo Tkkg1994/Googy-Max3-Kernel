@@ -7858,20 +7858,6 @@ dhdsdio_download_firmware(struct dhd_bus *bus, osl_t *osh, void *sdh)
 {
 	bool ret;
 
-<<<<<<< HEAD
-=======
-#if defined(SUPPORT_MULTIPLE_REVISION)
-	if (concate_revision(bus, bus->fw_path, sizeof(bus->fw_path),
-		bus->nv_path, sizeof(bus->nv_path)) != 0) {
-		DHD_ERROR(("%s: fail to concatnate revison \n",
-			__FUNCTION__));
-		return BCME_BADARG;
-	}
-#endif /* SUPPORT_MULTIPLE_REVISION */
-
-	DHD_TRACE_HW4(("%s: firmware path=%s, nvram path=%s\n",
-		__FUNCTION__, bus->fw_path, bus->nv_path));
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	DHD_OS_WAKE_LOCK(bus->dhd);
 
 	/* Download the firmware */
@@ -8846,16 +8832,6 @@ concate_revision(dhd_bus_t *bus, char *fw_path, int fw_path_len, char *nv_path, 
 }
 #endif /* SUPPORT_MULTIPLE_REVISION */
 
-<<<<<<< HEAD
-=======
-void
-dhd_bus_update_fw_nv_path(struct dhd_bus *bus, char *pfw_path, char *pnv_path)
-{
-	bus->fw_path = pfw_path;
-	bus->nv_path = pnv_path;
-}
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 int
 dhd_enableOOB(dhd_pub_t *dhd, bool sleep)
 {

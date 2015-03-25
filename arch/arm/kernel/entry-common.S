@@ -8,10 +8,7 @@
  * published by the Free Software Foundation.
  */
 
-<<<<<<< HEAD
 #include <asm/assembler.h>
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <asm/unistd.h>
 #include <asm/ftrace.h>
 #include <asm/unwind.h>
@@ -193,11 +190,7 @@ ENDPROC(ret_from_fork)
 1: 	mcount_get_lr	r1			@ lr of instrumented func
 	mcount_adjust_addr	r0, lr		@ instrumented function
 	adr	lr, BSYM(2f)
-<<<<<<< HEAD
 	ret     r2
-=======
-	mov	pc, r2
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 2:	mcount_exit
 .endm
 
@@ -294,22 +287,14 @@ ENDPROC(ftrace_graph_caller_old)
 
 .macro mcount_exit
 	ldmia	sp!, {r0-r3, ip, lr}
-<<<<<<< HEAD
 	ret	ip
-=======
-	mov	pc, ip
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 .endm
 
 ENTRY(__gnu_mcount_nc)
 #ifdef CONFIG_DYNAMIC_FTRACE
 	mov	ip, lr
 	ldmia	sp!, {lr}
-<<<<<<< HEAD
 	ret	ip
-=======
-	mov	pc, ip
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #else
 	__mcount
 #endif
@@ -339,20 +324,12 @@ return_to_handler:
 	bl	ftrace_return_to_handler
 	mov	lr, r0			@ r0 has real ret addr
 	ldmia	sp!, {r0-r3}
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif
 
 ENTRY(ftrace_stub)
 .Lftrace_stub:
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(ftrace_stub)
 
 #endif /* CONFIG_FUNCTION_TRACER */
@@ -476,16 +453,12 @@ ENTRY(vector_swi)
 
 #ifdef CONFIG_SECCOMP
 	tst	r10, #_TIF_SECCOMP
-<<<<<<< HEAD
 	beq	1f
 	mov	r0, scno
 	bl	__secure_computing	
 	add	r0, sp, #S_R0 + S_OFF		@ pointer to regs
 	ldmia	r0, {r0 - r3}			@ have to reload r0 - r3
 1:
-=======
-	bne	__sys_trace
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif
 
 	tst	r10, #_TIF_SYSCALL_WORK		@ are we tracing syscalls?
@@ -633,11 +606,7 @@ sys_mmap2:
 		streq	r5, [sp, #4]
 		beq	sys_mmap_pgoff
 		mov	r0, #-EINVAL
-<<<<<<< HEAD
 		ret	lr
-=======
-		mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #else
 		str	r5, [sp, #4]
 		b	sys_mmap_pgoff

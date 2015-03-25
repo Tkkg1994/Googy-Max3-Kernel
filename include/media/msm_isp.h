@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2011-2012, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2011-2014, The Linux Foundation. All rights reserved.
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -246,10 +242,6 @@
 #define VFE_CMD_STOP_RECORDING_DONE                     165
 #define VFE_CMD_RGB_ALL_CFG                             166
 #define VFE_CMD_RGB_ALL_UPDATE                          167
-<<<<<<< HEAD
-=======
-#define VFE_CMD_MAX                                     168
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 struct msm_isp_cmd {
 	int32_t  id;
@@ -362,15 +354,8 @@ struct msm_vpe_clock_rate {
 
 #define	VFE_RDI_COMPOSITE				(1 << 0)
 #define	VFE_RDI_NON_COMPOSITE			(1 << 1)
-<<<<<<< HEAD
 #define VFE_STATS_TYPE_LEGACY		0
 #define VFE_STATS_TYPE_BAYER		(1 << 2)
-=======
-
-#define VFE_STATS_TYPE_LEGACY		0
-#define VFE_STATS_TYPE_BAYER		(1 << 2)
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 struct msm_frame_info {
 	uint32_t inst_handle;
 	uint32_t path;

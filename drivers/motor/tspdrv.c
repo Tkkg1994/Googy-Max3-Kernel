@@ -181,11 +181,7 @@ static int get_time_for_vibetonz(struct timed_output_dev *dev)
 
 static void enable_vibetonz_from_user(struct timed_output_dev *dev, int value)
 {
-<<<<<<< HEAD
 	//printk(KERN_DEBUG "tspdrv: Enable time = %d msec\n", value);
-=======
-	printk(KERN_DEBUG "tspdrv: Enable time = %d msec\n", value);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	hrtimer_cancel(&timer);
 
 	/* set_vibetonz(value); */
@@ -506,10 +502,7 @@ static ssize_t write(struct file *file, const char *buf, size_t count,
 			** (Should never happen).
 			*/
 			DbgOut((KERN_EMERG "tspdrv: invalid buffer index.\n"));
-<<<<<<< HEAD
 			return 0;
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		}
 
 		/* Check bit depth */
@@ -530,10 +523,7 @@ static ssize_t write(struct file *file, const char *buf, size_t count,
 			** (Should never happen).
 			*/
 			DbgOut((KERN_EMERG "tspdrv: invalid data size.\n"));
-<<<<<<< HEAD
 			return 0;
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		}
 
 		/* Check actuator index */

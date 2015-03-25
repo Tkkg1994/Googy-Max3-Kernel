@@ -23,7 +23,6 @@ config IOSCHED_TEST
 	  according to the test case and declare PASS/FAIL according to the
 	  requests completion error code.
 
-<<<<<<< HEAD
 config IOSCHED_SIOPLUS
 	tristate "Simple I/O scheduler plus"
 	default y
@@ -34,8 +33,6 @@ config IOSCHED_SIOPLUS
 	  basic merging, trying to keep a minimum overhead. It is aimed
 	  mainly for aleatory access devices (eg: flash devices).
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 config IOSCHED_DEADLINE
 	tristate "Deadline I/O scheduler"
 	default y
@@ -45,20 +42,6 @@ config IOSCHED_DEADLINE
 	  a new point in the service tree and doing a batch of IO from there
 	  in case of expiry.
 
-<<<<<<< HEAD
-=======
-config IOSCHED_ROW
-	tristate "ROW I/O scheduler"
-	default y
-	---help---
-	  The ROW I/O scheduler gives priority to READ requests over the
-	  WRITE requests when dispatching, without starving WRITE requests.
-	  Requests are kept in priority queues. Dispatching is done in a RR
-	  manner when the dispatch quantum for each queue is calculated
-	  according to queue priority.
-	  Most suitable for mobile devices.
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 config IOSCHED_CFQ
 	tristate "CFQ I/O scheduler"
 	# If BLK_CGROUP is a module, CFQ has to be built as module.
@@ -81,7 +64,6 @@ config CFQ_GROUP_IOSCHED
 	---help---
 	  Enable group IO scheduling in CFQ.
 
-<<<<<<< HEAD
 config IOSCHED_FIOPS
 	tristate "FIOPS I/O scheduler"
 	default y
@@ -139,8 +121,6 @@ config CGROUP_BFQIO
 	  filesystem interface.  The name of the subsystem will be
 	  bfqio.
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 choice
 	prompt "Default I/O scheduler"
 	default DEFAULT_CFQ
@@ -151,7 +131,6 @@ choice
 	config DEFAULT_DEADLINE
 		bool "Deadline" if IOSCHED_DEADLINE=y
 
-<<<<<<< HEAD
 	config DEFAULT_CFQ
 		bool "CFQ" if IOSCHED_CFQ=y
 
@@ -181,29 +160,10 @@ choice
 
 	config DEFAULT_SIOPLUS
 		bool "SIOPLUS" if IOSCHED_SIOPLUS=y
-=======
-	config DEFAULT_ROW
-		bool "ROW" if IOSCHED_ROW=y
-		help
-		  The ROW I/O scheduler gives priority to READ requests
-		  over the WRITE requests when dispatching, without starving
-		  WRITE requests. Requests are kept in priority queues.
-		  Dispatching is done in a RR manner when the dispatch quantum
-		  for each queue is defined according to queue priority.
-		  Most suitable for mobile devices.
-
-	config DEFAULT_CFQ
-		bool "CFQ" if IOSCHED_CFQ=y
-
-	config DEFAULT_NOOP
-		bool "No-op"
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 endchoice
 
 config DEFAULT_IOSCHED
 	string
-<<<<<<< HEAD
 	default "cfq" if DEFAULT_CFQ
 	default "deadline" if DEFAULT_DEADLINE
 	default "bfq" if DEFAULT_BFQ
@@ -215,12 +175,6 @@ config DEFAULT_IOSCHED
 	default "fiops" if DEFAULT_FIOPS
 	default "sioplus" if DEFAULT_SIOPLUS
 	default "test" if DEFAULT_TEST
-=======
-	default "deadline" if DEFAULT_DEADLINE
-	default "row" if DEFAULT_ROW
-	default "cfq" if DEFAULT_CFQ
-	default "noop" if DEFAULT_NOOP
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 endmenu
 

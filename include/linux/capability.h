@@ -360,16 +360,8 @@ struct cpu_vfs_cap_data {
 
 #define CAP_WAKE_ALARM            35
 
-<<<<<<< HEAD
 
 #define CAP_LAST_CAP         CAP_WAKE_ALARM
-=======
-/* Allow preventing system suspends while epoll events are pending */
-
-#define CAP_EPOLLWAKEUP      36
-
-#define CAP_LAST_CAP         CAP_EPOLLWAKEUP
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #define cap_valid(x) ((x) >= 0 && (x) <= CAP_LAST_CAP)
 

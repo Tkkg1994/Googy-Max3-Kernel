@@ -1,10 +1,6 @@
 #ifndef _ARM_LIBFDT_ENV_H
 #define _ARM_LIBFDT_ENV_H
 
-<<<<<<< HEAD
-=======
-#include <linux/kernel.h>
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <linux/types.h>
 #include <linux/string.h>
 #include <asm/byteorder.h>

@@ -1233,13 +1233,10 @@ static int security_context_to_sid_core(const char *scontext, u32 scontext_len,
 	if (!scontext_len)
 		return -EINVAL;
 
-<<<<<<< HEAD
 	/* An empty security context is never valid */
 	if (!scontext_len)
 		return -EINVAL;
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (!ss_initialized) {
 		int i;
 

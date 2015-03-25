@@ -742,11 +742,7 @@ static void msm_dai_q6_auxpcm_shutdown(struct snd_pcm_substream *substream,
 		mutex_unlock(&aux_pcm_mutex);
 		return;
 	}
-<<<<<<< HEAD
 	
-=======
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (aux_pcm_count == 0) {
 		dev_dbg(dai->dev, "%s(): dai->id %d aux_pcm_count is 0. Just"
 				" return\n", __func__, dai->id);
@@ -873,17 +869,10 @@ static int msm_dai_q6_auxpcm_prepare(struct snd_pcm_substream *substream,
 		aux_rx++;
 	else if (dai->id == PCM_TX)
 		aux_tx++;
-<<<<<<< HEAD
 		
 	pr_info("%s: dai->id : %d, rx cnt = %d, tx cnt = %d, all = %d\n", __func__,
 			dai->id, aux_rx, aux_tx, aux_pcm_count);
 		
-=======
-
-	pr_info("%s: dai->id : %d, rx cnt = %d, tx cnt = %d, all = %d\n", __func__,
-			dai->id, aux_rx, aux_tx, aux_pcm_count);
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (aux_pcm_count == 2) {
 		dev_dbg(dai->dev, "%s(): dai->id %d aux_pcm_count is 2. Just"
 			" return.\n", __func__, dai->id);
@@ -1217,11 +1206,7 @@ static int msm_dai_q6_dai_auxpcm_remove(struct snd_soc_dai *dai)
 		aux_tx = 0;
 		mutex_unlock(&aux_pcm_mutex);
 		return 0;
-<<<<<<< HEAD
 	}	
-=======
-	}
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	if (aux_pcm_count == 0) {
 		dev_dbg(dai->dev, "%s(): dai->id %d aux_pcm_count is 0. clean"

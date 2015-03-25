@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -21,10 +17,6 @@
 #include <linux/spinlock.h>
 #include <linux/uaccess.h>
 #include <linux/proc_fs.h>
-<<<<<<< HEAD
-=======
-#include <linux/seq_file.h>
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #include "pm.h"
 
@@ -91,7 +83,6 @@ add_bail:
 }
 
 /*
-<<<<<<< HEAD
  * Helper function of snprintf where buf is auto-incremented, size is auto-
  * decremented, and there is no return value.
  *
@@ -132,21 +123,6 @@ static int msm_pm_read_proc
 		unsigned long flags;
 		struct msm_pm_time_stats *stats;
 		int i;
-=======
- * Write out the power management statistics.
- */
-
-static int msm_pm_stats_show(struct seq_file *m, void *v)
-{
-	int cpu;
-	int bucket_count = CONFIG_MSM_IDLE_STATS_BUCKET_COUNT - 1;
-	int bucket_shift = CONFIG_MSM_IDLE_STATS_BUCKET_SHIFT;
-
-	for_each_possible_cpu(cpu) {
-		unsigned long flags;
-		struct msm_pm_time_stats *stats;
-		int i, id;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		int64_t bucket_time;
 		int64_t s;
 		uint32_t ns;
@@ -154,7 +130,6 @@ static int msm_pm_stats_show(struct seq_file *m, void *v)
 		spin_lock_irqsave(&msm_pm_stats_lock, flags);
 		stats = per_cpu(msm_pm_stats, cpu).stats;
 
-<<<<<<< HEAD
 		/* Skip the disabled ones */
 		if (!stats[id].enabled) {
 			*p = '\0';
@@ -208,54 +183,6 @@ again:
  */
 static int msm_pm_write_proc(struct file *file, const char __user *buffer,
 	unsigned long count, void *data)
-=======
-		for (id = 0; id < MSM_PM_STAT_COUNT; id++) {
-			/* Skip the disabled ones */
-			if (!stats[id].enabled)
-				continue;
-
-			s = stats[id].total_time;
-			ns = do_div(s, NSEC_PER_SEC);
-			seq_printf(m,
-				"[cpu %u] %s:\n"
-				"  count: %7d\n"
-				"  total_time: %lld.%09u\n",
-				cpu, stats[id].name,
-				stats[id].count,
-				s, ns);
-
-			bucket_time = stats[id].first_bucket_time;
-			for (i = 0; i < bucket_count; i++) {
-				s = bucket_time;
-				ns = do_div(s, NSEC_PER_SEC);
-				seq_printf(m,
-					"   <%6lld.%09u: %7d (%lld-%lld)\n",
-					s, ns, stats[id].bucket[i],
-					stats[id].min_time[i],
-					stats[id].max_time[i]);
-
-				bucket_time <<= bucket_shift;
-			}
-
-			seq_printf(m, "  >=%6lld.%09u: %7d (%lld-%lld)\n",
-				s, ns, stats[id].bucket[i],
-				stats[id].min_time[i],
-				stats[id].max_time[i]);
-		}
-
-		spin_unlock_irqrestore(&msm_pm_stats_lock, flags);
-	}
-
-	return 0;
-}
-
-#define MSM_PM_STATS_RESET "reset"
-/*
- * Reset the power management statistics values.
- */
-static ssize_t msm_pm_write_proc(struct file *file, const char __user *buffer,
-	size_t count, loff_t *off)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 {
 	char buf[sizeof(MSM_PM_STATS_RESET)];
 	int ret;
@@ -304,22 +231,6 @@ write_proc_failed:
 }
 #undef MSM_PM_STATS_RESET
 
-<<<<<<< HEAD
-=======
-static int msm_pm_stats_open(struct inode *inode, struct file *file)
-{
-	return single_open(file, msm_pm_stats_show, NULL);
-}
-
-static const struct file_operations msm_pm_stats_fops = {
-	.open		= msm_pm_stats_open,
-	.read		= seq_read,
-	.llseek		= seq_lseek,
-	.release	= single_release,
-	.write		= msm_pm_write_proc,
-};
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 void msm_pm_add_stats(enum msm_pm_time_stats_id *enable_stats, int size)
 {
 	unsigned int cpu;
@@ -385,7 +296,6 @@ void msm_pm_add_stats(enum msm_pm_time_stats_id *enable_stats, int size)
 
 	}
 
-<<<<<<< HEAD
 	d_entry = create_proc_entry("msm_pm_stats",
 			S_IRUGO | S_IWUSR | S_IWGRP, NULL);
 	if (d_entry) {
@@ -393,8 +303,4 @@ void msm_pm_add_stats(enum msm_pm_time_stats_id *enable_stats, int size)
 		d_entry->write_proc = msm_pm_write_proc;
 		d_entry->data = NULL;
 	}
-=======
-	d_entry = proc_create_data("msm_pm_stats", S_IRUGO | S_IWUSR | S_IWGRP,
-			NULL, &msm_pm_stats_fops, NULL);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }

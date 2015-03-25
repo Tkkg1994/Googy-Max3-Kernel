@@ -152,13 +152,6 @@
 #include <mach/fusion3-thermistor.h>
 #endif
 
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_KEXEC_HARDBOOT
-#include <asm/kexec.h>
-#endif
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #if defined(CONFIG_SENSORS_SSP)
 enum {
 	SNS_PWR_OFF,
@@ -1048,28 +1041,8 @@ static void __init reserve_ion_memory(void)
 }
 
 #ifdef CONFIG_ANDROID_RAM_CONSOLE
-<<<<<<< HEAD
 static struct ram_console_platform_data ram_console_pdata = {
 	.bootinfo = NULL,
-=======
-static char bootreason[128] = {0,};
-int __init device_boot_reason(char *s)
-{
-	int n;
-
-	if (*s == '=')
-		s++;
-	n = snprintf(bootreason, sizeof(bootreason),
-		 "Boot info:\n"
-		 "Last boot reason: %s\n", s);
-	bootreason[n] = '\0';
-	return 1;
-}
-__setup("bootreason", device_boot_reason);
-
-static struct ram_console_platform_data ram_console_pdata = {
-	.bootinfo = bootreason,
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 };
 
 static struct platform_device ram_console_device = {
@@ -1086,19 +1059,7 @@ static struct platform_device ram_console_device = {
 static struct persistent_ram_descriptor per_ram_descs[] __initdata = {
        {
                .name = "ram_console",
-<<<<<<< HEAD
                .size = SZ_1M,
-=======
-#ifdef CONFIG_KEXEC_HARDBOOT
-               .size = KEXEC_HB_PAGE_ADDR - RAMCONSOLE_PHYS_ADDR,
-       },
-       {
-               .name = "kexec_hb_page",
-               .size = SZ_1M - (KEXEC_HB_PAGE_ADDR - RAMCONSOLE_PHYS_ADDR),
-#else
-               .size = SZ_1M,
-#endif
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
        }
 };
 
@@ -1281,10 +1242,7 @@ static struct platform_device touchkey_i2c_gpio_device_2 = {
 
 #endif
 
-<<<<<<< HEAD
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static char prim_panel_name[PANEL_NAME_MAX_LEN];
 static char ext_panel_name[PANEL_NAME_MAX_LEN];
 
@@ -1327,10 +1285,7 @@ static void __init apq8064_reserve(void)
 static void __init apq8064_early_reserve(void)
 {
 	reserve_info = &apq8064_reserve_info;
-<<<<<<< HEAD
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }
 #ifdef CONFIG_USB_EHCI_MSM_HSIC
 /* Bandwidth requests (zero) if no vote placed */
@@ -3533,10 +3488,7 @@ static uint8_t spm_power_collapse_with_rpm_krait_v3[] __initdata = {
 	0x24, 0x30, 0x0f,
 };
 
-<<<<<<< HEAD
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static struct msm_spm_seq_entry msm_spm_boot_cpu_seq_list[] __initdata = {
 	[0] = {
 		.mode = MSM_SPM_MODE_CLOCK_GATING,
@@ -4086,12 +4038,6 @@ static struct platform_device *common_devices[] __initdata = {
 	&apq8064_device_hsusb_host,
 	&android_usb_device,
 	&msm_device_wcnss_wlan,
-<<<<<<< HEAD
-=======
-#if defined(CONFIG_MACH_JACTIVE_ATT) || defined(CONFIG_MACH_JACTIVE_EUR)
-	&apq8064_device_qup_spi_gsbi5,
-#endif	
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	&msm_device_iris_fm,
 	&apq8064_fmem_device,
 #ifdef CONFIG_ANDROID_PMEM
@@ -4241,10 +4187,7 @@ static struct platform_device *cdp_devices[] __initdata = {
 #ifdef CONFIG_MSM_ROTATOR
 	&msm_rotator_device,
 #endif
-<<<<<<< HEAD
 	&msm8064_pc_cntr,
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	&msm8064_cpu_slp_status,
 	&sec_device_jack,
 #ifdef CONFIG_SENSORS_SSP_C12SD
@@ -5141,10 +5084,6 @@ static void __init register_i2c_devices(void)
 		apq8064_camera_board_info.board_info,
 		apq8064_camera_board_info.num_i2c_board_info,
 	};
-<<<<<<< HEAD
-=======
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	struct i2c_registry apq8064_front_camera_i2c_devices = {
 		I2C_SURF | I2C_FFA | I2C_LIQUID | I2C_RUMI,
 		APQ_8064_GSBI7_QUP_I2C_BUS_ID,
@@ -5192,10 +5131,7 @@ static void __init register_i2c_devices(void)
 	}
 }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static void enable_avc_i2c_bus(void)
 {
 	int avc_i2c_en_mpp = PM8921_MPP_PM_TO_SYS(8);
@@ -5402,20 +5338,11 @@ static void __init apq8064_common_init(void)
 	if (cpu_is_apq8064ab())
 		apq8064ab_update_krait_spm();
 	if (cpu_is_krait_v3()) {
-<<<<<<< HEAD
 		msm_pm_set_tz_retention_flag(0);
 		apq8064ab_update_retention_spm();
 	} else {
 		msm_pm_set_tz_retention_flag(1);
 	}
-=======
-		struct msm_pm_init_data_type *pdata =
-				msm8064_pm_8x60.dev.platform_data;
-		pdata->retention_calls_tz = false;
-		apq8064ab_update_retention_spm();
-	}
-	platform_device_register(&msm8064_pm_8x60);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	msm_spm_init(msm_spm_data, ARRAY_SIZE(msm_spm_data));
 	msm_spm_l2_init(msm_spm_l2_data);
 	msm_tsens_early_init(&apq_tsens_pdata);
@@ -5475,34 +5402,14 @@ static void __init apq8064_common_init(void)
 		}
 	}
 	
-<<<<<<< HEAD
-=======
-		/* Add GSBI4 I2C Device for non-fusion3 platform */
-		if (socinfo_get_platform_subtype() !=
-				PLATFORM_SUBTYPE_SGLTE2) {
-			platform_device_register(&apq8064_device_qup_i2c_gsbi4);
-		}
-	}
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #ifdef CONFIG_KEYBOARD_CYPRESS_TOUCH_236
 	if (system_rev < 9)
 		platform_device_register(&touchkey_i2c_gpio_device);
 	else
 		platform_device_register(&touchkey_i2c_gpio_device_2);
 #endif
-<<<<<<< HEAD
 	msm_hsic_pdata.swfi_latency =
 		msm_rpmrs_levels[0].latency_us;
-=======
-
-	rpmrs_level =
-		msm_rpmrs_levels[MSM_PM_SLEEP_MODE_WAIT_FOR_INTERRUPT];
-	msm_hsic_pdata.swfi_latency = rpmrs_level.latency_us;
-	rpmrs_level =
-		msm_rpmrs_levels[MSM_PM_SLEEP_MODE_POWER_COLLAPSE_STANDALONE];
-	msm_hsic_pdata.standalone_latency = rpmrs_level.latency_us;
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (machine_is_apq8064_mtp() || machine_is_JF()) {
 		msm_hsic_pdata.log2_irq_thresh = 5,
 		apq8064_device_hsic_host.dev.platform_data = &msm_hsic_pdata;
@@ -5536,11 +5443,7 @@ static void __init apq8064_common_init(void)
 			/* GSBI4 UART device for Primay IPC */
 			apq8064_uartdm_gsbi4_pdata.wakeup_irq = gpio_to_irq(11);
 			apq8064_device_uartdm_gsbi4.dev.platform_data =
-<<<<<<< HEAD
 				&apq8064_uartdm_gsbi4_pdata;
-=======
-						&apq8064_uartdm_gsbi4_pdata;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			platform_device_register(&apq8064_device_uartdm_gsbi4);
 		} else if (SOCINFO_VERSION_MINOR(platform_version) == 1) {
 			i2s_mdm_8064_device.dev.platform_data =
@@ -5681,11 +5584,7 @@ static void __init samsung_jf_init(void)
 		/* GSBI6(2) - UARTDM_RX */
 		mpq8064_gsbi6_uartdm_pdata.wakeup_irq = gpio_to_irq(15);
 		mpq8064_device_uartdm_gsbi6.dev.platform_data =
-<<<<<<< HEAD
 			&mpq8064_gsbi6_uartdm_pdata;
-=======
-					&mpq8064_gsbi6_uartdm_pdata;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif
 		platform_device_register(&mpq8064_device_uartdm_gsbi6);
 	}

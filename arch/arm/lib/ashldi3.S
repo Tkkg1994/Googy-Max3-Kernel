@@ -27,10 +27,7 @@ Boston, MA 02110-1301, USA.  */
 
 
 #include <linux/linkage.h>
-<<<<<<< HEAD
 #include <asm/assembler.h>
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #ifdef __ARMEB__
 #define al r1
@@ -51,11 +48,7 @@ ENTRY(__aeabi_llsl)
  THUMB(	lsrmi	r3, al, ip		)
  THUMB(	orrmi	ah, ah, r3		)
 	mov	al, al, lsl r2
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 ENDPROC(__ashldi3)
 ENDPROC(__aeabi_llsl)

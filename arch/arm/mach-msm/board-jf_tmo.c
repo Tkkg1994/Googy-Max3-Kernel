@@ -146,13 +146,6 @@
 #include <mach/fusion3-thermistor.h>
 #endif
 
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_KEXEC_HARDBOOT
-#include <asm/kexec.h>
-#endif
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #if defined(CONFIG_SENSORS_SSP)
 enum {
 	SNS_PWR_OFF,
@@ -1012,19 +1005,7 @@ static struct platform_device ram_console_device = {
 static struct persistent_ram_descriptor per_ram_descs[] __initdata = {
        {
                .name = "ram_console",
-<<<<<<< HEAD
                .size = SZ_1M,
-=======
-#ifdef CONFIG_KEXEC_HARDBOOT
-               .size = KEXEC_HB_PAGE_ADDR - RAMCONSOLE_PHYS_ADDR,
-       },
-       {
-               .name = "kexec_hb_page",
-               .size = SZ_1M - (KEXEC_HB_PAGE_ADDR - RAMCONSOLE_PHYS_ADDR),
-#else
-               .size = SZ_1M,
-#endif
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
        }
 };
 
@@ -4122,10 +4103,7 @@ static struct platform_device *cdp_devices[] __initdata = {
 #ifdef CONFIG_MSM_ROTATOR
 	&msm_rotator_device,
 #endif
-<<<<<<< HEAD
 	&msm8064_pc_cntr,
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	&msm8064_cpu_slp_status,
 	&sec_device_jack,
 #ifdef CONFIG_SENSORS_SSP_C12SD
@@ -5254,10 +5232,6 @@ static void __init apq8064ab_update_retention_spm(void)
 static void __init apq8064_common_init(void)
 {
 	u32 platform_version = socinfo_get_platform_version();
-<<<<<<< HEAD
-=======
-	struct msm_rpmrs_level rpmrs_level;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #ifdef CONFIG_KEYBOARD_CYPRESS_TOUCH_236
 	int ret;
@@ -5271,20 +5245,11 @@ static void __init apq8064_common_init(void)
 	if (cpu_is_apq8064ab())
 		apq8064ab_update_krait_spm();
 	if (cpu_is_krait_v3()) {
-<<<<<<< HEAD
 		msm_pm_set_tz_retention_flag(0);
 		apq8064ab_update_retention_spm();
 	} else {
 		msm_pm_set_tz_retention_flag(1);
 	}
-=======
-		struct msm_pm_init_data_type *pdata =
-				msm8064_pm_8x60.dev.platform_data;
-		pdata->retention_calls_tz = false;
-		apq8064ab_update_retention_spm();
-	}
-	platform_device_register(&msm8064_pm_8x60);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	msm_spm_init(msm_spm_data, ARRAY_SIZE(msm_spm_data));
 	msm_spm_l2_init(msm_spm_l2_data);
 	msm_tsens_early_init(&apq_tsens_pdata);
@@ -5351,18 +5316,8 @@ static void __init apq8064_common_init(void)
 			platform_device_register(&touchkey_i2c_gpio_device_2);
 #endif
 
-<<<<<<< HEAD
 	msm_hsic_pdata.swfi_latency =
 		msm_rpmrs_levels[0].latency_us;
-=======
-	rpmrs_level =
-		msm_rpmrs_levels[MSM_PM_SLEEP_MODE_WAIT_FOR_INTERRUPT];
-	msm_hsic_pdata.swfi_latency = rpmrs_level.latency_us;
-	rpmrs_level =
-		msm_rpmrs_levels[MSM_PM_SLEEP_MODE_POWER_COLLAPSE_STANDALONE];
-	msm_hsic_pdata.standalone_latency = rpmrs_level.latency_us;
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (machine_is_apq8064_mtp() || machine_is_JF()) {
 		msm_hsic_pdata.log2_irq_thresh = 5,
 		apq8064_device_hsic_host.dev.platform_data = &msm_hsic_pdata;

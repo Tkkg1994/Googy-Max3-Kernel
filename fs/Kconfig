@@ -234,10 +234,6 @@ source "fs/pstore/Kconfig"
 source "fs/sysv/Kconfig"
 source "fs/ufs/Kconfig"
 source "fs/exofs/Kconfig"
-<<<<<<< HEAD
-=======
-source "fs/f2fs/Kconfig"
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 endif # MISC_FILESYSTEMS
 
@@ -294,11 +290,8 @@ endif # NETWORK_FILESYSTEMS
 source "fs/nls/Kconfig"
 source "fs/dlm/Kconfig"
 
-<<<<<<< HEAD
 config ASYNC_FSYNC
 	bool "asynchronous fsync"
 	default y
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 endmenu

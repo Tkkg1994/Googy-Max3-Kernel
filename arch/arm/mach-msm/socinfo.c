@@ -336,21 +336,13 @@ uint32_t socinfo_get_iddq(void)
 	void __iomem *pte_efuse;
 	uint32_t pte_efuse_val;
 	uint32_t qfprom_iddq;
-<<<<<<< HEAD
 	
-=======
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	pte_efuse = ioremap(0x007000C4, 4);
 	if (!pte_efuse) {
 		pr_err("%s : Unable to map QFPROM base\n", __func__);
 		return 0;
 	}
-<<<<<<< HEAD
 	
-=======
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	pte_efuse_val = readl_relaxed(pte_efuse);
 	iounmap(pte_efuse);
 
@@ -370,11 +362,7 @@ uint32_t socinfo_get_pvs(void)
 		pr_err("%s : Unable to map QFPROM base\n", __func__);
 		return 0;
 	}
-<<<<<<< HEAD
 	
-=======
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	pte_efuse_val = readl_relaxed(pte_efuse);
 	iounmap(pte_efuse);
 

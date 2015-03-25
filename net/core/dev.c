@@ -6288,7 +6288,6 @@ static int dev_cpu_callback(struct notifier_block *nfb,
 		oldsd->output_queue = NULL;
 		oldsd->output_queue_tailp = &oldsd->output_queue;
 	}
-<<<<<<< HEAD
 	/* Append NAPI poll list from offline CPU, with one exception :
 	 * process_backlog() must be called by cpu owning percpu backlog.
 	 * We properly handle process_queue & input_pkt_queue later.
@@ -6303,12 +6302,6 @@ static int dev_cpu_callback(struct notifier_block *nfb,
 			napi->state = 0;
 		else
 			____napi_schedule(sd, napi);
-=======
-	/* Append NAPI poll list from offline CPU. */
-	if (!list_empty(&oldsd->poll_list)) {
-		list_splice_init(&oldsd->poll_list, &sd->poll_list);
-		raise_softirq_irqoff(NET_RX_SOFTIRQ);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 
 	raise_softirq_irqoff(NET_TX_SOFTIRQ);
@@ -6319,11 +6312,7 @@ static int dev_cpu_callback(struct notifier_block *nfb,
 		netif_rx(skb);
 		input_queue_head_incr(oldsd);
 	}
-<<<<<<< HEAD
 	while ((skb = skb_dequeue(&oldsd->input_pkt_queue))) {
-=======
-	while ((skb = __skb_dequeue(&oldsd->input_pkt_queue))) {
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		netif_rx(skb);
 		input_queue_head_incr(oldsd);
 	}

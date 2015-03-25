@@ -395,16 +395,7 @@ struct msm_hsic_host_platform_data {
 	unsigned data;
 	struct msm_bus_scale_pdata *bus_scale_table;
 	unsigned log2_irq_thresh;
-<<<<<<< HEAD
 	u32 swfi_latency;
-=======
-
-	/*swfi latency is required while driving resume on to the bus */
-	u32 swfi_latency;
-
-	/*standalone latency is required when HSCI is active*/
-	u32 standalone_latency;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 };
 
 struct msm_usb_host_platform_data {

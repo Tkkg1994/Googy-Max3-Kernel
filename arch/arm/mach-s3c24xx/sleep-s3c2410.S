@@ -65,8 +65,4 @@ s3c2410_do_sleep:
 	streq	r8, [r5]			@ SDRAM power-down config
 	streq	r9, [r6]			@ CPU sleep
 1:	beq	1b
-<<<<<<< HEAD
 	ret	lr
-=======
-	mov	pc, r14
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea

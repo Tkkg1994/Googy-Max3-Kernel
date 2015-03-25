@@ -33,11 +33,7 @@
 #define PTRS_PER_PMD		512
 #define PTRS_PER_PGD		4
 
-<<<<<<< HEAD
 #define PTE_HWTABLE_PTRS	(0)
-=======
-#define PTE_HWTABLE_PTRS	(PTRS_PER_PTE)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #define PTE_HWTABLE_OFF		(0)
 #define PTE_HWTABLE_SIZE	(PTRS_PER_PTE * sizeof(u64))
 
@@ -52,26 +48,16 @@
 #define PMD_SHIFT		21
 
 #define PMD_SIZE		(1UL << PMD_SHIFT)
-<<<<<<< HEAD
 #define PMD_MASK		(~((1 << PMD_SHIFT) - 1))
 #define PGDIR_SIZE		(1UL << PGDIR_SHIFT)
 #define PGDIR_MASK		(~((1 << PGDIR_SHIFT) - 1))
-=======
-#define PMD_MASK		(~(PMD_SIZE-1))
-#define PGDIR_SIZE		(1UL << PGDIR_SHIFT)
-#define PGDIR_MASK		(~(PGDIR_SIZE-1))
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  * section address mask and size definitions.
  */
 #define SECTION_SHIFT		21
 #define SECTION_SIZE		(1UL << SECTION_SHIFT)
-<<<<<<< HEAD
 #define SECTION_MASK		(~((1 << SECTION_SHIFT) - 1))
-=======
-#define SECTION_MASK		(~(SECTION_SIZE-1))
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #define USER_PTRS_PER_PGD	(PAGE_OFFSET / PGDIR_SIZE)
 
@@ -86,7 +72,6 @@
 #define L_PTE_BUFFERABLE	(_AT(pteval_t, 1) << 2)		/* AttrIndx[0] */
 #define L_PTE_CACHEABLE		(_AT(pteval_t, 1) << 3)		/* AttrIndx[1] */
 #define L_PTE_USER		(_AT(pteval_t, 1) << 6)		/* AP[1] */
-<<<<<<< HEAD
 #define L_PTE_SHARED		(_AT(pteval_t, 3) << 8)		/* SH[1:0], inner shareable */
 #define L_PTE_YOUNG		(_AT(pteval_t, 1) << 10)	/* AF */
 #define L_PTE_XN		(_AT(pteval_t, 1) << 54)	/* XN */
@@ -94,14 +79,6 @@
 #define L_PTE_SPECIAL		(_AT(pteval_t, 1) << 56)
 #define L_PTE_NONE		(_AT(pteval_t, 1) << 57)	/* PROT_NONE */
 #define L_PTE_RDONLY		(_AT(pteval_t, 1) << 58)	/* READ ONLY */
-=======
-#define L_PTE_RDONLY		(_AT(pteval_t, 1) << 7)		/* AP[2] */
-#define L_PTE_SHARED		(_AT(pteval_t, 3) << 8)		/* SH[1:0], inner shareable */
-#define L_PTE_YOUNG		(_AT(pteval_t, 1) << 10)	/* AF */
-#define L_PTE_XN		(_AT(pteval_t, 1) << 54)	/* XN */
-#define L_PTE_DIRTY		(_AT(pteval_t, 1) << 55)	/* unused */
-#define L_PTE_SPECIAL		(_AT(pteval_t, 1) << 56)	/* unused */
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /*
  * To be used in assembly code with the upper page attributes.
@@ -172,7 +149,6 @@ static inline pmd_t *pmd_offset(pud_t *pud, unsigned long addr)
 		clean_pmd_entry(pmdp);	\
 	} while (0)
 
-<<<<<<< HEAD
 /*
  * For 3 levels of paging the PTE_EXT_NG bit will be set for user address ptes
  * that are written to a page table but not for ptes created with mk_pte.
@@ -190,8 +166,6 @@ static inline pmd_t *pmd_offset(pud_t *pud, unsigned long addr)
 				== (pte_present(pte_b) ? pte_val(pte_b) & ~PTE_EXT_NG	\
 					: pte_val(pte_b)))
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #define set_pte_ext(ptep,pte,ext) cpu_set_pte_ext(ptep,__pte(pte_val(pte)|(ext)))
 
 #endif /* __ASSEMBLY__ */

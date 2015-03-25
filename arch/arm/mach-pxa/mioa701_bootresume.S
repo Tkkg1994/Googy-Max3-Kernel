@@ -29,11 +29,7 @@ ENTRY(mioa701_jumpaddr)
 	str	r1, [r0]		@ Early disable resume for next boot
 	ldr	r0, mioa701_jumpaddr	@ (Murphy's Law)
 	ldr	r0, [r0]
-<<<<<<< HEAD
 	ret	r0
-=======
-	mov	pc, r0
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 2:
 
 ENTRY(mioa701_bootstrap_lg)

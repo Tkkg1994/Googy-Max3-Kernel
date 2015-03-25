@@ -18,18 +18,13 @@
 #include <linux/percpu.h>
 #include <linux/node.h>
 #include <linux/nodemask.h>
-<<<<<<< HEAD
 #include <linux/of.h>
 #include <linux/sched.h>
 #include <linux/slab.h>
-=======
-#include <linux/sched.h>
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #include <asm/cputype.h>
 #include <asm/topology.h>
 
-<<<<<<< HEAD
 /*
  * cpu power scale management
  */
@@ -183,27 +178,6 @@ static inline void update_cpu_power(unsigned int cpuid) {}
 /*
  * cpu topology table
  */
-=======
-#define MPIDR_SMP_BITMASK (0x3 << 30)
-#define MPIDR_SMP_VALUE (0x2 << 30)
-
-#define MPIDR_MT_BITMASK (0x1 << 24)
-
-/*
- * These masks reflect the current use of the affinity levels.
- * The affinity level can be up to 16 bits according to ARM ARM
- */
-
-#define MPIDR_LEVEL0_MASK 0x3
-#define MPIDR_LEVEL0_SHIFT 0
-
-#define MPIDR_LEVEL1_MASK 0xF
-#define MPIDR_LEVEL1_SHIFT 8
-
-#define MPIDR_LEVEL2_MASK 0xFF
-#define MPIDR_LEVEL2_SHIFT 16
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 struct cputopo_arm cpu_topology[NR_CPUS];
 EXPORT_SYMBOL_GPL(cpu_topology);
 
@@ -212,7 +186,6 @@ const struct cpumask *cpu_coregroup_mask(int cpu)
 	return &cpu_topology[cpu].core_sibling;
 }
 
-<<<<<<< HEAD
 static void update_siblings_masks(unsigned int cpuid)
 {
 	struct cputopo_arm *cpu_topo, *cpuid_topo = &cpu_topology[cpuid];
@@ -239,8 +212,6 @@ static void update_siblings_masks(unsigned int cpuid)
 	smp_wmb();
 }
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 /*
  * store_cpu_topology is called at boot when only one cpu is running
  * and with the mutex cpu_hotplug.lock locked, when several cpus have booted,
@@ -250,10 +221,6 @@ void store_cpu_topology(unsigned int cpuid)
 {
 	struct cputopo_arm *cpuid_topo = &cpu_topology[cpuid];
 	unsigned int mpidr;
-<<<<<<< HEAD
-=======
-	unsigned int cpu;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	/* If the cpu topology has been already set, just return */
 	if (cpuid_topo->core_id != -1)
@@ -270,7 +237,6 @@ void store_cpu_topology(unsigned int cpuid)
 
 		if (mpidr & MPIDR_MT_BITMASK) {
 			/* core performance interdependency */
-<<<<<<< HEAD
 			cpuid_topo->thread_id = MPIDR_AFFINITY_LEVEL(mpidr, 0);
 			cpuid_topo->core_id = MPIDR_AFFINITY_LEVEL(mpidr, 1);
 			cpuid_topo->socket_id = MPIDR_AFFINITY_LEVEL(mpidr, 2);
@@ -279,21 +245,6 @@ void store_cpu_topology(unsigned int cpuid)
 			cpuid_topo->thread_id = -1;
 			cpuid_topo->core_id = MPIDR_AFFINITY_LEVEL(mpidr, 0);
 			cpuid_topo->socket_id = MPIDR_AFFINITY_LEVEL(mpidr, 1);
-=======
-			cpuid_topo->thread_id = (mpidr >> MPIDR_LEVEL0_SHIFT)
-				& MPIDR_LEVEL0_MASK;
-			cpuid_topo->core_id = (mpidr >> MPIDR_LEVEL1_SHIFT)
-				& MPIDR_LEVEL1_MASK;
-			cpuid_topo->socket_id = (mpidr >> MPIDR_LEVEL2_SHIFT)
-				& MPIDR_LEVEL2_MASK;
-		} else {
-			/* largely independent cores */
-			cpuid_topo->thread_id = -1;
-			cpuid_topo->core_id = (mpidr >> MPIDR_LEVEL0_SHIFT)
-				& MPIDR_LEVEL0_MASK;
-			cpuid_topo->socket_id = (mpidr >> MPIDR_LEVEL1_SHIFT)
-				& MPIDR_LEVEL1_MASK;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		}
 	} else {
 		/*
@@ -306,32 +257,9 @@ void store_cpu_topology(unsigned int cpuid)
 		cpuid_topo->socket_id = -1;
 	}
 
-<<<<<<< HEAD
 	update_siblings_masks(cpuid);
 	
 	update_cpu_power(cpuid);
-=======
-	/* update core and thread sibling masks */
-	for_each_possible_cpu(cpu) {
-		struct cputopo_arm *cpu_topo = &cpu_topology[cpu];
-
-		if (cpuid_topo->socket_id == cpu_topo->socket_id) {
-			cpumask_set_cpu(cpuid, &cpu_topo->core_sibling);
-			if (cpu != cpuid)
-				cpumask_set_cpu(cpu,
-					&cpuid_topo->core_sibling);
-
-			if (cpuid_topo->core_id == cpu_topo->core_id) {
-				cpumask_set_cpu(cpuid,
-					&cpu_topo->thread_sibling);
-				if (cpu != cpuid)
-					cpumask_set_cpu(cpu,
-						&cpuid_topo->thread_sibling);
-			}
-		}
-	}
-	smp_wmb();
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	printk(KERN_INFO "CPU%u: thread %d, cpu %d, socket %d, mpidr %x\n",
 		cpuid, cpu_topology[cpuid].thread_id,
@@ -343,19 +271,11 @@ void store_cpu_topology(unsigned int cpuid)
  * init_cpu_topology is called at boot when only one cpu is running
  * which prevent simultaneous write access to cpu_topology array
  */
-<<<<<<< HEAD
 void __init init_cpu_topology(void)
 {
 	unsigned int cpu;
 
 	/* init core mask and power */
-=======
-void init_cpu_topology(void)
-{
-	unsigned int cpu;
-
-	/* init core mask */
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	for_each_possible_cpu(cpu) {
 		struct cputopo_arm *cpu_topo = &(cpu_topology[cpu]);
 
@@ -364,15 +284,10 @@ void init_cpu_topology(void)
 		cpu_topo->socket_id = -1;
 		cpumask_clear(&cpu_topo->core_sibling);
 		cpumask_clear(&cpu_topo->thread_sibling);
-<<<<<<< HEAD
 		
 		set_power_scale(cpu, SCHED_POWER_SCALE);
 	}
 	smp_wmb();
 	
 	parse_dt_topology();
-=======
-	}
-	smp_wmb();
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 }

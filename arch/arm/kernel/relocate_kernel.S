@@ -2,11 +2,8 @@
  * relocate_kernel.S - put the kernel image in place to boot
  */
 
-<<<<<<< HEAD
 #include <linux/linkage.h>
 #include <asm/assembler.h>
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #include <asm/kexec.h>
 
 #ifdef CONFIG_KEXEC_HARDBOOT
@@ -69,20 +66,12 @@ relocate_new_kernel:
 	teq	r0, #0
 	bne	hardboot
 #endif
-<<<<<<< HEAD
-=======
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	/* Jump to relocated kernel */
 	mov lr,r1
 	mov r0,#0
 	ldr r1,kexec_mach_type
 	ldr r2,kexec_boot_atags
-<<<<<<< HEAD
  ARM(	ret lr	)
-=======
- ARM(	mov pc, lr	)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  THUMB(	bx lr		)
 
 #ifdef CONFIG_KEXEC_HARDBOOT

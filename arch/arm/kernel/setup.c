@@ -368,7 +368,6 @@ void __init early_print(const char *str, ...)
 	printk("%s", buf);
 }
 
-<<<<<<< HEAD
 static void __init cpuid_init_hwcaps(void)
 {
 	unsigned int divide_instrs;
@@ -386,8 +385,6 @@ static void __init cpuid_init_hwcaps(void)
 	}
 }
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 static void __init feat_v6_fixup(void)
 {
 	int id = read_cpuid_id();
@@ -418,15 +415,12 @@ void cpu_init(void)
 		BUG();
 	}
 
-<<<<<<< HEAD
 	/*
 	 * This only works on resume and secondary cores. For booting on the
 	 * boot cpu, smp_prepare_boot_cpu is called after percpu area setup.
 	 */
 	set_my_cpu_offset(per_cpu_offset(cpu));
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	cpu_proc_init();
 
 	/*
@@ -470,7 +464,6 @@ int __cpu_logical_map[NR_CPUS];
 void __init smp_setup_processor_id(void)
 {
 	int i;
-<<<<<<< HEAD
 	u32 mpidr = is_smp() ? read_cpuid_mpidr() & MPIDR_HWID_BITMASK : 0;
 	u32 cpu = MPIDR_AFFINITY_LEVEL(mpidr, 0);
 
@@ -546,16 +539,6 @@ static void __init smp_build_mpidr_hash(void)
 	sync_cache_w(&mpidr_hash);
 }
 #endif
-=======
-	u32 cpu = is_smp() ? read_cpuid_mpidr() & 0xff : 0;
-
-	cpu_logical_map(0) = cpu;
-	for (i = 1; i < NR_CPUS; ++i)
-		cpu_logical_map(i) = i == cpu ? 0 : i;
-
-	printk(KERN_INFO "Booting Linux on physical CPU %d\n", cpu);
-}
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 static void __init setup_processor(void)
 {
@@ -598,12 +581,9 @@ static void __init setup_processor(void)
 	snprintf(elf_platform, ELF_PLATFORM_SIZE, "%s%c",
 		 list->elf_name, ENDIANNESS);
 	elf_hwcap = list->elf_hwcap;
-<<<<<<< HEAD
 
 	cpuid_init_hwcaps();
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #ifndef CONFIG_ARM_THUMB
 	elf_hwcap &= ~HWCAP_THUMB;
 #endif
@@ -692,11 +672,7 @@ static int __init early_mem(char *p)
 		meminfo.nr_banks = 0;
 	}
 
-<<<<<<< HEAD
 	start = PLAT_PHYS_OFFSET;
-=======
-	start = PHYS_OFFSET;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	size  = memparse(p, &endp);
 	if (*endp == '@')
 		start = memparse(endp + 1, NULL);
@@ -987,11 +963,7 @@ static struct machine_desc * __init setup_machine_tags(unsigned int nr)
 	struct machine_desc *mdesc = NULL, *p;
 	char *from = default_command_line;
 
-<<<<<<< HEAD
 	init_tags.mem.start = PLAT_PHYS_OFFSET;
-=======
-	init_tags.mem.start = PHYS_OFFSET;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	/*
 	 * locate machine in the list of supported machines.
@@ -1103,16 +1075,9 @@ void __init setup_arch(char **cmdline_p)
 	unflatten_device_tree();
 
 #ifdef CONFIG_SMP
-<<<<<<< HEAD
 	if (is_smp())
 		smp_init_cpus();
 		smp_build_mpidr_hash();
-=======
-	if (is_smp()) {
-		smp_set_ops(mdesc->smp);
-		smp_init_cpus();
-	}
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif
 	reserve_crashkernel();
 

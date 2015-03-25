@@ -861,23 +861,8 @@ static void handle_channel(struct wiphy *wiphy,
 		    r == -ERANGE)
 			return;
 
-<<<<<<< HEAD
 		REG_DBG_PRINT("Disabling freq %d MHz\n", chan->center_freq);
 		chan->flags |= IEEE80211_CHAN_DISABLED;
-=======
-		if (last_request->initiator == NL80211_REGDOM_SET_BY_DRIVER &&
-		    request_wiphy && request_wiphy == wiphy &&
-		    request_wiphy->flags & WIPHY_FLAG_STRICT_REGULATORY) {
-			REG_DBG_PRINT("Disabling freq %d MHz for good\n",
-			chan->center_freq);
-			chan->orig_flags |= IEEE80211_CHAN_DISABLED;
-			chan->flags = chan->orig_flags;
-		} else {
-			REG_DBG_PRINT("Disabling freq %d MHz\n",
-			chan->center_freq);
-			chan->flags |= IEEE80211_CHAN_DISABLED;
-		}
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		return;
 	}
 
@@ -913,7 +898,6 @@ static void handle_channel(struct wiphy *wiphy,
 	chan->max_reg_power = (int) MBM_TO_DBM(power_rule->max_eirp);
 	if (chan->orig_mpwr) {
 		/*
-<<<<<<< HEAD
 		 * Devices that have their own custom regulatory domain
 		 * but also use WIPHY_FLAG_STRICT_REGULATORY will follow the
 		 * passed country IE power settings.
@@ -921,13 +905,6 @@ static void handle_channel(struct wiphy *wiphy,
 		if (initiator == NL80211_REGDOM_SET_BY_COUNTRY_IE &&
 		    wiphy->flags & WIPHY_FLAG_CUSTOM_REGULATORY &&
 		    wiphy->flags & WIPHY_FLAG_STRICT_REGULATORY)
-=======
-		 * Devices that use NL80211_COUNTRY_IE_FOLLOW_POWER will always
-		 * follow the passed country IE power settings.
-		 */
-		if (initiator == NL80211_REGDOM_SET_BY_COUNTRY_IE &&
-		    wiphy->country_ie_pref & NL80211_COUNTRY_IE_FOLLOW_POWER)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			chan->max_power = chan->max_reg_power;
 		else
 			chan->max_power = min(chan->orig_mpwr,
@@ -1268,12 +1245,7 @@ static void handle_channel_custom(struct wiphy *wiphy,
 			      "wide channel\n",
 			      chan->center_freq,
 			      KHZ_TO_MHZ(desired_bw_khz));
-<<<<<<< HEAD
 		chan->flags = IEEE80211_CHAN_DISABLED;
-=======
-		chan->orig_flags |= IEEE80211_CHAN_DISABLED;
-		chan->flags = chan->orig_flags;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		return;
 	}
 
@@ -1350,11 +1322,6 @@ static int ignore_request(struct wiphy *wiphy,
 	case NL80211_REGDOM_SET_BY_CORE:
 		return 0;
 	case NL80211_REGDOM_SET_BY_COUNTRY_IE:
-<<<<<<< HEAD
-=======
-		if (wiphy->country_ie_pref & NL80211_COUNTRY_IE_IGNORE_CORE)
-			return -EALREADY;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 		last_wiphy = wiphy_idx_to_wiphy(last_request->wiphy_idx);
 
@@ -1545,13 +1512,8 @@ static void reg_process_hint(struct regulatory_request *reg_request,
 	if (wiphy_idx_valid(reg_request->wiphy_idx))
 		wiphy = wiphy_idx_to_wiphy(reg_request->wiphy_idx);
 
-<<<<<<< HEAD
 	if (reg_initiator == NL80211_REGDOM_SET_BY_DRIVER &&
 	    !wiphy) {
-=======
-	if ((reg_initiator == NL80211_REGDOM_SET_BY_DRIVER ||
-	     reg_initiator == NL80211_REGDOM_SET_BY_COUNTRY_IE) && !wiphy) {
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		kfree(reg_request);
 		return;
 	}
@@ -1713,10 +1675,6 @@ int regulatory_hint_user(const char *alpha2)
 
 	return 0;
 }
-<<<<<<< HEAD
-=======
-EXPORT_SYMBOL(regulatory_hint_user);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /* Driver hints */
 int regulatory_hint(struct wiphy *wiphy, const char *alpha2)
@@ -2186,11 +2144,7 @@ static int __set_regdom(const struct ieee80211_regdomain *rd)
 		 * checking if the alpha2 changes if CRDA was already called
 		 */
 		if (!regdom_changes(rd->alpha2))
-<<<<<<< HEAD
 			return -EINVAL;
-=======
-			return -EALREADY;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 
 	/*
@@ -2260,7 +2214,6 @@ static int __set_regdom(const struct ieee80211_regdomain *rd)
 		 * However if a driver requested this specific regulatory
 		 * domain we keep it for its private use
 		 */
-<<<<<<< HEAD
 		if (last_request->initiator == NL80211_REGDOM_SET_BY_DRIVER) {
 			const struct ieee80211_regdomain *tmp;
 
@@ -2270,12 +2223,6 @@ static int __set_regdom(const struct ieee80211_regdomain *rd)
 		} else {
 			kfree(rd);
 		}
-=======
-		if (last_request->initiator == NL80211_REGDOM_SET_BY_DRIVER)
-			request_wiphy->regd = rd;
-		else
-			kfree(rd);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 		rd = NULL;
 
@@ -2322,12 +2269,6 @@ int set_regdom(const struct ieee80211_regdomain *rd)
 	/* Note that this doesn't update the wiphys, this is done below */
 	r = __set_regdom(rd);
 	if (r) {
-<<<<<<< HEAD
-=======
-		if (r == -EALREADY)
-			reg_set_request_processed();
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		kfree(rd);
 		mutex_unlock(&reg_mutex);
 		return r;

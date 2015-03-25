@@ -108,10 +108,6 @@ enum pageflags {
 #ifdef CONFIG_TRANSPARENT_HUGEPAGE
 	PG_compound_lock,
 #endif
-<<<<<<< HEAD
-=======
-	PG_readahead,		/* page in a readahead window */
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	__NR_PAGEFLAGS,
 
 	/* Filesystems */

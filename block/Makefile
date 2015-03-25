@@ -8,7 +8,6 @@ obj-$(CONFIG_BLOCK) := elevator.o blk-core.o blk-tag.o blk-sysfs.o \
 			blk-iopoll.o blk-lib.o ioctl.o genhd.o scsi_ioctl.o \
 			partition-generic.o partitions/
 
-<<<<<<< HEAD
 obj-$(CONFIG_BLK_DEV_BSG)		+= bsg.o
 obj-$(CONFIG_BLK_DEV_BSGLIB)		+= bsg-lib.o
 obj-$(CONFIG_BLK_CGROUP)		+= blk-cgroup.o
@@ -27,17 +26,3 @@ obj-$(CONFIG_IOSCHED_SIOPLUS)		+= sioplus-iosched.o
 
 obj-$(CONFIG_BLOCK_COMPAT)		+= compat_ioctl.o
 obj-$(CONFIG_BLK_DEV_INTEGRITY)		+= blk-integrity.o
-=======
-obj-$(CONFIG_BLK_DEV_BSG)	+= bsg.o
-obj-$(CONFIG_BLK_DEV_BSGLIB)	+= bsg-lib.o
-obj-$(CONFIG_BLK_CGROUP)	+= blk-cgroup.o
-obj-$(CONFIG_BLK_DEV_THROTTLING)	+= blk-throttle.o
-obj-$(CONFIG_IOSCHED_NOOP)	+= noop-iosched.o
-obj-$(CONFIG_IOSCHED_DEADLINE)	+= deadline-iosched.o
-obj-$(CONFIG_IOSCHED_ROW)	+= row-iosched.o
-obj-$(CONFIG_IOSCHED_CFQ)	+= cfq-iosched.o
-obj-$(CONFIG_IOSCHED_TEST)	+= test-iosched.o
-
-obj-$(CONFIG_BLOCK_COMPAT)	+= compat_ioctl.o
-obj-$(CONFIG_BLK_DEV_INTEGRITY)	+= blk-integrity.o
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea

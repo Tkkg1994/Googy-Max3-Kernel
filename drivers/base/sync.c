@@ -79,22 +79,13 @@ static void sync_timeline_free(struct kref *kref)
 		container_of(kref, struct sync_timeline, kref);
 	unsigned long flags;
 
-<<<<<<< HEAD
 	if (obj->ops->release_obj)
 		obj->ops->release_obj(obj);
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	spin_lock_irqsave(&sync_timeline_list_lock, flags);
 	list_del(&obj->sync_timeline_list);
 	spin_unlock_irqrestore(&sync_timeline_list_lock, flags);
 
-<<<<<<< HEAD
-=======
-	if (obj->ops->release_obj)
-		obj->ops->release_obj(obj);
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	kfree(obj);
 }
 

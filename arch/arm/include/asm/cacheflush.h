@@ -16,10 +16,7 @@
 #include <asm/shmparam.h>
 #include <asm/cachetype.h>
 #include <asm/outercache.h>
-<<<<<<< HEAD
 #include <asm/rodata.h>
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #define CACHE_COLOUR(vaddr)	((vaddr & (SHMLBA - 1)) >> PAGE_SHIFT)
 
@@ -128,11 +125,7 @@ struct cpu_cache_fns {
 	void (*flush_user_range)(unsigned long, unsigned long, unsigned int);
 
 	void (*coherent_kern_range)(unsigned long, unsigned long);
-<<<<<<< HEAD
 	int  (*coherent_user_range)(unsigned long, unsigned long);
-=======
-	void (*coherent_user_range)(unsigned long, unsigned long);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	void (*flush_kern_dcache_area)(void *, size_t);
 
 	void (*dma_map_area)(const void *, size_t, int);
@@ -179,11 +172,7 @@ extern void __cpuc_flush_kern_louis(void);
 extern void __cpuc_flush_user_all(void);
 extern void __cpuc_flush_user_range(unsigned long, unsigned long, unsigned int);
 extern void __cpuc_coherent_kern_range(unsigned long, unsigned long);
-<<<<<<< HEAD
 extern int __cpuc_coherent_user_range(unsigned long, unsigned long);
-=======
-extern void __cpuc_coherent_user_range(unsigned long, unsigned long);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 extern void __cpuc_flush_dcache_area(void *, size_t);
 
 /*
@@ -395,7 +384,6 @@ static inline void flush_cache_vunmap(unsigned long start, unsigned long end)
 		flush_cache_all();
 }
 
-<<<<<<< HEAD
 /*
  * Memory synchronization helpers for mixed cached vs non cached accesses.
  *
@@ -471,6 +459,4 @@ static inline void __sync_cache_range_r(volatile void *p, size_t size)
 #define sync_cache_w(ptr) __sync_cache_range_w(ptr, sizeof *(ptr))
 #define sync_cache_r(ptr) __sync_cache_range_r(ptr, sizeof *(ptr))
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif

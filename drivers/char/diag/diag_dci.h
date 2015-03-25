@@ -46,10 +46,6 @@ struct dci_pkt_req_tracking_tbl {
 };
 
 struct diag_dci_client_tbl {
-<<<<<<< HEAD
-=======
-	int client_id;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	struct task_struct *client;
 	uint16_t list; /* bit mask */
 	int signal_type;
@@ -66,10 +62,6 @@ struct diag_dci_client_tbl {
 
 /* This is used for DCI health stats */
 struct diag_dci_health_stats {
-<<<<<<< HEAD
-=======
-	int client_id;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	int dropped_logs;
 	int dropped_events;
 	int received_logs;
@@ -104,10 +96,6 @@ int diag_process_dci_transaction(unsigned char *buf, int len);
 int diag_send_dci_pkt(struct diag_master_table entry, unsigned char *buf,
 							 int len, int index);
 void extract_dci_pkt_rsp(unsigned char *buf);
-<<<<<<< HEAD
-=======
-int diag_dci_find_client_index_health(int client_id);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 int diag_dci_find_client_index(int client_id);
 /* DCI Log streaming functions */
 void create_dci_log_mask_tbl(unsigned char *tbl_buf);

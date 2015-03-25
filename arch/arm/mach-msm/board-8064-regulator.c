@@ -595,12 +595,7 @@ VREG_CONSUMERS(BOOST) = {
 	{ \
 		.constraints = { \
 			.name		= _name, \
-<<<<<<< HEAD
 			.valid_ops_mask	= REGULATOR_CHANGE_VOLTAGE, \
-=======
-			.valid_ops_mask	= REGULATOR_CHANGE_VOLTAGE | \
-					  REGULATOR_CHANGE_STATUS, \
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			.min_uV		= _min_uV, \
 			.max_uV		= _max_uV, \
 		}, \
@@ -732,7 +727,6 @@ mpq8064_gpio_regulator_pdata[] __devinitdata = {
 /* SAW regulator constraints */
 struct regulator_init_data msm8064_saw_regulator_pdata_8921_s5 =
 	/*	      ID  vreg_name	       min_uV   max_uV */
-<<<<<<< HEAD
 #ifdef CONFIG_CPU_OVERCLOCK
 	SAW_VREG_INIT(S5, "8921_s5",	       600000, 1450000);
 #else
@@ -759,17 +753,6 @@ struct regulator_init_data msm8064_saw_regulator_pdata_8821_s1 =
 #else
 	SAW_VREG_INIT(8821_S1, "8821_s1",       850000, 1300000);
 #endif
-=======
-	SAW_VREG_INIT(S5, "8921_s5",	       850000, 1300000);
-struct regulator_init_data msm8064_saw_regulator_pdata_8921_s6 =
-	SAW_VREG_INIT(S6, "8921_s6",	       850000, 1300000);
-
-struct regulator_init_data msm8064_saw_regulator_pdata_8821_s0 =
-	/*	      ID       vreg_name	min_uV  max_uV */
-	SAW_VREG_INIT(8821_S0, "8821_s0",       850000, 1300000);
-struct regulator_init_data msm8064_saw_regulator_pdata_8821_s1 =
-	SAW_VREG_INIT(8821_S1, "8821_s1",       850000, 1300000);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 /* PM8921 regulator constraints */
 struct pm8xxx_regulator_platform_data
@@ -884,11 +867,7 @@ apq8064_rpm_regulator_init_data[] __devinitdata = {
 	/*	ID a_on pd ss min_uV   max_uV   supply    sys_uA init_ip */
 	RPM_LDO(L1,  1, 1, 0, 1100000, 1100000, "8921_s4",     0,  1000),
 	RPM_LDO(L2,  0, 1, 0, 1200000, 1200000, "8921_s4",     0,     0),
-<<<<<<< HEAD
 	RPM_LDO(L3,  0, 1, 0, 3075000, 3075000, NULL,          0,     0),
-=======
-	RPM_LDO(L3,  0, 1, 0, 3075000, 3300000, NULL,          0,     0),
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	RPM_LDO(L4,  1, 1, 0, 1800000, 1800000, NULL,          0, 10000),
 	RPM_LDO(L5,  0, 1, 0, 2950000, 2950000, NULL,          0,     0),
 	RPM_LDO(L6,  0, 1, 0, 2950000, 2950000, NULL,          0,     0),

@@ -281,7 +281,6 @@ extern unsigned long preset_lpj;
 /*
  * Convert various time units to each other:
  */
-<<<<<<< HEAD
 
 /*
  * Avoid unnecessary multiplications/divisions in the
@@ -414,12 +413,6 @@ extern unsigned long __usecs_to_jiffies(const unsigned int u);
 	 __inline_usecs_to_jiffies(x) :		\
 	 __usecs_to_jiffies(x))
 
-=======
-extern unsigned int jiffies_to_msecs(const unsigned long j);
-extern unsigned int jiffies_to_usecs(const unsigned long j);
-extern unsigned long msecs_to_jiffies(const unsigned int m);
-extern unsigned long usecs_to_jiffies(const unsigned int u);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 extern unsigned long timespec_to_jiffies(const struct timespec *value);
 extern void jiffies_to_timespec(const unsigned long jiffies,
 				struct timespec *value);

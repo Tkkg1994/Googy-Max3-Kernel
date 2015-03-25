@@ -48,12 +48,6 @@ extern void __aeabi_ulcmp(void);
 
 extern void fpundefinstr(void);
 
-<<<<<<< HEAD
-=======
-	/* platform dependent support */
-EXPORT_SYMBOL(arm_delay_ops);
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	/* networking */
 EXPORT_SYMBOL(csum_partial);
 EXPORT_SYMBOL(csum_partial_copy_from_user);

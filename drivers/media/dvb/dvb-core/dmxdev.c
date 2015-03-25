@@ -4,11 +4,7 @@
  * Copyright (C) 2000 Ralph Metzler & Marcus Metzler
  *		      for convergence integrated media GmbH
  *
-<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -1465,14 +1461,6 @@ static int dvb_dmxdev_ts_fullness_callback(
 	struct dmxdev_events_queue *events;
 	int ret;
 
-<<<<<<< HEAD
-=======
-	if (!dmxdevfilter) {
-		pr_err("%s: NULL demux filter object!\n", __func__);
-		return -ENODEV;
-	}
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (dmxdevfilter->params.pes.output != DMX_OUT_TS_TAP) {
 		src = &dmxdevfilter->buffer;
 		events = &dmxdevfilter->events;
@@ -1526,25 +1514,10 @@ static int dvb_dmxdev_sec_fullness_callback(
 				int required_space)
 {
 	struct dmxdev_filter *dmxdevfilter = filter->priv;
-<<<<<<< HEAD
 	struct dvb_ringbuffer *src = &dmxdevfilter->buffer;
 	struct dmxdev_events_queue *events = &dmxdevfilter->events;
 	int ret;
 
-=======
-	struct dvb_ringbuffer *src;
-	struct dmxdev_events_queue *events;
-	int ret;
-
-	if (!dmxdevfilter) {
-		pr_err("%s: NULL demux filter object!\n", __func__);
-		return -ENODEV;
-	}
-
-	src = &dmxdevfilter->buffer;
-	events = &dmxdevfilter->events;
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	do {
 		ret = 0;
 

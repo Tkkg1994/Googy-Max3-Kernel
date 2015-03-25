@@ -286,14 +286,6 @@ static inline loff_t page_offset(struct page *page)
 	return ((loff_t)page->index) << PAGE_CACHE_SHIFT;
 }
 
-<<<<<<< HEAD
-=======
-static inline loff_t page_file_offset(struct page *page)
-{
-	return ((loff_t)page_file_index(page)) << PAGE_CACHE_SHIFT;
-}
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 extern pgoff_t linear_hugepage_index(struct vm_area_struct *vma,
 				     unsigned long address);
 

@@ -175,8 +175,4 @@ const struct tag *copy_atags(struct tag *dest, const struct tag *src,
 	memcpy(dest, src, size);
 
 	return dest;
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea

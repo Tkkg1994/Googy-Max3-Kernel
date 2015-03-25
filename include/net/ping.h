@@ -31,12 +31,7 @@
 
 /* Compatibility glue so we can support IPv6 when it's compiled as a module */
 struct pingv6_ops {
-<<<<<<< HEAD
 	int (*ipv6_recv_error)(struct sock *sk, struct msghdr *msg, int len, int *addr_len);
-=======
-	int (*ipv6_recv_error)(struct sock *sk, struct msghdr *msg, int len,
-			       int *addr_len);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	int (*datagram_recv_ctl)(struct sock *sk, struct msghdr *msg,
 				 struct sk_buff *skb);
 	int (*icmpv6_err_convert)(u8 type, u8 code, int *err);

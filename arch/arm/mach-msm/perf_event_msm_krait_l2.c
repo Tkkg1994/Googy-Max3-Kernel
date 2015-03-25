@@ -18,7 +18,6 @@
 
 #include <mach/msm-krait-l2-accessors.h>
 
-<<<<<<< HEAD
 #define MAX_L2_PERIOD	((1ULL << 32) - 1)
 #define MAX_KRAIT_L2_CTRS 10
 
@@ -67,8 +66,6 @@
 
 #define	RESRX_VALUE_EN	0x80000000
 
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 /*
  * The L2 PMU is shared between all CPU's, so protect
  * its bitmap access.
@@ -200,25 +197,13 @@ static void set_evfilter_task_mode(int ctr, unsigned int is_slv)
 	set_l2_indirect_reg(filter_reg, filter_val);
 }
 
-<<<<<<< HEAD
 static void set_evfilter_sys_mode(int ctr, unsigned int is_slv)
-=======
-static void set_evfilter_sys_mode(int ctr, unsigned int is_slv, int cpu,
-		unsigned int is_tracectr)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 {
 	u32 filter_reg = (ctr * 16) + IA_L2PMXEVFILTER_BASE;
 	u32 filter_val = l2_orig_filter_prefix | 0xf;
 
-<<<<<<< HEAD
 	if (is_slv)
 		filter_val = l2_slv_filter_prefix;
-=======
-	if (is_slv == 1)
-		filter_val = l2_slv_filter_prefix;
-	if (is_tracectr == 1)
-		filter_val = l2_orig_filter_prefix | 1 << cpu;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	set_l2_indirect_reg(filter_reg, filter_val);
 }
@@ -292,10 +277,6 @@ static void krait_l2_enable(struct hw_perf_event *hwc, int idx, int cpu)
 	struct event_desc evdesc;
 	unsigned long iflags;
 	unsigned int is_slv = 0;
-<<<<<<< HEAD
-=======
-	unsigned int is_tracectr = 0;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	unsigned int evt_prefix;
 
 	raw_spin_lock_irqsave(&krait_l2_pmu_hw_events.pmu_lock, iflags);
@@ -309,11 +290,6 @@ static void krait_l2_enable(struct hw_perf_event *hwc, int idx, int cpu)
 
 	if (evt_prefix == L2_SLAVE_EV_PREFIX)
 		is_slv = 1;
-<<<<<<< HEAD
-=======
-	else if (evt_prefix == L2_TRACECTR_PREFIX)
-		is_tracectr = 1;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	set_evcntcr(idx);
 
@@ -329,11 +305,7 @@ static void krait_l2_enable(struct hw_perf_event *hwc, int idx, int cpu)
 	if (cpu < 0)
 		set_evfilter_task_mode(idx, is_slv);
 	else
-<<<<<<< HEAD
 		set_evfilter_sys_mode(idx, is_slv);
-=======
-		set_evfilter_sys_mode(idx, is_slv, cpu, is_tracectr);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 out:
 	enable_intenset(idx);
@@ -484,10 +456,6 @@ krait_l2_pmu_generic_free_irq(int irq)
 static int msm_l2_test_set_ev_constraint(struct perf_event *event)
 {
 	u32 evt_type = event->attr.config & L2_EVT_MASK;
-<<<<<<< HEAD
-=======
-	u8 evt_prefix = (evt_type & EVENT_PREFIX_MASK) >> EVENT_PREFIX_SHIFT;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	u8 reg   = (evt_type & 0x0F000) >> 12;
 	u8 group = evt_type & 0x0000F;
 	u8 code = (evt_type & 0x00FF0) >> 4;
@@ -496,11 +464,6 @@ static int msm_l2_test_set_ev_constraint(struct perf_event *event)
 	u64 bitmap_t;
 	u32 shift_idx;
 
-<<<<<<< HEAD
-=======
-	if (evt_prefix == L2_TRACECTR_PREFIX)
-		return err;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	/*
 	 * Cycle counter collision is detected in
 	 * get_event_idx().
@@ -533,15 +496,8 @@ static int msm_l2_test_set_ev_constraint(struct perf_event *event)
 			 * This sets the event OFF on all but one
 			 * CPU.
 			 */
-<<<<<<< HEAD
 			if (!(event->cpu < 0))
 				event->state = PERF_EVENT_STATE_OFF;
-=======
-			if (!(event->cpu < 0)) {
-				event->state = PERF_EVENT_STATE_OFF;
-				event->attr.constraint_duplicate = 1;
-			}
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 out:
 	raw_spin_unlock_irqrestore(&l2_pmu_constraints.lock, flags);
@@ -551,21 +507,12 @@ out:
 static int msm_l2_clear_ev_constraint(struct perf_event *event)
 {
 	u32 evt_type = event->attr.config & L2_EVT_MASK;
-<<<<<<< HEAD
-=======
-	u8 evt_prefix = (evt_type & EVENT_PREFIX_MASK) >> EVENT_PREFIX_SHIFT;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	u8 reg   = (evt_type & 0x0F000) >> 12;
 	u8 group =  evt_type & 0x0000F;
 	unsigned long flags;
 	u64 bitmap_t;
 	u32 shift_idx;
 
-<<<<<<< HEAD
-=======
-	if (evt_prefix == L2_TRACECTR_PREFIX)
-		return 1;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	raw_spin_lock_irqsave(&l2_pmu_constraints.lock, flags);
 
 	shift_idx = ((reg * 4) + group);
@@ -636,11 +583,6 @@ static struct platform_driver krait_l2_pmu_driver = {
 
 static int __init register_krait_l2_pmu_driver(void)
 {
-<<<<<<< HEAD
-=======
-	int i;
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	/* Reset all ctrs */
 	set_l2_indirect_reg(L2PMCR, L2PMCR_RESET_ALL);
 
@@ -662,14 +604,6 @@ static int __init register_krait_l2_pmu_driver(void)
 	/* Avoid spurious interrupt if any */
 	get_reset_pmovsr();
 
-<<<<<<< HEAD
-=======
-	/* Clear counter enables */
-	disable_counter(l2_cycle_ctr_idx);
-	for (i = 0; i < total_l2_ctrs; i++)
-		disable_counter(i);
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return platform_driver_register(&krait_l2_pmu_driver);
 }
 device_initcall(register_krait_l2_pmu_driver);

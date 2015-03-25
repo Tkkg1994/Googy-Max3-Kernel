@@ -427,11 +427,7 @@ int rescan_partitions(struct gendisk *disk, struct block_device *bdev)
 	int p, highest, res;
 rescan:
 	if (state && !IS_ERR(state)) {
-<<<<<<< HEAD
 		free_partitions(state);
-=======
-		kfree(state);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		state = NULL;
 	}
 
@@ -538,11 +534,7 @@ rescan:
 			md_autodetect_dev(part_to_dev(part)->devt);
 #endif
 	}
-<<<<<<< HEAD
 	free_partitions(state);
-=======
-	kfree(state);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return 0;
 }
 

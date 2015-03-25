@@ -46,38 +46,19 @@
 ENTRY(cpu_v7_switch_mm)
 #ifdef CONFIG_MMU
 	mov	r2, #0
-<<<<<<< HEAD
 	mmid	r1, r1				@ get mm->context.id
-=======
-	ldr	r1, [r1, #MM_CONTEXT_ID]	@ get mm->context.id
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	ALT_SMP(orr	r0, r0, #TTB_FLAGS_SMP)
 	ALT_UP(orr	r0, r0, #TTB_FLAGS_UP)
 #ifdef CONFIG_ARM_ERRATA_430973
 	mcr	p15, 0, r2, c7, c5, 6		@ flush BTAC/BTB
 #endif
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_ARM_ERRATA_754322
-	dsb
-#endif
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #ifdef CONFIG_PID_IN_CONTEXTIDR
 	mrc     p15, 0, r2, c13, c0, 1          @ read current context ID
 	bic     r2, r2, #0xff                   @ extract the PID
 	and     r1, r1, #0xff
 	orr     r1, r1, r2                      @ insert the PID into r1
 #endif
-<<<<<<< HEAD
 #ifdef TIMA_ENABLED
-=======
-	mcr	p15, 0, r2, c13, c0, 1		@ set reserved context ID
-	isb
-1:
-#ifndef TIMA_ENABLED
-	mcr	p15, 0, r0, c2, c0, 0		@ set TTB 0
-#else
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
         stmfd   sp!, {r2, r11}
        /* TZ side expects r0 to be in r11 */
         mov     r11,    r0
@@ -90,24 +71,15 @@ ENTRY(cpu_v7_switch_mm)
         ldmfd   sp!, {r2, r11}
 #endif
 
-<<<<<<< HEAD
-=======
-	isb
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #ifdef CONFIG_ARM_ERRATA_754322
 	dsb
 #endif
 	mcr	p15, 0, r1, c13, c0, 1		@ set context ID
 	isb
-<<<<<<< HEAD
 	mcr	p15, 0, r0, c2, c0, 0		@ set TTB 0
 	isb
 #endif
 	bx	lr
-=======
-#endif
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(cpu_v7_switch_mm)
 
 /*
@@ -170,11 +142,7 @@ ENTRY(cpu_v7_set_pte_ext)
 	ldr     r0, =0x3f807221
         smc     #1
 	pop	{r0}
-<<<<<<< HEAD
         /** Cache invalidate again to ensure no 
-=======
-        /** Cache invalidate again to ensure no
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	 *  values re-cached by speculative fetching
          */
 	mcr     p15, 0, r0, c7, c6,  1
@@ -201,18 +169,11 @@ TIMA_CMP_LOOP2:
  ARM(	str	r3, [r0, #2048]! )
  THUMB(	add	r0, r0, #2048 )
  THUMB(	str	r3, [r0] )
-<<<<<<< HEAD
 	ALT_SMP(W(nop))
 	ALT_UP (mcr	p15, 0, r0, c7, c10, 1)		@ flush_pte
 #endif
 #endif
 	bx	lr
-=======
- 	mcr     p15, 0, r0, c7, c10, 1          @ flush_pte
-#endif
-#endif
-	mov	pc, lr
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 ENDPROC(cpu_v7_set_pte_ext)
 
 	/*

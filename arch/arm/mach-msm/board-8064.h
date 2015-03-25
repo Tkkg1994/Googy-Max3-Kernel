@@ -82,11 +82,6 @@ extern struct regulator_init_data msm8064_saw_regulator_pdata_8821_s1;
 struct mmc_platform_data;
 int __init apq8064_add_sdcc(unsigned int controller,
 		struct mmc_platform_data *plat);
-<<<<<<< HEAD
-=======
-int __init apq8064_add_uio(void);
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 extern int msm_otg_power_cb(int active);
 extern void msm_otg_set_vbus_state(int online);
 extern void msm_otg_set_id_state(int online);

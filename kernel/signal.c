@@ -160,11 +160,7 @@ void recalc_sigpending(void)
 
 #define SYNCHRONOUS_MASK \
 	(sigmask(SIGSEGV) | sigmask(SIGBUS) | sigmask(SIGILL) | \
-<<<<<<< HEAD
 	 sigmask(SIGTRAP) | sigmask(SIGFPE))
-=======
-	 sigmask(SIGTRAP) | sigmask(SIGFPE) | sigmask(SIGSYS))
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 int next_signal(struct sigpending *pending, sigset_t *mask)
 {
@@ -1809,13 +1805,6 @@ static inline int may_ptrace_stop(void)
 	 * If SIGKILL was already sent before the caller unlocked
 	 * ->siglock we must see ->core_state != NULL. Otherwise it
 	 * is safe to enter schedule().
-<<<<<<< HEAD
-=======
-	 *
-	 * This is almost outdated, a task with the pending SIGKILL can't
-	 * block in TASK_TRACED. But PTRACE_EVENT_EXIT can be reported
-	 * after SIGKILL was already dequeued.
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	 */
 	if (unlikely(current->mm->core_state) &&
 	    unlikely(current->mm == current->parent->mm))
@@ -1941,10 +1930,6 @@ static void ptrace_stop(int exit_code, int why, int clear_code, siginfo_t *info)
 		if (gstop_done)
 			do_notify_parent_cldstop(current, false, why);
 
-<<<<<<< HEAD
-=======
-		/* tasklist protects us from ptrace_freeze_traced() */
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		__set_current_state(TASK_RUNNING);
 		if (clear_code)
 			current->exit_code = 0;
@@ -2718,16 +2703,6 @@ int copy_siginfo_to_user(siginfo_t __user *to, siginfo_t *from)
 		err |= __put_user(from->si_uid, &to->si_uid);
 		err |= __put_user(from->si_ptr, &to->si_ptr);
 		break;
-<<<<<<< HEAD
-=======
-#ifdef __ARCH_SIGSYS
-	case __SI_SYS:
-		err |= __put_user(from->si_call_addr, &to->si_call_addr);
-		err |= __put_user(from->si_syscall, &to->si_syscall);
-		err |= __put_user(from->si_arch, &to->si_arch);
-		break;
-#endif
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	default: /* this is just in case for now ... */
 		err |= __put_user(from->si_pid, &to->si_pid);
 		err |= __put_user(from->si_uid, &to->si_uid);
@@ -2784,11 +2759,7 @@ int do_sigtimedwait(const sigset_t *which, siginfo_t *info,
 		recalc_sigpending();
 		spin_unlock_irq(&tsk->sighand->siglock);
 
-<<<<<<< HEAD
 		timeout = schedule_timeout_interruptible(timeout);
-=======
-		timeout = freezable_schedule_timeout_interruptible(timeout);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 		spin_lock_irq(&tsk->sighand->siglock);
 		__set_task_blocked(tsk, &tsk->real_blocked);

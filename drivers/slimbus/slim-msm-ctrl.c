@@ -1322,15 +1322,9 @@ static void slim_sat_rxprocess(struct work_struct *work)
 	struct msm_slim_ctrl *dev = sat->dev;
 	u8 buf[40];
 
-<<<<<<< HEAD
 #ifdef CONFIG_DEBUG_FS	
 	int index;
 #endif	
-=======
-#ifdef CONFIG_DEBUG_FS
-	int index;
-#endif
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	while ((msm_sat_dequeue(sat, buf)) != -ENODATA) {
 		struct slim_msg_txn txn;
@@ -1534,27 +1528,16 @@ send_capability:
 					sat->satcl.laddr); /* slimbus debug patch */
 			ret = msm_xfer_msg(&dev->ctrl, &txn);
 
-<<<<<<< HEAD
 #ifdef CONFIG_DEBUG_FS			
 			if(txn.la ==  0)
 				index = 0;
 			else 
-=======
-#ifdef CONFIG_DEBUG_FS
-			if(txn.la ==  0)
-				index = 0;
-			else
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 				index = 1;
 			slim_debug[index][buf[4] &0x1f].la = txn.la;
 			slim_debug[index][buf[4] &0x1f].direction = txn.mc;
 			slim_debug[index][buf[4] &0x1f].port = buf[4] & 0x1f;
 			slim_debug[index][buf[4] &0x1f].ch_num = buf[5];
-<<<<<<< HEAD
 #endif			
-=======
-#endif
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			break;
 		case SLIM_USR_MC_DISCONNECT_PORT:
 			txn.mc = SLIM_MSG_MC_DISCONNECT_PORT;
@@ -1569,17 +1552,10 @@ send_capability:
 			pr_info("-slimdebug-SAT disconnect LA:0x%x", sat->satcl.laddr); /* slimbus debug patch */
 			ret = msm_xfer_msg(&dev->ctrl, &txn);
 
-<<<<<<< HEAD
 #ifdef CONFIG_DEBUG_FS			
 			if(txn.la ==  0)
 				index = 0;
 			else 
-=======
-#ifdef CONFIG_DEBUG_FS
-			if(txn.la ==  0)
-				index = 0;
-			else
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 				index = 1;
 			slim_debug[index][buf[4] &0x1f].direction = 0;
 			slim_debug[index][buf[4] &0x1f].port = 0;
@@ -2081,35 +2057,20 @@ static ssize_t slim_ch_show(struct device *dev,
 {
 	int length = 0;
 	int i;
-<<<<<<< HEAD
 		  
 	for(i = 0; i < MSM_SLIM_NPORTS; i++)
 			if(slim_debug[0][i].direction) 
 					length += sprintf(buf+length,
 					"=Index[%d]=laddr[%2d]=dir[0x%02x]=port[%d]=chnum[%d]=\n",
 					i, slim_debug[0][i].la, slim_debug[0][i].direction, 
-=======
-
-	for(i = 0; i < MSM_SLIM_NPORTS; i++)
-			if(slim_debug[0][i].direction)
-					length += sprintf(buf+length,
-					"=Index[%d]=laddr[%2d]=dir[0x%02x]=port[%d]=chnum[%d]=\n",
-					i, slim_debug[0][i].la, slim_debug[0][i].direction,
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 					   slim_debug[0][i].port, slim_debug[0][i].ch_num);
 	for(i = 0; i < MSM_SLIM_NPORTS; i++)
 			if(slim_debug[1][i].direction)
 					length += sprintf(buf+length,
 					"=Index[%d]=laddr[%2d]=dir[0x%02x]=port[%d]=chnum[%d]=\n",
-<<<<<<< HEAD
 					i, slim_debug[1][i].la, slim_debug[1][i].direction, 
 					   slim_debug[1][i].port, slim_debug[1][i].ch_num);
 	
-=======
-					i, slim_debug[1][i].la, slim_debug[1][i].direction,
-					   slim_debug[1][i].port, slim_debug[1][i].ch_num);
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return length;
 }
 static DEVICE_ATTR(slim_ch_status, 0644, slim_ch_show, NULL);
@@ -2122,25 +2083,15 @@ static ssize_t slim_addr_show(struct device *dev,
 	struct slim_controller *ctrl = &slim_ctrl->ctrl;
 	int length = 0;
 	int i;
-<<<<<<< HEAD
 		  
 	for(i = 0; i < ctrl->num_dev; i++)
 		if(ctrl->addrt[i].valid) 
-=======
-
-	for(i = 0; i < ctrl->num_dev; i++)
-		if(ctrl->addrt[i].valid)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			length += sprintf(buf+length,
 				"=laddr[%02d]=eaddr[ %02x%02x %02x %02x %02x %02x ]=\n",
 				i, ctrl->addrt[i].eaddr[5], ctrl->addrt[i].eaddr[4],
 				ctrl->addrt[i].eaddr[3], ctrl->addrt[i].eaddr[2],
 				ctrl->addrt[i].eaddr[1], ctrl->addrt[i].eaddr[0]);
-<<<<<<< HEAD
 	
-=======
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	return length;
 }
 static DEVICE_ATTR(slim_addr_status, 0644, slim_addr_show, NULL);

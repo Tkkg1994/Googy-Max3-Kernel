@@ -39,11 +39,7 @@ static int nommu_region_show(struct seq_file *m, struct vm_region *region)
 	unsigned long ino = 0;
 	struct file *file;
 	dev_t dev = 0;
-<<<<<<< HEAD
 	int flags, len;
-=======
-	int flags;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	flags = region->vm_flags;
 	file = region->vm_file;
@@ -54,14 +50,8 @@ static int nommu_region_show(struct seq_file *m, struct vm_region *region)
 		ino = inode->i_ino;
 	}
 
-<<<<<<< HEAD
 	seq_printf(m,
 		   "%08lx-%08lx %c%c%c%c %08llx %02x:%02x %lu %n",
-=======
-	seq_setwidth(m, 25 + sizeof(void *) * 6 - 1);
-	seq_printf(m,
-		   "%08lx-%08lx %c%c%c%c %08llx %02x:%02x %lu ",
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		   region->vm_start,
 		   region->vm_end,
 		   flags & VM_READ ? 'r' : '-',
@@ -69,7 +59,6 @@ static int nommu_region_show(struct seq_file *m, struct vm_region *region)
 		   flags & VM_EXEC ? 'x' : '-',
 		   flags & VM_MAYSHARE ? flags & VM_SHARED ? 'S' : 's' : 'p',
 		   ((loff_t)region->vm_pgoff) << PAGE_SHIFT,
-<<<<<<< HEAD
 		   MAJOR(dev), MINOR(dev), ino, &len);
 
 	if (file) {
@@ -77,12 +66,6 @@ static int nommu_region_show(struct seq_file *m, struct vm_region *region)
 		if (len < 1)
 			len = 1;
 		seq_printf(m, "%*c", len, ' ');
-=======
-		   MAJOR(dev), MINOR(dev), ino);
-
-	if (file) {
-		seq_pad(m, ' ');
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		seq_path(m, &file->f_path, "");
 	}
 

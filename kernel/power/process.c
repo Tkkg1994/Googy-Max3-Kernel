@@ -32,16 +32,9 @@ static int try_to_freeze_tasks(bool user_only)
 	unsigned int todo;
 	bool wq_busy = false;
 	struct timeval start, end;
-<<<<<<< HEAD
 	u64 elapsed_csecs64;
 	unsigned int elapsed_csecs;
 	bool wakeup = false;
-=======
-	u64 elapsed_msecs64;
-	unsigned int elapsed_msecs;
-	bool wakeup = false;
-	int sleep_usecs = USEC_PER_MSEC;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	do_gettimeofday(&start);
 
@@ -92,7 +85,6 @@ static int try_to_freeze_tasks(bool user_only)
 
 		/*
 		 * We need to retry, but first give the freezing tasks some
-<<<<<<< HEAD
 		 * time to enter the regrigerator.
 		 */
 		msleep(10);
@@ -122,51 +114,20 @@ static int try_to_freeze_tasks(bool user_only)
 			       elapsed_csecs / 100, elapsed_csecs % 100,
 			       todo - wq_busy, wq_busy);
 		}
-=======
-		 * time to enter the refrigerator.  Start with an initial
-		 * 1 ms sleep followed by exponential backoff until 8 ms.
-		 */
-		usleep_range(sleep_usecs / 2, sleep_usecs);
-		if (sleep_usecs < 8 * USEC_PER_MSEC)
-			sleep_usecs *= 2;
-	}
-
-	do_gettimeofday(&end);
-	elapsed_msecs64 = timeval_to_ns(&end) - timeval_to_ns(&start);
-	do_div(elapsed_msecs64, NSEC_PER_MSEC);
-	elapsed_msecs = elapsed_msecs64;
-
-	if (todo) {
-		printk("\n");
-		printk(KERN_ERR "Freezing of tasks %s after %d.%03d seconds "
-		       "(%d tasks refusing to freeze, wq_busy=%d):\n",
-		       wakeup ? "aborted" : "failed",
-		       elapsed_msecs / 1000, elapsed_msecs % 1000,
-		       todo - wq_busy, wq_busy);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 		if (!wakeup) {
 			read_lock(&tasklist_lock);
 			do_each_thread(g, p) {
 				if (p != current && !freezer_should_skip(p)
 				    && freezing(p) && !frozen(p) &&
-<<<<<<< HEAD
 				    elapsed_csecs > 100)
-=======
-				    elapsed_msecs > 1000)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 					sched_show_task(p);
 			} while_each_thread(g, p);
 			read_unlock(&tasklist_lock);
 		}
 	} else {
-<<<<<<< HEAD
 		printk("(elapsed %d.%02d seconds) ", elapsed_csecs / 100,
 			elapsed_csecs % 100);
-=======
-		printk("(elapsed %d.%03d seconds) ", elapsed_msecs / 1000,
-			elapsed_msecs % 1000);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	}
 
 	return todo ? -EBUSY : 0;

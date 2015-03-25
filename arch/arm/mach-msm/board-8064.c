@@ -108,11 +108,7 @@
 #define MSM_ION_MFC_META_SIZE  0x40000 /* 256 Kbytes */
 #define MSM_CONTIG_MEM_SIZE  0x65000
 #ifdef CONFIG_MSM_IOMMU
-<<<<<<< HEAD
 #define MSM_ION_MM_SIZE		0x4800000
-=======
-#define MSM_ION_MM_SIZE		0x5400000
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #define MSM_ION_SF_SIZE		0
 #define MSM_ION_QSECOM_SIZE	0x780000 /* (7.5MB) */
 #define MSM_ION_HEAP_NUM	8
@@ -1918,7 +1914,6 @@ static struct msm_thermal_data msm_thermal_pdata = {
 	.core_limit_temp_degC = 80,
 	.core_temp_hysteresis_degC = 10,
 	.core_control_mask = 0xe,
-<<<<<<< HEAD
 #ifdef CONFIG_MAKO_THERMAL
 	.allowed_max_high = 84,
 	.allowed_max_low = 80,
@@ -1930,8 +1925,6 @@ static struct msm_thermal_data msm_thermal_pdata = {
 	.allowed_low_low = 73,
 	.allowed_low_freq = 1350000,
 #endif
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 };
 
 #define MSM_SHARED_RAM_PHYS 0x80000000
@@ -2426,11 +2419,7 @@ static struct platform_device *early_common_devices[] __initdata = {
 	&apq8064_device_dmov,
 #if !defined(CONFIG_MACH_JACTIVE_ATT) && !defined(CONFIG_MACH_JACTIVE_EUR)
 	&apq8064_device_qup_spi_gsbi5,
-<<<<<<< HEAD
 #endif	
-=======
-#endif
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 };
 
 static struct platform_device *pm8921_common_devices[] __initdata = {
@@ -2457,11 +2446,7 @@ static struct platform_device *common_devices[] __initdata = {
 	&msm_device_wcnss_wlan,
 #if defined(CONFIG_MACH_JACTIVE_ATT) || defined(CONFIG_MACH_JACTIVE_EUR)
 	&apq8064_device_qup_spi_gsbi5,
-<<<<<<< HEAD
 #endif	
-=======
-#endif
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	&msm_device_iris_fm,
 	&apq8064_fmem_device,
 #ifdef CONFIG_ANDROID_PMEM
@@ -2585,10 +2570,7 @@ static struct platform_device *cdp_devices[] __initdata = {
 #ifdef CONFIG_MSM_ROTATOR
 	&msm_rotator_device,
 #endif
-<<<<<<< HEAD
 	&msm8064_pc_cntr,
-=======
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	&msm8064_cpu_slp_status,
 };
 
@@ -3299,10 +3281,6 @@ static void __init apq8064ab_update_retention_spm(void)
 static void __init apq8064_common_init(void)
 {
 	u32 platform_version = socinfo_get_platform_version();
-<<<<<<< HEAD
-=======
-	struct msm_rpmrs_level rpmrs_level;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 #ifdef CONFIG_PROC_AVC
 	sec_avc_log_init();
@@ -3314,21 +3292,11 @@ static void __init apq8064_common_init(void)
 	if (cpu_is_apq8064ab())
 		apq8064ab_update_krait_spm();
 	if (cpu_is_krait_v3()) {
-<<<<<<< HEAD
 		msm_pm_set_tz_retention_flag(0);
 		apq8064ab_update_retention_spm();
 	} else {
 		msm_pm_set_tz_retention_flag(1);
 	}
-=======
-		struct msm_pm_init_data_type *pdata =
-				msm8064_pm_8x60.dev.platform_data;
-		pdata->retention_calls_tz = false;
-		apq8064ab_update_retention_spm();
-	}
-	platform_device_register(&msm8064_pm_8x60);
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	msm_spm_init(msm_spm_data, ARRAY_SIZE(msm_spm_data));
 	msm_spm_l2_init(msm_spm_l2_data);
 	msm_tsens_early_init(&apq_tsens_pdata);
@@ -3388,17 +3356,8 @@ static void __init apq8064_common_init(void)
 		}
 	}
 
-<<<<<<< HEAD
 	msm_hsic_pdata.swfi_latency =
 		msm_rpmrs_levels[0].latency_us;
-=======
-	rpmrs_level =
-		msm_rpmrs_levels[MSM_PM_SLEEP_MODE_WAIT_FOR_INTERRUPT];
-	msm_hsic_pdata.swfi_latency = rpmrs_level.latency_us;
-	rpmrs_level =
-		msm_rpmrs_levels[MSM_PM_SLEEP_MODE_POWER_COLLAPSE_STANDALONE];
-	msm_hsic_pdata.standalone_latency = rpmrs_level.latency_us;
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (machine_is_apq8064_mtp()) {
 		msm_hsic_pdata.log2_irq_thresh = 5,
 		apq8064_device_hsic_host.dev.platform_data = &msm_hsic_pdata;

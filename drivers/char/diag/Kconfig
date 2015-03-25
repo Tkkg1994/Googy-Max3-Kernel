@@ -3,10 +3,6 @@ menu "Diag Support"
 config DIAG_CHAR
 	tristate "char driver interface and diag forwarding to/from modem"
 	default m
-<<<<<<< HEAD
-=======
-	depends on !SAMSUNG_PRODUCT_SHIP
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	depends on USB_G_ANDROID || USB_FUNCTION_DIAG || USB_QCOM_MAEMO
 	depends on ARCH_MSM
 	help
@@ -47,8 +43,4 @@ endmenu
 config DIAGFWD_REMOTE_PROC_TEMP
 	tristate "DIAGFWD_REMOTE_PROC_TEMP support"
 	default n
-<<<<<<< HEAD
 	help
-=======
-	help
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea

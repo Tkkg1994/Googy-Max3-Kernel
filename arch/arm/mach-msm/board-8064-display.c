@@ -387,21 +387,11 @@ static bool oled_power_on;
 /* [junesok] Power on for samsung oled */
 #if defined(CONFIG_MACH_JACTIVE_EUR)
 #define LCD_22V_EN	33
-<<<<<<< HEAD
-=======
-#if defined(CONFIG_FB_MSM_ENABLE_LCD_EN2)
-#define LCD_22V_EN_2	20
-#endif
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #define PMIC_GPIO_LED_DRIVER 31
 #elif defined(CONFIG_MACH_JACTIVE_ATT)
 #define LCD_22V_EN	33
 #define PMIC_GPIO_LED_DRIVER_REV00 28
-<<<<<<< HEAD
 #define PMIC_GPIO_LED_DRIVER_REV10 31	
-=======
-#define PMIC_GPIO_LED_DRIVER_REV10 31
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #else
 #define LCD_22V_EN	69
 #define PMIC_GPIO_LED_DRIVER 27
@@ -523,11 +513,7 @@ static int mipi_dsi_power(int enable)
 static int mipi_dsi_power_tft_request(void)
 {
 	int rc = 0;
-<<<<<<< HEAD
 #if defined(CONFIG_MACH_JACTIVE_ATT) 
-=======
-#if defined(CONFIG_MACH_JACTIVE_ATT)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	if (system_rev < 10){
 		gpio33 = PM8921_GPIO_PM_TO_SYS(LCD_22V_EN);
 		rc = gpio_request(gpio33, "led_dirver");
@@ -570,24 +556,6 @@ static int mipi_dsi_power_tft_request(void)
 	pr_info("[lcd] configure LCD_22V_EN\n");
 	gpio_tlmm_config(GPIO_CFG(LCD_22V_EN,  0, GPIO_CFG_OUTPUT,
 		GPIO_CFG_NO_PULL, GPIO_CFG_2MA), GPIO_CFG_ENABLE);
-<<<<<<< HEAD
-=======
-
-#if defined(CONFIG_FB_MSM_ENABLE_LCD_EN2)
-	if( system_rev >= 16 ) // rev0.6 + 10
-	{
-		pr_info("[lcd] request gpio lcd_22v_en_2\n");
-		rc = gpio_request(LCD_22V_EN_2, "lcd_22v_en_2");
-		if (rc) {
-			pr_err("request gpio lcd_22v_en_2 failed, rc=%d\n", rc);
-			return -ENODEV;
-		}
-		pr_info("[lcd] configure LCD_22V_EN_2\n");
-		gpio_tlmm_config(GPIO_CFG(LCD_22V_EN_2,  0, GPIO_CFG_OUTPUT,
-			GPIO_CFG_NO_PULL, GPIO_CFG_2MA), GPIO_CFG_ENABLE);
-	}
-#endif
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif
 
 	if (system_rev == 0) {
@@ -614,11 +582,7 @@ static int mipi_dsi_power_tft_request(void)
 #else
 	gpio27 = PM8921_GPIO_PM_TO_SYS(PMIC_GPIO_LED_DRIVER);
 #endif
-<<<<<<< HEAD
 		
-=======
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	rc = gpio_request(gpio27, "led_dirver");
 	if (rc) {
@@ -631,19 +595,11 @@ static int mipi_dsi_power_tft_request(void)
 		pr_err("gpio_config led_dirver failed (3), rc=%d\n", rc);
 		return -EINVAL;
 	}
-<<<<<<< HEAD
-=======
-#if !defined(CONFIG_MACH_JACTIVE_ATT) && !defined(CONFIG_MACH_JACTIVE_EUR)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #if defined(CONFIG_MACH_JACTIVE_ATT)
 	if(system_rev < 10)
 		gpio_direction_output(gpio33, 0);
 	else
-<<<<<<< HEAD
 		gpio_direction_output(LCD_22V_EN, 0);	
-=======
-		gpio_direction_output(LCD_22V_EN, 0);
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #else
 	gpio_direction_output(LCD_22V_EN, 0);
 #endif
@@ -655,36 +611,15 @@ static int mipi_dsi_power_tft_request(void)
 			&MLCD_RESET_LOW_CONFIG);
 
 	msleep(1000);
-<<<<<<< HEAD
 
-=======
-#endif
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 	gpio_direction_output(gpio27, 0);
 
 	return rc;
 }
 
-<<<<<<< HEAD
 static int mipi_panel_power_tft(int enable)
 {
 	int rc = 0;
-=======
-#if defined(CONFIG_MACH_JACTIVE_ATT) 
-static int first_boot = 0; 
-#endif 
-
-static int mipi_panel_power_tft(int enable)
-{
-	int rc = 0;
-#if defined(CONFIG_MACH_JACTIVE_ATT) 
-     if(first_boot < 2) { 
-        first_boot++; 
-        printk("<0> First init Occurred ..... Finished Successfully \n"); 
-        return 0; 
-     } 
-#endif 
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 
 	pr_info("%s %d", __func__, enable);
 	if (enable) {
@@ -732,21 +667,8 @@ static int mipi_panel_power_tft(int enable)
 		gpio_direction_output(LCD_22V_EN, 1);
 #else
 		gpio_direction_output(LCD_22V_EN, 1);
-<<<<<<< HEAD
 #endif
 
-=======
-#if defined(CONFIG_FB_MSM_ENABLE_LCD_EN2)
-		if( system_rev >= 16 ) // rev0.6 + 10
-		{
-			mdelay(10);
-			gpio_direction_output(LCD_22V_EN_2, 1);
-		}
-#endif
-#endif
-
-#if !defined(CONFIG_MACH_JACTIVE_ATT) && !defined(CONFIG_MACH_JACTIVE_EUR)
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		/*active_reset_ldi(gpio43);*/
 		if (system_rev == 0)
 			gpio_direction_output(gpio43, 1);
@@ -755,14 +677,8 @@ static int mipi_panel_power_tft(int enable)
 				PM8921_MPP_PM_TO_SYS(MLCD_RST_MPP2),
 				&MLCD_RESET_HIGH_CONFIG);
 
-<<<<<<< HEAD
 		msleep(20);
 
-=======
-
-		msleep(20);
-#endif
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #if defined(CONFIG_MACH_JACTIVE_EUR)
 		if( system_rev >= 15 ) // rev0.5 + 10
 		{
@@ -776,11 +692,7 @@ static int mipi_panel_power_tft(int enable)
 				pr_err("enable L16 failed, rc=%d\n", rc);
 				return -ENODEV;
 			}
-<<<<<<< HEAD
 			
-=======
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			msleep ( 10 );
 		}
 #elif defined(CONFIG_MACH_JACTIVE_ATT)
@@ -796,11 +708,7 @@ static int mipi_panel_power_tft(int enable)
 				pr_err("enable L16 failed, rc=%d\n", rc);
 				return -ENODEV;
 			}
-<<<<<<< HEAD
 			
-=======
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			msleep ( 10 );
 		}
 #endif
@@ -816,20 +724,8 @@ static int mipi_panel_power_tft(int enable)
 		if(system_rev < 10)
 			gpio_direction_output(gpio33, 0);
 		else
-<<<<<<< HEAD
 			gpio_direction_output(LCD_22V_EN, 0);	
 #else
-=======
-			gpio_direction_output(LCD_22V_EN, 0);
-#else
-#if defined(CONFIG_FB_MSM_ENABLE_LCD_EN2)
-		if( system_rev >= 16 ) // rev0.6 + 10
-		{
-			gpio_direction_output(LCD_22V_EN_2, 0);
-			mdelay(10);
-		}
-#endif
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 		gpio_direction_output(LCD_22V_EN, 0);
 #endif
 		usleep(2000); /*1ms delay(minimum) required between VDD off and AVDD off*/
@@ -857,11 +753,7 @@ static int mipi_panel_power_tft(int enable)
 				pr_err("set_optimum_mode L16 failed, rc=%d\n", rc);
 				return -EINVAL;
 			}
-<<<<<<< HEAD
 			
-=======
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			rc = regulator_disable(reg_L16);
 			if (rc) {
 				pr_err("disable reg_L16 failed, rc=%d\n", rc);
@@ -877,11 +769,7 @@ static int mipi_panel_power_tft(int enable)
 				pr_err("set_optimum_mode L16 failed, rc=%d\n", rc);
 				return -EINVAL;
 			}
-<<<<<<< HEAD
 			
-=======
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			rc = regulator_disable(reg_L16);
 			if (rc) {
 				pr_err("disable reg_L16 failed, rc=%d\n", rc);
@@ -1102,11 +990,7 @@ static int mipi_oled_power_set(void)
 						PTR_ERR(reg_L16));
 				return -ENODEV;
 			}
-<<<<<<< HEAD
 			
-=======
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			rc = regulator_set_voltage(reg_L16, 3000000, 3000000);
 			if (rc) {
 				pr_err("set_voltage L16 failed, rc=%d\n", rc);
@@ -1122,11 +1006,7 @@ static int mipi_oled_power_set(void)
 						PTR_ERR(reg_L16));
 				return -ENODEV;
 			}
-<<<<<<< HEAD
 			
-=======
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 			rc = regulator_set_voltage(reg_L16, 3000000, 3000000);
 			if (rc) {
 				pr_err("set_voltage L16 failed, rc=%d\n", rc);
@@ -1211,11 +1091,7 @@ static int mipi_panel_power_samsung(int on)
 		rc = mipi_panel_power_oled(1);
 	else
 		rc = mipi_panel_power_oled(0);
-<<<<<<< HEAD
 	
-=======
-
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 #endif
 	return rc;
 }
@@ -1411,17 +1287,9 @@ static struct platform_device lvds_frc_panel_device = {
 	}
 };
 
-<<<<<<< HEAD
 static int dsi2lvds_gpio[2] = {
 	LPM_CHANNEL,/* Backlight PWM-ID=0 for PMIC-GPIO#24 */
 	0x1F08 /* DSI2LVDS Bridge GPIO Output, mask=0x1f, out=0x08 */
-=======
-static int dsi2lvds_gpio[4] = {
-	LPM_CHANNEL,/* Backlight PWM-ID=0 for PMIC-GPIO#24 */
-	0x1F08, /* DSI2LVDS Bridge GPIO Output, mask=0x1f, out=0x08 */
-	-1,
-	-1
->>>>>>> dd443260309c9cabf13b8e4fe17420c7ebfabcea
 };
 static struct msm_panel_common_pdata mipi_dsi2lvds_pdata = {
 	.gpio_num = dsi2lvds_gpio,
