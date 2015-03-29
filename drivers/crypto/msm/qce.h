@@ -115,6 +115,7 @@ struct ce_hw_support {
 	bool ota;
 	bool aligned_only;
 	bool bam;
+	unsigned int ce_device;
 };
 
 /* Sha operation parameters */
