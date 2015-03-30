@@ -4,7 +4,7 @@ export RAMFS_SOURCE="/root/Ramdisks/GT-I9505-TW"
 export PARENT_DIR=`readlink -f ..`
 export USE_SEC_FIPS_MODE=true
 # export CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-export CROSS_COMPILE=/Kernel_Folder/Toolchain_4.9.3-2015.02_a15/bin/arm-cortex_a15-linux-gnueabihf-
+export CROSS_COMPILE=/Kernel_Folder/Toolchain_4.9.3-2015.03_a15/bin/arm-cortex_a15-linux-gnueabihf-
 
 # if [ "${1}" != "" ];then
 #  export KERNELDIR=`readlink -f ${1}`
