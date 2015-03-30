@@ -8863,7 +8863,7 @@ static const struct file_operations poke_reg_fops = {
 };
 #endif
 
-#ifdef CONFIG_SOUND_CONTROL_HAX_GPL
+#ifdef CONFIG_SOUND_CONTROL_HAX_3_GPL
 struct snd_kcontrol_new *gpl_faux_snd_controls_ptr =
 		(struct snd_kcontrol_new *)tabla_snd_controls;
 struct snd_soc_codec *fauxsound_codec_ptr;
