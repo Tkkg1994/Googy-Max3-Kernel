@@ -5,11 +5,9 @@ Required properties:
   - reg : should contain crypto, BAM register map.
   - interrupts : should contain crypto BAM interrupt.
   - qcom,bam-pipe-pair : should contain crypto BAM pipe pair index.
-  - qcom,ce-device: Device number.
 
 Example:
 
-	qcom,ce-device = <0>;
         qcom,qcedev@fd440000 {
 		compatible = "qcom,qcedev";
 		reg = <0xfd440000 0x20000>,
