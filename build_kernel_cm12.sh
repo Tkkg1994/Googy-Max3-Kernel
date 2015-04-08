@@ -11,7 +11,7 @@ export CROSS_COMPILE=/Kernel_Folder/Toolchain_4.9.3-2015.03_a15/bin/arm-cortex_a
 
 RAMFS_TMP="/root/Ramdisks/GT-I9505-TW/tmp_tw/ramfs"
 
-VER="\"-Hulk-Kernel_CM12-V1$1\""
+VER="\"-Hulk-Kernel_CM12-V1.0.1$1\""
 cp -f /root/Hulk-Kernel/arch/arm/configs/0hulk_cm12_defconfig /root/Hulk-Kernel/0hulk_cm12_defconfig
 sed "s#^CONFIG_LOCALVERSION=.*#CONFIG_LOCALVERSION=$VER#" /root/Hulk-Kernel/0hulk_cm12_defconfig > /root/Hulk-Kernel/arch/arm/configs/0hulk_cm12_defconfig
 
