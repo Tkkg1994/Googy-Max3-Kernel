@@ -3366,6 +3366,8 @@ CONFIG_IR_REMOCON_FPGA=y
 # CONFIG_IRDA_MC96 is not set
 # CONFIG_FELICA is not set
 # CONFIG_NFC_FELICA is not set
+# CONFIG_SENSORS is not set
+# CONFIG_SENSORS_SSC is not set
 
 #
 # File systems
