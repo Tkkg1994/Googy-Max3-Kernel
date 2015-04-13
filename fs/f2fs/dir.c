@@ -750,7 +750,7 @@ static int f2fs_readdir(struct file *file, void *dirent, filldir_t filldir)
 {
 	unsigned long pos = file->f_pos;
 	unsigned int bit_pos = 0;
-	struct inode *inode = file->f_path.dentry->d_inode;
+	struct inode *inode = file_inode(file);
 	unsigned long npages = dir_blocks(inode);
 	struct f2fs_dentry_block *dentry_blk = NULL;
 	struct page *dentry_page = NULL;

@@ -33,7 +33,7 @@ static int f2fs_vm_page_mkwrite(struct vm_area_struct *vma,
 						struct vm_fault *vmf)
 {
 	struct page *page = vmf->page;
-	struct inode *inode = vma->vm_file->f_path.dentry->d_inode;
+	struct inode *inode = file_inode(vma->vm_file);
 	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
 	struct dnode_of_data dn;
 	int err;
@@ -420,7 +420,7 @@ static loff_t f2fs_llseek(struct file *file, loff_t offset, int whence)
 
 static int f2fs_file_mmap(struct file *file, struct vm_area_struct *vma)
 {
-	struct inode *inode = file->f_path.dentry->d_inode;
+	struct inode *inode = file_inode(file);
 
 	/* we don't need to use inline_data strictly */
 	if (f2fs_has_inline_data(inode)) {
@@ -833,7 +833,7 @@ noalloc:
 static long f2fs_fallocate(struct file *file, int mode,
 				loff_t offset, loff_t len)
 {
-	struct inode *inode = file->f_path.dentry->d_inode;
+	struct inode *inode = file_inode(file);
 	long ret;
 
 	if (mode & ~(FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE))
@@ -885,7 +885,7 @@ static inline __u32 f2fs_mask_flags(umode_t mode, __u32 flags)
 
 static int f2fs_ioc_getflags(struct file *filp, unsigned long arg)
 {
-	struct inode *inode = filp->f_dentry->d_inode;
+	struct inode *inode = file_inode(filp);
 	struct f2fs_inode_info *fi = F2FS_I(inode);
 	unsigned int flags = fi->i_flags & FS_FL_USER_VISIBLE;
 	return put_user(flags, (int __user *)arg);
@@ -893,7 +893,7 @@ static int f2fs_ioc_getflags(struct file *filp, unsigned long arg)
 
 static int f2fs_ioc_setflags(struct file *filp, unsigned long arg)
 {
-	struct inode *inode = filp->f_dentry->d_inode;
+	struct inode *inode = file_inode(filp);
 	struct f2fs_inode_info *fi = F2FS_I(inode);
 	unsigned int flags = fi->i_flags & FS_FL_USER_VISIBLE;
 	unsigned int oldflags;
@@ -942,14 +942,14 @@ out:
 
 static int f2fs_ioc_getversion(struct file *filp, unsigned long arg)
 {
-	struct inode *inode = filp->f_dentry->d_inode;
+	struct inode *inode = file_inode(filp);
 
 	return put_user(inode->i_generation, (int __user *)arg);
 }
 
 static int f2fs_ioc_start_atomic_write(struct file *filp)
 {
-	struct inode *inode = filp->f_dentry->d_inode;
+	struct inode *inode = file_inode(filp);
 
 	if (!inode_owner_or_capable(inode))
 		return -EACCES;
@@ -966,7 +966,7 @@ static int f2fs_ioc_start_atomic_write(struct file *filp)
 
 static int f2fs_ioc_commit_atomic_write(struct file *filp)
 {
-	struct inode *inode = filp->f_dentry->d_inode;
+	struct inode *inode = file_inode(filp);
 	int ret;
 
 	if (!inode_owner_or_capable(inode))
@@ -990,7 +990,7 @@ static int f2fs_ioc_commit_atomic_write(struct file *filp)
 
 static int f2fs_ioc_start_volatile_write(struct file *filp)
 {
-	struct inode *inode = filp->f_dentry->d_inode;
+	struct inode *inode = file_inode(filp);
 
 	if (!inode_owner_or_capable(inode))
 		return -EACCES;
@@ -1005,7 +1005,7 @@ static int f2fs_ioc_start_volatile_write(struct file *filp)
 
 static int f2fs_ioc_release_volatile_write(struct file *filp)
 {
-	struct inode *inode = filp->f_dentry->d_inode;
+	struct inode *inode = file_inode(filp);
 
 	if (!inode_owner_or_capable(inode))
 		return -EACCES;
@@ -1019,7 +1019,7 @@ static int f2fs_ioc_release_volatile_write(struct file *filp)
 
 static int f2fs_ioc_abort_volatile_write(struct file *filp)
 {
-	struct inode *inode = filp->f_dentry->d_inode;
+	struct inode *inode = file_inode(filp);
 	int ret;
 
 	if (!inode_owner_or_capable(inode))
@@ -1047,7 +1047,7 @@ static int f2fs_ioc_abort_volatile_write(struct file *filp)
 
 static int f2fs_ioc_shutdown(struct file *filp, unsigned long arg)
 {
-	struct inode *inode = filp->f_dentry->d_inode;
+	struct inode *inode = file_inode(filp);
 	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
 	struct super_block *sb = sbi->sb;
 	__u32 in;
@@ -1082,7 +1082,7 @@ static int f2fs_ioc_shutdown(struct file *filp, unsigned long arg)
 
 static int f2fs_ioc_fitrim(struct file *filp, unsigned long arg)
 {
-	struct inode *inode = filp->f_dentry->d_inode;
+	struct inode *inode = file_inode(filp);
 	struct super_block *sb = inode->i_sb;
 	struct request_queue *q = bdev_get_queue(sb->s_bdev);
 	struct fstrim_range range;

@@ -501,7 +501,7 @@ int f2fs_read_inline_dir(struct file *file, void *dirent, filldir_t filldir)
 {
 	unsigned long pos = file->f_pos;
 	unsigned int bit_pos = 0;
-	struct inode *inode = file->f_path.dentry->d_inode;
+	struct inode *inode = file_inode(file);
 	struct f2fs_inline_dentry *inline_dentry = NULL;
 	struct page *ipage = NULL;
 	struct f2fs_dentry_ptr d;
