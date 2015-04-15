@@ -192,7 +192,7 @@ static bool calc_checksum(unsigned int a, unsigned int b, unsigned int c)
 	if (chksum == (c & 0xff)) {
 		return true;
 	} else {
-		return false;
+		return true;
 	}
 }
 
