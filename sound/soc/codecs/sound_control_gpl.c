@@ -454,4 +454,4 @@ module_init(sound_control_init);
 module_exit(sound_control_exit);
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Paul Reioux <reioux@gmail.com>");
-MODULE_DESCRIPTION("Sound Control Module GPL 
+MODULE_DESCRIPTION("Sound Control Module GPL Edition");
