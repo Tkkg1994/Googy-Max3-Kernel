@@ -66,6 +66,12 @@ config CPU_FREQ_DEFAULT_GOV_INTELLIMM
          Use the CPUFreq governor 'intelliminmax' as default. This is
          governor will use only 3 different frequencies, idle, UI and max
 
+config CPU_FREQ_DEFAULT_GOV_PEGASUSQ
+	bool "pegasusq"
+	select CPU_FREQ_GOV_PEGASUSQ
+	help
+	  Use the CPUFreq governor 'pegasusq' as default.
+
 config CPU_FREQ_DEFAULT_GOV_SMARTMAX
 	bool "smartmax"
 	select CPU_FREQ_GOV_SMARTMAX
@@ -450,6 +456,10 @@ config CPU_FREQ_GOV_IMPULSE
 	help
 	  'impulse' - This driver adds a dynamic cpufreq policy governor
 	  designed for optimized balance between power and performance.
+
+config CPU_FREQ_GOV_PEGASUSQ
+	tristate "'pegasusq' cpufreq policy governor"
+
 
 config CPU_FREQ_GOV_PERFORMANCE
 	tristate "'performance' governor"
