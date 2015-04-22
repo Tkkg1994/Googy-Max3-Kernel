@@ -66,6 +66,18 @@ config CPU_FREQ_DEFAULT_GOV_INTELLIMM
          Use the CPUFreq governor 'intelliminmax' as default. This is
          governor will use only 3 different frequencies, idle, UI and max
 
+config CPU_FREQ_DEFAULT_GOV_SMARTMAX
+	bool "smartmax"
+	select CPU_FREQ_GOV_SMARTMAX
+	help
+	  Use the CPUFreq governor 'smartmax' as default
+
+config CPU_FREQ_DEFAULT_GOV_IMPULSE
+	bool "impulse"
+	select CPU_FREQ_GOV_IMPULSE
+	help
+	  Use the CPUFreq governor 'impulse' as default.
+
 config CPU_FREQ_DEFAULT_GOV_ABYSSPLUG
 	bool "abyssplug"
 	select CPU_FREQ_GOV_ABYSSPLUG
@@ -426,6 +438,18 @@ config CPU_FREQ_GOV_ONDEMAND
 	  For details, take a look at linux/Documentation/cpu-freq.
 
 	  If in doubt, say N.
+
+config CPU_FREQ_GOV_SMARTMAX
+	tristate "'smartmax' cpufreq policy governor"
+	select CPU_FREQ_TABLE
+	help
+	  'smartmax' combined ondemand and smartass2
+
+config CPU_FREQ_GOV_IMPULSE
+	tristate "'impulse' cpufreq policy governor"
+	help
+	  'impulse' - This driver adds a dynamic cpufreq policy governor
+	  designed for optimized balance between power and performance.
 
 config CPU_FREQ_GOV_PERFORMANCE
 	tristate "'performance' governor"

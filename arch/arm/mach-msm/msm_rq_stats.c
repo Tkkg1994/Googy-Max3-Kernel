@@ -76,7 +76,19 @@ static inline u64 get_cpu_idle_time_jiffy(unsigned int cpu, u64 *wall)
 	return jiffies_to_usecs(idle_time);
 }
 
-static inline cputime64_t get_cpu_idle_time(unsigned int cpu, cputime64_t *wall)
+// static inline cputime64_t get_cpu_idle_time(unsigned int cpu, cputime64_t *wall)
+// {
+// 	u64 idle_time = get_cpu_idle_time_us(cpu, NULL);
+// 
+// 	if (idle_time == -1ULL)
+// 		return get_cpu_idle_time_jiffy(cpu, wall);
+// 	else
+// 		idle_time += get_cpu_iowait_time_us(cpu, wall);
+// 
+// 	return idle_time;
+// }
+
+u64 get_cpu_idle_time(unsigned int cpu, u64 *wall)
 {
 	u64 idle_time = get_cpu_idle_time_us(cpu, NULL);
 
@@ -87,6 +99,7 @@ static inline cputime64_t get_cpu_idle_time(unsigned int cpu, cputime64_t *wall)
 
 	return idle_time;
 }
+EXPORT_SYMBOL_GPL(get_cpu_idle_time);
 
 static int update_average_load(unsigned int freq, unsigned int cpu)
 {
