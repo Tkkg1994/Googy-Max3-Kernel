@@ -449,7 +449,7 @@ static void cpufreq_smartmax_timer(struct smartmax_info_s *this_smartmax) {
 		
 		j_this_smartmax = &per_cpu(smartmax_info, j);
 
-		cur_idle_time = get_cpu_idle_time(j, &cur_wall_time);
+		cur_idle_time = get_cpu_idle_time(j, &cur_wall_time, io_is_busy);
 		cur_iowait_time = get_cpu_iowait_time(j, &cur_wall_time);
 
 		wall_time = cur_wall_time - j_this_smartmax->prev_cpu_wall;
