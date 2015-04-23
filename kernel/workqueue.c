@@ -44,9 +44,6 @@
 #include <linux/moduleparam.h>
 
 #include "workqueue_sched.h"
-#if defined(CONFIG_SEC_DEBUG)
-#include <mach/sec_debug.h>
-#endif
 
 enum {
 	/*
@@ -2260,9 +2257,6 @@ __acquires(&gcwq->lock)
 	lock_map_acquire_read(&cwq->wq->lockdep_map);
 	lock_map_acquire(&lockdep_map);
 	trace_workqueue_execute_start(work);
-#if defined(CONFIG_SEC_DEBUG)
-	secdbg_sched_msg("@%pS", worker->current_func);
-#endif
 	f(work);
 	/*
 	 * While we must be careful to not use "work" after this, the trace
