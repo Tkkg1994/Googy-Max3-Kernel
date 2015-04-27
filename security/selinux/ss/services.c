@@ -2301,7 +2301,7 @@ out:
 }
 
 /**
- * security_genfs_sid - Obtain a SID for a file in a filesystem
+ * __security_genfs_sid - Helper to obtain a SID for a file in a filesystem
  * @fstype: filesystem type
  * @path: path from root of mount
  * @sclass: file security class
@@ -2309,6 +2309,8 @@ out:
  *
  * Acquire policy_rwlock before calling __security_genfs_sid() and release
  * it afterward.
+ *
+ * The caller must acquire the policy_rwlock before calling this function.
  */
 int security_genfs_sid(const char *fstype,
 		       char *path,
