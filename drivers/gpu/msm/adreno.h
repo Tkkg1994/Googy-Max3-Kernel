@@ -116,6 +116,7 @@ struct adreno_device {
 	unsigned int ocmem_base;
 	unsigned int gpu_cycles;
 
+	struct work_struct start_work;
 	struct work_struct input_work;
 };
 
