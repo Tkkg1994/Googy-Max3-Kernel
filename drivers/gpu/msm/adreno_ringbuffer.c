@@ -1000,6 +1000,13 @@ adreno_ringbuffer_issueibcmds(struct kgsl_device_private *dev_priv,
 		goto done;
 	}
 
+	/*
+	 * Clear the wake on touch bit to indicate an IB has been submitted
+	 * since the last time we set it
+	 */
+
+	device->flags &= ~KGSL_FLAG_WAKE_ON_TOUCH;
+
 	/*When preamble is enabled, the preamble buffer with state restoration
 	commands are stored in the first node of the IB chain. We can skip that
 	if a context switch hasn't occured */
