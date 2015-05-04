@@ -1,4 +1,4 @@
-menu "CPU Frequency scaling"
+	menu "CPU Frequency scaling"
 
 config CPU_FREQ
 	bool "CPU Frequency scaling"
@@ -77,6 +77,11 @@ config CPU_FREQ_DEFAULT_GOV_PEGASUSQ
 	select CPU_FREQ_GOV_PEGASUSQ
 	help
 	  Use the CPUFreq governor 'pegasusq' as default.
+
+config CPU_FREQ_DEFAULT_GOV_ALUCARD
+	bool "alucard"
+	select CPU_FREQ_GOV_ALUCARD
+	help
 
 config CPU_FREQ_DEFAULT_GOV_SMARTMAX
 	bool "smartmax"
@@ -266,6 +271,10 @@ config CPU_FREQ_SAMPLING_LATENCY_MULTIPLIER
 	help
 	  Sampling latency rate multiplied by the cpu switch latency.
 	  Affects governor polling.
+
+config CPU_FREQ_GOV_ALUCARD
+	tristate "'alucard' cpufreq governor"
+	depends on CPU_FREQ
 
 config CPU_FREQ_GOV_SMARTASSV2
 	tristate "'smartassV2' cpufreq governor"
