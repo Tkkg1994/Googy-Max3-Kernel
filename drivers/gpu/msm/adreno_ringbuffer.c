@@ -265,7 +265,7 @@ int adreno_ringbuffer_load_pm4_ucode(struct kgsl_device *device)
 
 	adreno_regwrite(device, REG_CP_DEBUG, CP_DEBUG_DEFAULT);
 	adreno_regwrite(device, REG_CP_ME_RAM_WADDR, 0);
-	
+
 	if(unlikely(!adreno_dev->pfp_fw))
 		return -EINVAL;
 
@@ -322,7 +322,7 @@ int adreno_ringbuffer_load_pfp_ucode(struct kgsl_device *device)
 			adreno_dev->pfp_fw_version);
 
 	adreno_regwrite(device, adreno_dev->gpudev->reg_cp_pfp_ucode_addr, 0);
-	
+
 	if(unlikely(!adreno_dev->pfp_fw))
 		return -EINVAL;
 
