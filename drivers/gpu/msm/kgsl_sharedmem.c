@@ -530,6 +530,7 @@ _kgsl_sharedmem_page_alloc(struct kgsl_memdesc *memdesc,
 
 	align = (memdesc->flags & KGSL_MEMALIGN_MASK) >> KGSL_MEMALIGN_SHIFT;
 
+	page_size = PAGE_SIZE;
 	/*
 	 * There needs to be enough room in the sg structure to be able to
 	 * service the allocation entirely with PAGE_SIZE sized chunks
@@ -560,7 +561,7 @@ _kgsl_sharedmem_page_alloc(struct kgsl_memdesc *memdesc,
 		struct page *page;
 
 
-		page = alloc_page(GFP_KERNEL | __GFP_ZERO);
+		page = alloc_page(GFP_KERNEL | __GFP_HIGHMEM | __GFP_ZERO);
 
 		if (page == NULL) {
 
