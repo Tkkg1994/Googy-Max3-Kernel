@@ -1,4 +1,4 @@
-Googy-Max3-Kernel
+Hulk-Kernel
 =================
 
-GT-i9505 Kernel for Sammy TW 4.4.2
+GT-i9505 Kernel for CM12.1 and GPE5
